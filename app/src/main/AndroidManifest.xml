@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.besparina.it.karbar">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/Logo_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name=".FontMain">
+        <activity
+            android:name="com.besparina.it.karbar.MainMenu"
+            android:label="@string/Logo_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.besparina.it.karbar.Login"
+            android:noHistory="true" />
+        <activity
+            android:name="com.besparina.it.karbar.Info_Person"
+            android:noHistory="true" />
+        <activity
+            android:name="com.besparina.it.karbar.Accept_code"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Profile"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.About"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Contact"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.GiftBank"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Help"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.List_Messages"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.OurCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.YourCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.ShowMessage"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.List_Address"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.UpdateAddress"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Credit"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.History"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.List_ServiceDerails"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.List_Services"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Service_Request"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Map"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.List_Order"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Service_Request_Saved"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.Service_Request_Edit"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.besparina.it.karbar.ShowFactor"
+            android:noHistory="true"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved">
+
+        </service>
+        <service android:name="com.besparina.it.karbar.ServiceGetLocation">
+
+        </service>
+        <service android:name="com.besparina.it.karbar.ServiceGetSliderPic">
+
+        </service>
+        <service android:name="com.besparina.it.karbar.ServiceGetPerFactor">
+
+        </service>
+        <service android:name="com.besparina.it.karbar.ServiceSyncMessage">
+
+        </service>
+        <service android:name="com.besparina.it.karbar.ServiceGetServicesAndServiceDetails">
+
+        </service>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <receiver android:name="com.besparina.it.karbar.SMSReseiver" android:enabled="true" android:exported="true">
+            <intent-filter android:priority="2147483647">
+                <action android:name=
+                    "android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+    </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+</manifest>
