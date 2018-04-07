@@ -89,7 +89,7 @@ public class SyncMessage {
 		
 		public AsyncCallWS(Context activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
