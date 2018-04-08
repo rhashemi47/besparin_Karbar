@@ -84,7 +84,15 @@ public class AdapterInfoHamyar extends BaseAdapter {
         String Content = map.get("Content");
         String imgHamyar = map.get("imgHamyar");
         String Mobile = map.get("Mobile");
-        holder.txtValues.setText(Content);
+        String Visit = map.get("Visit");
+        if(Visit.compareTo("")!=0)
+        {
+            holder.txtValues.setText(Content+"\n"+Visit);
+        }
+        else
+        {
+            holder.txtValues.setText(Content);
+        }
         if(imgHamyar.compareTo("0")==0)
         {
             holder.imgHamyar.setImageResource(R.drawable.useravatar);

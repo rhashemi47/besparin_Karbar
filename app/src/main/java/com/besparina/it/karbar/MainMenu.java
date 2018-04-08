@@ -257,6 +257,7 @@ public class MainMenu extends AppCompatActivity {
         startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
         startService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
         startService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
+        startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -467,6 +468,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                 stopService(new Intent(getBaseContext(), ServiceSyncMessage.class));
                 stopService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
+                stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
                 System.exit(0);
                 arg0.dismiss();
 
