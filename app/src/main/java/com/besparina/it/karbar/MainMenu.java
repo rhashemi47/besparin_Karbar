@@ -736,6 +736,8 @@ public class MainMenu extends AppCompatActivity {
                                 db.close();
                                 break;
                             case 10:
+
+                                db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login", null);
                                 if (c.getCount() > 0) {
                                     c.moveToNext();
