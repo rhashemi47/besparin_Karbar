@@ -60,7 +60,6 @@ public class Login extends Activity {
 		btnEnter.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-//				LoadActivity(MainMenu.class,"karbarCode","0");
 				String Phone=etPhoneNumber.getText().toString();
 				if(Phone.compareTo("")!=0) {
 					InternetConnection ic = new InternetConnection(getApplicationContext());
@@ -71,6 +70,7 @@ public class Login extends Activity {
 						db.execSQL(query);
 						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
 						sendCode.AsyncExecute();
+						db.close();
 					}
 					else
 					{
@@ -81,7 +81,6 @@ public class Login extends Activity {
 				{
 					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
 				}
-				db.close();
 			}
 		});
 		btnSignUp.setOnClickListener(new OnClickListener() {
