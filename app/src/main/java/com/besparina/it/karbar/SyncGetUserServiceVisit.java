@@ -2,6 +2,8 @@ package com.besparina.it.karbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,23 +19,24 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncProfilePic {
+public class SyncGetUserServiceVisit {
 
 	//Primary Variable
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
 	PublicVariable PV;
     InternetConnection IC;
-	private Activity activity;
-
-	private String karbarCode;
+	private Context activity;
 	private String WsResponse;
-	private boolean CuShowDialog=true;
+	private String pUserCode;
+	private String LastServiceVisitCode;
+	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncProfilePic(Activity activity, String karbarCode) {
+	public SyncGetUserServiceVisit(Context activity, String pUserCode, String LastServiceVisitCode) {
 		this.activity = activity;
 
-		this.karbarCode=karbarCode;
+		this.pUserCode=pUserCode;
+		this.LastServiceVisitCode=LastServiceVisitCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -81,9 +84,9 @@ public class SyncProfilePic {
 	//Async Method
 	private class AsyncCallWS extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
-		private Activity activity;
+		private Context activity;
 		
-		public AsyncCallWS(Activity activity) {
+		public AsyncCallWS(Context activity) {
 		    this.activity = activity;
 		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
 		}
@@ -93,7 +96,7 @@ public class SyncProfilePic {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GetUserProfilePic");
+        		CallWsMethod("GetUserServiceVisit");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -111,12 +114,11 @@ public class SyncProfilePic {
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
-					//LoadActivity(MainActivity.class,"karbarCode",karbarCode,"updateflag","1");
+	            	//Toast.makeText(this.activity.getApplicationContext(), "سرویس جدیدی اعلام نشده", Toast.LENGTH_LONG).show();
 	            }
 				else if(WsResponse.toString().compareTo("2") == 0)
 				{
-					Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
+					//Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
 				}
 	            else
 	            {
@@ -151,33 +153,30 @@ public class SyncProfilePic {
         
     }
 	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-		db.close();
-	}
-	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
-		PropertyInfo karbarCodePI = new PropertyInfo();
+	    //*****************************************************
+		PropertyInfo pUserCodePI = new PropertyInfo();
 		//Set Name
-		karbarCodePI.setName("UserCode");
+		pUserCodePI.setName("pUserCode");
 		//Set Value
-		karbarCodePI.setValue(this.karbarCode);
+		pUserCodePI.setValue(this.pUserCode);
 		//Set dataType
-		karbarCodePI.setType(String.class);
+		pUserCodePI.setType(String.class);
 		//Add the property to request object
-		request.addProperty(karbarCodePI);
+		request.addProperty(pUserCodePI);
 		//*****************************************************
-
+		PropertyInfo LastServiceVisitCodePI = new PropertyInfo();
+		//Set Name
+		LastServiceVisitCodePI.setName("LastServiceVisitCode");
+		//Set Value
+		LastServiceVisitCodePI.setValue(this.LastServiceVisitCode);
+		//Set dataType
+		LastServiceVisitCodePI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(LastServiceVisitCodePI);
+		//*****************************************************
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -199,14 +198,62 @@ public class SyncProfilePic {
 	    	e.printStackTrace();
 	    }
 	}
-	
-	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		String query=null;
-		db=dbh.getWritableDatabase();
-		query="UPDATE Profile SET Pic='"+WsResponse+"'";
-		db.execSQL(query);
+		String[] res;
+		String[] value;
+		boolean isFirst=IsFristInsert();
+		res = WsResponse.split("@@");
+		db = dbh.getWritableDatabase();
+		for (int i = 0; i < res.length; i++) {
+			value = res[i].split("##");
+			try
+			{
+				//db.execSQL("DELETE FROM visit WHERE Code='" + value[0] + "'");
+				String query = "INSERT INTO visit (Code,UserServiceCode,VisitDate,VisitTime,HamyarCode,InsertDate)  VALUES('" +
+						value[0] + "','" +
+						value[1] + "','" +
+						value[2] + "','" +
+						value[3] + "','" +
+						value[4] + "','" +
+						value[5] +
+						"')";
+				db.execSQL(query);
+				if (!isFirst) {
+					runNotification("بسپارینا",  i, value[1], Service_Request_Saved.class);
+				}
+			} catch (Exception ex) {
+
+			}
+		}
+
 		db.close();
     }
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+	{
+		Intent intent = new Intent(activity,Cls);
+		intent.putExtra(VariableName, VariableValue);
+
+		activity.startActivity(intent);
+	}
+	public void runNotification(String title,int id,String OrderCode,Class<?> Cls)
+	{
+
+		NotificationClass notifi=new NotificationClass();
+		notifi.Notificationm(this.activity,title,"برای درخواست شماره: "+ OrderCode+"بازدید ثبت شده است.",OrderCode,id,Cls);
+	}
+	public boolean IsFristInsert()
+	{
+		db=dbh.getReadableDatabase();
+		String query = "SELECT * FROM visit";
+		Cursor cursor= db.rawQuery(query,null);
+		if(cursor.getCount()>0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }

@@ -766,6 +766,9 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				infoCursor.moveToNext();
 				Cursor getHamyar=db.rawQuery("SELECT * FROM InfoHamyar WHERE Code='"+
 						infoCursor.getString(infoCursor.getColumnIndex("CodeHamyarInfo"))+"'",null);
+				Cursor cursorVisit=db.rawQuery("SELECT * FROM visit WHERE UserServiceCode='"+OrderCode+"'" +
+						" AND " +
+						"HamyarCode='"+infoCursor.getString(infoCursor.getColumnIndex("CodeHamyarInfo"))+"'",null);
 				if(getHamyar.getCount()>0) {
 					HashMap<String, String> map = new HashMap<String, String>();
 					getHamyar.moveToNext();
@@ -773,6 +776,18 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					map.put("Content", getHamyar.getString(getHamyar.getColumnIndex("Fname")) + " " +
 							getHamyar.getString(getHamyar.getColumnIndex("Lname")));
 					map.put("Mobile", getHamyar.getString(getHamyar.getColumnIndex("Mobile")));
+					if(cursorVisit.getCount()>0)
+					{
+						cursorVisit.moveToNext();
+						map.put("Visit","تاریخ بازدید: " + cursorVisit.getString(cursorVisit.getColumnIndex("VisitDate"))+"\n"+
+						"ساعت بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("VisitTime"))+"\n"+
+						"تاریخ اعلام بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("InsertDate")));
+					}
+					else
+					{
+						map.put("Visit", "");
+					}
+
 					valuse.add(map);
 				}
 			}

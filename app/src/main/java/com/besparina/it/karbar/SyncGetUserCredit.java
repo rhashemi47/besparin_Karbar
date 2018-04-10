@@ -88,7 +88,7 @@ public class SyncGetUserCredit {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -198,9 +198,9 @@ public class SyncGetUserCredit {
 			Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 			LoadActivity(Credit.class, "karbarCode", pUserCode);
 		}
-		else {
-			LoadActivity(Credit.class, "karbarCode", pUserCode);
-		}
+//		else {
+//			LoadActivity(MainMenu.class, "karbarCode", pUserCode);
+//		}
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{
