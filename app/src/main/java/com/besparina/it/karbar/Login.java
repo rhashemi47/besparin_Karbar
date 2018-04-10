@@ -60,27 +60,8 @@ public class Login extends Activity {
 		btnEnter.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String Phone=etPhoneNumber.getText().toString();
-				if(Phone.compareTo("")!=0) {
-					InternetConnection ic = new InternetConnection(getApplicationContext());
-					if (ic.isConnectingToInternet()) {
-						String query = null;
-						db = dbh.getWritableDatabase();
-						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
-						db.execSQL(query);
-						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
-						sendCode.AsyncExecute();
-						db.close();
-					}
-					else
-					{
-						Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
-					}
-				}
-				else
-				{
-					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
-				}
+				Toast.makeText(Login.this, "برای استفاده از امکانات بسپارینا باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+				LoadActivity(MainMenu.class,"karbarCode","0");
 			}
 		});
 		btnSignUp.setOnClickListener(new OnClickListener() {

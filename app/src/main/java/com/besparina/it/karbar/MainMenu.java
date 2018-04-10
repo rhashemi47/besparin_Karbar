@@ -449,7 +449,6 @@ public class MainMenu extends AppCompatActivity {
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM login");
                 db.execSQL("DELETE FROM Profile");
-                db.execSQL("DELETE FROM education");
                 db.execSQL("DELETE FROM exprtise");
                 db.execSQL("DELETE FROM messages");
                 db.execSQL("DELETE FROM services");
