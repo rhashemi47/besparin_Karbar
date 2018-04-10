@@ -40,11 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layoutDirection="ltr">
             <ImageView
                 android:id="@+id/imgUser"
-                android:layout_width="75dp"
-                android:layout_height="75dp"/>
+                android:layout_width="200dp"
+                android:layout_height="200dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -223,46 +225,48 @@
             android:layout_margin="8dp"
             android:layout_gravity="center"
             android:gravity="center">
-            <Button
-                android:id="@+id/btnSendProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Save"
-                android:textColor="#000000"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/rounded_button"
-                android:drawableLeft="@drawable/save"/>
         </LinearLayout>
     </LinearLayout>
  </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/Order"-->
+            <!--android:id="@+id/btnOrderBottom"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textColor="#052d93"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawableTop="@drawable/job2"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/AcceptOrder"-->
+            <!--android:id="@+id/btnAcceptOrderBottom"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textColor="#052d93"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawableTop="@drawable/duty2"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/Credits"-->
+            <!--android:id="@+id/btncrediteBottom"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textColor="#052d93"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawableTop="@drawable/credit2"/>-->
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Order"
-            android:id="@+id/btnOrderBottom"
-            android:background="@drawable/rounded_button"
-            android:textColor="#052d93"
-            android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/AcceptOrder"
-            android:id="@+id/btnAcceptOrderBottom"
-            android:background="@drawable/rounded_button"
-            android:textColor="#052d93"
-            android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Credits"
-            android:id="@+id/btncrediteBottom"
-            android:background="@drawable/rounded_button"
-            android:textColor="#052d93"
-            android:layout_weight="1"/>
+            android:id="@+id/btnSendProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/Save"
+            android:textColor="#ffff"
+            android:textSize="40px"
+            android:background="@drawable/rounded_button_save"/>
     </LinearLayout>
 </RelativeLayout>

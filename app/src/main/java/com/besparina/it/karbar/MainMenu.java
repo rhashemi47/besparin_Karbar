@@ -1,6 +1,5 @@
 package com.besparina.it.karbar;
 
-import android.*;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,8 +18,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
 import android.support.v4.app.ActivityCompat;
@@ -33,7 +30,6 @@ import android.util.Base64;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +37,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -53,7 +48,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -419,7 +413,6 @@ public class MainMenu extends AppCompatActivity {
 
                 viewFlipper.showPrevious();
             }
-
             viewFlipper.setInAnimation(MainMenu.this, R.anim.left_in);
             viewFlipper.setOutAnimation(MainMenu.this, R.anim.left_out);
 
@@ -446,21 +439,6 @@ public class MainMenu extends AppCompatActivity {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
-                db = dbh.getWritableDatabase();
-                db.execSQL("DELETE FROM login");
-                db.execSQL("DELETE FROM Profile");
-                db.execSQL("DELETE FROM exprtise");
-                db.execSQL("DELETE FROM messages");
-                db.execSQL("DELETE FROM services");
-                db.execSQL("DELETE FROM servicesdetails");
-                db.execSQL("DELETE FROM DateTB");
-                db.execSQL("DELETE FROM FaktorUserDetailes");
-                db.execSQL("DELETE FROM HeadFactor");
-                db.execSQL("DELETE FROM HmFactorService");
-                db.execSQL("DELETE FROM HmFactorTools");
-                db.execSQL("DELETE FROM HmFactorTools_List");
-                db.execSQL("DELETE FROM InsertFaktorUserDetailes");
-                db.execSQL("DELETE FROM Unit");
                 stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                 stopService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
                 stopService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
@@ -468,12 +446,39 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceSyncMessage.class));
                 stopService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
                 stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
+                db = dbh.getWritableDatabase();
+                db.execSQL("DELETE FROM address");
+                db.execSQL("DELETE FROM AmountCredit");
+                db.execSQL("DELETE FROM android_metadata");
+                db.execSQL("DELETE FROM Arts");
+                db.execSQL("DELETE FROM BsFaktorUserDetailes");
+                db.execSQL("DELETE FROM BsFaktorUsersHead");
+                db.execSQL("DELETE FROM City");
+                db.execSQL("DELETE FROM credits");
+                db.execSQL("DELETE FROM DateTB");
+                db.execSQL("DELETE FROM FieldofEducation");
+                db.execSQL("DELETE FROM Grade");
+                db.execSQL("DELETE FROM Hamyar");
+                db.execSQL("DELETE FROM InfoHamyar");
+                db.execSQL("DELETE FROM Language");
+                db.execSQL("DELETE FROM login");
+                db.execSQL("DELETE FROM messages");
+                db.execSQL("DELETE FROM OrdersService");
+                db.execSQL("DELETE FROM Profile");
+                db.execSQL("DELETE FROM services");
+                db.execSQL("DELETE FROM servicesdetails");
+                db.execSQL("DELETE FROM Slider");
+                db.execSQL("DELETE FROM sqlite_sequence");
+                db.execSQL("DELETE FROM State");
+                db.execSQL("DELETE FROM Supportphone");
+                db.execSQL("DELETE FROM Unit");
+                db.execSQL("DELETE FROM UpdateApp");
+                db.execSQL("DELETE FROM visit");
+                db.close();
                 System.exit(0);
                 arg0.dismiss();
-
             }
         });
-
         alertbox.show();
     }
 
@@ -580,7 +585,7 @@ public class MainMenu extends AppCompatActivity {
                         new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
 
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
+                        //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
                 ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
                         new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
@@ -721,7 +726,6 @@ public class MainMenu extends AppCompatActivity {
 
                                     }
                                 });
-
                                 alertbox.show();
                                 break;
                             case 9:
@@ -744,11 +748,11 @@ public class MainMenu extends AppCompatActivity {
                                     LoadActivity(Help.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
                                 break;
+//                            case 11:
+////                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
+//                                ExitApplication();
+//                                break;
                             case 11:
-//                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
-                                ExitApplication();
-                                break;
-                            case 12:
 //                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
                                 Logout();
                                 break;

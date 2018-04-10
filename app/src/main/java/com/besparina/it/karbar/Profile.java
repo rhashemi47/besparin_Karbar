@@ -8,6 +8,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -60,9 +66,16 @@ public class Profile extends Activity {
 	private String dayStr="";
 	private TextView tvPhoneNumber;
 	private ImageView imgUser;
-	private Button btnOrder;
-	private Button btnAcceptOrder;
-	private Button btncredite;
+//	private Button btnOrder;
+//	private Button btnAcceptOrder;
+//	private Button btncredite;
+	private int color;
+	private Paint paint;
+	private Rect rect;
+	private RectF rectF;
+	private Bitmap result;
+	private Canvas canvas;
+	private float roundPx;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -71,9 +84,9 @@ public class Profile extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
-		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
-		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+//		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
+//		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
+//		btncredite=(Button)findViewById(R.id.btncrediteBottom);
 		imgUser=(ImageView)findViewById(R.id.imgUser);
 		brithday=(EditText)findViewById(R.id.etBrithday);
 		tvProfileRegentCode=(TextView)findViewById(R.id.etReagentCodeProfile);
@@ -137,7 +150,7 @@ public class Profile extends Activity {
 			// Ask user to enable GPS/network in settings
 			gps.showSettingsAlert();
 		}
-		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+
 		tvPhoneNumber.setText(phonenumber);
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 		tvPhoneNumber.setTextSize(18);
@@ -170,6 +183,7 @@ public class Profile extends Activity {
 		tvTitleNumberPhone.setTextSize(18);
 		tvTitleAdressAdd.setTextSize(18);
 		tvCodeMoaref.setTextSize(18);
+		Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
 		db=dbh.getReadableDatabase();
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		for(int i=0;i<coursors.getCount();i++){
@@ -178,10 +192,19 @@ public class Profile extends Activity {
 			tvUserName.setText(coursors.getString(coursors.getColumnIndex("Name")));
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
 			brithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
-			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+			try
+			{
+				if(coursors.getString(coursors.getColumnIndex("Pic")).length()>0) {
+					bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+				}
+			}
+			catch (Exception ex)
+			{
+
+			}
 		}
 
-		imgUser.setImageBitmap(bmp);
+		imgUser.setImageBitmap(getRoundedRectBitmap(bmp,1000));
 		btnEditAdres=(Button)findViewById(R.id.btnEditAdres);
 		btnEditAdres.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -266,66 +289,66 @@ public class Profile extends Activity {
 				}
 			}
 		});
-		db=dbh.getReadableDatabase();
-		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-				"LEFT JOIN " +
-				"Servicesdetails ON " +
-				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
-		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها: " + cursor2.getCount());
-		}
-		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
-		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
-		}
-		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
-		if (cursor2.getCount() > 0) {
-			cursor2.moveToNext();
-			try {
-				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
-				if(splitStr[1].compareTo("00")==0)
-				{
-					btncredite.setText("اعتبار: " +splitStr[0]);
-				}
-				else
-				{
-					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
-				}
-
-			} catch (Exception ex) {
-				btncredite.setText("اعتبار: " + "0");
-			}
-		}
-		db.close();
-		btnOrder.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String QueryCustom;
-				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-						"LEFT JOIN " +
-						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
-				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
-			}
-		});
-		btnAcceptOrder.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String QueryCustom;
-				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-						"LEFT JOIN " +
-						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
-				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
-			}
-		});
-		btncredite.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				LoadActivity(Credit.class, "karbarCode", karbarCode);
-			}
-		});
+//		db=dbh.getReadableDatabase();
+//		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+//				"LEFT JOIN " +
+//				"Servicesdetails ON " +
+//				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+//		if (cursor2.getCount() > 0) {
+//			btnOrder.setText("درخواست ها: " + cursor2.getCount());
+//		}
+//		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+//		if (cursor2.getCount() > 0) {
+//			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+//		}
+//		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
+//		if (cursor2.getCount() > 0) {
+//			cursor2.moveToNext();
+//			try {
+//				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
+//				if(splitStr[1].compareTo("00")==0)
+//				{
+//					btncredite.setText("اعتبار: " +splitStr[0]);
+//				}
+//				else
+//				{
+//					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+//				}
+//
+//			} catch (Exception ex) {
+//				btncredite.setText("اعتبار: " + "0");
+//			}
+//		}
+//		db.close();
+//		btnOrder.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				String QueryCustom;
+//				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+//						"LEFT JOIN " +
+//						"Servicesdetails ON " +
+//						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+//				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
+//			}
+//		});
+//		btnAcceptOrder.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				String QueryCustom;
+//				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+//						"LEFT JOIN " +
+//						"Servicesdetails ON " +
+//						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+//				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
+//			}
+//		});
+//		btncredite.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//
+//				LoadActivity(Credit.class, "karbarCode", karbarCode);
+//			}
+//		});
 	}
 
 	public void insertKarbar() {
@@ -383,6 +406,26 @@ public class Profile extends Activity {
 			return Bmp;
 		}
 	}
+	public  Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels)
+	{
+		result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		canvas = new Canvas(result);
 
+		color = 0xff424242;
+		paint = new Paint();
+		rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		rectF = new RectF(rect);
+		roundPx = pixels;
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+
+		return result;
+	}
 }
 
