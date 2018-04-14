@@ -70,7 +70,12 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
-                android:padding="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="15dp"
                 android:hint="@string/Search"
                 android:drawableRight="@drawable/search"
                 android:background="@drawable/rounded_edittext"/>

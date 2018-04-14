@@ -576,27 +576,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spAddress"
-                        android:layout_weight="1">
-                    </Spinner>
-
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnAddAdres"
+                        android:text="+"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/LinearEtAddres">
                     <EditText
                         android:id="@+id/etAddres"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_weight="1"
                         android:inputType="textMultiLine"
                         android:textColor="#000000" />
                 </LinearLayout>
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/map2"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    map:liteMode="true"
-                    map:uiZoomControls="false" />
+                <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--android:id="@+id/map2"-->
+                    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="180dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--map:liteMode="true"-->
+                    <!--map:uiZoomControls="false" />-->
 
             </LinearLayout>
             <LinearLayout

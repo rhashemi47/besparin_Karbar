@@ -183,6 +183,7 @@ public class Service_Request extends AppCompatActivity {
 	private Button btnAcceptOrder;
 	private Button btncredite;
 	private Button btnCansel;
+	private Button btnAddAdres;
 	private Typeface FontFace;
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -197,6 +198,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		int textSize=18;
 	//****************************************************************
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
+		btnAddAdres=(Button)findViewById(R.id.btnAddAdres);
 		btnOrder.setTypeface(FontFace);
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 		btnAcceptOrder.setTypeface(FontFace);

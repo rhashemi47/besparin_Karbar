@@ -92,7 +92,7 @@
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("name","موضوع: "+coursors.getString(coursors.getColumnIndex("name")));
+                map.put("name",coursors.getString(coursors.getColumnIndex("name")));
                 map.put("Code",coursors.getString(coursors.getColumnIndex("code")));
                 valuse.add(map);
             }
