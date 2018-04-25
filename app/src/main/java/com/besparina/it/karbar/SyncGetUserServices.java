@@ -265,7 +265,6 @@ public class SyncGetUserServices {
 							value[31] + "','" +
 							value[32] + "')";
 					db.execSQL(query);
-					db.close();
 					SyncGetUserServiceHamyar syncGetUserServiceHamyar=new SyncGetUserServiceHamyar(activity.getApplicationContext(),value[0]);
 					syncGetUserServiceHamyar.AsyncExecute();
 					if (!isFirst) {
@@ -279,6 +278,8 @@ public class SyncGetUserServices {
 
 			}
 		}
+
+		db.close();
 	}
 
 	public boolean checkStatus(String codeStr,String statusStr)
