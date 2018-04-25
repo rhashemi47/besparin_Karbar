@@ -66,9 +66,9 @@ public class Profile extends Activity {
 	private String dayStr="";
 	private TextView tvPhoneNumber;
 	private ImageView imgUser;
-//	private Button btnOrder;
-//	private Button btnAcceptOrder;
-//	private Button btncredite;
+	private Button btnOrder;
+	private Button btnAcceptOrder;
+	private Button btncredite;
 	private int color;
 	private Paint paint;
 	private Rect rect;
@@ -84,9 +84,9 @@ public class Profile extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
-//		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
-//		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-//		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
+		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
+		btncredite=(Button)findViewById(R.id.btncrediteBottom);
 		imgUser=(ImageView)findViewById(R.id.imgUser);
 		brithday=(EditText)findViewById(R.id.etBrithday);
 		tvProfileRegentCode=(TextView)findViewById(R.id.etReagentCodeProfile);
@@ -138,18 +138,7 @@ public class Profile extends Activity {
 			}
 			db.close();
 		}
-		GPSTracker gps = new GPSTracker(Profile.this);
 
-		// check if GPS enabled
-		if (gps.canGetLocation()) {
-
-			//nothing
-		} else {
-			// can't get location
-			// GPS or Network is not enabled
-			// Ask user to enable GPS/network in settings
-			gps.showSettingsAlert();
-		}
 
 		tvPhoneNumber.setText(phonenumber);
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
@@ -204,7 +193,15 @@ public class Profile extends Activity {
 			}
 		}
 
-		imgUser.setImageBitmap(getRoundedRectBitmap(bmp,1000));
+		try
+		{
+			imgUser.setImageBitmap(getRoundedRectBitmap(bmp, 1000));
+		}
+		catch (Exception ex)
+		{
+			bmp = BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+			imgUser.setImageBitmap(getRoundedRectBitmap(bmp, 1000));
+		}
 		btnEditAdres=(Button)findViewById(R.id.btnEditAdres);
 		btnEditAdres.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -216,7 +213,18 @@ public class Profile extends Activity {
 		btnAddAdres.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-
+				db=dbh.getReadableDatabase();
+				Cursor cursor = db.rawQuery("SELECT * FROM State",null);
+				if(cursor.getCount()==0) {
+					SyncState syncState = new SyncState(Profile.this);
+					syncState.AsyncExecute();
+				}
+				cursor = db.rawQuery("SELECT * FROM City",null);
+				if(cursor.getCount()==0) {
+					SyncCity syncCity = new SyncCity(Profile.this);
+					syncCity.AsyncExecute();
+				}
+				db.close();
 				LoadActivity2(Map.class,"karbarCode",karbarCode,"nameActivity","Profile");
 			}
 		});
@@ -289,66 +297,66 @@ public class Profile extends Activity {
 				}
 			}
 		});
-//		db=dbh.getReadableDatabase();
-//		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-//				"LEFT JOIN " +
-//				"Servicesdetails ON " +
-//				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
-//		if (cursor2.getCount() > 0) {
-//			btnOrder.setText("درخواست ها: " + cursor2.getCount());
-//		}
-//		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
-//		if (cursor2.getCount() > 0) {
-//			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
-//		}
-//		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
-//		if (cursor2.getCount() > 0) {
-//			cursor2.moveToNext();
-//			try {
-//				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
-//				if(splitStr[1].compareTo("00")==0)
-//				{
-//					btncredite.setText("اعتبار: " +splitStr[0]);
-//				}
-//				else
-//				{
-//					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
-//				}
-//
-//			} catch (Exception ex) {
-//				btncredite.setText("اعتبار: " + "0");
-//			}
-//		}
-//		db.close();
-//		btnOrder.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				String QueryCustom;
-//				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-//						"LEFT JOIN " +
-//						"Servicesdetails ON " +
-//						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
-//				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
-//			}
-//		});
-//		btnAcceptOrder.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				String QueryCustom;
-//				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-//						"LEFT JOIN " +
-//						"Servicesdetails ON " +
-//						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
-//				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
-//			}
-//		});
-//		btncredite.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//
-//				LoadActivity(Credit.class, "karbarCode", karbarCode);
-//			}
-//		});
+		db=dbh.getReadableDatabase();
+		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+				"LEFT JOIN " +
+				"Servicesdetails ON " +
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+		if (cursor2.getCount() > 0) {
+			btnOrder.setText("درخواست ها: " + cursor2.getCount());
+		}
+		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+		if (cursor2.getCount() > 0) {
+			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+		}
+		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
+		if (cursor2.getCount() > 0) {
+			cursor2.moveToNext();
+			try {
+				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
+				if(splitStr[1].compareTo("00")==0)
+				{
+					btncredite.setText("اعتبار: " +splitStr[0]);
+				}
+				else
+				{
+					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+				}
+
+			} catch (Exception ex) {
+				btncredite.setText("اعتبار: " + "0");
+			}
+		}
+		db.close();
+		btnOrder.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String QueryCustom;
+				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+						"LEFT JOIN " +
+						"Servicesdetails ON " +
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
+			}
+		});
+		btnAcceptOrder.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String QueryCustom;
+				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+						"LEFT JOIN " +
+						"Servicesdetails ON " +
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
+			}
+		});
+		btncredite.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				LoadActivity(Credit.class, "karbarCode", karbarCode);
+			}
+		});
 	}
 
 	public void insertKarbar() {

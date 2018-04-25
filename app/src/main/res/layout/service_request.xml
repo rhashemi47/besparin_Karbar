@@ -33,7 +33,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/appbar"
         android:verticalScrollbarPosition="right"
-        android:layout_marginBottom="85dp">
+        android:layout_marginBottom="65dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -298,7 +298,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/etTitleLearning"
-                        android:inputType="phone"
                         android:layout_weight="1"
                         android:textColor="#000000"/>
                 </LinearLayout>
@@ -576,27 +575,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spAddress"
-                        android:layout_weight="1">
-                    </Spinner>
-
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnAddAdres"
+                        android:text="+"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/LinearEtAddres">
                     <EditText
                         android:id="@+id/etAddres"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_weight="1"
                         android:inputType="textMultiLine"
                         android:textColor="#000000" />
                 </LinearLayout>
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/map2"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    map:liteMode="true"
-                    map:uiZoomControls="false" />
+                <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--android:id="@+id/map2"-->
+                    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="180dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--map:liteMode="true"-->
+                    <!--map:uiZoomControls="false" />-->
 
             </LinearLayout>
             <LinearLayout
@@ -631,7 +640,7 @@
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
@@ -640,8 +649,7 @@
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/job2"/>
+            android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -649,8 +657,7 @@
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/duty2"/>
+            android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -658,7 +665,6 @@
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/credit2"/>
+            android:layout_weight="1"/>
     </LinearLayout>
 </RelativeLayout>

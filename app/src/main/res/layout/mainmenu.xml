@@ -57,15 +57,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/etSearch"
                 android:layout_weight="1"
-                android:paddingRight="10dp"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
+                android:padding="10dp"
                 android:hint="@string/Search"
                 android:drawableRight="@drawable/search"
                 android:background="@drawable/rounded_edittext"/>
@@ -115,7 +110,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
@@ -124,8 +119,7 @@
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/job2"/>
+            android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,8 +127,7 @@
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/duty2"/>
+            android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -142,7 +135,6 @@
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/credit2"/>
+            android:layout_weight="1"/>
     </LinearLayout>
 </RelativeLayout>

@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/TextOurCommitment"
                 android:lineSpacingExtra="4dp"
                 android:textSize="18dp"
@@ -51,7 +51,7 @@
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
@@ -60,8 +60,7 @@
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/job2"/>
+            android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,8 +68,7 @@
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/duty2"/>
+            android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +76,6 @@
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button"
             android:textColor="#052d93"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/credit2"/>
+            android:layout_weight="1"/>
     </LinearLayout>
 </RelativeLayout>

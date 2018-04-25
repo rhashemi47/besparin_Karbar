@@ -125,7 +125,7 @@ public class Service_Request extends AppCompatActivity {
 	//**************************************************************
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-	private GoogleMap map;
+//	private GoogleMap map;
 	private String typeForm;
 	private String CodeService;
 	///*************************************
@@ -178,25 +178,27 @@ public class Service_Request extends AppCompatActivity {
 	private RadioButton radioCarWashTypeButton;
 	private RadioButton radiorgTypeCarButton;
 	private Spinner spAddress;
-	private LatLng point;
+//	private LatLng point;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
 	private Button btncredite;
 	private Button btnCansel;
+	private Button btnAddAdres;
 	private Typeface FontFace;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 	}
 	@Override
-protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.service_request);
-	//***************************************************************
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.service_request);
+		//***************************************************************
 		FontFace = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
 		int textSize=18;
-	//****************************************************************
+		//****************************************************************
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
+		btnAddAdres=(Button)findViewById(R.id.btnAddAdres);
 		btnOrder.setTypeface(FontFace);
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 		btnAcceptOrder.setTypeface(FontFace);
@@ -279,18 +281,18 @@ protected void onCreate(Bundle savedInstanceState) {
 		tvTitleDescription.setTextSize(18);
 		tvTitleAddres.setTextSize(18);
 		//**************************************************************************************
-	  etFromDate=(EditText)findViewById(R.id.etFromDate);
-	  etToDate=(EditText)findViewById(R.id.etToDate);
-	  etFromTime=(EditText)findViewById(R.id.etFromTime);
-	  etToTime=(EditText)findViewById(R.id.etToTime);
-	  etCountWoman=(EditText)findViewById(R.id.etCountWoman);
-	  etCountMan=(EditText)findViewById(R.id.etCountMan);
-	  etDoesnotmatter=(EditText)findViewById(R.id.etDoesnotmatter);
-	  etAddres=(EditText)findViewById(R.id.etAddres);
-	  etDescription=(EditText)findViewById(R.id.etDescription);
-	  etTitleLearning=(EditText)findViewById(R.id.etTitleLearning);
-	  etFieldArtOther=(EditText)findViewById(R.id.etFieldArtOther);
-	  //*******************************************************************
+		etFromDate=(EditText)findViewById(R.id.etFromDate);
+		etToDate=(EditText)findViewById(R.id.etToDate);
+		etFromTime=(EditText)findViewById(R.id.etFromTime);
+		etToTime=(EditText)findViewById(R.id.etToTime);
+		etCountWoman=(EditText)findViewById(R.id.etCountWoman);
+		etCountMan=(EditText)findViewById(R.id.etCountMan);
+		etDoesnotmatter=(EditText)findViewById(R.id.etDoesnotmatter);
+		etAddres=(EditText)findViewById(R.id.etAddres);
+		etDescription=(EditText)findViewById(R.id.etDescription);
+		etTitleLearning=(EditText)findViewById(R.id.etTitleLearning);
+		etFieldArtOther=(EditText)findViewById(R.id.etFieldArtOther);
+		//*******************************************************************
 		etFromDate.setTypeface(FontFace);
 		etToDate.setTypeface(FontFace);
 		etFromTime.setTypeface(FontFace);
@@ -302,7 +304,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		etDescription.setTypeface(FontFace);
 		etTitleLearning.setTypeface(FontFace);
 		etFieldArtOther.setTypeface(FontFace);
-	//*************************************************************************
+		//*************************************************************************
 		etFromDate.setTextSize(textSize);
 		etToDate.setTextSize(textSize);
 		etFromTime.setTextSize(textSize);
@@ -316,39 +318,39 @@ protected void onCreate(Bundle savedInstanceState) {
 		etFieldArtOther.setTextSize(textSize);
 
 		//***********************************************************************
-	  spGraid=(Spinner)findViewById(R.id.spGraid);
-	  spFieldEducation=(Spinner)findViewById(R.id.spFieldEducation);
-	  spFieldArt=(Spinner)findViewById(R.id.spFieldArt);
-	  spLanguage=(Spinner)findViewById(R.id.spLanguage);
-	  //*****************************************************************************
-	  rgTypePeriodService=(RadioGroup)findViewById(R.id.rgTypePeriodService);
-	  rgStatus=(RadioGroup)findViewById(R.id.rgStatus);
-	  rgGenderStudent=(RadioGroup)findViewById(R.id.rgGenderStudent);
-	  rgGenderTeacher=(RadioGroup)findViewById(R.id.rgGenderTeacher);
-	  rgTypeService=(RadioGroup)findViewById(R.id.rgTypeService);
-	  rgTypeCar=(RadioGroup)findViewById(R.id.rgTypeCar);
-	  chbDoesnotmatter=(CheckBox)findViewById(R.id.chbDoesnotmatter);
-	  LinearFromDate=(LinearLayout)findViewById(R.id.LinearFromDate);
-	  LinearToDate=(LinearLayout)findViewById(R.id.LinearToDate);
-	  LinearFromTime=(LinearLayout)findViewById(R.id.LinearFromTime);
-	  LinearToTime=(LinearLayout)findViewById(R.id.LinearToTime);
-	  LinearTypePeriodService=(LinearLayout)findViewById(R.id.LinearTypePeriodService);
-	  LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
-	  LinearStatusCountWoman=(LinearLayout)findViewById(R.id.LinearStatusCountWoman);
-	  LinearCountMan=(LinearLayout)findViewById(R.id.LinearCountMan);
-	  LinearCountDoenotmatter=(LinearLayout)findViewById(R.id.LinearCountDoenotmatter);
-	  LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
-	  LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
-	  LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
-	  LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
-	  LinearFieldArtOther=(LinearLayout)findViewById(R.id.LinearFieldArtOther);
-	  LinearGenderStudent=(LinearLayout)findViewById(R.id.LinearGenderStudent);
-	  LinearGenderTeacher=(LinearLayout)findViewById(R.id.LinearGenderTeacher);
-	  LinearTypeService=(LinearLayout)findViewById(R.id.LinearTypeService);
-	  LinearTypeCar=(LinearLayout)findViewById(R.id.LinearTypeCar);
-	  LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
-	  LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
-	  LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
+		spGraid=(Spinner)findViewById(R.id.spGraid);
+		spFieldEducation=(Spinner)findViewById(R.id.spFieldEducation);
+		spFieldArt=(Spinner)findViewById(R.id.spFieldArt);
+		spLanguage=(Spinner)findViewById(R.id.spLanguage);
+		//*****************************************************************************
+		rgTypePeriodService=(RadioGroup)findViewById(R.id.rgTypePeriodService);
+		rgStatus=(RadioGroup)findViewById(R.id.rgStatus);
+		rgGenderStudent=(RadioGroup)findViewById(R.id.rgGenderStudent);
+		rgGenderTeacher=(RadioGroup)findViewById(R.id.rgGenderTeacher);
+		rgTypeService=(RadioGroup)findViewById(R.id.rgTypeService);
+		rgTypeCar=(RadioGroup)findViewById(R.id.rgTypeCar);
+		chbDoesnotmatter=(CheckBox)findViewById(R.id.chbDoesnotmatter);
+		LinearFromDate=(LinearLayout)findViewById(R.id.LinearFromDate);
+		LinearToDate=(LinearLayout)findViewById(R.id.LinearToDate);
+		LinearFromTime=(LinearLayout)findViewById(R.id.LinearFromTime);
+		LinearToTime=(LinearLayout)findViewById(R.id.LinearToTime);
+		LinearTypePeriodService=(LinearLayout)findViewById(R.id.LinearTypePeriodService);
+		LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
+		LinearStatusCountWoman=(LinearLayout)findViewById(R.id.LinearStatusCountWoman);
+		LinearCountMan=(LinearLayout)findViewById(R.id.LinearCountMan);
+		LinearCountDoenotmatter=(LinearLayout)findViewById(R.id.LinearCountDoenotmatter);
+		LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
+		LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
+		LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
+		LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
+		LinearFieldArtOther=(LinearLayout)findViewById(R.id.LinearFieldArtOther);
+		LinearGenderStudent=(LinearLayout)findViewById(R.id.LinearGenderStudent);
+		LinearGenderTeacher=(LinearLayout)findViewById(R.id.LinearGenderTeacher);
+		LinearTypeService=(LinearLayout)findViewById(R.id.LinearTypeService);
+		LinearTypeCar=(LinearLayout)findViewById(R.id.LinearTypeCar);
+		LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
+		LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
+		LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
 
 		//*********************************************************
 		chbDoesnotmatter.setTypeface(FontFace);
@@ -403,49 +405,49 @@ protected void onCreate(Bundle savedInstanceState) {
 		rdbSavari.setTextSize(textSize);
 		rdbShasi.setTextSize(textSize);
 		rdbVan.setTextSize(textSize);
-	dbh=new DatabaseHelper(getApplicationContext());
-	try {
+		dbh=new DatabaseHelper(getApplicationContext());
+		try {
 
-		dbh.createDataBase();
+			dbh.createDataBase();
 
-	} catch (IOException ioe) {
+		} catch (IOException ioe) {
 
-		throw new Error("Unable to create database");
+			throw new Error("Unable to create database");
 
-	}
-
-	try {
-
-		dbh.openDataBase();
-
-	} catch (SQLException sqle) {
-
-		throw sqle;
-	}
-	try
-	{
-		DetailCode = getIntent().getStringExtra("DetailCode").toString();
-	}
-	catch (Exception ex)
-	{
-		DetailCode="0";
-	}
-	try
-	{
-		karbarCode = getIntent().getStringExtra("karbarCode").toString();
-	}
-	catch (Exception e)
-	{
-		db=dbh.getReadableDatabase();
-		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-		for(int i=0;i<coursors.getCount();i++){
-			coursors.moveToNext();
-
-			karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		db.close();
-	}
-	//*********************************************************************
+
+		try {
+
+			dbh.openDataBase();
+
+		} catch (SQLException sqle) {
+
+			throw sqle;
+		}
+		try
+		{
+			DetailCode = getIntent().getStringExtra("DetailCode").toString();
+		}
+		catch (Exception ex)
+		{
+			DetailCode="0";
+		}
+		try
+		{
+			karbarCode = getIntent().getStringExtra("karbarCode").toString();
+		}
+		catch (Exception e)
+		{
+			db=dbh.getReadableDatabase();
+			Cursor coursors = db.rawQuery("SELECT * FROM login",null);
+			for(int i=0;i<coursors.getCount();i++){
+				coursors.moveToNext();
+
+				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
+			}
+			db.close();
+		}
+		//*********************************************************************
 		db=dbh.getReadableDatabase();
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
@@ -477,6 +479,12 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		}
 		db.close();
+		btnAddAdres.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LoadActivity2(Map.class,"karbarCode", karbarCode,"DetailCode",DetailCode);
+			}
+		});
 		btnOrder.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -507,79 +515,79 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		});
 		//**************************************************************
-	spAddress=(Spinner)findViewById(R.id.spAddress);
-	FillSpinner("address","Name",spAddress);
-	spAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			db=dbh.getReadableDatabase();
-			Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Name='"+spAddress.getItemAtPosition(position).toString()+"'",null);
-			if(cursor.getCount()>0)
-			{
-				cursor.moveToNext();
-				etAddres.setText(cursor.getString(cursor.getColumnIndex("AddressText")));
-				etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
-				String latStr=cursor.getString(cursor.getColumnIndex("Lat"));
-				String lonStr=cursor.getString(cursor.getColumnIndex("Lng"));
-				double lat=Double.parseDouble(latStr);
-				double lon=Double.parseDouble(lonStr);
-				if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-					point = new LatLng(lat, lon);
-
-				}
-				else
+		spAddress=(Spinner)findViewById(R.id.spAddress);
+		FillSpinner("address","Name",spAddress);
+		spAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				db=dbh.getReadableDatabase();
+				Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Name='"+spAddress.getItemAtPosition(position).toString()+"'",null);
+				if(cursor.getCount()>0)
 				{
-					point = new LatLng(35.691063, 51.407941);
-
+					cursor.moveToNext();
+					etAddres.setText(cursor.getString(cursor.getColumnIndex("AddressText")));
+					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
+//					String latStr=cursor.getString(cursor.getColumnIndex("Lat"));
+//					String lonStr=cursor.getString(cursor.getColumnIndex("Lng"));
+//					double lat=Double.parseDouble(latStr);
+//					double lon=Double.parseDouble(lonStr);
+//					if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
+//						point = new LatLng(lat, lon);
+//
+//					}
+//					else
+//					{
+//						point = new LatLng(35.691063, 51.407941);
+//
+//					}
+//					map.clear();
+//					map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+//					map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
 				}
-				map.clear();
-				map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-				map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
+				db.close();
 			}
-			db.close();
-		}
 
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
 
-		}
-	});
-
-	//**************************************************************************************
-	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2)).getMapAsync(new OnMapReadyCallback() {
-		@Override
-
-		public void onMapReady(GoogleMap googleMap) {
-			map = googleMap;
-			db=dbh.getReadableDatabase();
-			Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-			if(coursors.getCount()>0)
-			{
-				coursors.moveToNext();
-				String latStr=coursors.getString(coursors.getColumnIndex("Lat"));
-				String lonStr=coursors.getString(coursors.getColumnIndex("Lon"));
-				double lat=Double.parseDouble(latStr);
-				double lon=Double.parseDouble(lonStr);
-				if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-					point = new LatLng(lat, lon);
-				}
-				else
-					{
-						point = new LatLng(35.691063, 51.407941);
-					}
 			}
-			else {
-				point = new LatLng(35.691063, 51.407941);
-			}
-			db.close();
+		});
 
-			map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
-
-
-			map.getUiSettings().setZoomControlsEnabled(true);
-		}
-	});
+		//**************************************************************************************
+//		((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2)).getMapAsync(new OnMapReadyCallback() {
+//			@Override
+//
+//			public void onMapReady(GoogleMap googleMap) {
+//				map = googleMap;
+//				db=dbh.getReadableDatabase();
+//				Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
+//				if(coursors.getCount()>0)
+//				{
+//					coursors.moveToNext();
+//					String latStr=coursors.getString(coursors.getColumnIndex("Lat"));
+//					String lonStr=coursors.getString(coursors.getColumnIndex("Lon"));
+//					double lat=Double.parseDouble(latStr);
+//					double lon=Double.parseDouble(lonStr);
+//					if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
+//						point = new LatLng(lat, lon);
+//					}
+//					else
+//					{
+//						point = new LatLng(35.691063, 51.407941);
+//					}
+//				}
+//				else {
+//					point = new LatLng(35.691063, 51.407941);
+//				}
+//				db.close();
+//
+//				map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+//				map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
+//
+//
+//				map.getUiSettings().setZoomControlsEnabled(true);
+//			}
+//		});
 
 //**************************************************************************************
 		db=dbh.getReadableDatabase();
@@ -596,57 +604,57 @@ protected void onCreate(Bundle savedInstanceState) {
 			Toast.makeText(getBaseContext(), "نوع فرم ثبت نشده", Toast.LENGTH_LONG).show();
 		}
 		db.close();
-	switch (typeForm)
-	{
-		case "0":
-			form1();
-			break;
-		case "1":
-			form1();
-			break;
-		case "2":
-			form2();
-			break;
-		case "3":
-			form3();
-			break;
-		case "4":
-			form4();
-			break;
-		case "5":
-			form5();
-			break;
-		case "6":
-			form6();
-			break;
-		case "7":
-			form7();
-			break;
-		case "8":
-			form8();
-			break;
-		case "9":
-			form9();
-			break;
-	}
-	chbDoesnotmatter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			if(isChecked)
-			{
-
-				LinearStatusCountWoman.setVisibility(View.GONE);
-				LinearCountMan.setVisibility(View.GONE);
-				etDoesnotmatter.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				LinearStatusCountWoman.setVisibility(View.VISIBLE);
-				LinearCountMan.setVisibility(View.VISIBLE);
-				etDoesnotmatter.setVisibility(View.GONE);
-			}
+		switch (typeForm)
+		{
+			case "0":
+				form1();
+				break;
+			case "1":
+				form1();
+				break;
+			case "2":
+				form2();
+				break;
+			case "3":
+				form3();
+				break;
+			case "4":
+				form4();
+				break;
+			case "5":
+				form5();
+				break;
+			case "6":
+				form6();
+				break;
+			case "7":
+				form7();
+				break;
+			case "8":
+				form8();
+				break;
+			case "9":
+				form9();
+				break;
 		}
-	});
+		chbDoesnotmatter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked)
+				{
+
+					LinearStatusCountWoman.setVisibility(View.GONE);
+					LinearCountMan.setVisibility(View.GONE);
+					etDoesnotmatter.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					LinearStatusCountWoman.setVisibility(View.VISIBLE);
+					LinearCountMan.setVisibility(View.VISIBLE);
+					etDoesnotmatter.setVisibility(View.GONE);
+				}
+			}
+		});
 		btnSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -681,7 +689,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				{
 					ErrorStr+="ساعت خاتمه را وارد نمایید"+"\n";
 				}
-				if(etFromDate.getText().toString().compareTo(etToDate.getText().toString())>0)
+				if(etFromDate.getText().toString().compareTo(etToDate.getText().toString())<0)
 				{
 					ErrorStr+="تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد."+"\n";
 				}
@@ -725,7 +733,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					IsEmergency="1";
 				}
 				//***************************************************************
-				
+
 				selectedId = rgTypePeriodService.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radioTypePeriodServiceButton = (RadioButton) findViewById(selectedId);
@@ -758,15 +766,15 @@ protected void onCreate(Bundle savedInstanceState) {
 				}
 				try
 				{
-					FieldOfStudy =etTitleLearning.getText().toString();
-					if(FieldOfStudy.length()==0)
+					EducationTitle =etTitleLearning.getText().toString();
+					if(EducationTitle.length()==0)
 					{
-						FieldOfStudy="0";
+						EducationTitle="0";
 					}
 				}
 				catch (Exception ex)
 				{
-					FieldOfStudy ="0";
+					EducationTitle ="0";
 				}
 
 				//**************************************************************
@@ -807,11 +815,11 @@ protected void onCreate(Bundle savedInstanceState) {
 
 				try
 				{
-					EducationTitle =spFieldEducation.getSelectedItem().toString();
+					FieldOfStudy =spFieldEducation.getSelectedItem().toString();
 				}
 				catch (Exception ex)
 				{
-					EducationTitle ="0";
+					FieldOfStudy ="0";
 				}
 				try
 				{
@@ -858,9 +866,9 @@ protected void onCreate(Bundle savedInstanceState) {
 					}
 				}
 				else
-					{
-						CarType="0";
-					}
+				{
+					CarType="0";
+				}
 				//***************************************************************
 
 
@@ -912,7 +920,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				}
 				else
 				{
-						Toast.makeText(Service_Request.this, ErrorStr, Toast.LENGTH_SHORT).show();
+					Toast.makeText(Service_Request.this, ErrorStr, Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -1133,22 +1141,22 @@ protected void onCreate(Bundle savedInstanceState) {
 				mTimePicker.show();
 			}
 		});
-}
-@Override
-public boolean onKeyDown( int keyCode, KeyEvent event )  {
-    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-    	LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
-    }
+	}
+	@Override
+	public boolean onKeyDown( int keyCode, KeyEvent event )  {
+		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
+			LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
+		}
 
-    return super.onKeyDown( keyCode, event );
-}
-public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+		return super.onKeyDown( keyCode, event );
+	}
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		Service_Request.this.startActivity(intent);
 	}
-public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
