@@ -29,7 +29,7 @@ public class SyncState {
 	private String WsResponse;
 	private String flag;
 	//private String acceptcode;
-	private boolean CuShowDialog=false;
+	private boolean CuShowDialog=true;
 	//Contractor
 	public SyncState(Activity activity) {
 		this.activity = activity;
@@ -86,7 +86,8 @@ public class SyncState {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override

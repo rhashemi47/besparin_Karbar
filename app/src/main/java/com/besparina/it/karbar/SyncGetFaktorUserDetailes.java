@@ -68,7 +68,7 @@ public class SyncGetFaktorUserDetailes {
 				e.printStackTrace();
 			}
 		} else {
-		//	Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
 

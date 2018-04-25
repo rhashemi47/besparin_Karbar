@@ -77,7 +77,7 @@ public class SyncGetUserServiceVisit {
 		}
 		else
 		{
-			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class SyncGetUserServiceVisit {
         	{
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
-	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
+	            	//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {

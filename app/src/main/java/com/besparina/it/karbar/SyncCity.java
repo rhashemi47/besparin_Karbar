@@ -29,7 +29,7 @@ public class SyncCity {
 	private String WsResponse;
 	private String flag;
 	//private String acceptcode;
-	private boolean CuShowDialog=false;
+	private boolean CuShowDialog=true;
 	//Contractor
 	public SyncCity(Activity activity) {
 		this.activity = activity;
@@ -86,7 +86,7 @@ public class SyncCity {
 
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
 		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 

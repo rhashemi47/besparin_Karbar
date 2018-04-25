@@ -287,6 +287,7 @@ public class SyncAddress {
 	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
+		Toast.makeText(activity, "ثبت شد", Toast.LENGTH_SHORT).show();
 		SyncGetUserAddress syncGetUserAddress=new SyncGetUserAddress(activity,pUserCode,"0");
 		syncGetUserAddress.AsyncExecute();
     }

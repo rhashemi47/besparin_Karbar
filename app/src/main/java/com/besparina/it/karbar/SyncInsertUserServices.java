@@ -169,7 +169,7 @@ public class SyncInsertUserServices {
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
+	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ثبت سرویس", Toast.LENGTH_LONG).show();
 	            }
 	            else
 	            {

@@ -298,7 +298,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/etTitleLearning"
-                        android:inputType="phone"
                         android:layout_weight="1"
                         android:textColor="#000000"/>
                 </LinearLayout>
