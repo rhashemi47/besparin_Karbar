@@ -96,6 +96,7 @@ public class Login extends Activity {
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		Login.this.startActivity(intent);
 	}
 	private void ExitApplication()
@@ -118,7 +119,17 @@ public class Login extends Activity {
 			// do something when the button is clicked
 			public void onClick(DialogInterface arg0, int arg1) {
 				//Declare Object From Get Internet Connection Status For Check Internet Status
-				System.exit(0);
+				Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+
+				startMain.addCategory(Intent.CATEGORY_HOME);
+
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+				startActivity(startMain);
+
+				finish();
 				arg0.dismiss();
 
 			}

@@ -14,7 +14,7 @@
             android:name="com.besparina.it.karbar.MainMenu"
             android:label="@string/Logo_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" >
+            android:noHistory="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,76 +23,76 @@
         </activity>
         <activity
             android:name="com.besparina.it.karbar.Login"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name="com.besparina.it.karbar.Info_Person"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name="com.besparina.it.karbar.Accept_code"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Profile"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.About"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Contact"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.GiftBank"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Help"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.List_Messages"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.OurCommitment"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.YourCommitment"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.ShowMessage"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.List_Address"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.UpdateAddress"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Credit"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.History"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.List_ServiceDerails"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.List_Services"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Service_Request"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Map"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.List_Order"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Service_Request_Saved"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Service_Request_Edit"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.ShowFactor"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved">
 
         </service>

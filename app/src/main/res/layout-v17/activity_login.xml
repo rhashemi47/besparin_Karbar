@@ -36,6 +36,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/rounded_edittext"
                 android:drawableStart="@drawable/enternumber"
+                android:textAlignment="center"
                 android:ems="2"
                 android:padding="10dp"
                 android:textSize="20sp"

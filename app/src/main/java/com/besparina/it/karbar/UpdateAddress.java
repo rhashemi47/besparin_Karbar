@@ -277,6 +277,7 @@ public class UpdateAddress extends AppCompatActivity {
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue) {
         Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         this.startActivity(intent);
     }
     private void FillSpinnerChild(String StateId) {

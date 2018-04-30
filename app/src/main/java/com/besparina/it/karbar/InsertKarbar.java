@@ -276,6 +276,7 @@ public class InsertKarbar {
 	{
 		Intent intent = new Intent(activity,Cls);
 		intent.putExtra(VariableName, VariableValue);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		activity.startActivity(intent);
 	}	
 }

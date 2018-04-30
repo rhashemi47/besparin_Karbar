@@ -18,6 +18,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 
 import android.support.v4.app.ActivityCompat;
@@ -74,6 +75,7 @@ public class MainMenu extends AppCompatActivity {
     private Button btnAcceptOrder;
     private Button btncredite;
     private Button btnServiceEmergency;
+    private boolean doubleBackToExitPressedOnce = false;
     private Typeface faceh;
     ImageView imageView;
     Custom_ViewFlipper viewFlipper;
@@ -84,6 +86,42 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+    protected void onResume() {
+
+        super.onResume();
+        try
+        {
+            String status="0";
+            db = dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                try {
+                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                        status = cursor.getString(cursor.getColumnIndex("Status"));
+                        if (status.compareTo("0") == 0) {
+                            status = "غیرفعال";
+                        } else {
+                            status = "فعال";
+                        }
+                    } else {
+                        status = "غیرفعال";
+                    }
+
+                } catch (Exception ex) {
+                    status = "غیرفعال";
+                }
+            }
+            karbarCode = getIntent().getStringExtra("karbarCode");
+            Check_Login(karbarCode);
+        }
+        catch(Exception e)
+        {
+            throw new Error("Error Opne Activity");
+        }
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -134,42 +172,10 @@ public class MainMenu extends AppCompatActivity {
         db.close();
         try {
             karbarCode = getIntent().getStringExtra("karbarCode");
-
-            if (karbarCode == null) {
-
-                Cursor cursors = null;
-                db = dbh.getReadableDatabase();
-                cursors = db.rawQuery("SELECT * FROM login", null);
-                if (cursors.getCount() > 0) {
-                    cursors.moveToNext();
-                    String Result = cursors.getString(cursors.getColumnIndex("islogin"));
-                    if (Result.compareTo("0") == 0) {
-                        LoadActivity(Login.class, "karbarCode", "0");
-                    } else {
-                        karbarCode = cursors.getString(cursors.getColumnIndex("karbarCode"));
-
-                        db = dbh.getReadableDatabase();
-                        coursors = db.rawQuery("SELECT * FROM UpdateApp", null);
-                        if (coursors.getCount() > 0) {
-                            coursors.moveToNext();
-                            if (coursors.getString(coursors.getColumnIndex("Status")).compareTo("1") == 0) {
-                                String Query = "UPDATE UpdateApp SET Status='0'";
-                                db = dbh.getWritableDatabase();
-                                db.execSQL(Query);
-                            }
-                        }
-                    }
-                } else {
-                    LoadActivity(Login.class, "karbarCode", "0");
-                }
-            } else if (karbarCode.compareTo("0") == 0) {
-                IsActive = false;
-            }
-            db.close();
-
+            Check_Login(karbarCode);
 
         } catch (Exception e) {
-            throw new Error("Error Opne Activity");
+            Check_Login(karbarCode);
         }
         //***************************************************************************************************
         lstSearchDetailService.setVisibility(View.GONE);
@@ -375,10 +381,10 @@ public class MainMenu extends AppCompatActivity {
                         android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     if(ActivityCompat.shouldShowRequestPermissionRationale(MainMenu.this, Manifest.permission.CALL_PHONE))
                     {
-                        //do nothing
+                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{Manifest.permission.CALL_PHONE},2);
                     }
-                    else{
-
+                    else
+                    {
                         ActivityCompat.requestPermissions(MainMenu.this,new String[]{Manifest.permission.CALL_PHONE},2);
                     }
 
@@ -475,7 +481,18 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");
                 db.close();
-                System.exit(0);
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+
+                startMain.addCategory(Intent.CATEGORY_HOME);
+
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(startMain);
+
+                finish();
                 arg0.dismiss();
             }
         });
@@ -769,38 +786,47 @@ public class MainMenu extends AppCompatActivity {
                 .build();
     }
 
-    private void ExitApplication() {
-        //Exit All Activity And Kill Application
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-        // set the message to display
-        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
-
-        // set a negative/no button and create a listener
-        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.dismiss();
-            }
-        });
-
-        // set a positive/yes button and create a listener
-        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                //Declare Object From Get Internet Connection Status For Check Internet Status
-                System.exit(0);
-                arg0.dismiss();
-
-            }
-        });
-
-        alertbox.show();
-    }
+//    private void ExitApplication() {
+//        //Exit All Activity And Kill Application
+//        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+//        // set the message to display
+//        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
+//
+//        // set a negative/no button and create a listener
+//        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
+//            // do something when the button is clicked
+//            public void onClick(DialogInterface arg0, int arg1) {
+//                arg0.dismiss();
+//            }
+//        });
+//
+//        // set a positive/yes button and create a listener
+//        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
+//            // do something when the button is clicked
+//            public void onClick(DialogInterface arg0, int arg1) {
+//                //Declare Object From Get Internet Connection Status For Check Internet Status
+//                Intent startMain = new Intent(Intent.ACTION_MAIN);
+//
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                startActivity(startMain);
+//
+//                finish();
+//
+//                arg0.dismiss();
+//
+//            }
+//        });
+//
+//        alertbox.show();
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            ExitApplication();
+            //ExitApplication();
         }
 
         return super.onKeyDown(keyCode, event);
@@ -860,5 +886,61 @@ public class MainMenu extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));
+    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+
+            startMain.addCategory(Intent.CATEGORY_HOME);
+
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(startMain);
+
+            finish();
+            super.onBackPressed();
+            return;
+        }
+        drawer.closeDrawer();
+        this.doubleBackToExitPressedOnce = true;
+
+//        Snackbar.make(findViewById(R.id.background_place_holder_image_view), "Please click BACK again to exit", Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+    public void Check_Login(String karbarCode)
+    {
+        if (karbarCode == null) {
+
+            Cursor cursor;
+            db = dbh.getReadableDatabase();
+            cursor = db.rawQuery("SELECT * FROM login", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+                if (Result.compareTo("0") == 0)
+                {
+                    LoadActivity(Login.class, "karbarCode", "0");
+                }
+            }
+            else
+            {
+                LoadActivity(Login.class, "karbarCode", "0");
+            }
+        } else if (karbarCode.compareTo("0") == 0) {
+            IsActive = false;
+        }
+        db.close();
     }
 }

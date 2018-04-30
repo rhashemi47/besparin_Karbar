@@ -63,6 +63,7 @@
                 android:padding="10dp"
                 android:hint="@string/Search"
                 android:drawableRight="@drawable/search"
+                android:drawablePadding="10dp"
                 android:background="@drawable/rounded_edittext"/>
 
         </LinearLayout>

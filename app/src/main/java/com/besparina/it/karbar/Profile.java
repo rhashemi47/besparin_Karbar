@@ -125,18 +125,18 @@ public class Profile extends Activity {
 			}
 			db.close();
 		}
-		GPSTracker gps = new GPSTracker(Profile.this);
-
-		// check if GPS enabled
-		if (gps.canGetLocation()) {
-
-			//nothing
-		} else {
-			// can't get location
-			// GPS or Network is not enabled
-			// Ask user to enable GPS/network in settings
-			gps.showSettingsAlert();
-		}
+//		GPSTracker gps = new GPSTracker(Profile.this);
+//
+//		// check if GPS enabled
+//		if (gps.canGetLocation()) {
+//
+//			//nothing
+//		} else {
+//			// can't get location
+//			// GPS or Network is not enabled
+//			// Ask user to enable GPS/network in settings
+//			gps.showSettingsAlert();
+//		}
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
 		tvPhoneNumber.setText(phonenumber);
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
@@ -357,6 +357,7 @@ public class Profile extends Activity {
 		{
 			Intent intent = new Intent(getApplicationContext(),Cls);
 			intent.putExtra(VariableName, VariableValue);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 			Profile.this.startActivity(intent);
 		}
@@ -365,6 +366,7 @@ public class Profile extends Activity {
 			Intent intent = new Intent(getApplicationContext(),Cls);
 			intent.putExtra(VariableName, VariableValue);
 			intent.putExtra(VariableName2, VariableValue2);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 			Profile.this.startActivity(intent);
 		}

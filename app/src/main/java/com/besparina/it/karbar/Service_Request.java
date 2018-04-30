@@ -1,8 +1,10 @@
 package com.besparina.it.karbar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -13,6 +15,7 @@ import android.support.annotation.NonNull;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -658,56 +661,45 @@ public class Service_Request extends AppCompatActivity {
 		btnSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String ErrorStr="";
-				FemaleCount=etCountWoman.getText().toString();
-				HamyarCount=etDoesnotmatter.getText().toString();
-				MaleCount=etCountMan.getText().toString();
+				String ErrorStr = "";
+				FemaleCount = etCountWoman.getText().toString();
+				HamyarCount = etDoesnotmatter.getText().toString();
+				MaleCount = etCountMan.getText().toString();
 				try {
 					if (etAddres.getTag().toString().length() <= 0) {
 						ErrorStr += "آدرس را در قسمت تنظیمات حساب کاربری وارد نمایید." + "\n";
 					} else {
 						AddressCode = etAddres.getTag().toString();
 					}
-				}
-				catch (Exception ex)
-				{
+				} catch (Exception ex) {
 					ErrorStr += "آدرس را در قسمت تنظیمات حساب کاربری وارد نمایید." + "\n";
 				}
-				if(etFromDate.length()==0)
-				{
-					ErrorStr+="تاریخ شروع را وارد نمایید"+"\n";
+				if (etFromDate.length() == 0) {
+					ErrorStr += "تاریخ شروع را وارد نمایید" + "\n";
 				}
-				if(etToDate.length()==0)
-				{
-					ErrorStr+="تاریخ خاتمه را وارد نمایید"+"\n";
+				if (etToDate.length() == 0) {
+					ErrorStr += "تاریخ خاتمه را وارد نمایید" + "\n";
 				}
-				if(etFromTime.length()==0)
-				{
-					ErrorStr+="ساعت شروع را وارد نمایید"+"\n";
+				if (etFromTime.length() == 0) {
+					ErrorStr += "ساعت شروع را وارد نمایید" + "\n";
 				}
-				if(etToTime.length()==0)
-				{
-					ErrorStr+="ساعت خاتمه را وارد نمایید"+"\n";
+				if (etToTime.length() == 0) {
+					ErrorStr += "ساعت خاتمه را وارد نمایید" + "\n";
 				}
-				if(etFromDate.getText().toString().compareTo(etToDate.getText().toString())<0)
-				{
-					ErrorStr+="تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد."+"\n";
+				if (etFromDate.getText().toString().compareTo(etToDate.getText().toString()) > 0) {
+					ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
 				}
-				if(etFromDate.length()<8 && etFromDate.length()>10)
-				{
-					ErrorStr+="تاریخ شروع را صحیح وارد نمایید"+"\n";
+				if (etFromDate.length() < 8 && etFromDate.length() > 10) {
+					ErrorStr += "تاریخ شروع را صحیح وارد نمایید" + "\n";
 				}
-				if(etToDate.length()<8 && etToDate.length()>10)
-				{
-					ErrorStr+="تاریخ خاتمه را صحیح وارد نمایید"+"\n";
+				if (etToDate.length() < 8 && etToDate.length() > 10) {
+					ErrorStr += "تاریخ خاتمه را صحیح وارد نمایید" + "\n";
 				}
-				if(etFromTime.length()<3 && etFromTime.length()>5)
-				{
-					ErrorStr+="زمان شروع را صحیح وارد نمایید"+"\n";
+				if (etFromTime.length() < 3 && etFromTime.length() > 5) {
+					ErrorStr += "زمان شروع را صحیح وارد نمایید" + "\n";
 				}
-				if(etToTime.length()<3 && etToTime.length()>5)
-				{
-					ErrorStr+="زمان خاتمه را صحیح وارد نمایید"+"\n";
+				if (etToTime.length() < 3 && etToTime.length() > 5) {
+					ErrorStr += "زمان خاتمه را صحیح وارد نمایید" + "\n";
 				}
 //				if(etFromTime.getText().toString().compareTo(etToTime.getText().toString())>0)
 //				{
@@ -718,87 +710,68 @@ public class Service_Request extends AppCompatActivity {
 //				{
 //					ErrorStr+="آدرس را وارد نمایید"+"\n";
 //				}
-				Description =etDescription.getText().toString();
+				Description = etDescription.getText().toString();
 				//**************************************************************
 				int selectedId = rgStatus.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radioStatusButton = (RadioButton) findViewById(selectedId);
-				IsEmergency =radioStatusButton.getText().toString();
-				if(IsEmergency.compareTo("عادی")==0)
-				{
-					IsEmergency="0";
-				}
-				else
-				{
-					IsEmergency="1";
+				IsEmergency = radioStatusButton.getText().toString();
+				if (IsEmergency.compareTo("عادی") == 0) {
+					IsEmergency = "0";
+				} else {
+					IsEmergency = "1";
 				}
 				//***************************************************************
 
 				selectedId = rgTypePeriodService.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radioTypePeriodServiceButton = (RadioButton) findViewById(selectedId);
-				PeriodicServices =radioTypePeriodServiceButton.getText().toString();
-				if(PeriodicServices.compareTo("روزانه")==0)
-				{
-					PeriodicServices ="1";
-				}
-				else if(PeriodicServices.compareTo("هفته در میان")==0)
-				{
-					PeriodicServices ="2";
-				}
-				else if(PeriodicServices.compareTo("هفتگی")==0)
-				{
-					PeriodicServices ="3";
-				}
-				else
-				{
-					PeriodicServices ="4";
+				PeriodicServices = radioTypePeriodServiceButton.getText().toString();
+				if (PeriodicServices.compareTo("روزانه") == 0) {
+					PeriodicServices = "1";
+				} else if (PeriodicServices.compareTo("هفته در میان") == 0) {
+					PeriodicServices = "2";
+				} else if (PeriodicServices.compareTo("هفتگی") == 0) {
+					PeriodicServices = "3";
+				} else {
+					PeriodicServices = "4";
 				}
 				//***************************************************************
 
-				try
-				{
-					EducationGrade =spGraid.getSelectedItem().toString();
+				try {
+					EducationGrade = spGraid.getSelectedItem().toString();
+				} catch (Exception ex) {
+					EducationGrade = "0";
 				}
-				catch (Exception ex)
-				{
-					EducationGrade ="0";
-				}
-				try
-				{
-					EducationTitle =etTitleLearning.getText().toString();
-					if(EducationTitle.length()==0)
-					{
-						EducationTitle="0";
+				try {
+					EducationTitle = etTitleLearning.getText().toString();
+					if (EducationTitle.length() == 0) {
+						EducationTitle = "0";
 					}
-				}
-				catch (Exception ex)
-				{
-					EducationTitle ="0";
+				} catch (Exception ex) {
+					EducationTitle = "0";
 				}
 
 				//**************************************************************
 				selectedId = rgGenderStudent.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radioStudentGenderButton = (RadioButton) findViewById(selectedId);
-				StudentGender  =radioStudentGenderButton.getText().toString();
-				if(LinearGenderStudent.getVisibility()==View.VISIBLE) {
+				StudentGender = radioStudentGenderButton.getText().toString();
+				if (LinearGenderStudent.getVisibility() == View.VISIBLE) {
 					if (StudentGender.compareTo("زن") == 0) {
 						StudentGender = "1";
 					} else {
 						StudentGender = "2";
 					}
-				}
-				else
-				{
-					StudentGender="0";
+				} else {
+					StudentGender = "0";
 				}
 				//***************************************************************
 				selectedId = rgGenderTeacher.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radioTeacherGenderButton = (RadioButton) findViewById(selectedId);
-				TeacherGender  =radioTeacherGenderButton.getText().toString();
-				if(LinearGenderTeacher.getVisibility()==View.VISIBLE) {
+				TeacherGender = radioTeacherGenderButton.getText().toString();
+				if (LinearGenderTeacher.getVisibility() == View.VISIBLE) {
 					if (TeacherGender.compareTo("زن") == 0) {
 						TeacherGender = "1";
 					} else if (TeacherGender.compareTo("مرد") == 0) {
@@ -806,57 +779,43 @@ public class Service_Request extends AppCompatActivity {
 					} else {
 						TeacherGender = "3";
 					}
-				}
-				else
-				{
-					TeacherGender="0";
+				} else {
+					TeacherGender = "0";
 				}
 				//***************************************************************
 
-				try
-				{
-					FieldOfStudy =spFieldEducation.getSelectedItem().toString();
+				try {
+					FieldOfStudy = spFieldEducation.getSelectedItem().toString();
+				} catch (Exception ex) {
+					FieldOfStudy = "0";
 				}
-				catch (Exception ex)
-				{
-					FieldOfStudy ="0";
-				}
-				try
-				{
-					ArtField =spFieldArt.getSelectedItem().toString();
-				}
-				catch (Exception ex)
-				{
-					ArtField ="0";
+				try {
+					ArtField = spFieldArt.getSelectedItem().toString();
+				} catch (Exception ex) {
+					ArtField = "0";
 				}
 				//***************************************************************
 				//***************************************************************
 				selectedId = rgTypeService.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radioCarWashTypeButton = (RadioButton) findViewById(selectedId);
-				CarWashType  =radioCarWashTypeButton.getText().toString();
-				if(LinearTypeService.getVisibility()==View.VISIBLE)
-				{
-					if(CarWashType.compareTo("روشویی")==0)
-					{
-						CarWashType ="1";
+				CarWashType = radioCarWashTypeButton.getText().toString();
+				if (LinearTypeService.getVisibility() == View.VISIBLE) {
+					if (CarWashType.compareTo("روشویی") == 0) {
+						CarWashType = "1";
+					} else {
+						CarWashType = "2";
 					}
-					else
-					{
-						CarWashType="2";
-					}
-				}
-				else
-				{
-					CarWashType="0";
+				} else {
+					CarWashType = "0";
 				}
 
 				//***************************************************************
 				selectedId = rgTypeCar.getCheckedRadioButtonId();
 				// find the radiobutton by returned id
 				radiorgTypeCarButton = (RadioButton) findViewById(selectedId);
-				CarType  =radiorgTypeCarButton.getText().toString();
-				if(LinearTypeCar.getVisibility()==View.VISIBLE) {
+				CarType = radiorgTypeCarButton.getText().toString();
+				if (LinearTypeCar.getVisibility() == View.VISIBLE) {
 					if (CarType.compareTo("سواری") == 0) {
 						CarType = "1";
 					} else if (CarType.compareTo("ون") == 0) {
@@ -864,25 +823,20 @@ public class Service_Request extends AppCompatActivity {
 					} else {
 						CarType = "2";
 					}
-				}
-				else
-				{
-					CarType="0";
+				} else {
+					CarType = "0";
 				}
 				//***************************************************************
 
 
-				try
-				{
-					Language =spLanguage.getSelectedItem().toString();
+				try {
+					Language = spLanguage.getSelectedItem().toString();
+				} catch (Exception ex) {
+					Language = "0";
 				}
-				catch (Exception ex)
-				{
-					Language ="0";
-				}
-				if(LinearCountDoenotmatter.getVisibility()==View.VISIBLE ||
-						LinearCountMan.getVisibility()== View.VISIBLE ||
-						LinearStatusCountWoman.getVisibility()==View.VISIBLE) {
+				if (LinearCountDoenotmatter.getVisibility() == View.VISIBLE ||
+						LinearCountMan.getVisibility() == View.VISIBLE ||
+						LinearStatusCountWoman.getVisibility() == View.VISIBLE) {
 					if (chbDoesnotmatter.isChecked()) {
 						MaleCount = "0";
 						FemaleCount = "0";
@@ -903,27 +857,27 @@ public class Service_Request extends AppCompatActivity {
 							ErrorStr += "تعداد همیار مرد یا زن را مشخص نمایید" + "\n";
 						}
 					}
+				} else {
+					MaleCount = "0";
+					FemaleCount = "0";
+					HamyarCount = "0";
 				}
-				else {
-					MaleCount="0";
-					FemaleCount="0";
-					HamyarCount="0";
-				}
-				if(ErrorStr.length()==0)
-				{
-					SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request.this,
-							karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
-							StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
-							AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
-							FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
-					syncInsertUserServices.AsyncExecute();
-				}
-				else
-				{
+				if (ErrorStr.length() == 0) {
+					{
+						SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request.this,
+								karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
+								StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
+								AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
+								FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
+						syncInsertUserServices.AsyncExecute();
+					}
+
+				} else {
 					Toast.makeText(Service_Request.this, ErrorStr, Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
+
 		btnCansel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -961,10 +915,10 @@ public class Service_Request extends AppCompatActivity {
 									StartDay=String.valueOf(dayOfMonth);
 
 								}
-							}, now.getPersianYear(),
+							},
+							now.getPersianYear(),
 							now.getPersianMonth(),
 							now.getPersianDay());
-					datePickerDialog.setThemeDark(true);
 					datePickerDialog.show(getFragmentManager(), "tpd");
 				}
 			}
