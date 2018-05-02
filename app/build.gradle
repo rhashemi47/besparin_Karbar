@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId 'com.besparina.it.karbar'
+        applicationId 'com.project.it.karbar'
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
@@ -25,7 +25,6 @@ dependencies {
     //compile files('lib/ksoap2-android-assembly-2.5.8-jar-with-dependencies.jar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -39,6 +38,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:11.8.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
-    compile 'com.android.support:gridlayout-v7:26.+'
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    compile 'com.github.hamsaadev:Persian-Date-Picker-Dialog:V1.2'
 }
