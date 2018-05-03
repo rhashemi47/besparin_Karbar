@@ -1,14 +1,10 @@
 package com.besparina.it.karbar;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -17,48 +13,49 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
-public class SyncServicesForService {
+public class SyncCityForService {
 
 	//Primary Variable
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
 	PublicVariable PV;
-    InternetConnection IC;
+	InternetConnection IC;
 	private Context activity;
 	private String WsResponse;
-	private String flag;
-	//private String acceptcode;
+	private String pUserCode;
+	private String LastServiceVisitCode;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncServicesForService(Context activity) {
+	public SyncCityForService(Context activity) {
 		this.activity = activity;
-		this.flag = flag;
+
+		this.pUserCode=pUserCode;
+		this.LastServiceVisitCode=LastServiceVisitCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-		
+
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
 			dbh.createDataBase();
 
-   		} catch (IOException ioe) {
+		} catch (IOException ioe) {
 
-   			throw new Error("Unable to create database");
+			throw new Error("Unable to create database");
 
-   		}
+		}
 
-   		try {
+		try {
 
-   			dbh.openDataBase();
+			dbh.openDataBase();
 
-   		} catch (SQLException sqle) {
+		} catch (SQLException sqle) {
 
-   			throw sqle;
-   		}   		
+			throw sqle;
+		}
 	}
-	
+
 	public void AsyncExecute()
 	{
 		if(IC.isConnectingToInternet()==true)
@@ -67,42 +64,42 @@ public class SyncServicesForService {
 			{
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
-			}	
-			 catch (Exception e) {
-				//Toast.makeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
-	            e.printStackTrace();
-			 }
+			}
+			catch (Exception e) {
+
+				e.printStackTrace();
+			}
 		}
 		else
 		{
 			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	//Async Method
 	private class AsyncCallWS extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
 		private Context activity;
-		
+
 		public AsyncCallWS(Context activity) {
-		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
-		    this.dialog.setCanceledOnTouchOutside(false);
+			this.activity = activity;
+			this.dialog = new ProgressDialog(activity);
+			this.dialog.setCanceledOnTouchOutside(false);
 		}
-		
+
         @Override
         protected String doInBackground(String... params) {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GetServices");
+        		CallWsMethod("GetCity");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
 			}
 	        return result;
         }
- 
+
         @Override
         protected void onPostExecute(String result) {
         	if(result == null)
@@ -132,7 +129,7 @@ public class SyncServicesForService {
             }
             catch (Exception e) {}
         }
- 
+
         @Override
         protected void onPreExecute() {
         	if(CuShowDialog)
@@ -141,13 +138,14 @@ public class SyncServicesForService {
         		this.dialog.show();
         	}
         }
- 
+
         @Override
         protected void onProgressUpdate(Void... values) {
         }
-        
+
     }
-	
+
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -159,7 +157,7 @@ public class SyncServicesForService {
 	    //Set dataType
 	    VerifyCode.setType(String.class);
 	    //Add the property to request object
-	    request.addProperty(VerifyCode);	    
+	    request.addProperty(VerifyCode);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -174,29 +172,27 @@ public class SyncServicesForService {
 	        //Get the response
 	        SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 	        //Assign it to FinalResultForCheck static variable
-	        WsResponse = response.toString();	
+	        WsResponse = response.toString();
 	        if(WsResponse == null) WsResponse="ER";
 	    } catch (Exception e) {
 	    	WsResponse = "ER";
 	    	e.printStackTrace();
 	    }
 	}
-	
-	
+
+
 	public void InsertDataFromWsToDb(String AllRecord)
-    {	
+    {
 		String[] res;
 		String[] value;
-		res=WsResponse.split(Pattern.quote("[Besparina@@]"));
-		db=dbh.getWritableDatabase();			
-		db.execSQL("DELETE FROM services");
+		res=WsResponse.split("@@");
+		db=dbh.getWritableDatabase();
+		db.execSQL("DELETE FROM City");
 		for(int i=0;i<res.length;i++){
-			value=res[i].split(Pattern.quote("[Besparina##]"));
-			db.execSQL("INSERT INTO services (code,servicename,Pic) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"')");
+			value=res[i].split("##");
+			db.execSQL("INSERT INTO City (Code,ParentCode,Name) VALUES('"+value[0] +"','"+value[1] +"','"+value[2]+"')");
 		}
 		db.close();
-		SyncServicesDetailsForService syncServicesDetailsForService=new SyncServicesDetailsForService(this.activity);
-		syncServicesDetailsForService.AsyncExecute();
     }
 	
 }

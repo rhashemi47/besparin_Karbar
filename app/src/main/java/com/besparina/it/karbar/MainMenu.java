@@ -65,7 +65,7 @@ public class MainMenu extends AppCompatActivity {
     private SQLiteDatabase db;
     private Drawer drawer = null;
     private String countMessage;
-    private android.support.v7.widget.GridLayout gridlayout;
+//    private android.support.v7.widget.GridLayout gridlayout;
     private GridView GridViewServices;
     private boolean IsActive = true;
     private ArrayList<HashMap<String, String>> valuse;
@@ -258,6 +258,7 @@ public class MainMenu extends AppCompatActivity {
         startService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
         startService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
         startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
+        startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -452,6 +453,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceSyncMessage.class));
                 stopService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
                 stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
+                stopService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM address");
                 db.execSQL("DELETE FROM AmountCredit");

@@ -45,9 +45,11 @@ import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.Date;
 import java.util.List;
 
 import ir.hamsaa.persiandatepicker.Listener;
@@ -689,8 +691,36 @@ public class Service_Request extends AppCompatActivity {
 				if (etToTime.length() == 0) {
 					ErrorStr += "ساعت خاتمه را وارد نمایید" + "\n";
 				}
-				if (etFromDate.getText().toString().compareTo(etToDate.getText().toString()) > 0) {
+				String SplitFromeDate[]=etFromDate.getText().toString().split("/");
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calFrom=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+				calFrom.setPersianDate(Integer.parseInt(SplitFromeDate[0])
+						,Integer.parseInt(SplitFromeDate[1])
+								,Integer.parseInt(SplitFromeDate[2]));
+				//******************
+				String SplitToDate[]=etToDate.getText().toString().split("/");
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calTo=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
+						,Integer.parseInt(SplitToDate[1])
+								,Integer.parseInt(SplitToDate[2]));
+				int compateDate= calFrom.compareTo(calTo);
+				if (compateDate>0) {
 					ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
+				}
+				else
+				{
+					ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+					if(calTo.compareTo(calNow)<0)
+					{
+						ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
+					}
+					else if(calTo.compareTo(calNow)==0)
+					{
+						Calendar mcurrentTime = Calendar.getInstance();
+						int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+						int minute = mcurrentTime.get(Calendar.MINUTE);
+						String SlpliFromTime[]=etFromTime.getText().toString().split(":");
+						String SplitToTime[]=etToTime.getText().toString().split(":");
+					}
 				}
 				if (etFromDate.length() < 8 && etFromDate.length() > 10) {
 					ErrorStr += "تاریخ شروع را صحیح وارد نمایید" + "\n";
