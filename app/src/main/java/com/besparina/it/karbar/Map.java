@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -79,6 +80,9 @@ public class Map extends AppCompatActivity {
     private Spinner spCity;
     private List<String> labels_State = new ArrayList<String>();
     private List<String> labels_City = new ArrayList<String>();
+    public Handler mHandler;
+    public boolean continue_or_stop=true;
+    private GPSTracker gps;
 
 
     @Override
@@ -98,6 +102,49 @@ public class Map extends AppCompatActivity {
         NameAddres = (EditText) findViewById(R.id.NameAddres);
         AddAddres = (EditText) findViewById(R.id.AddAddres);
         chbIsDefaultAddres = (CheckBox) findViewById(R.id.chbIsDefaultAddres);
+        gps = new GPSTracker(Map.this);
+
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+
+            //nothing
+        } else {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+        setMap();
+        mHandler = new Handler();
+        continue_or_stop = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (continue_or_stop) {
+                    try {
+                        Thread.sleep(5000); // every 5 seconds
+                        mHandler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                if(etArea.length()>0){
+                                    String AreaAddress=etArea.getText().toString().trim();
+                                    if(AreaAddress.length()>0){
+                                        getLatLongLocation(AreaAddress);
+                                        area=getStringLocation();
+                                    }
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+            }
+        }).start();
+
         try {
             karbarCode = getIntent().getStringExtra("karbarCode").toString();
         } catch (Exception e) {
@@ -132,18 +179,7 @@ public class Map extends AppCompatActivity {
 
             throw sqle;
         }
-        final GPSTracker gps = new GPSTracker(Map.this);
 
-        // check if GPS enabled
-        if (gps.canGetLocation()) {
-
-            //nothing
-        } else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            gps.showSettingsAlert();
-        }
         //*************************************************************************************************
         //Fill Spinner State
         db = dbh.getReadableDatabase();
@@ -178,78 +214,7 @@ public class Map extends AppCompatActivity {
             }
         });
         //*************************************************************************************************
-        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
-            @Override
 
-            public void onMapReady(GoogleMap googleMap) {
-                map = googleMap;
-                if (ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                map.setMyLocationEnabled(true);
-                map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                    @Override
-                    public boolean onMyLocationButtonClick() {
-                        lat = gps.getLatitude();
-                        lang = gps.getLongitude();
-                        LatLng latLng;
-                        if(lat>0 && lang>0){
-                            latLng = new LatLng(lat,lang);
-                        }
-                        else {
-                            latLng = new LatLng(0,0);
-                        }
-                        map.clear();
-                        map.addMarker(new MarkerOptions().position(latLng).title("مکان من").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                        area=getStringLocation();
-                        return false;
-                    }
-                });
-                LatLng point;
-                lat=35.691063;
-                lang=51.407941;
-                point = new LatLng(lat, lang);
-                db = dbh.getReadableDatabase();
-                Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
-                if (coursors.getCount() > 0) {
-                    coursors.moveToNext();
-                    String latStr = coursors.getString(coursors.getColumnIndex("Lat"));
-                    String lonStr = coursors.getString(coursors.getColumnIndex("Lon"));
-                    lat = Double.parseDouble(latStr);
-                    lang = Double.parseDouble(lonStr);
-                    if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-                        point = new LatLng(lat, lang);
-                    }
-                }
-                db.close();
-                map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 17));
-
-
-                map.getUiSettings().setZoomControlsEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(true);
-                //***************************************************************
-                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        String str = latLng.toString();
-                        //  Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
-                        map.clear();
-                        map.addMarker(new MarkerOptions().position(latLng).title("محل سرویس دهی").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                        lat=latLng.latitude;
-                        lang=latLng.longitude;
-                        area=getStringLocation();
-                    }
-                });
-            }
-        });
         //******************************************************************************************************
         etArea.addTextChangedListener(new TextWatcher() {
             @Override
@@ -264,13 +229,7 @@ public class Map extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(etArea.length()>0){
-                    String AreaAddress=etArea.getText().toString().trim();
-                    if(AreaAddress.length()>0){
-                        getLatLongLocation(AreaAddress);
-                        area=getStringLocation();
-                    }
-                }
+
             }
         });
         chbIsDefaultAddres.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -337,9 +296,11 @@ public class Map extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             if(backToActivity.compareTo("Profile")==0){
+                continue_or_stop=false;
                 LoadActivity(Profile.class, "karbarCode", karbarCode);
             }else
             {
+                continue_or_stop=false;
                 LoadActivity2(Service_Request.class, "karbarCode", karbarCode,"DetailCode",DetailCode);
             }
 
@@ -447,6 +408,81 @@ public class Map extends AppCompatActivity {
         catch (Exception e){
 
         }
+    }
+    public  void setMap()
+    {
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
+            @Override
+
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                if (ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                map.setMyLocationEnabled(true);
+                map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        lat = gps.getLatitude();
+                        lang = gps.getLongitude();
+                        LatLng latLng;
+                        if(lat>0 && lang>0){
+                            latLng = new LatLng(lat,lang);
+                        }
+                        else {
+                            latLng = new LatLng(0,0);
+                        }
+                        map.clear();
+                        map.addMarker(new MarkerOptions().position(latLng).title("مکان من").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+                        area=getStringLocation();
+                        return false;
+                    }
+                });
+                LatLng point;
+                lat=35.691063;
+                lang=51.407941;
+                point = new LatLng(lat, lang);
+                db = dbh.getReadableDatabase();
+                Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
+                if (coursors.getCount() > 0) {
+                    coursors.moveToNext();
+                    String latStr = coursors.getString(coursors.getColumnIndex("Lat"));
+                    String lonStr = coursors.getString(coursors.getColumnIndex("Lon"));
+                    lat = Double.parseDouble(latStr);
+                    lang = Double.parseDouble(lonStr);
+                    if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
+                        point = new LatLng(lat, lang);
+                    }
+                }
+                db.close();
+                map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 17));
+
+
+                map.getUiSettings().setZoomControlsEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+                //***************************************************************
+                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        String str = latLng.toString();
+                        //  Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
+                        map.clear();
+                        map.addMarker(new MarkerOptions().position(latLng).title("محل سرویس دهی").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+                        lat=latLng.latitude;
+                        lang=latLng.longitude;
+                        area=getStringLocation();
+                    }
+                });
+            }
+        });
     }
 }
 

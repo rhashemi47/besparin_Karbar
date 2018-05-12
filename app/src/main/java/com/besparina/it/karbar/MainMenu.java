@@ -251,14 +251,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
         //********************************************************************Start And Stop Service BackGround
-        startService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
-        startService(new Intent(getBaseContext(), ServiceGetLocation.class));
-        startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-        startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
-        startService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
-        startService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
-        startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
-        startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
+
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -942,7 +935,23 @@ public class MainMenu extends AppCompatActivity {
             }
         } else if (karbarCode.compareTo("0") == 0) {
             IsActive = false;
+            StartServiceApp();
+        }
+        else
+        {
+            StartServiceApp();
         }
         db.close();
+    }
+    public void StartServiceApp()
+    {
+        startService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
+        startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+        startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+        startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+        startService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
+        startService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
+        startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
+        startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
     }
 }
