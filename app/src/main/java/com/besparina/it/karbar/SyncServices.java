@@ -195,8 +195,8 @@ public class SyncServices {
 			db.execSQL("INSERT INTO services (code,servicename,Pic) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"')");
 		}
 		db.close();
-		SyncServicesDetails syncservicesdetails=new SyncServicesDetails(this.activity,this.karbarCode,this.flag);
-		syncservicesdetails.AsyncExecute();
+//		SyncServicesDetails syncservicesdetails=new SyncServicesDetails(this.activity,this.karbarCode,this.flag);
+//		syncservicesdetails.AsyncExecute();
 
     }
 	

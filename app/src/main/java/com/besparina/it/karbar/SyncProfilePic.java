@@ -2,6 +2,7 @@ package com.besparina.it.karbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,12 +29,14 @@ public class SyncProfilePic {
 
 	private String karbarCode;
 	private String WsResponse;
+	private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncProfilePic(Activity activity, String karbarCode) {
+	public SyncProfilePic(Activity activity, String karbarCode, String acceptcode) {
 		this.activity = activity;
 
 		this.karbarCode=karbarCode;
+		this.acceptcode=acceptcode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -150,19 +153,7 @@ public class SyncProfilePic {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-		db.close();
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -208,5 +199,13 @@ public class SyncProfilePic {
 		query="UPDATE Profile SET Pic='"+WsResponse+"'";
 		db.execSQL(query);
 		db.close();
+		LoadActivity(MainMenu.class,"karbarCode",karbarCode,"acceptcode",acceptcode);
     }
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName3, String VariableValue3)
+	{
+		Intent intent = new Intent(activity,Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName3, VariableValue3);
+		activity.startActivity(intent);
+	}
 }

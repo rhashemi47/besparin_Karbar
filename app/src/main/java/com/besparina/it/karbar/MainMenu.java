@@ -616,7 +616,7 @@ public class MainMenu extends AppCompatActivity {
                                         Cursor c = db.rawQuery("SELECT * FROM login", null);
                                         if (c.getCount() > 0) {
                                             c.moveToNext();
-                                            SyncProfile profile = new SyncProfile(MainMenu.this, c.getString(c.getColumnIndex("karbarCode")));
+                                            SyncProfile profile = new SyncProfile(MainMenu.this, c.getString(c.getColumnIndex("karbarCode")), c.getString(c.getColumnIndex("AcceptCode")));
                                             profile.AsyncExecute();
                                         }
                                     } else {

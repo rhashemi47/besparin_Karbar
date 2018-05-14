@@ -219,8 +219,20 @@ public class HmLogin {
 	
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
-		SyncServices syncservices=new SyncServices(this.activity,this.acceptcode,"0");
-		syncservices.AsyncExecute();
+//		SyncServices syncservices=new SyncServices(this.activity,this.acceptcode,"0");
+//		syncservices.AsyncExecute();
+		db = dbh.getReadableDatabase();
+		String query = "SELECT * FROM Profile";
+		Cursor cursor=db.rawQuery(query,null);
+		if(cursor.getCount()>0)
+		{
+			cursor.moveToNext();
+			phonenumber=cursor.getString(cursor.getColumnIndex("Mobile"));
+		}
+		else {
+			phonenumber="0";
+		}
+		LoadActivity2(Info_Person.class, "phonenumber",phonenumber,"acceptcode",this.acceptcode);
     }
 	public void setlogin() 
 	{
@@ -249,17 +261,19 @@ public class HmLogin {
             cursors.moveToNext();
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
+		SyncGettUserCreditHistory syncGettUserCreditHistory =new SyncGettUserCreditHistory(this.activity,this.acceptcode,"0");
+		syncGettUserCreditHistory.AsyncExecute();
 		db.close();
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[0].toString(),LastMessageCode);
 		syncMessage.AsyncExecute();
-		SyncServices syncservices=new SyncServices(this.activity,res[0].toString(),"1");
-		syncservices.AsyncExecute();
-		SyncProfile syncProfile=new SyncProfile(this.activity, res[0].toString());
+		SyncProfile syncProfile=new SyncProfile(this.activity, res[0].toString(),this.acceptcode);
 		syncProfile.AsyncExecute();
-		SyncState syncState=new SyncState(this.activity);
-		syncState.AsyncExecute();
-		SyncCity syncCity=new SyncCity(this.activity);
-		syncCity.AsyncExecute();
+//		SyncServices syncservices=new SyncServices(this.activity,res[0].toString(),"1");
+//		syncservices.AsyncExecute();
+//		SyncState syncState=new SyncState(this.activity);
+//		syncState.AsyncExecute();
+//		SyncCity syncCity=new SyncCity(this.activity);
+//		syncCity.AsyncExecute();
 		SyncGetUserAddress syncGetUserAddress=new  SyncGetUserAddress(this.activity,res[0].toString(),"0");
 		syncGetUserAddress.AsyncExecute();
 	}
@@ -281,6 +295,14 @@ public class HmLogin {
 		Intent intent = new Intent(activity,Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+		activity.startActivity(intent);
+	}
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	{
+		Intent intent = new Intent(activity,Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName2, VariableValue2);
 
 		activity.startActivity(intent);
 	}

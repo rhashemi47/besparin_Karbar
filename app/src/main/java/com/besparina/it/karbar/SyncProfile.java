@@ -29,12 +29,14 @@ public class SyncProfile {
 
 	private String karbarCode;
 	private String WsResponse;
+	private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncProfile(Activity activity, String karbarCode) {
+	public SyncProfile(Activity activity, String karbarCode, String acceptcode) {
 		this.activity = activity;
 
 		this.karbarCode=karbarCode;
+		this.acceptcode=acceptcode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -118,6 +120,8 @@ public class SyncProfile {
 				else if(WsResponse.toString().compareTo("2") == 0)
 				{
 					Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
+
+					LoadActivity(MainMenu.class,"karbarCode",karbarCode,"acceptcode",acceptcode);
 				}
 	            else
 	            {
@@ -151,19 +155,7 @@ public class SyncProfile {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-		db.close();
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -234,14 +226,13 @@ public class SyncProfile {
 					"')";
 			db.execSQL(query);
 		db.close();
-		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,karbarCode);
+		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,karbarCode,acceptcode);
 		syncProfilePic.AsyncExecute();
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName3, String VariableValue3)
 	{
 		Intent intent = new Intent(activity,Cls);
 		intent.putExtra(VariableName, VariableValue);
-
 		intent.putExtra(VariableName3, VariableValue3);
 		activity.startActivity(intent);
 	}
