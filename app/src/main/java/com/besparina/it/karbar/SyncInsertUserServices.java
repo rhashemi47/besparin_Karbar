@@ -171,6 +171,10 @@ public class SyncInsertUserServices {
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ثبت سرویس", Toast.LENGTH_LONG).show();
 	            }
+	            else if(WsResponse.toString().compareTo("-1") == 0)
+	            {
+	            	Toast.makeText(this.activity.getApplicationContext(), "به علت امتیاز منفی شما حق ثبت سرویس را ندارد", Toast.LENGTH_LONG).show();
+	            }
 	            else
 	            {
 	            	InsertDataFromWsToDb(WsResponse);

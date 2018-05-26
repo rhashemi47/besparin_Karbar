@@ -261,8 +261,7 @@ public class HmLogin {
             cursors.moveToNext();
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
-		SyncGettUserCreditHistory syncGettUserCreditHistory =new SyncGettUserCreditHistory(this.activity,this.acceptcode,"0");
-		syncGettUserCreditHistory.AsyncExecute();
+
 		db.close();
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[0].toString(),LastMessageCode);
 		syncMessage.AsyncExecute();

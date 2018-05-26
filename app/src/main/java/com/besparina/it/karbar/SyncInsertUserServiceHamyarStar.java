@@ -2,8 +2,6 @@ package com.besparina.it.karbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -18,7 +16,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncProfile {
+public class SyncInsertUserServiceHamyarStar {
 
 	//Primary Variable
 	DatabaseHelper dbh;
@@ -26,20 +24,38 @@ public class SyncProfile {
 	PublicVariable PV;
     InternetConnection IC;
 	private Activity activity;
-
-	private String karbarCode;
 	private String WsResponse;
-	private String acceptcode;
+	private String UserServiceCode;
+	private String HamyarCode;
+	private String Zaher;
+	private String Barkhord;
+	private String HozooreBeMoghe;
+	private String Gheymat;
+	private String Tahvil;
+	private String Keyfiyat;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncProfile(Activity activity, String karbarCode, String acceptcode) {
+	public SyncInsertUserServiceHamyarStar(Activity activity,
+										   String UserServiceCode,
+										   String HamyarCode,
+										   String Zaher,
+										   String Barkhord,
+										   String HozooreBeMoghe,
+										   String Gheymat,
+										   String Keyfiyat,
+										   String Tahvil) {
 		this.activity = activity;
-
-		this.karbarCode=karbarCode;
-		this.acceptcode=acceptcode;
+		this.UserServiceCode = UserServiceCode;
+		this.HamyarCode = HamyarCode;
+		this.Zaher = Zaher;
+		this.Barkhord = Barkhord;
+		this.HozooreBeMoghe = HozooreBeMoghe;
+		this.Gheymat = Gheymat;
+		this.Tahvil = Tahvil;
+		this.Keyfiyat = Keyfiyat;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-		
+
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -58,9 +74,9 @@ public class SyncProfile {
    		} catch (SQLException sqle) {
 
    			throw sqle;
-   		}   		
+   		}
 	}
-	
+
 	public void AsyncExecute()
 	{
 		if(IC.isConnectingToInternet()==true)
@@ -69,9 +85,9 @@ public class SyncProfile {
 			{
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
-			}	
+			}
 			 catch (Exception e) {
-
+				//Toast.makeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
 	            e.printStackTrace();
 			 }
 		}
@@ -80,30 +96,31 @@ public class SyncProfile {
 			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	//Async Method
 	private class AsyncCallWS extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
 		private Activity activity;
-		
+
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
-		
+
         @Override
         protected String doInBackground(String... params) {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GetUserProfile");
+        		CallWsMethod("InsertUserServiceHamyarStar");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
 			}
 	        return result;
         }
- 
+
         @Override
         protected void onPostExecute(String result) {
         	if(result == null)
@@ -115,14 +132,7 @@ public class SyncProfile {
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
-					//LoadActivity(MainActivity.class,"karbarCode",karbarCode,"updateflag","1");
 	            }
-				else if(WsResponse.toString().compareTo("2") == 0)
-				{
-					Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
-
-					LoadActivity(MainMenu.class,"karbarCode",karbarCode,"acceptcode",acceptcode);
-				}
 	            else
 	            {
 	            	InsertDataFromWsToDb(WsResponse);
@@ -140,7 +150,7 @@ public class SyncProfile {
             }
             catch (Exception e) {}
         }
- 
+
         @Override
         protected void onPreExecute() {
         	if(CuShowDialog)
@@ -149,38 +159,96 @@ public class SyncProfile {
         		this.dialog.show();
         	}
         }
- 
+
         @Override
         protected void onProgressUpdate(Void... values) {
         }
-        
+
     }
 
-	
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
-
+	    PropertyInfo UserServiceCodePI = new PropertyInfo();
 	    //Set Name
-
+		UserServiceCodePI.setName("UserServiceCode");
 	    //Set Value
-
+		UserServiceCodePI.setValue(UserServiceCode);
 	    //Set dataType
-
+		UserServiceCodePI.setType(String.class);
 	    //Add the property to request object
-
-	    //*****************************************************
-		PropertyInfo karbarCodePI = new PropertyInfo();
-		//Set Name
-		karbarCodePI.setName("UserCode");
-		//Set Value
-		karbarCodePI.setValue(this.karbarCode);
-		//Set dataType
-		karbarCodePI.setType(String.class);
-		//Add the property to request object
-		request.addProperty(karbarCodePI);
-		//*****************************************************
-
+	    request.addProperty(UserServiceCodePI);
+	    //*************************************************************
+	    PropertyInfo HamyarCodePI = new PropertyInfo();
+	    //Set Name
+		HamyarCodePI.setName("HamyarCode");
+	    //Set Value
+		HamyarCodePI.setValue(HamyarCode);
+	    //Set dataType
+		HamyarCodePI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(HamyarCodePI);
+	    //*************************************************************
+	    PropertyInfo ZaherPI = new PropertyInfo();
+	    //Set Name
+		ZaherPI.setName("Zaher");
+	    //Set Value
+		ZaherPI.setValue(Zaher);
+	    //Set dataType
+		ZaherPI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(ZaherPI);
+	    //*************************************************************
+	    PropertyInfo BarkhordPI = new PropertyInfo();
+	    //Set Name
+		BarkhordPI.setName("Barkhord");
+	    //Set Value
+		BarkhordPI.setValue(Barkhord);
+	    //Set dataType
+		BarkhordPI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(BarkhordPI);
+	    //*************************************************************
+	    PropertyInfo HozooreBeMoghePI = new PropertyInfo();
+	    //Set Name
+		HozooreBeMoghePI.setName("HozooreBeMoghe");
+	    //Set Value
+		HozooreBeMoghePI.setValue(HozooreBeMoghe);
+	    //Set dataType
+		HozooreBeMoghePI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(HozooreBeMoghePI);
+	    //*************************************************************
+	    PropertyInfo GheymatPI = new PropertyInfo();
+	    //Set Name
+		GheymatPI.setName("Gheymat");
+	    //Set Value
+		GheymatPI.setValue(Gheymat);
+	    //Set dataType
+		GheymatPI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(GheymatPI);
+	    //*************************************************************
+	    PropertyInfo TahvilPI = new PropertyInfo();
+	    //Set Name
+		TahvilPI.setName("Tahvil");
+	    //Set Value
+		TahvilPI.setValue(Tahvil);
+	    //Set dataType
+		TahvilPI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(TahvilPI);
+	    //*************************************************************
+	    PropertyInfo KeyfiyatPI = new PropertyInfo();
+	    //Set Name
+		KeyfiyatPI.setName("Keyfiyat");
+	    //Set Value
+		KeyfiyatPI.setValue(Keyfiyat);
+	    //Set dataType
+		KeyfiyatPI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(KeyfiyatPI);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -195,47 +263,26 @@ public class SyncProfile {
 	        //Get the response
 	        SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 	        //Assign it to FinalResultForCheck static variable
-	        WsResponse = response.toString();	
+	        WsResponse = response.toString();
 	        if(WsResponse == null) WsResponse="ER";
 	    } catch (Exception e) {
 	    	WsResponse = "ER";
 	    	e.printStackTrace();
 	    }
 	}
-	
-	
+
+
 	public void InsertDataFromWsToDb(String AllRecord)
     {
+		String[] res;
 		String[] value;
-		String query=null;
+		res=WsResponse.split("@@");
 		db=dbh.getWritableDatabase();
-		db.execSQL("DELETE FROM Profile");
-			value=WsResponse.split("##");
-			query="INSERT INTO Profile " +
-					"(Code," +
-					"Name," +
-					"Fam," +
-					"karbarCodeForReagent," +
-					"Status )" +
-					"VALUES" +
-					"('"+value[0]+
-					"','"+value[1]+
-					"','"+value[2]+
-					"','"+value[3]+
-					"','"+value[4]+
-					"')";
-			db.execSQL(query);
+		for(int i=0;i<res.length;i++){
+			value=res[i].split("##");
+			db.execSQL("");//todo
+		}
 		db.close();
-		SyncGettUserCreditHistory syncGettUserCreditHistory =new SyncGettUserCreditHistory(this.activity,karbarCode,"0");
-		syncGettUserCreditHistory.AsyncExecute();
-		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,karbarCode,acceptcode);
-		syncProfilePic.AsyncExecute();
     }
-	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName3, String VariableValue3)
-	{
-		Intent intent = new Intent(activity,Cls);
-		intent.putExtra(VariableName, VariableValue);
-		intent.putExtra(VariableName3, VariableValue3);
-		activity.startActivity(intent);
-	}
+	
 }

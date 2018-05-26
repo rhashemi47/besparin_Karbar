@@ -694,13 +694,13 @@ public class Service_Request extends AppCompatActivity {
 				String SplitFromeDate[]=etFromDate.getText().toString().split("/");
 				ir.hamsaa.persiandatepicker.util.PersianCalendar calFrom=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
 				calFrom.setPersianDate(Integer.parseInt(SplitFromeDate[0])
-						,Integer.parseInt(SplitFromeDate[1])
+						,Integer.parseInt(SplitFromeDate[1])+1
 								,Integer.parseInt(SplitFromeDate[2]));
 				//******************
 				String SplitToDate[]=etToDate.getText().toString().split("/");
 				ir.hamsaa.persiandatepicker.util.PersianCalendar calTo=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
 				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
-						,Integer.parseInt(SplitToDate[1])
+						,Integer.parseInt(SplitToDate[1])+1
 								,Integer.parseInt(SplitToDate[2]));
 				int compateDate= calFrom.compareTo(calTo);
 				if (compateDate>0) {
@@ -709,17 +709,29 @@ public class Service_Request extends AppCompatActivity {
 				else
 				{
 					ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-					if(calTo.compareTo(calNow)<0)
+					calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+					String strTo=String.valueOf(calTo.getPersianYear())+String.valueOf(calTo.getPersianMonth())+String.valueOf(calTo.getPersianDay());
+					String strNow=String.valueOf(calNow.getPersianYear())+String.valueOf(calNow.getPersianMonth())+String.valueOf(calNow.getPersianDay());
+					int temp=strTo.compareTo(strNow);
+					if(temp<0)
 					{
 						ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
 					}
-					else if(calTo.compareTo(calNow)==0)
+					else if(temp==0)
 					{
 						Calendar mcurrentTime = Calendar.getInstance();
 						int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
 						int minute = mcurrentTime.get(Calendar.MINUTE);
-						String SlpliFromTime[]=etFromTime.getText().toString().split(":");
-						String SplitToTime[]=etToTime.getText().toString().split(":");
+						String Fhour=etFromTime.getText().toString().replace(":","");
+						String Thour=etToTime.getText().toString().replace(":","");
+						if(Fhour.compareTo(Thour)>0)
+						{
+							ErrorStr += "ساعت خاتمه نمی تواند کوچکتر از ساعت شروع باشد." + "\n";
+						}
+						else if(Fhour.compareTo(Thour)==0)
+						{
+							ErrorStr += "ارائه سرویس در این تاریخ و ساعت مقدور نیست." + "\n";
+						}
 					}
 				}
 				if (etFromDate.length() < 8 && etFromDate.length() > 10) {
@@ -944,7 +956,7 @@ public class Service_Request extends AppCompatActivity {
 					picker.setTodayButtonVisible(true);
 					//  picker.setInitDate(initDate);
 					picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-					picker.setMinYear(1300);
+					picker.setMinYear(1396);
 					picker.setActionTextColor(Color.GRAY);
 					//picker.setTypeFace(FontMitra);
 					picker.setListener(new Listener() {
@@ -953,7 +965,9 @@ public class Service_Request extends AppCompatActivity {
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
 							etFromDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-
+							StartYear=String.valueOf(persianCalendar.getPersianYear());
+							StartMonth=String.valueOf(persianCalendar.getPersianMonth());
+							StartDay=String.valueOf(persianCalendar.getPersianDay());
 						}
 
 						@Override
@@ -985,7 +999,9 @@ public class Service_Request extends AppCompatActivity {
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
 						etFromDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-
+						StartYear=String.valueOf(persianCalendar.getPersianYear());
+						StartMonth=String.valueOf(persianCalendar.getPersianMonth());
+						StartDay=String.valueOf(persianCalendar.getPersianDay());
 					}
 
 					@Override
@@ -1017,7 +1033,9 @@ public class Service_Request extends AppCompatActivity {
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
 							etToDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-
+							EndYear=String.valueOf(persianCalendar.getPersianYear());
+							EndMonth=String.valueOf(persianCalendar.getPersianMonth());
+							EndDay=String.valueOf(persianCalendar.getPersianDay());
 						}
 
 						@Override
@@ -1050,7 +1068,9 @@ public class Service_Request extends AppCompatActivity {
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
 						etToDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-
+						EndYear=String.valueOf(persianCalendar.getPersianYear());
+						EndMonth=String.valueOf(persianCalendar.getPersianMonth());
+						EndDay=String.valueOf(persianCalendar.getPersianDay());
 					}
 
 					@Override
