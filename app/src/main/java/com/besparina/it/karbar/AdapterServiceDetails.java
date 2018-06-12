@@ -80,7 +80,7 @@ public class AdapterServiceDetails extends BaseAdapter {
         }
         String name = map.get("name");
         String code = map.get("Code");
-        holder.txtValues.setText(name);
+        holder.txtValues.setText(PersianDigitConverter.PerisanNumber(name));
         dbh=new DatabaseHelper(activity);
         try {
 

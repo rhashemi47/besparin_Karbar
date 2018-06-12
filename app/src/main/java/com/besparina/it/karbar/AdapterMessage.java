@@ -87,8 +87,8 @@ public class AdapterMessage extends BaseAdapter {
         }
         holder.imgIcon.setTag(code);
         holder.imgIcon.setOnClickListener(ImageItemOnclick);
-        holder.txtValues.setText(name);
-        holder.txtContent.setText(content);
+        holder.txtValues.setText(PersianDigitConverter.PerisanNumber(name));
+        holder.txtContent.setText(PersianDigitConverter.PerisanNumber(content));
         holder.txtValues.setTag(code);
         holder.txtValues.setOnClickListener(TextViewItemOnclick);
         holder.txtContent.setOnClickListener(TextViewItemOnclick);

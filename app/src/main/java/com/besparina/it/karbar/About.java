@@ -98,11 +98,11 @@ protected void onCreate(Bundle savedInstanceState) {
 			"Servicesdetails ON " +
 			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 	if (cursor2.getCount() > 0) {
-		btnOrder.setText("درخواست ها: " + cursor2.getCount());
+		btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 	}
 	cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 	if (cursor2.getCount() > 0) {
-		btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+		btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 	}
 	cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 	if (cursor2.getCount() > 0) {
@@ -111,15 +111,15 @@ protected void onCreate(Bundle savedInstanceState) {
 			String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 			if(splitStr[1].compareTo("00")==0)
 			{
-				btncredite.setText("اعتبار: " +splitStr[0]);
+				btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
 			}
 			else
 			{
-				btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+				btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
 			}
 
 		} catch (Exception ex) {
-			btncredite.setText("اعتبار: " + "0");
+			btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber("0"));
 		}
 	}
 	btnOrder.setOnClickListener(new View.OnClickListener() {

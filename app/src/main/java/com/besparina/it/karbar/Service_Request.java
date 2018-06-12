@@ -462,11 +462,11 @@ public class Service_Request extends AppCompatActivity {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها: " + cursor2.getCount());
+			btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+			btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -475,15 +475,15 @@ public class Service_Request extends AppCompatActivity {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار: " +splitStr[0]);
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
 				}
 				else
 				{
-					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText("اعتبار: " + "0");
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار: " + "0"));
 			}
 		}
 		db.close();
@@ -533,7 +533,7 @@ public class Service_Request extends AppCompatActivity {
 				if(cursor.getCount()>0)
 				{
 					cursor.moveToNext();
-					etAddres.setText(cursor.getString(cursor.getColumnIndex("AddressText")));
+					etAddres.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("AddressText"))));
 					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
 //					String latStr=cursor.getString(cursor.getColumnIndex("Lat"));
 //					String lonStr=cursor.getString(cursor.getColumnIndex("Lng"));
@@ -604,7 +604,7 @@ public class Service_Request extends AppCompatActivity {
 			coursors.moveToNext();
 			typeForm=coursors.getString(coursors.getColumnIndex("type"));
 			CodeService=coursors.getString(coursors.getColumnIndex("servicename"));
-			tvTitleService.setText(":"+coursors.getString(coursors.getColumnIndex("name")));
+			tvTitleService.setText(":"+PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("name"))));
 		}
 		else
 		{
@@ -964,7 +964,7 @@ public class Service_Request extends AppCompatActivity {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etFromDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+							etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 							StartYear=String.valueOf(persianCalendar.getPersianYear());
 							StartMonth=String.valueOf(persianCalendar.getPersianMonth());
 							StartDay=String.valueOf(persianCalendar.getPersianDay());
@@ -998,7 +998,7 @@ public class Service_Request extends AppCompatActivity {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etFromDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+						etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 						StartYear=String.valueOf(persianCalendar.getPersianYear());
 						StartMonth=String.valueOf(persianCalendar.getPersianMonth());
 						StartDay=String.valueOf(persianCalendar.getPersianDay());
@@ -1032,7 +1032,7 @@ public class Service_Request extends AppCompatActivity {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etToDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+							etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 							EndYear=String.valueOf(persianCalendar.getPersianYear());
 							EndMonth=String.valueOf(persianCalendar.getPersianMonth());
 							EndDay=String.valueOf(persianCalendar.getPersianDay());
@@ -1067,7 +1067,7 @@ public class Service_Request extends AppCompatActivity {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etToDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+						etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 						EndYear=String.valueOf(persianCalendar.getPersianYear());
 						EndMonth=String.valueOf(persianCalendar.getPersianMonth());
 						EndDay=String.valueOf(persianCalendar.getPersianDay());
@@ -1099,7 +1099,7 @@ public class Service_Request extends AppCompatActivity {
 							} else {
 								AM_PM = "PM";
 							}
-							etFromTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+							etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
 							StartHour = String.valueOf(selectedHour);
 							StartMinute = String.valueOf(selectedMinute);
 						}
@@ -1126,7 +1126,7 @@ public class Service_Request extends AppCompatActivity {
 						} else {
 							AM_PM = "PM";
 						}
-						etFromTime.setText(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute));
+						etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
 						StartHour=String.valueOf(selectedHour);
 						StartMinute=String.valueOf(selectedMinute);
 					}
@@ -1153,7 +1153,7 @@ public class Service_Request extends AppCompatActivity {
 							} else {
 								AM_PM = "PM";
 							}
-							etToTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+							etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
 							EndHour = String.valueOf(selectedHour);
 							EndMinute = String.valueOf(selectedMinute);
 						}
@@ -1180,7 +1180,7 @@ public class Service_Request extends AppCompatActivity {
 						} else {
 							AM_PM = "PM";
 						}
-						etToTime.setText(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute));
+						etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
 						EndHour=String.valueOf(selectedHour);
 						EndMinute=String.valueOf(selectedMinute);
 					}

@@ -141,7 +141,7 @@ public class Profile extends Activity {
 //			gps.showSettingsAlert();
 //		}
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
-		tvPhoneNumber.setText(phonenumber);
+		tvPhoneNumber.setText(PersianDigitConverter.PerisanNumber(phonenumber));
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 		tvPhoneNumber.setTextSize(18);
 		tvPhoneNumber.setTypeface(FontMitra);
@@ -177,10 +177,10 @@ public class Profile extends Activity {
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
-			tvUserCode.setText(coursors.getString(coursors.getColumnIndex("Code")));
+			tvUserCode.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Code"))));
 			tvUserName.setText(coursors.getString(coursors.getColumnIndex("Name")));
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
-			brithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
+			brithday.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("BthDate"))));
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
 		}
 
@@ -243,7 +243,7 @@ public class Profile extends Activity {
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
 						String DateStr=persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay();
-						brithday.setText(DateStr);
+						brithday.setText(PersianDigitConverter.PerisanNumber(DateStr));
 						String splitDate[]=DateStr.split("/");
 						yearStr=splitDate[0];
 						monStr=splitDate[1];
@@ -281,7 +281,7 @@ public class Profile extends Activity {
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
 							String DateStr=persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay();
-							brithday.setText(DateStr);
+							brithday.setText(PersianDigitConverter.PerisanNumber(DateStr));
 							String splitDate[]=DateStr.split("/");
 							yearStr=splitDate[0];
 							monStr=splitDate[1];
@@ -303,11 +303,11 @@ public class Profile extends Activity {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها: " + cursor2.getCount());
+			btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+			btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -316,15 +316,15 @@ public class Profile extends Activity {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار: " +splitStr[0]);
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
 				}
 				else
 				{
-					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText("اعتبار: " + "0");
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار: " + "0"));
 			}
 		}
 		db.close();

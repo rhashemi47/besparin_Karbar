@@ -314,11 +314,11 @@ public class MainMenu extends AppCompatActivity {
                 "Servicesdetails ON " +
                 "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
         if (cursor2.getCount() > 0) {
-            btnOrder.setText("درخواست ها: " + cursor2.getCount());
+            btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
         }
         cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
         if (cursor2.getCount() > 0) {
-            btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+            btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
         }
         cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor2.getCount() > 0) {
@@ -327,15 +327,15 @@ public class MainMenu extends AppCompatActivity {
                 String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
                 if(splitStr[1].compareTo("00")==0)
                 {
-                    btncredite.setText("اعتبار: " +splitStr[0]);
+                    btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
                 }
                 else
                 {
-                    btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+                    btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
                 }
 
             } catch (Exception ex) {
-                btncredite.setText("اعتبار: " + "0");
+                btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار: " + "0"));
             }
         }
         db.close();
@@ -454,11 +454,11 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM Arts");
                 db.execSQL("DELETE FROM BsFaktorUserDetailes");
                 db.execSQL("DELETE FROM BsFaktorUsersHead");
-                db.execSQL("DELETE FROM City");
+//                db.execSQL("DELETE FROM City");
                 db.execSQL("DELETE FROM credits");
                 db.execSQL("DELETE FROM DateTB");
                 db.execSQL("DELETE FROM FieldofEducation");
-                db.execSQL("DELETE FROM Grade");
+//                db.execSQL("DELETE FROM Grade");
                 db.execSQL("DELETE FROM Hamyar");
                 db.execSQL("DELETE FROM InfoHamyar");
                 db.execSQL("DELETE FROM Language");
@@ -466,13 +466,13 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM messages");
                 db.execSQL("DELETE FROM OrdersService");
                 db.execSQL("DELETE FROM Profile");
-                db.execSQL("DELETE FROM services");
-                db.execSQL("DELETE FROM servicesdetails");
-                db.execSQL("DELETE FROM Slider");
+//                db.execSQL("DELETE FROM services");
+//                db.execSQL("DELETE FROM servicesdetails");
+//                db.execSQL("DELETE FROM Slider");
                 db.execSQL("DELETE FROM sqlite_sequence");
                 db.execSQL("DELETE FROM State");
                 db.execSQL("DELETE FROM Supportphone");
-                db.execSQL("DELETE FROM Unit");
+//                db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");
                 db.close();
@@ -927,6 +927,10 @@ public class MainMenu extends AppCompatActivity {
                 if (Result.compareTo("0") == 0)
                 {
                     LoadActivity(Login.class, "karbarCode", "0");
+                }
+                else
+                {
+                    StartServiceApp();
                 }
             }
             else

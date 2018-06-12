@@ -66,7 +66,7 @@ public class AdapterHistory extends BaseAdapter {
         }
         String name = map.get("name");
         String code = map.get("Code");
-        holder.txtValues.setText(name);
+        holder.txtValues.setText(PersianDigitConverter.PerisanNumber(name));
         holder.txtValues.setTag(code);
 //        holder.txtValues.setOnClickListener(TextViewItemOnclick);
 

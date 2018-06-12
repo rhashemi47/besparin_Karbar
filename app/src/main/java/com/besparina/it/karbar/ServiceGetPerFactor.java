@@ -77,7 +77,7 @@ public class ServiceGetPerFactor extends Service {
                                     syncGetFaktorUserDetailes.AsyncExecute();
                                 }
                             });
-                            Thread.sleep(60000); // every 60 seconds
+                            Thread.sleep(10000); // every 60 seconds
                         } catch (Exception e) {
                             // TODO: handle exception
                         }

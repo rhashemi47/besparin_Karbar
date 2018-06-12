@@ -41,9 +41,6 @@ public class ServiceGetServiceSaved extends Service {
                     while (continue_or_stop) {
                         try {
                             mHandler.post(new Runnable() {
-
-                                public String LastHamyarUserServiceCode;
-
                                 @Override
                                 public void run() {
                                     dbh=new DatabaseHelper(getApplicationContext());

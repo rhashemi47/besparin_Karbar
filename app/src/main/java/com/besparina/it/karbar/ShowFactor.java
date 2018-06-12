@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.function.ToLongBiFunction;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -98,11 +99,11 @@ protected void onCreate(Bundle savedInstanceState) {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها: " + cursor2.getCount());
+			btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+			btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -111,15 +112,15 @@ protected void onCreate(Bundle savedInstanceState) {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار: " +splitStr[0]);
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
 				}
 				else
 				{
-					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText("اعتبار: " + "0");
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار: " + "0"));
 			}
 		}
 		db.close();
@@ -227,21 +228,36 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			ContentStr += "تاریخ: " + cursor.getString(cursor.getColumnIndex("FaktorDate")) + "\n";
 			String query2="SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode="+cursor.getString(cursor.getColumnIndex("Code"));
 			Cursor cursor2 = db.rawQuery(query2,null);
+			DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
+			double Amount,PricePerUnit,TotalPrice;
 			for (int i = 0; i < cursor2.getCount(); i++) {
 				cursor2.moveToNext();
 				ContentStr += "شرح کالا/خدمات: " + cursor2.getString(cursor2.getColumnIndex("Title")) + "\n";
 				ContentStr += "واحد: " + cursor2.getString(cursor2.getColumnIndex("Unit")) + "\n";
-				ContentStr += "مقدار: " + cursor2.getString(cursor2.getColumnIndex("Amount")) + "\n";
-				ContentStr += "قیمت هر واحد: " + cursor2.getString(cursor2.getColumnIndex("PricePerUnit")) + "\n";
-				ContentStr += "جمع: " + cursor2.getString(cursor2.getColumnIndex("TotalPrice")) + "\n";
+				try
+				{
+					Amount = df.parse(cursor2.getString(cursor2.getColumnIndex("Amount")).toString().replace(".00","")).longValue();
+					ContentStr += "مقدار: " + df.format(Amount) + "\n";
+					PricePerUnit = df.parse(cursor2.getString(cursor2.getColumnIndex("PricePerUnit")).toString().replace(".00","")).longValue();
+					ContentStr += "قیمت هر واحد: " + df.format(PricePerUnit) + "\n";
+					TotalPrice = df.parse(cursor2.getString(cursor2.getColumnIndex("TotalPrice")).toString().replace(".00","")).longValue();
+					ContentStr += "جمع: " + df.format(TotalPrice) + "\n";
+				}
+				catch (Exception ex)
+				{
+
+				}
 				ContentStr += "----------------" + "\n";
 				Total+=Double.parseDouble(cursor2.getString(cursor2.getColumnIndex("TotalPrice")));
 			}
+
 			ContentStr += "توضیحات: " + cursor.getString(cursor.getColumnIndex("Description")) + "\n";
-			ContentStr += "جمع کل فاکتور: " + Total + "\n";
+
+			ContentStr += "جمع کل فاکتور: " + df.format(Total) + "\n";
 			db.close();
 			ContentShowFactor.setTypeface(FontMitra);
-			ContentShowFactor.setText(ContentStr);
+
+			ContentShowFactor.setText((PersianDigitConverter.PerisanNumber(ContentStr)));
 		}
 	}
 }

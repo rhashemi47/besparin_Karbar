@@ -130,7 +130,7 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 			groupViewHolder = (GroupViewHolder) convertView.getTag();
 		}
 
-		groupViewHolder.mGroupText.setText(groupText);
+		groupViewHolder.mGroupText.setText(PersianDigitConverter.PerisanNumber(groupText));
 
 		return convertView;
 	}
@@ -185,7 +185,7 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 			childViewHolder = (ChildViewHolder) convertView.getTag(R.layout.list_item);
 		}
 
-		childViewHolder.mChildText.setText(childText);
+		childViewHolder.mChildText.setText(PersianDigitConverter.PerisanNumber(childText));
 
 		/*
 		 * You have to set the onCheckChangedListener to null

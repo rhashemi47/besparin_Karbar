@@ -230,15 +230,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/rdbNormal"
-                            android:text="@string/normal"
-                            android:checked="true">
+                            android:text="@string/normal">
                         </RadioButton>
                         <RadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/rdbEmergency"
-                            android:text="@string/emergency"
-                            android:checked="true">
+                            android:text="@string/emergency">
                         </RadioButton>
                     </RadioGroup>
                 </LinearLayout>

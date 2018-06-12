@@ -76,7 +76,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItemStepJob);
         RadioButton radioB = (RadioButton) convertView.findViewById(R.id.radio1);
 		radioB.setTag(childText);
-        txtListChild.setText(childText);
+        txtListChild.setText(PersianDigitConverter.PerisanNumber(childText));
        // chb.setOnCheckedChangeListener(c);
 		radioB.setOnClickListener(c);
         return convertView;
@@ -142,7 +142,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        lblListHeader.setText(PersianDigitConverter.PerisanNumber(headerTitle));
   
         return convertView;
 	}

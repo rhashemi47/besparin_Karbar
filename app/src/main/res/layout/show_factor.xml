@@ -87,13 +87,13 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnNoFactor"
-                    android:text="@string/No"/>
+                    android:id="@+id/btnYesFactor"
+                    android:text="@string/Yes"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnYesFactor"
-                    android:text="@string/Yes"/>
+                    android:id="@+id/btnNoFactor"
+                    android:text="@string/No"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -40,7 +40,7 @@ public class Accept_code extends Activity {
 	private BroadcastReceiver intentReciever=new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			acceptcode.setText(intent.getExtras().getString("sms"));
+			acceptcode.setText(PersianDigitConverter.PerisanNumber(intent.getExtras().getString("sms")));
 		}
 	};
 	@Override
@@ -145,7 +145,7 @@ public class Accept_code extends Activity {
 			public void onMessageReceived(String messageText) {
 				Log.e("Text",messageText);
 				acceptcode.setText("");
-				acceptcode.setText(messageText);
+				acceptcode.setText(PersianDigitConverter.PerisanNumber(messageText));
 				Send_AcceptCode();
 			}
 		});

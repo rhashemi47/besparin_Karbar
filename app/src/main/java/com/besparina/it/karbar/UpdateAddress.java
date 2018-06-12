@@ -193,8 +193,8 @@ public class UpdateAddress extends AppCompatActivity {
         {
 
             coursors.moveToNext();
-            NameAddres.setText(coursors.getString(coursors.getColumnIndex("Name")));
-            AddAddres.setText(coursors.getString(coursors.getColumnIndex("AddressText")));
+            NameAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Name"))));
+            AddAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("AddressText"))));
             etEmail.setText(coursors.getString(coursors.getColumnIndex("Email")));
             if(coursors.getString(coursors.getColumnIndex("IsDefault")).compareTo("0")==0)
             {

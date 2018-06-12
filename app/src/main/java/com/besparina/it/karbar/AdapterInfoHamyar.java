@@ -87,11 +87,11 @@ public class AdapterInfoHamyar extends BaseAdapter {
         String Visit = map.get("Visit");
         if(Visit.compareTo("")!=0)
         {
-            holder.txtValues.setText(Content+"\n"+Visit);
+            holder.txtValues.setText(PersianDigitConverter.PerisanNumber(Content+"\n"+Visit));
         }
         else
         {
-            holder.txtValues.setText(Content);
+            holder.txtValues.setText(PersianDigitConverter.PerisanNumber(Content));
         }
         if(imgHamyar.compareTo("0")==0)
         {

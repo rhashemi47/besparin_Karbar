@@ -425,12 +425,12 @@ protected void onCreate(Bundle savedInstanceState) {
 	try
 	{
 		CodeOrderService = getIntent().getStringExtra("CodeOrderService").toString();
-		tvTitleCodeService.setText(CodeOrderService);
+		tvTitleCodeService.setText(PersianDigitConverter.PerisanNumber(CodeOrderService));
 	}
 	catch (Exception ex)
 	{
 		CodeOrderService="0";
-		tvTitleCodeService.setText(CodeOrderService);
+		tvTitleCodeService.setText(PersianDigitConverter.PerisanNumber(CodeOrderService));
 	}
 	try
 	{
@@ -454,11 +454,11 @@ protected void onCreate(Bundle savedInstanceState) {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها: " + cursor2.getCount());
+			btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها: " + cursor2.getCount());
+			btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -467,15 +467,15 @@ protected void onCreate(Bundle savedInstanceState) {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار: " +splitStr[0]);
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
 				}
 				else
 				{
-					btncredite.setText("اعتبار: " + cursor2.getString(cursor2.getColumnIndex("Amount")));
+					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText("اعتبار: " + "0");
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار: " + "0"));
 			}
 		}
 		db.close();
@@ -523,8 +523,13 @@ protected void onCreate(Bundle savedInstanceState) {
 				etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
 				String latStr=cursor.getString(cursor.getColumnIndex("Lat"));
 				String lonStr=cursor.getString(cursor.getColumnIndex("Lng"));
-				double lat=Double.parseDouble(latStr);
-				double lon=Double.parseDouble(lonStr);
+				double lat=0;
+				double lon=0;
+				if(latStr.length()>0 && lonStr.length()>0)
+				{
+					lat=Double.parseDouble(latStr);
+					lon=Double.parseDouble(lonStr);
+				}
 				if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
 					point = new LatLng(lat, lon);
 
@@ -564,8 +569,12 @@ protected void onCreate(Bundle savedInstanceState) {
 				coursors.moveToNext();
 				String latStr=coursors.getString(coursors.getColumnIndex("Lat"));
 				String lonStr=coursors.getString(coursors.getColumnIndex("Lng"));
-				double lat=Double.parseDouble(latStr);
-				double lon=Double.parseDouble(lonStr);
+				double lat=0;
+				double lon=0;
+				if(latStr.length()>0 && lonStr.length()>0) {
+					 lat = Double.parseDouble(latStr);
+					 lon = Double.parseDouble(lonStr);
+				}
 				if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
 					point = new LatLng(lat, lon);
 				}
@@ -734,11 +743,11 @@ protected void onCreate(Bundle savedInstanceState) {
 				IsEmergency =radioStatusButton.getText().toString();
 				if(IsEmergency.compareTo("عادی")==0)
 				{
-					IsEmergency="1";
+					IsEmergency="0";
 				}
 				else
 				{
-					IsEmergency="0";
+					IsEmergency="1";
 				}
 				//***************************************************************
 				
@@ -971,7 +980,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etFromDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+							etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 
 						}
 
@@ -1002,7 +1011,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etFromDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+						etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 
 					}
 
@@ -1034,7 +1043,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etToDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+							etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 
 						}
 
@@ -1065,7 +1074,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etToDate.setText(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+						etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 
 					}
 
@@ -1095,7 +1104,7 @@ protected void onCreate(Bundle savedInstanceState) {
 							} else {
 								AM_PM = "PM";
 							}
-							etFromTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+							etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
 							StartHour = String.valueOf(selectedHour);
 							StartMinute = String.valueOf(selectedMinute);
 						}
@@ -1122,7 +1131,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						} else {
 							AM_PM = "PM";
 						}
-						etFromTime.setText(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute));
+						etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
 						StartHour=String.valueOf(selectedHour);
 						StartMinute=String.valueOf(selectedMinute);
 					}
@@ -1149,7 +1158,7 @@ protected void onCreate(Bundle savedInstanceState) {
 							} else {
 								AM_PM = "PM";
 							}
-							etToTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+							etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
 							EndHour = String.valueOf(selectedHour);
 							EndMinute = String.valueOf(selectedMinute);
 						}
@@ -1176,7 +1185,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						} else {
 							AM_PM = "PM";
 						}
-						etToTime.setText(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute));
+						etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
 						EndHour=String.valueOf(selectedHour);
 						EndMinute=String.valueOf(selectedMinute);
 					}
@@ -1538,51 +1547,51 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		 if(cursor.getCount()>0)
 		 {
 			 cursor.moveToNext();
-			 if(cursor.getString(cursor.getColumnIndex("MaleCount")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("MaleCount")).compareTo("null")!=0) {
-				 etCountMan.setText(cursor.getString(cursor.getColumnIndex("MaleCount")));
+			 if(cursor.getString(cursor.getColumnIndex("MaleCount")).compareTo("0")!=0) {
+				 etCountMan.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("MaleCount"))));
 			 }
-			 if(cursor.getString(cursor.getColumnIndex("FemaleCount")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("FemaleCount")).compareTo("null")!=0) {
-				 etCountWoman.setText(cursor.getString(cursor.getColumnIndex("FemaleCount")));
+			 if(cursor.getString(cursor.getColumnIndex("FemaleCount")).compareTo("0")!=0) {
+				 etCountWoman.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("FemaleCount"))));
 			 }
-			 if(cursor.getString(cursor.getColumnIndex("HamyarCount")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("HamyarCount")).compareTo("null")!=0) {
+			 if(cursor.getString(cursor.getColumnIndex("HamyarCount")).compareTo("0")!=0) {
 				 chbDoesnotmatter.setChecked(true);
-				 etDoesnotmatter.setText(cursor.getString(cursor.getColumnIndex("HamyarCount")));
+				 LinearStatusCountWoman.setVisibility(View.GONE);
+				 LinearCountMan.setVisibility(View.GONE);
+				 etDoesnotmatter.setVisibility(View.VISIBLE);
+				 etDoesnotmatter.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("HamyarCount"))));
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("")!=0 ||
 					 cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("null")!=0) {
-				 etFromDate.setText(cursor.getString(cursor.getColumnIndex("StartYear"))+
+				 etFromDate.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("StartYear"))+
 						 "/"+cursor.getString(cursor.getColumnIndex("StartMonth"))+
-						 "/"+cursor.getString(cursor.getColumnIndex("StartDay")));
+						 "/"+cursor.getString(cursor.getColumnIndex("StartDay"))));
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("StartHour")).compareTo("")!=0 ||
 					 cursor.getString(cursor.getColumnIndex("StartHour")).compareTo("null")!=0) {
-				 etFromTime.setText(cursor.getString(cursor.getColumnIndex("StartHour"))+
-						 ":"+cursor.getString(cursor.getColumnIndex("StartMinute")));
+				 etFromTime.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("StartHour"))+
+						 ":"+cursor.getString(cursor.getColumnIndex("StartMinute"))));
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("EndYear")).compareTo("")!=0 ||
 					 cursor.getString(cursor.getColumnIndex("EndYear")).compareTo("null")!=0) {
-				 etToDate.setText(cursor.getString(cursor.getColumnIndex("EndYear"))+
+				 etToDate.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("EndYear"))+
 						 "/"+cursor.getString(cursor.getColumnIndex("EndMonth"))+
-						 "/"+cursor.getString(cursor.getColumnIndex("EndDay")));
+						 "/"+cursor.getString(cursor.getColumnIndex("EndDay"))));
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("EndHour")).compareTo("")!=0 ||
 					 cursor.getString(cursor.getColumnIndex("EndHour")).compareTo("null")!=0) {
-				 etToTime.setText(cursor.getString(cursor.getColumnIndex("EndHour"))+
-						 ":"+cursor.getString(cursor.getColumnIndex("EndMinute")));
+				 etToTime.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("EndHour"))+
+						 ":"+cursor.getString(cursor.getColumnIndex("EndMinute"))));
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("Description")).length()!=0) {
-				 etDescription.setText(cursor.getString(cursor.getColumnIndex("Description")));
+				 etDescription.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Description"))));
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0) {
 
-				 rdbEmergency.setChecked(true);
+				 rdbNormal.setChecked(true);
 			 }
 			 else
 			 {
-				 rdbNormal.setChecked(true);
+				 rdbEmergency.setChecked(true);
 			 }
 			 if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("1")==0) {
 				 rdbDaily.setChecked(true);
