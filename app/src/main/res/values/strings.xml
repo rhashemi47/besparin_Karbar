@@ -32,7 +32,7 @@
     <string name="Visit">بازدید</string>
     <string name="Resume">ادامه کار</string>
     <string name="Final">اتمام کار</string>
-    <string name="MainMenuTitle">بسپارینا | کارشناس آنلاین خدمات خانگی و اداری</string>
+    <string name="MainMenuTitle">بسپارینا | کارشناس آنلاین خدمات</string>
     <string name="StepJob">مراحل کاری</string>
     <string name="StepJobdetaile">ملزومات کاری</string>
     <string name="Save">ثبت</string>
@@ -114,7 +114,7 @@
     <string name="Doesnotmatter">فرقی ندارد</string>
     <string name="Addres">آدرس</string>
     <string name="SaveLocation">ثبت آدرس</string>
-    <string name="Search">جستجو</string>
+    <string name="Search">جست و جو</string>
     <string name="usercode">کد کاربری</string>
     <string name="state">استان</string>
     <string name="city">شهر</string>
@@ -175,5 +175,7 @@
     <string name="Register">فرم ثبت نام کاربر</string>
     <string name="InfoHamyar">مشخصات همیار</string>
     <string name="CodeDesired_service">شماره درخواست</string>
+    <string name="CrediteCode">کد اعتباری</string>
+    <string name="Credits_History">لیست اعتبارات</string>
 
 </resources>

@@ -30,6 +30,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnMobileHamyar"
             android:text="@string/CallHamyar"
-            android:background="@drawable/rounded_button"/>
+            android:background="@drawable/rounded_button_login"/>
     </LinearLayout>
 </LinearLayout>

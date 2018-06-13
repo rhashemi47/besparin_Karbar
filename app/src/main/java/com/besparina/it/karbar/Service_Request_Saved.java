@@ -420,7 +420,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 //			{
 //				Content+="نام صاحبکار: "+cursor.getString(cursor.getColumnIndex("UserName"))+" "+cursor.getString(cursor.getColumnIndex("UserFamily"))+"\n";
 //			}
-//			catch (Exception ex)
+//			catch_money (Exception ex)
 //			{
 //				//todo
 //			}

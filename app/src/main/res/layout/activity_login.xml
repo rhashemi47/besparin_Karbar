@@ -21,7 +21,7 @@
             android:layout_margin="10dp">
             <ImageView
                 android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:background="@drawable/logo2"/>
         </LinearLayout>
         <LinearLayout
@@ -35,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/rounded_edittext"
-                android:drawableRight="@drawable/enternumber"
                 android:textAlignment="center"
                 android:ems="2"
                 android:padding="10dp"
@@ -48,33 +47,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center">
             <Button
-                android:id="@+id/btnEnter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:drawableRight="@drawable/signin"
-                android:text="@string/Login"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="30dp"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/signin" />
-            <Button
                 android:id="@+id/btnSignUp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:drawableRight="@drawable/singup"
+                android:background="@drawable/rounded_button_signin"
+                android:drawableStart="@drawable/login"
+
                 android:text="@string/SignUp"
                 android:textSize="20sp"
+                android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/singup" />
+                android:drawableLeft="@drawable/login" />
+            <Button
+                android:id="@+id/btnEnter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_login"
+                android:drawableStart="@drawable/signin"
+                android:text="@string/Login"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:drawableLeft="@drawable/signin" />
+
         </LinearLayout>
     </LinearLayout>
 
