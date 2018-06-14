@@ -8,15 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="نام محله/خیابان:"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etArea"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:hint="@string/NameStateOrStreet"
+            android:drawableLeft="@drawable/search" />
     </LinearLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map3"
@@ -39,20 +38,38 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/nameLocation"/>
+            android:text="@string/nameAddress"
+            android:layout_gravity="center"
+            android:gravity="center"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/NameAddres"/>
+            android:id="@+id/NameAddres"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---------------------------------------------------------------------"
+            android:layout_marginTop="-10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#468748"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
         <TextView
             android:id="@+id/tvState"
             android:layout_width="wrap_content"
@@ -63,11 +80,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---------------------------------------------------------------------"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#468748"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
         <TextView
             android:id="@+id/tvCity"
             android:layout_width="wrap_content"
@@ -78,12 +105,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---------------------------------------------------------------------"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#468748"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -94,33 +130,44 @@
             android:id="@+id/AddAddres"
             android:layout_weight="1"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/chbIsDefaultAddres"
-            android:text="@string/IsDefaultAddress"/>
-    </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
                 <TextView
                     android:id="@+id/tvTitleEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Email" />
                 <EditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etDetailAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textMultiLine"
                     android:text=""
                     android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="---------------------------------------------------------------------"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="#468748"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chbIsDefaultAddres"
+                    android:text="@string/IsDefaultAddress"/>
             </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

@@ -87,7 +87,7 @@
     <string name="Total">جمع</string>
     <string name="CaseResume">علت وقفه</string>
     <string name="CasePause">علت وقفه</string>
-    <string name="CodeMoaref">کد معرف (اختیاری)</string>
+    <string name="CodeMoaref">کد معرف</string>
     <string name="service">سرویس</string>
     <string name="credite">اعتبار</string>
     <string name="home">خانه</string>
@@ -121,11 +121,12 @@
     <string name="Email">ایمیل (اختیاری)</string>
     <string name="Order">درخواست ها</string>
     <string name="SeachService">جستجو سرویس</string>
-    <string name="nameLocation">نام محل</string>
+    <string name="nameAddress">نام آدرس</string>
     <string name="IsDefaultAddress">آدرس بصورت پیش فرض در نظر گرفته شود</string>
     <string name="edit">ویرایش</string>
     <string name="EditLocation">ویرایش</string>
     <string name="SavedAddress">آدرس های ثبت شده</string>
+    <string name="MyAddress">آدرس های من</string>
     <string name="ServicePeriod">خدمت دوره ای</string>
     <string name="Daily">روزانه</string>
     <string name="Weekly">هفتگی</string>
@@ -177,5 +178,7 @@
     <string name="CodeDesired_service">شماره درخواست</string>
     <string name="CrediteCode">کد اعتباری</string>
     <string name="Credits_History">لیست اعتبارات</string>
+    <string name="NameStateOrStreet">نام مجله / خیابان</string>
+    <string name="SaveChange">ثبت تغییرات</string>
 
 </resources>

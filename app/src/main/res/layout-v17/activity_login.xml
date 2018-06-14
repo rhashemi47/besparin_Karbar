@@ -34,7 +34,7 @@
                 android:id="@+id/etPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_edittext"
+                android:background="@drawable/rounded_edittext_login"
                 android:textAlignment="center"
                 android:ems="2"
                 android:padding="10dp"
@@ -54,6 +54,8 @@
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+                android:paddingLeft="110dp"
+                android:paddingRight="110dp"
             android:background="@drawable/rounded_button_signin"
             android:drawableStart="@drawable/login"
 
@@ -73,6 +75,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:paddingLeft="110dp"
+                android:paddingRight="110dp"
                 android:layout_gravity="center"
                 android:gravity="center"/>
 

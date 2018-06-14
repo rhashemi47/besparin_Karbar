@@ -84,14 +84,10 @@
         {
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
-                String Isdefault="";
-                if(coursors.getString(coursors.getColumnIndex("IsDefault")).compareTo("1")==0)
-                {
-                    Isdefault="\n"+"آدرس پیش فرض";
-                }
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("name","نام: "+coursors.getString(coursors.getColumnIndex("Name"))+"\n"
-                        +"آدرس: "+coursors.getString(coursors.getColumnIndex("AddressText"))+Isdefault);
+                map.put("name","نام: "+coursors.getString(coursors.getColumnIndex("Name")));
+                map.put("AddressText","آدرس: "+coursors.getString(coursors.getColumnIndex("AddressText")));
+                map.put("default_address",coursors.getString(coursors.getColumnIndex("IsDefault")));
                 map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
                 valuse.add(map);
             }

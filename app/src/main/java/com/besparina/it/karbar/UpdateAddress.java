@@ -39,6 +39,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class UpdateAddress extends AppCompatActivity {
     private String karbarCode;
+    private String status;
 
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
@@ -50,7 +51,7 @@ public class UpdateAddress extends AppCompatActivity {
     private GoogleMap map;
     private String backToActivity;
     private String AddressCode;
-    private EditText etEmail;
+    private EditText etDetailAddress;
     private String IsDefault="0";
     private CheckBox chbIsDefaultAddres;
     private Spinner spState;
@@ -68,7 +69,7 @@ public class UpdateAddress extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
-        etEmail=(EditText)findViewById(R.id.etEmail);
+        etDetailAddress=(EditText)findViewById(R.id.etDetailAddress);
         spState=(Spinner)findViewById(R.id.spState);
         spCity=(Spinner)findViewById(R.id.spCity);
         btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
@@ -80,6 +81,13 @@ public class UpdateAddress extends AppCompatActivity {
         }
         catch (Exception e) {
             karbarCode = "";
+        }
+        try
+        {
+            status = getIntent().getStringExtra("status").toString();
+        }
+        catch (Exception e) {
+            status = "1";
         }
         try {
             AddressCode = getIntent().getStringExtra("AddressCode").toString();
@@ -179,7 +187,7 @@ public class UpdateAddress extends AppCompatActivity {
                     String latStr=Double.toString(lat);
                     String lonStr=Double.toString(lon);
 
-                    SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(UpdateAddress.this,karbarCode,AddressCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,etEmail.getText().toString(),latStr,lonStr,"1","1");
+                    SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(UpdateAddress.this,karbarCode,AddressCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,etDetailAddress.getText().toString(),latStr,lonStr,status,"1");
                     syncUpdateAddress.AsyncExecute();
                 }
 
@@ -195,7 +203,7 @@ public class UpdateAddress extends AppCompatActivity {
             coursors.moveToNext();
             NameAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Name"))));
             AddAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("AddressText"))));
-            etEmail.setText(coursors.getString(coursors.getColumnIndex("Email")));
+            etDetailAddress.setText(coursors.getString(coursors.getColumnIndex("Email")));
             if(coursors.getString(coursors.getColumnIndex("IsDefault")).compareTo("0")==0)
             {
                 chbIsDefaultAddres.setChecked(false);
