@@ -7,29 +7,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layoutDirection="rtl">
         <TextView
             android:id="@+id/txtContentHamyar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:layout_weight="1"/>
+            android:layout_gravity="center"
+            android:gravity="center"/>
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:id="@+id/imgHamyar"/>
+            android:id="@+id/imgHamyar"
+            android:layout_gravity="center"
+            />
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
         android:layoutDirection="ltr">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/btnMobileHamyar"
             android:text="@string/CallHamyar"
-            android:background="@drawable/rounded_button_login"/>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingRight="110dp"
+            android:paddingLeft="110dp"
+            android:drawableRight="@drawable/phone"
+            android:background="@drawable/rounded_button_signin"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnLocationHamyar"
+            android:text="@string/LocationHamyar"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/rounded_button_transparent"/>
     </LinearLayout>
 </LinearLayout>

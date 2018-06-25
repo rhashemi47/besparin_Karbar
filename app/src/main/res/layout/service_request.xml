@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tvTitleFromDate"
                             android:text="@string/FromDate"
-                            android:textColor="#000000"
+                            android:textColor="#213494"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:layout_gravity="center"/>
@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tvTitleToDate"
                             android:text="@string/ToDate"
-                            android:textColor="#000000"
+                            android:textColor="#213494"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:layout_gravity="center"/>
@@ -107,7 +107,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/etFromDate"
-                                android:textColor="#000000"
+                                android:textColor="#213494"
                                 android:layout_weight="1"
                                 android:layout_marginLeft="2dp"
                                 android:layout_gravity="center"
@@ -117,7 +117,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/etToDate"
-                                android:textColor="#000000"
+                                android:textColor="#213494"
                                 android:layout_marginRight="2dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -147,7 +147,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleFromTime"
             android:text="@string/FromTime"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"/>
@@ -156,7 +156,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleToTime"
             android:text="@string/ToTime"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"/>
@@ -211,7 +211,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleTypePeriodService"
             android:text="@string/ServicePeriod"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"/>
@@ -220,7 +220,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleStatus"
             android:text="@string/status"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"/>
@@ -266,7 +266,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleCountMan"
             android:text="@string/CountMan"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"/>
@@ -275,7 +275,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleCountWoman"
             android:text="@string/CountWoman"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"/>
@@ -284,7 +284,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvTitleCountDoesnotmatter"
             android:text="@string/Doesnotmatter"
-            android:textColor="#000000"
+            android:textColor="#213494"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"/>

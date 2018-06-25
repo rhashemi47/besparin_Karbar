@@ -100,10 +100,10 @@
     <string name="instagram">اینستاگرام</string>
     <string name="service_request">ثبت درخواست</string>
     <string name="Desired_service">سرویس درخواستی</string>
-    <string name="FromDate">از تاریخ</string>
-    <string name="ToDate">تا تاریخ</string>
-    <string name="FromTime">از ساعت</string>
-    <string name="ToTime">تا ساعت</string>
+    <string name="FromDate">تاریخ شروع درخواست</string>
+    <string name="ToDate">تاریخ پایان درخواست</string>
+    <string name="FromTime">ساعت درخواست از</string>
+    <string name="ToTime">ساعت درخواست تا</string>
     <string name="Type">نوع</string>
     <string name="Healing">درمانی</string>
     <string name="status">وضعیت</string>
@@ -111,7 +111,7 @@
     <string name="emergency">فوری</string>
     <string name="CountWoman">تعداد زن</string>
     <string name="CountMan">تعداد مرد</string>
-    <string name="Doesnotmatter">فرقی ندارد</string>
+    <string name="Doesnotmatter">فرقی نمی کند</string>
     <string name="Addres">آدرس</string>
     <string name="SaveLocation">ثبت آدرس</string>
     <string name="Search">جست و جو</string>
@@ -180,5 +180,13 @@
     <string name="Credits_History">لیست اعتبارات</string>
     <string name="NameStateOrStreet">نام مجله / خیابان</string>
     <string name="SaveChange">ثبت تغییرات</string>
+    <string name="nameLocation">نام محل</string>
+    <string name="LocationHamyar">موقعیت همیار</string>
+    <string name="CaseForCansel">به چه دلیل می خواهید سرویس را لغو کنید:</string>
+    <string name="Do_not_go_all_the_way">کار نیمه تمام تحویل داده شده</string>
+    <string name="Refused_hamyar">همیار در محل حاضر نشد</string>
+    <string name="disagreement_Hamyar">با همیار به تفاهم نرسیدیم</string>
+    <string name="The_cost_of_service_is_high">هزینه سرویس زیاد است</string>
+    <string name="Other_reasons">دلایل دیگر</string>
 
 </resources>

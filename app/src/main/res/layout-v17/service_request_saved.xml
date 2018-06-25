@@ -29,6 +29,11 @@
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
             android:gravity="right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:id="@+id/tvCodeRequset"/>
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -85,7 +90,9 @@
                     <LinearLayout
                         android:id="@+id/LinearTitleHamyar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
                         <TextView
                             android:id="@+id/TitleIfoHamyar"
                             android:layout_width="wrap_content"
@@ -137,43 +144,36 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <Button
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnCansel"
-                    android:text="@string/Cansel"
-                    android:drawableLeft="@drawable/cansel_order"
-                    android:background="@drawable/rounded_button_login"
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp"
-                   android:layout_marginRight="30dp"
-                    android:layout_marginLeft="5dp"/>
-                <Button
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnshowFactor"
                     android:text="@string/showfactor"
-                    android:drawableLeft="@drawable/factor"
-                    android:background="@drawable/rounded_button_login"
-                    android:layout_weight="1"
+                    android:drawableRight="@drawable/factor"
+                    android:background="@drawable/rounded_button_signin"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="5dp"/>
+                    android:paddingLeft="110dp"
+                    android:paddingRight="110dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <Button
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnEditOrder"
                     android:text="@string/EditOrder"
-                    android:layout_marginTop="5dp"
-                    android:drawableLeft="@drawable/edit_order"
-                    android:background="@drawable/rounded_button_login"
+                    android:drawableRight="@drawable/edit2"
+                    android:background="@drawable/rounded_button_transparent"
                     android:layout_weight="1"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                    android:layout_marginRight="30dp"
                     android:layout_marginLeft="5dp"/>
                 <Button
@@ -181,10 +181,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/btnRefreshOrder"
                     android:text="@string/RefreshOrder"
-                    android:drawableLeft="@drawable/refresh_order"
-                    android:background="@drawable/rounded_button_login"
+                    android:drawableRight="@drawable/loop"
+                    android:background="@drawable/rounded_button_transparent"
                     android:layout_weight="1"
-                    android:layout_marginTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>
@@ -193,16 +194,18 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <Button
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnCallHamyar"
                     android:text="@string/CallHamyar"
-                    android:drawableLeft="@drawable/call_hamyar"
-                    android:background="@drawable/rounded_button_login"
+                    android:drawableRight="@drawable/male"
+                    android:background="@drawable/rounded_button_transparent"
                     android:layout_weight="1"
-                    android:layout_marginTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                    android:layout_marginRight="30dp"
                     android:layout_marginLeft="5dp"/>
                 <Button
@@ -210,12 +213,31 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/btnCallSupporter"
                     android:text="@string/CallSupporter"
-                    android:drawableLeft="@drawable/call_hamyar"
-                    android:background="@drawable/rounded_button_login"
+                    android:drawableRight="@drawable/phone"
+                    android:background="@drawable/rounded_button_transparent"
                     android:layout_weight="1"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="5dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnCansel"
+                    android:text="@string/Cansel"
+                    android:drawableRight="@drawable/cansel"
+                    android:background="@drawable/rounded_button_transparent"
+                    android:paddingLeft="130dp"
+                    android:paddingRight="130dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
     <LinearLayout
