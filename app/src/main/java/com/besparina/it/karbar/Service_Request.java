@@ -223,7 +223,7 @@ public class Service_Request extends AppCompatActivity {
 		tvTitleService.setTextSize(textSize);
 		//**************************************************************************************
 		tvTitleService=(TextView)findViewById(R.id.tvTitleService);
-		tvTitleString=(TextView)findViewById(R.id.tvTitleString);
+//		tvTitleString=(TextView)findViewById(R.id.tvTitleString);
 		tvTitleFromDate=(TextView)findViewById(R.id.tvTitleFromDate);
 		tvTitleToDate=(TextView)findViewById(R.id.tvTitleToDate);
 		tvTitleFromTime=(TextView)findViewById(R.id.tvTitleFromTime);
@@ -331,22 +331,22 @@ public class Service_Request extends AppCompatActivity {
 		spFieldArt=(Spinner)findViewById(R.id.spFieldArt);
 		spLanguage=(Spinner)findViewById(R.id.spLanguage);
 		//*****************************************************************************
-		rgTypePeriodService=(RadioGroup)findViewById(R.id.rgTypePeriodService);
-		rgStatus=(RadioGroup)findViewById(R.id.rgStatus);
+//		rgTypePeriodService=(RadioGroup)findViewById(R.id.rgTypePeriodService);
+//		rgStatus=(RadioGroup)findViewById(R.id.rgStatus);
 		rgGenderStudent=(RadioGroup)findViewById(R.id.rgGenderStudent);
 		rgGenderTeacher=(RadioGroup)findViewById(R.id.rgGenderTeacher);
 		rgTypeService=(RadioGroup)findViewById(R.id.rgTypeService);
 		rgTypeCar=(RadioGroup)findViewById(R.id.rgTypeCar);
-		chbDoesnotmatter=(CheckBox)findViewById(R.id.chbDoesnotmatter);
+//		chbDoesnotmatter=(CheckBox)findViewById(R.id.chbDoesnotmatter);
 		LinearFromDate=(LinearLayout)findViewById(R.id.LinearFromDate);
-		LinearToDate=(LinearLayout)findViewById(R.id.LinearToDate);
+//		LinearToDate=(LinearLayout)findViewById(R.id.LinearToDate);
 		LinearFromTime=(LinearLayout)findViewById(R.id.LinearFromTime);
 		LinearToTime=(LinearLayout)findViewById(R.id.LinearToTime);
 		LinearTypePeriodService=(LinearLayout)findViewById(R.id.LinearTypePeriodService);
-		LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
+//		LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
 		LinearStatusCountWoman=(LinearLayout)findViewById(R.id.LinearStatusCountWoman);
 		LinearCountMan=(LinearLayout)findViewById(R.id.LinearCountMan);
-		LinearCountDoenotmatter=(LinearLayout)findViewById(R.id.LinearCountDoenotmatter);
+//		LinearCountDoenotmatter=(LinearLayout)findViewById(R.id.LinearCountDoenotmatter);
 		LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
 		LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
 		LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
@@ -364,12 +364,12 @@ public class Service_Request extends AppCompatActivity {
 		chbDoesnotmatter.setTypeface(FontFace);
 		chbDoesnotmatter.setTextSize(textSize);
 		//***********************************************************************
-		rdbDaily=(RadioButton)findViewById(R.id.rdbDaily);
-		rdbWeekly=(RadioButton)findViewById(R.id.rdbWeekly);
-		rdbMiddle_of_the_week=(RadioButton)findViewById(R.id.rdbMiddle_of_the_week);
-		rdbMonthly=(RadioButton)findViewById(R.id.rdbMonthly);
-		rdbNormal=(RadioButton)findViewById(R.id.rdbNormal);
-		rdbEmergency=(RadioButton)findViewById(R.id.rdbEmergency);
+//		rdbDaily=(RadioButton)findViewById(R.id.rdbDaily);
+//		rdbWeekly=(RadioButton)findViewById(R.id.rdbWeekly);
+//		rdbMiddle_of_the_week=(RadioButton)findViewById(R.id.rdbMiddle_of_the_week);
+//		rdbMonthly=(RadioButton)findViewById(R.id.rdbMonthly);
+//		rdbNormal=(RadioButton)findViewById(R.id.rdbNormal);
+//		rdbEmergency=(RadioButton)findViewById(R.id.rdbEmergency);
 		rdbMaleStudent=(RadioButton)findViewById(R.id.rdbMaleStudent);
 		rdbFemaleStudent=(RadioButton)findViewById(R.id.rdbFemaleStudent);
 		rdbMaleTeacher=(RadioButton)findViewById(R.id.rdbMaleTeacher);

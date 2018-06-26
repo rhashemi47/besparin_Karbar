@@ -5,14 +5,14 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
-        android:label="@string/Logo_name"
+        android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".FontMain">
         <activity
             android:name="com.besparina.it.karbar.MainMenu"
-            android:label="@string/Logo_name"
+            android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:noHistory="false" >
             <intent-filter>

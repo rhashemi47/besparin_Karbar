@@ -129,39 +129,43 @@
     <!--</LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/Order"
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
+            android:drawableTop="@drawable/jobs"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/AcceptOrder"
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
+            android:drawableTop="@drawable/dutys"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/Credits"
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
+            android:drawableTop="@drawable/credits"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnServiceEmergency"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/emergencyService"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#93050a"
+            android:drawableTop="@drawable/emergency"
             android:layout_weight="1">
         </Button>
     </LinearLayout>

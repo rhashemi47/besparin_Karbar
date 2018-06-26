@@ -19,10 +19,14 @@
             android:orientation="vertical"
             android:id="@+id/LinerLogo"
             android:layout_margin="10dp">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:background="@drawable/logo2"/>
+            <!--<ImageView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:id="@+id/imgLogo"/>-->
+            <lal.adhish.gifprogressbar.GifView
+                android:id="@+id/logoGif"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,28 +58,31 @@
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="110dp"
+                android:paddingRight="110dp"
                 android:background="@drawable/rounded_button_signin"
-                android:drawableStart="@drawable/login"
+                android:drawableRight="@drawable/login"
 
                 android:text="@string/SignUp"
                 android:textSize="20sp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
-                android:drawableLeft="@drawable/login" />
+                />
             <Button
                 android:id="@+id/btnEnter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button_login"
-                android:drawableStart="@drawable/signin"
+                android:drawableRight="@drawable/signin"
                 android:text="@string/Login"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:paddingLeft="110dp"
+                android:paddingRight="110dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:drawableLeft="@drawable/signin" />
+                android:gravity="center"/>
 
         </LinearLayout>
     </LinearLayout>

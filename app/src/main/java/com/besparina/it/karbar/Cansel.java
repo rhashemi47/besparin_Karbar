@@ -59,8 +59,8 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	}
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-	tvcansel=(TextView)findViewById(R.id.tvTextCansel);
-	tvcansel.setTypeface(FontMitra);
+//	tvcansel=(TextView)findViewById(R.id.tvTextCansel);
+//	tvcansel.setTypeface(FontMitra);
 	etcansel=(EditText) findViewById(R.id.etCansel);
 	etcansel.setTypeface(FontMitra);
 }

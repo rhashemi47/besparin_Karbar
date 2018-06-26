@@ -14,14 +14,20 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+//import com.bumptech.glide.Glide;
+
 import java.io.IOException;
+
+import lal.adhish.gifprogressbar.GifView;
 
 
 public class Login extends Activity {
 	Button btnEnter;
 	Button btnSignUp;
+	ImageView imgLogo;
 	EditText etPhoneNumber;
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
@@ -53,10 +59,13 @@ public class Login extends Activity {
 		btnEnter=(Button)findViewById(R.id.btnEnter);
 		btnSignUp=(Button)findViewById(R.id.btnSignUp);
         etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
-        //set font for element
+//        imgLogo=(ImageView)findViewById(R.id.imgLogo);
         etPhoneNumber.setTypeface(FontMitra);
 		btnSignUp.setTypeface(FontMitra);
 		btnEnter.setTypeface(FontMitra);
+//		Glide.with(this).load(R.drawable.sample_gif).into(imgLogo);
+		GifView pGif = (GifView) findViewById(R.id.logoGif);
+		pGif.setImageResource(R.drawable.sample_gif);
 		btnEnter.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
