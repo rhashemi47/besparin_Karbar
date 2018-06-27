@@ -1,6 +1,5 @@
 package com.besparina.it.karbar;
 
-import android.*;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
