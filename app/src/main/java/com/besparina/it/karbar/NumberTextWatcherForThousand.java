@@ -7,9 +7,6 @@ package com.besparina.it.karbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.StringTokenizer;
 
@@ -19,10 +16,13 @@ import java.util.StringTokenizer;
 public class NumberTextWatcherForThousand implements TextWatcher {
 
     EditText editText;
+
+
     public NumberTextWatcherForThousand(EditText editText) {
         this.editText = editText;
-    }
 
+
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -40,7 +40,7 @@ public class Accept_code extends Activity {
 	private BroadcastReceiver intentReciever=new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			acceptcode.setText(PersianDigitConverter.PerisanNumber(intent.getExtras().getString("sms")));
+			acceptcode.setText(intent.getExtras().getString("sms"));
 		}
 	};
 	@Override
@@ -145,7 +145,7 @@ public class Accept_code extends Activity {
 			public void onMessageReceived(String messageText) {
 				Log.e("Text",messageText);
 				acceptcode.setText("");
-				acceptcode.setText(PersianDigitConverter.PerisanNumber(messageText));
+				acceptcode.setText(messageText);
 				Send_AcceptCode();
 			}
 		});
@@ -196,6 +196,7 @@ public void onPause() {
 		String query="UPDATE login SET Phone ='"+phonenumber+"', AcceptCode='"+acceptcode.getText().toString()+"'";
 		db=dbh.getWritableDatabase();
 		db.execSQL(query);
+
 		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load);
 		hm.AsyncExecute();
 	}

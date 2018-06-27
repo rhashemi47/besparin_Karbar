@@ -60,7 +60,7 @@ public class Service_Request extends AppCompatActivity {
 	private String karbarCode;
 	private String DetailCode;
 	private TextView tvTitleService;
-	private TextView tvTitleString;
+//	private TextView tvTitleString;
 	private TextView tvTitleFromDate;
 	private TextView tvTitleToDate;
 	private TextView tvTitleFromTime;
@@ -246,7 +246,7 @@ public class Service_Request extends AppCompatActivity {
 		tvTitleAddres=(TextView)findViewById(R.id.tvTitleAddres);
 		//**************************************************************************************
 		tvTitleService.setTypeface(FontFace);
-		tvTitleString.setTypeface(FontFace);
+//		tvTitleString.setTypeface(FontFace);
 		tvTitleFromDate.setTypeface(FontFace);
 		tvTitleToDate.setTypeface(FontFace);
 		tvTitleFromTime.setTypeface(FontFace);
@@ -268,7 +268,7 @@ public class Service_Request extends AppCompatActivity {
 		tvTitleAddres.setTypeface(FontFace);
 		//**************************************************************************************
 		tvTitleService.setTextSize(18);
-		tvTitleString.setTextSize(18);
+//		tvTitleString.setTextSize(18);
 		tvTitleFromDate.setTextSize(18);
 		tvTitleToDate.setTextSize(18);
 		tvTitleFromTime.setTextSize(18);
@@ -462,11 +462,11 @@ public class Service_Request extends AppCompatActivity {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
+			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها: " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount())));
+			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -475,15 +475,15 @@ public class Service_Request extends AppCompatActivity {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(splitStr[0]));
+					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+"(");
 				}
 				else
 				{
-					btncredite.setText("اعتبار: " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount"))));
+					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+"(");
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار: " + "0"));
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+"(");
 			}
 		}
 		db.close();

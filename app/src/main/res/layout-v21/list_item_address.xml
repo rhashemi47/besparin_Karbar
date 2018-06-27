@@ -40,11 +40,13 @@
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:id="@+id/imgEdit"/>
+            android:id="@+id/imgEdit"
+            android:background="@drawable/edit"/>
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:id="@+id/imgDelete"/>
+            android:id="@+id/imgDelete"
+            android:background="@drawable/delete"/>
     </LinearLayout>
 
 </LinearLayout>

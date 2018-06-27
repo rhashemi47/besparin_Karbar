@@ -23,10 +23,14 @@
                 <!--android:layout_width="100dp"-->
                 <!--android:layout_height="150dp"-->
                 <!--android:id="@+id/imgLogo"/>-->
+            <!--<pl.droidsonroids.gif.GifImageView-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="150dp"-->
+                <!--android:src="@drawable/logouserlogingif" />-->
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="100dp"
                 android:layout_height="150dp"
-                android:src="@drawable/sample_gif"
+                android:id="@+id/gifImageView"
                 />
         </LinearLayout>
         <LinearLayout
