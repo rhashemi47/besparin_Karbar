@@ -3,13 +3,18 @@ package com.besparina.it.karbar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +35,7 @@ public class Credit extends Activity {
 	private String karbarCode;
 
 	private DatabaseHelper dbh;
-	private TextView txtContent;
+//	private TextView txtContent;
 	private TextView tvOne;
 	private TextView tvTwo;
 	private TextView tvThree;
@@ -41,7 +46,7 @@ public class Credit extends Activity {
 	private Button btnCreditHistory;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;
+	private Button btncredite;	private Button btnServiceEmergency;
 	private EditText etCurrencyInsertCredit;
 	private EditText etCurrencyInsertEtebar;
 	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
@@ -56,11 +61,20 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnOrder=(Button)findViewById(R.id.btnOrderBottom);
 	btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 	btncredite=(Button)findViewById(R.id.btncrediteBottom);
+	btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 	btnIncreseEtebar=(Button)findViewById(R.id.btnIncreseEtebar);
 	btnCreditHistory=(Button)findViewById(R.id.btnCreditHistory);
 	etCurrencyInsertCredit=(EditText) findViewById(R.id.etCurrencyInsertCredit);
 	etCurrencyInsertEtebar=(EditText) findViewById(R.id.etCurrencyInsertEtebar);
 	dbh=new DatabaseHelper(getApplicationContext());
+
+	tvOne=(TextView)findViewById(R.id.tvOne);
+	tvTwo=(TextView)findViewById(R.id.tvTwo);
+	tvThree=(TextView)findViewById(R.id.tvThree);
+
+	tvOne.setText(PersianDigitConverter.PerisanNumber("10,000"));
+	tvTwo.setText(PersianDigitConverter.PerisanNumber("20,000"));
+	tvThree.setText(PersianDigitConverter.PerisanNumber("30,000"));
 	try {
 
 		dbh.createDataBase();
@@ -97,11 +111,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 	btnIncreseCredit=(Button)findViewById(R.id.btnIncresCredit);
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
-	tvOne=(TextView)findViewById(R.id.tvOne);
-	tvTwo=(TextView)findViewById(R.id.tvTwo);
-	tvThree=(TextView)findViewById(R.id.tvThree);
-	txtContent.setTypeface(FontMitra);
+//	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
+//	txtContent.setTypeface(FontMitra);
 	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
 	tvRecentCreditsValue.setTypeface(FontMitra);
 	String Query="UPDATE UpdateApp SET Status='1'";
@@ -174,11 +185,11 @@ protected void onCreate(Bundle savedInstanceState) {
 			"Servicesdetails ON " +
 			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 	if (cursor2.getCount() > 0) {
-		btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+		btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 	}
 	cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 	if (cursor2.getCount() > 0) {
-		btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+		btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 	}
 	cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 	if (cursor2.getCount() > 0) {
@@ -187,15 +198,15 @@ protected void onCreate(Bundle savedInstanceState) {
 			String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 			if(splitStr[1].compareTo("00")==0)
 			{
-				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+"(");
+				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
 			}
 			else
 			{
-				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+"(");
+				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
 			}
 
 		} catch (Exception ex) {
-			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+"(");
+			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 		}
 	}
 	btnCreditHistory.setOnClickListener(new View.OnClickListener() {
@@ -233,25 +244,63 @@ protected void onCreate(Bundle savedInstanceState) {
 			LoadActivity(Credit.class, "karbarCode", karbarCode);
 		}
 	});
+	btnServiceEmergency.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+
+			if (ActivityCompat.checkSelfPermission(Credit.this,
+					android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+				if(ActivityCompat.shouldShowRequestPermissionRationale(Credit.this, android.Manifest.permission.CALL_PHONE))
+				{
+					ActivityCompat.requestPermissions(Credit.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+				}
+				else
+				{
+					ActivityCompat.requestPermissions(Credit.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+				}
+
+			}
+			db = dbh.getReadableDatabase();
+			Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+			if (cursorPhone.getCount() > 0) {
+				cursorPhone.moveToNext();
+				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+			}
+			db.close();
+		}
+	});
 	tvOne.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
-			etCurrencyInsertCredit.setText(df.format("10000"));
+			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber("10000"));
 		}
 	});
 	tvTwo.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
-			etCurrencyInsertCredit.setText(df.format("20000"));
+			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber("20000"));
 		}
 	});
 	tvThree.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
-			etCurrencyInsertCredit.setText(df.format("30000"));
+			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber("30000"));
+		}
+	});
+	etCurrencyInsertCredit.addTextChangedListener(new TextWatcher() {
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+//			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber(etCurrencyInsertCredit.getText().toString()));
 		}
 	});
 }
@@ -278,5 +327,23 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		intent.putExtra(VariableName2, VariableValue2);
 
 		this.startActivity(intent);
+	}
+	public void dialContactPhone(String phoneNumber) {
+		//startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
+		Intent callIntent = new Intent(Intent.ACTION_CALL);
+		callIntent.setData(Uri.parse("tel:" + phoneNumber));
+		if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+			// TODO: Consider calling
+			//    ActivityCompat#requestPermissions
+			// here to request the missing permissions, and then overriding
+			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			//                                          int[] grantResults)
+			// to handle the case where the user grants the permission. See the documentation
+			// for ActivityCompat#requestPermissions for more details.
+			return;
+		}
+
+
+		startActivity(callIntent);
 	}
 }

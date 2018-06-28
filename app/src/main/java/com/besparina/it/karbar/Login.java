@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import lal.adhish.gifprogressbar.GifView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 

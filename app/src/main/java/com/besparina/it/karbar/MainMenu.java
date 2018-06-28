@@ -133,7 +133,7 @@ public class MainMenu extends AppCompatActivity {
         btnOrder = (Button) findViewById(R.id.btnOrderBottom);
         btnAcceptOrder = (Button) findViewById(R.id.btnAcceptOrderBottom);
         btncredite = (Button) findViewById(R.id.btncrediteBottom);
-        btnServiceEmergency = (Button) findViewById(R.id.btnServiceEmergency);
+        btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 
         etSearch = (EditText) findViewById(R.id.etSearch);
         lstSearchDetailService = (ListView) findViewById(R.id.lstSearchDetailService);
@@ -314,11 +314,11 @@ public class MainMenu extends AppCompatActivity {
                 "Servicesdetails ON " +
                 "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
         if (cursor2.getCount() > 0) {
-            btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+            btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
         }
         cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
         if (cursor2.getCount() > 0) {
-            btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+            btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
         }
         cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor2.getCount() > 0) {
@@ -327,15 +327,15 @@ public class MainMenu extends AppCompatActivity {
                 String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
                 if(splitStr[1].compareTo("00")==0)
                 {
-                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+"(");
+                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
                 }
                 else
                 {
-                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+"(");
+                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
                 }
 
             } catch (Exception ex) {
-                btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+"(");
+                btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
             }
         }
         db.close();
@@ -371,15 +371,16 @@ public class MainMenu extends AppCompatActivity {
         btnServiceEmergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (ActivityCompat.checkSelfPermission(MainMenu.this,
                         android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainMenu.this, Manifest.permission.CALL_PHONE))
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainMenu.this, android.Manifest.permission.CALL_PHONE))
                     {
-                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{Manifest.permission.CALL_PHONE},2);
+                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
                     }
                     else
                     {
-                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{Manifest.permission.CALL_PHONE},2);
+                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
                     }
 
                 }
@@ -471,7 +472,6 @@ public class MainMenu extends AppCompatActivity {
 //                db.execSQL("DELETE FROM Slider");
                 db.execSQL("DELETE FROM sqlite_sequence");
                 db.execSQL("DELETE FROM State");
-                db.execSQL("DELETE FROM Supportphone");
 //                db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");

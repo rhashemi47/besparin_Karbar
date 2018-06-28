@@ -6,14 +6,17 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -60,7 +63,6 @@ public class Service_Request extends AppCompatActivity {
 	private String karbarCode;
 	private String DetailCode;
 	private TextView tvTitleService;
-//	private TextView tvTitleString;
 	private TextView tvTitleFromDate;
 	private TextView tvTitleToDate;
 	private TextView tvTitleFromTime;
@@ -98,42 +100,33 @@ public class Service_Request extends AppCompatActivity {
 	private Spinner spFieldEducation;
 	private Spinner spFieldArt;
 	private Spinner spLanguage;
-	//**************************************************************
-	private RadioGroup rgTypePeriodService;
-	private RadioGroup rgStatus;
-	private RadioGroup rgGenderStudent;
-	private RadioGroup rgGenderTeacher;
-	private RadioGroup rgTypeService;
-	private RadioGroup rgTypeCar;
-	//**************************************************************
-	private CheckBox chbDoesnotmatter;
+	private Spinner spAddress;
+	private Spinner spStatus;
+	private Spinner spTypeCar;
+	private Spinner spTypeService;
+	private Spinner spGenderStudent;
+	private Spinner spGenderTeacher;
+	private Spinner spTypePeriodService;
 	//**************************************************************
 	private Button btnSave;
-	private LinearLayout LinearFromDate;
-	private LinearLayout LinearToDate;
+	private LinearLayout LinearDate;
 	private LinearLayout LinearFromTime;
 	private LinearLayout LinearToTime;
-	private LinearLayout LinearTypePeriodService;
-	private LinearLayout LinearStatus;
-	private LinearLayout LinearStatusCountWoman;
-	private LinearLayout LinearCountMan;
-	private LinearLayout LinearCountDoenotmatter;
+	private LinearLayout LinearStatusCountHamyar;
 	private LinearLayout LinearLearning;
 	private LinearLayout LinearGraid;
 	private LinearLayout LinearFieldEducation;
 	private LinearLayout LinearFieldArt;
 	private LinearLayout LinearFieldArtOther;
-	private LinearLayout LinearGenderStudent;
-	private LinearLayout LinearGenderTeacher;
-	private LinearLayout LinearTypeService;
-	private LinearLayout LinearTypeCar;
+	private LinearLayout LinearGenderStudentAndTeacher;
+	private LinearLayout LinearCarWash;
 	private LinearLayout LinearLanguage;
 	private LinearLayout LinearAddres;
 	private LinearLayout LinearDescription;
+	private LinearLayout LinerLayoutLanguege;
 	//**************************************************************
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-//	private GoogleMap map;
 	private String typeForm;
 	private String CodeService;
 	///*************************************
@@ -152,47 +145,25 @@ public class Service_Request extends AppCompatActivity {
 	private String EndMinute ;
 	private String AddressCode ;
 	private String Description ;
-	private String IsEmergency ;
-	private String PeriodicServices ;
 	private String EducationGrade ;
 	private String FieldOfStudy ;
-	private String StudentGender ;
-	private String TeacherGender ;
 	private String EducationTitle ;
 	private String ArtField ;
-	private String CarWashType ;
-	private String CarType ;
 	private String Language ;
-	private RadioButton rdbDaily;
-	private RadioButton rdbWeekly;
-	private RadioButton rdbMiddle_of_the_week;
-	private RadioButton rdbMonthly;
-	private RadioButton rdbNormal;
-	private RadioButton rdbEmergency;
-	private RadioButton rdbMaleStudent;
-	private RadioButton rdbFemaleStudent;
-	private RadioButton rdbMaleTeacher;
-	private RadioButton rdbFemaleTeacher;
-	private RadioButton rdbDoesnotmatter;
-	private RadioButton rdbRoshoie;
-	private RadioButton rdbRoshoieAndToShoie;
-	private RadioButton rdbSavari;
-	private RadioButton rdbShasi;
-	private RadioButton rdbVan;
-	private RadioButton radioStatusButton;
-	private RadioButton radioTypePeriodServiceButton;
-	private RadioButton radioStudentGenderButton;
-	private RadioButton radioTeacherGenderButton;
-	private RadioButton radioCarWashTypeButton;
-	private RadioButton radiorgTypeCarButton;
-	private Spinner spAddress;
-//	private LatLng point;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
 	private Button btncredite;
+	private Button btnServiceEmergency;
 	private Button btnCansel;
 	private Button btnAddAdres;
 	private Typeface FontFace;
+	private String StudentGender;
+	private String IsEmergency;
+	private String PeriodicServices;
+	private String TeacherGender;
+	private String CarWashType;
+	private String CarType;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -211,6 +182,7 @@ public class Service_Request extends AppCompatActivity {
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 		btnAcceptOrder.setTypeface(FontFace);
 		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 		btncredite.setTypeface(FontFace);
 		btnSave=(Button)findViewById(R.id.btnSave);
 		btnCansel=(Button)findViewById(R.id.btnCansel);
@@ -223,7 +195,6 @@ public class Service_Request extends AppCompatActivity {
 		tvTitleService.setTextSize(textSize);
 		//**************************************************************************************
 		tvTitleService=(TextView)findViewById(R.id.tvTitleService);
-//		tvTitleString=(TextView)findViewById(R.id.tvTitleString);
 		tvTitleFromDate=(TextView)findViewById(R.id.tvTitleFromDate);
 		tvTitleToDate=(TextView)findViewById(R.id.tvTitleToDate);
 		tvTitleFromTime=(TextView)findViewById(R.id.tvTitleFromTime);
@@ -246,7 +217,6 @@ public class Service_Request extends AppCompatActivity {
 		tvTitleAddres=(TextView)findViewById(R.id.tvTitleAddres);
 		//**************************************************************************************
 		tvTitleService.setTypeface(FontFace);
-//		tvTitleString.setTypeface(FontFace);
 		tvTitleFromDate.setTypeface(FontFace);
 		tvTitleToDate.setTypeface(FontFace);
 		tvTitleFromTime.setTypeface(FontFace);
@@ -268,7 +238,6 @@ public class Service_Request extends AppCompatActivity {
 		tvTitleAddres.setTypeface(FontFace);
 		//**************************************************************************************
 		tvTitleService.setTextSize(18);
-//		tvTitleString.setTextSize(18);
 		tvTitleFromDate.setTextSize(18);
 		tvTitleToDate.setTextSize(18);
 		tvTitleFromTime.setTextSize(18);
@@ -330,89 +299,29 @@ public class Service_Request extends AppCompatActivity {
 		spFieldEducation=(Spinner)findViewById(R.id.spFieldEducation);
 		spFieldArt=(Spinner)findViewById(R.id.spFieldArt);
 		spLanguage=(Spinner)findViewById(R.id.spLanguage);
-		//*****************************************************************************
-//		rgTypePeriodService=(RadioGroup)findViewById(R.id.rgTypePeriodService);
-//		rgStatus=(RadioGroup)findViewById(R.id.rgStatus);
-		rgGenderStudent=(RadioGroup)findViewById(R.id.rgGenderStudent);
-		rgGenderTeacher=(RadioGroup)findViewById(R.id.rgGenderTeacher);
-		rgTypeService=(RadioGroup)findViewById(R.id.rgTypeService);
-		rgTypeCar=(RadioGroup)findViewById(R.id.rgTypeCar);
-//		chbDoesnotmatter=(CheckBox)findViewById(R.id.chbDoesnotmatter);
-		LinearFromDate=(LinearLayout)findViewById(R.id.LinearFromDate);
-//		LinearToDate=(LinearLayout)findViewById(R.id.LinearToDate);
+		spTypeCar=(Spinner)findViewById(R.id.spTypeCar);
+		spTypeService=(Spinner)findViewById(R.id.spTypeService);
+		spGenderStudent=(Spinner)findViewById(R.id.spGenderStudent);
+		spGenderTeacher=(Spinner)findViewById(R.id.spGenderTeacher);
+		spTypePeriodService=(Spinner)findViewById(R.id.spTypePeriodService);
+		spStatus=(Spinner)findViewById(R.id.spStatus);
+		//***********************************************************************
+		LinearDate=(LinearLayout)findViewById(R.id.LinearDate);
 		LinearFromTime=(LinearLayout)findViewById(R.id.LinearFromTime);
 		LinearToTime=(LinearLayout)findViewById(R.id.LinearToTime);
-		LinearTypePeriodService=(LinearLayout)findViewById(R.id.LinearTypePeriodService);
-//		LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
-		LinearStatusCountWoman=(LinearLayout)findViewById(R.id.LinearStatusCountWoman);
-		LinearCountMan=(LinearLayout)findViewById(R.id.LinearCountMan);
-//		LinearCountDoenotmatter=(LinearLayout)findViewById(R.id.LinearCountDoenotmatter);
+		LinearStatusCountHamyar=(LinearLayout)findViewById(R.id.LinearStatusCountHamyar);
 		LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
 		LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
 		LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
 		LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
 		LinearFieldArtOther=(LinearLayout)findViewById(R.id.LinearFieldArtOther);
-		LinearGenderStudent=(LinearLayout)findViewById(R.id.LinearGenderStudent);
-		LinearGenderTeacher=(LinearLayout)findViewById(R.id.LinearGenderTeacher);
-		LinearTypeService=(LinearLayout)findViewById(R.id.LinearTypeService);
-		LinearTypeCar=(LinearLayout)findViewById(R.id.LinearTypeCar);
+		LinearGenderStudentAndTeacher=(LinearLayout)findViewById(R.id.LinearGenderStudentAndTeacher);
+		LinearCarWash=(LinearLayout)findViewById(R.id.LinearCarWash);
 		LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
 		LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
 		LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
+		LinerLayoutLanguege=(LinearLayout)findViewById(R.id.LinerLayoutLanguege);
 
-		//*********************************************************
-		chbDoesnotmatter.setTypeface(FontFace);
-		chbDoesnotmatter.setTextSize(textSize);
-		//***********************************************************************
-//		rdbDaily=(RadioButton)findViewById(R.id.rdbDaily);
-//		rdbWeekly=(RadioButton)findViewById(R.id.rdbWeekly);
-//		rdbMiddle_of_the_week=(RadioButton)findViewById(R.id.rdbMiddle_of_the_week);
-//		rdbMonthly=(RadioButton)findViewById(R.id.rdbMonthly);
-//		rdbNormal=(RadioButton)findViewById(R.id.rdbNormal);
-//		rdbEmergency=(RadioButton)findViewById(R.id.rdbEmergency);
-		rdbMaleStudent=(RadioButton)findViewById(R.id.rdbMaleStudent);
-		rdbFemaleStudent=(RadioButton)findViewById(R.id.rdbFemaleStudent);
-		rdbMaleTeacher=(RadioButton)findViewById(R.id.rdbMaleTeacher);
-		rdbFemaleTeacher=(RadioButton)findViewById(R.id.rdbFemaleTeacher);
-		rdbDoesnotmatter=(RadioButton)findViewById(R.id.rdbDoesnotmatter);
-		rdbRoshoie=(RadioButton)findViewById(R.id.rdbRoshoie);
-		rdbRoshoieAndToShoie=(RadioButton)findViewById(R.id.rdbRoshoieAndToShoie);
-		rdbSavari=(RadioButton)findViewById(R.id.rdbSavari);
-		rdbShasi=(RadioButton)findViewById(R.id.rdbShasi);
-		rdbVan=(RadioButton)findViewById(R.id.rdbVan);
-		//***********************************************************************
-		rdbDaily.setTypeface(FontFace);
-		rdbWeekly.setTypeface(FontFace);
-		rdbMiddle_of_the_week.setTypeface(FontFace);
-		rdbMonthly.setTypeface(FontFace);
-		rdbNormal.setTypeface(FontFace);
-		rdbEmergency.setTypeface(FontFace);
-		rdbMaleStudent.setTypeface(FontFace);
-		rdbFemaleStudent.setTypeface(FontFace);
-		rdbMaleTeacher.setTypeface(FontFace);
-		rdbFemaleTeacher.setTypeface(FontFace);
-		rdbDoesnotmatter.setTypeface(FontFace);
-		rdbRoshoie.setTypeface(FontFace);
-		rdbRoshoieAndToShoie.setTypeface(FontFace);
-		rdbSavari.setTypeface(FontFace);
-		rdbShasi.setTypeface(FontFace);
-		rdbVan.setTypeface(FontFace);
-		//***********************************************************************rdbDaily.setTypeface(FontFace);
-		rdbWeekly.setTextSize(textSize);
-		rdbMiddle_of_the_week.setTextSize(textSize);
-		rdbMonthly.setTextSize(textSize);
-		rdbNormal.setTextSize(textSize);
-		rdbEmergency.setTextSize(textSize);
-		rdbMaleStudent.setTextSize(textSize);
-		rdbFemaleStudent.setTextSize(textSize);
-		rdbMaleTeacher.setTextSize(textSize);
-		rdbFemaleTeacher.setTextSize(textSize);
-		rdbDoesnotmatter.setTextSize(textSize);
-		rdbRoshoie.setTextSize(textSize);
-		rdbRoshoieAndToShoie.setTextSize(textSize);
-		rdbSavari.setTextSize(textSize);
-		rdbShasi.setTextSize(textSize);
-		rdbVan.setTextSize(textSize);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
 
@@ -462,11 +371,11 @@ public class Service_Request extends AppCompatActivity {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -475,15 +384,15 @@ public class Service_Request extends AppCompatActivity {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+"(");
+					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
 				}
 				else
 				{
-					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+"(");
+					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+"(");
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 			}
 		}
 		db.close();
@@ -522,9 +431,35 @@ public class Service_Request extends AppCompatActivity {
 				LoadActivity(Credit.class, "karbarCode", karbarCode);
 			}
 		});
+		btnServiceEmergency.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (ActivityCompat.checkSelfPermission(Service_Request.this,
+						android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+					if(ActivityCompat.shouldShowRequestPermissionRationale(Service_Request.this, android.Manifest.permission.CALL_PHONE))
+					{
+						ActivityCompat.requestPermissions(Service_Request.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+					}
+					else
+					{
+						ActivityCompat.requestPermissions(Service_Request.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+					}
+
+				}
+				db = dbh.getReadableDatabase();
+				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+				if (cursorPhone.getCount() > 0) {
+					cursorPhone.moveToNext();
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+				}
+				db.close();
+			}
+		});
 		//**************************************************************
 		spAddress=(Spinner)findViewById(R.id.spAddress);
 		FillSpinner("address","Name",spAddress);
+		FillSpinner("ServiceStatus","Title",spStatus);
 		spAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -535,22 +470,7 @@ public class Service_Request extends AppCompatActivity {
 					cursor.moveToNext();
 					etAddres.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("AddressText"))));
 					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
-//					String latStr=cursor.getString(cursor.getColumnIndex("Lat"));
-//					String lonStr=cursor.getString(cursor.getColumnIndex("Lng"));
-//					double lat=Double.parseDouble(latStr);
-//					double lon=Double.parseDouble(lonStr);
-//					if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-//						point = new LatLng(lat, lon);
-//
-//					}
-//					else
-//					{
-//						point = new LatLng(35.691063, 51.407941);
-//
-//					}
-//					map.clear();
-//					map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-//					map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
+
 				}
 				db.close();
 			}
@@ -561,43 +481,6 @@ public class Service_Request extends AppCompatActivity {
 			}
 		});
 
-		//**************************************************************************************
-//		((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2)).getMapAsync(new OnMapReadyCallback() {
-//			@Override
-//
-//			public void onMapReady(GoogleMap googleMap) {
-//				map = googleMap;
-//				db=dbh.getReadableDatabase();
-//				Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-//				if(coursors.getCount()>0)
-//				{
-//					coursors.moveToNext();
-//					String latStr=coursors.getString(coursors.getColumnIndex("Lat"));
-//					String lonStr=coursors.getString(coursors.getColumnIndex("Lon"));
-//					double lat=Double.parseDouble(latStr);
-//					double lon=Double.parseDouble(lonStr);
-//					if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-//						point = new LatLng(lat, lon);
-//					}
-//					else
-//					{
-//						point = new LatLng(35.691063, 51.407941);
-//					}
-//				}
-//				else {
-//					point = new LatLng(35.691063, 51.407941);
-//				}
-//				db.close();
-//
-//				map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-//				map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
-//
-//
-//				map.getUiSettings().setZoomControlsEnabled(true);
-//			}
-//		});
-
-//**************************************************************************************
 		db=dbh.getReadableDatabase();
 		Cursor coursors = db.rawQuery("SELECT * FROM Servicesdetails WHERE code='"+DetailCode+"'",null);
 		if(coursors.getCount()>0){
@@ -645,24 +528,6 @@ public class Service_Request extends AppCompatActivity {
 				form9();
 				break;
 		}
-		chbDoesnotmatter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked)
-				{
-
-					LinearStatusCountWoman.setVisibility(View.GONE);
-					LinearCountMan.setVisibility(View.GONE);
-					etDoesnotmatter.setVisibility(View.VISIBLE);
-				}
-				else
-				{
-					LinearStatusCountWoman.setVisibility(View.VISIBLE);
-					LinearCountMan.setVisibility(View.VISIBLE);
-					etDoesnotmatter.setVisibility(View.GONE);
-				}
-			}
-		});
 		btnSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -694,13 +559,13 @@ public class Service_Request extends AppCompatActivity {
 				String SplitFromeDate[]=etFromDate.getText().toString().split("/");
 				ir.hamsaa.persiandatepicker.util.PersianCalendar calFrom=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
 				calFrom.setPersianDate(Integer.parseInt(SplitFromeDate[0])
-						,Integer.parseInt(SplitFromeDate[1])+1
+						,Integer.parseInt(SplitFromeDate[1])
 								,Integer.parseInt(SplitFromeDate[2]));
 				//******************
 				String SplitToDate[]=etToDate.getText().toString().split("/");
 				ir.hamsaa.persiandatepicker.util.PersianCalendar calTo=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
 				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
-						,Integer.parseInt(SplitToDate[1])+1
+						,Integer.parseInt(SplitToDate[1])
 								,Integer.parseInt(SplitToDate[2]));
 				int compateDate= calFrom.compareTo(calTo);
 				if (compateDate>0) {
@@ -709,9 +574,42 @@ public class Service_Request extends AppCompatActivity {
 				else
 				{
 					ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-					calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
-					String strTo=String.valueOf(calTo.getPersianYear())+String.valueOf(calTo.getPersianMonth())+String.valueOf(calTo.getPersianDay());
-					String strNow=String.valueOf(calNow.getPersianYear())+String.valueOf(calNow.getPersianMonth())+String.valueOf(calNow.getPersianDay());
+					calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
+					String strTo=String.valueOf(calTo.getPersianYear());
+					if(calTo.getPersianMonth()<10)
+					{
+						strTo=strTo+"0"+String.valueOf(calTo.getPersianMonth());
+					}
+					else
+					{
+						strTo=strTo+String.valueOf(calTo.getPersianMonth());
+					}
+					if(calTo.getPersianDay()<10)
+					{
+						strTo=strTo+"0"+String.valueOf(calTo.getPersianDay());
+					}
+					else
+					{
+						strTo=strTo+String.valueOf(calTo.getPersianDay());
+					}
+					//**********************************
+					String strNow=String.valueOf(calNow.getPersianYear());
+					if(calNow.getPersianMonth()<10)
+					{
+						strNow=strNow+"0"+String.valueOf(calNow.getPersianMonth());
+					}
+					else
+					{
+						strNow=strNow+String.valueOf(calNow.getPersianMonth());
+					}
+					if(calNow.getPersianDay()<10)
+					{
+						strNow=strNow+"0"+String.valueOf(calNow.getPersianDay());
+					}
+					else
+					{
+						strNow=strNow+String.valueOf(calNow.getPersianDay());
+					}
 					int temp=strTo.compareTo(strNow);
 					if(temp<0)
 					{
@@ -757,32 +655,24 @@ public class Service_Request extends AppCompatActivity {
 //				}
 				Description = etDescription.getText().toString();
 				//**************************************************************
-				int selectedId = rgStatus.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioStatusButton = (RadioButton) findViewById(selectedId);
-				IsEmergency = radioStatusButton.getText().toString();
-				if (IsEmergency.compareTo("عادی") == 0) {
+				if (spStatus.getSelectedItem().toString().compareTo("عادی") == 0) {
 					IsEmergency = "0";
 				} else {
 					IsEmergency = "1";
 				}
 				//***************************************************************
-
-				selectedId = rgTypePeriodService.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioTypePeriodServiceButton = (RadioButton) findViewById(selectedId);
-				PeriodicServices = radioTypePeriodServiceButton.getText().toString();
-				if (PeriodicServices.compareTo("روزانه") == 0) {
-					PeriodicServices = "1";
-				} else if (PeriodicServices.compareTo("هفته در میان") == 0) {
-					PeriodicServices = "2";
-				} else if (PeriodicServices.compareTo("هفتگی") == 0) {
-					PeriodicServices = "3";
-				} else {
-					PeriodicServices = "4";
+				if(spTypePeriodService.getVisibility()== View.VISIBLE) {
+					if (spTypePeriodService.getSelectedItem().toString().compareTo("روزانه") == 0) {
+						PeriodicServices = "1";
+					} else if (PeriodicServices.compareTo("هفته در میان") == 0) {
+						PeriodicServices = "2";
+					} else if (PeriodicServices.compareTo("هفتگی") == 0) {
+						PeriodicServices = "3";
+					} else {
+						PeriodicServices = "4";
+					}
 				}
 				//***************************************************************
-
 				try {
 					EducationGrade = spGraid.getSelectedItem().toString();
 				} catch (Exception ex) {
@@ -796,37 +686,26 @@ public class Service_Request extends AppCompatActivity {
 				} catch (Exception ex) {
 					EducationTitle = "0";
 				}
-
 				//**************************************************************
-				selectedId = rgGenderStudent.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioStudentGenderButton = (RadioButton) findViewById(selectedId);
-				StudentGender = radioStudentGenderButton.getText().toString();
-				if (LinearGenderStudent.getVisibility() == View.VISIBLE) {
-					if (StudentGender.compareTo("زن") == 0) {
+					if (spGenderStudent.getSelectedItem().toString().compareTo("زن") == 0) {
 						StudentGender = "1";
-					} else {
+					} else if(spGenderStudent.getSelectedItem().toString().compareTo(" ") == 0){
+						StudentGender = "0";
+					}
+					else {
 						StudentGender = "2";
 					}
-				} else {
-					StudentGender = "0";
-				}
 				//***************************************************************
-				selectedId = rgGenderTeacher.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioTeacherGenderButton = (RadioButton) findViewById(selectedId);
-				TeacherGender = radioTeacherGenderButton.getText().toString();
-				if (LinearGenderTeacher.getVisibility() == View.VISIBLE) {
-					if (TeacherGender.compareTo("زن") == 0) {
+					if (spGenderTeacher.getSelectedItem().toString().compareTo("زن") == 0) {
 						TeacherGender = "1";
-					} else if (TeacherGender.compareTo("مرد") == 0) {
+					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("مرد") == 0) {
 						TeacherGender = "2";
-					} else {
+					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
 						TeacherGender = "3";
 					}
-				} else {
-					TeacherGender = "0";
-				}
+					else {
+						TeacherGender = "0";
+					}
 				//***************************************************************
 
 				try {
@@ -841,71 +720,45 @@ public class Service_Request extends AppCompatActivity {
 				}
 				//***************************************************************
 				//***************************************************************
-				selectedId = rgTypeService.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioCarWashTypeButton = (RadioButton) findViewById(selectedId);
-				CarWashType = radioCarWashTypeButton.getText().toString();
-				if (LinearTypeService.getVisibility() == View.VISIBLE) {
-					if (CarWashType.compareTo("روشویی") == 0) {
+				if(LinearCarWash.getVisibility()==View.VISIBLE) {
+					if (spTypeService.getSelectedItem().toString().compareTo("روشویی") == 0) {
 						CarWashType = "1";
+					} else if (spTypeService.getSelectedItem().toString().compareTo(" ") == 0) {
+						CarWashType = "0";
 					} else {
 						CarWashType = "2";
 					}
-				} else {
-					CarWashType = "0";
 				}
-
 				//***************************************************************
-				selectedId = rgTypeCar.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radiorgTypeCarButton = (RadioButton) findViewById(selectedId);
-				CarType = radiorgTypeCarButton.getText().toString();
-				if (LinearTypeCar.getVisibility() == View.VISIBLE) {
-					if (CarType.compareTo("سواری") == 0) {
+				if(LinearCarWash.getVisibility()==View.VISIBLE) {
+					if (spTypeCar.getSelectedItem().toString().compareTo("سواری") == 0) {
 						CarType = "1";
 					} else if (CarType.compareTo("ون") == 0) {
 						CarType = "3";
+					} else if (CarType.compareTo(" ") == 0) {
+						CarType = "0";
 					} else {
 						CarType = "2";
 					}
-				} else {
-					CarType = "0";
 				}
 				//***************************************************************
 
 
 				try {
-					Language = spLanguage.getSelectedItem().toString();
+					Language = String.valueOf(spLanguage.getSelectedItemId());
 				} catch (Exception ex) {
 					Language = "0";
 				}
-				if (LinearCountDoenotmatter.getVisibility() == View.VISIBLE ||
-						LinearCountMan.getVisibility() == View.VISIBLE ||
-						LinearStatusCountWoman.getVisibility() == View.VISIBLE) {
-					if (chbDoesnotmatter.isChecked()) {
-						MaleCount = "0";
-						FemaleCount = "0";
-						HamyarCount = etDoesnotmatter.getText().toString();
-						if (HamyarCount.length() == 0) {
-
+				if(LinearStatusCountHamyar.getVisibility()==View.VISIBLE) {
+					if (etCountWoman.getText().length() > 0 || etCountMan.getText().length() > 0 || etDoesnotmatter.getText().length() > 0) {
+						if (etCountWoman.getText().toString().compareTo("0") == 0
+								&& etCountMan.getText().toString().compareTo("0") == 0
+								&& etDoesnotmatter.getText().toString().compareTo("0") == 0) {
 							ErrorStr += "تعداد همیار را مشخص نمایید" + "\n";
 						}
 					} else {
-						HamyarCount = "0";
-						if (MaleCount.length() == 0) {
-							MaleCount = "0";
-						}
-						if (FemaleCount.length() == 0) {
-							FemaleCount = "0";
-						}
-						if (MaleCount.compareTo("0") == 0 && FemaleCount.compareTo("0") == 0) {
-							ErrorStr += "تعداد همیار مرد یا زن را مشخص نمایید" + "\n";
-						}
+						ErrorStr += "تعداد همیار را مشخص نمایید" + "\n";
 					}
-				} else {
-					MaleCount = "0";
-					FemaleCount = "0";
-					HamyarCount = "0";
 				}
 				if (ErrorStr.length() == 0) {
 					{
@@ -964,10 +817,26 @@ public class Service_Request extends AppCompatActivity {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 							StartYear=String.valueOf(persianCalendar.getPersianYear());
-							StartMonth=String.valueOf(persianCalendar.getPersianMonth());
-							StartDay=String.valueOf(persianCalendar.getPersianDay());
+							if(persianCalendar.getPersianMonth()<10)
+							{
+								StartMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+							}
+							else
+							{
+								StartMonth=String.valueOf(persianCalendar.getPersianMonth());
+							}
+							if(persianCalendar.getPersianDay()<10)
+							{
+								StartDay="0"+String.valueOf(persianCalendar.getPersianDay());
+							}
+							else
+							{
+								StartDay=String.valueOf(persianCalendar.getPersianDay());
+							}
+
+							etFromDate.setText(PersianDigitConverter.PerisanNumber(StartYear + "/" + StartMonth + "/" + StartDay));
+
 						}
 
 						@Override
@@ -998,10 +867,25 @@ public class Service_Request extends AppCompatActivity {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 						StartYear=String.valueOf(persianCalendar.getPersianYear());
-						StartMonth=String.valueOf(persianCalendar.getPersianMonth());
-						StartDay=String.valueOf(persianCalendar.getPersianDay());
+						if(persianCalendar.getPersianMonth()<10)
+						{
+							StartMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+						}
+						else
+						{
+							StartMonth=String.valueOf(persianCalendar.getPersianMonth());
+						}
+						if(persianCalendar.getPersianDay()<10)
+						{
+							StartDay="0"+String.valueOf(persianCalendar.getPersianDay());
+						}
+						else
+						{
+							StartDay=String.valueOf(persianCalendar.getPersianDay());
+						}
+
+						etFromDate.setText(PersianDigitConverter.PerisanNumber(StartYear + "/" + StartMonth + "/" + StartDay));
 					}
 
 					@Override
@@ -1032,10 +916,25 @@ public class Service_Request extends AppCompatActivity {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 							EndYear=String.valueOf(persianCalendar.getPersianYear());
-							EndMonth=String.valueOf(persianCalendar.getPersianMonth());
-							EndDay=String.valueOf(persianCalendar.getPersianDay());
+							if(persianCalendar.getPersianMonth()<10)
+							{
+								EndMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+							}
+							else
+							{
+								EndMonth=String.valueOf(persianCalendar.getPersianMonth());
+							}
+							if(persianCalendar.getPersianDay()<10)
+							{
+								EndDay="0"+String.valueOf(persianCalendar.getPersianDay());
+							}
+							else
+							{
+								EndDay=String.valueOf(persianCalendar.getPersianDay());
+							}
+
+							etToDate.setText(PersianDigitConverter.PerisanNumber(EndYear + "/" + EndMonth + "/" + EndDay));
 						}
 
 						@Override
@@ -1067,10 +966,25 @@ public class Service_Request extends AppCompatActivity {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
 						EndYear=String.valueOf(persianCalendar.getPersianYear());
-						EndMonth=String.valueOf(persianCalendar.getPersianMonth());
-						EndDay=String.valueOf(persianCalendar.getPersianDay());
+						if(persianCalendar.getPersianMonth()<10)
+						{
+							EndMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+						}
+						else
+						{
+							EndMonth=String.valueOf(persianCalendar.getPersianMonth());
+						}
+						if(persianCalendar.getPersianDay()<10)
+						{
+							EndDay="0"+String.valueOf(persianCalendar.getPersianDay());
+						}
+						else
+						{
+							EndDay=String.valueOf(persianCalendar.getPersianDay());
+						}
+
+						etToDate.setText(PersianDigitConverter.PerisanNumber(EndYear + "/" + EndMonth + "/" + EndDay));
 					}
 
 					@Override
@@ -1081,6 +995,7 @@ public class Service_Request extends AppCompatActivity {
 				picker.show();
 			}
 		});
+		//***********************************************
 		etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -1099,9 +1014,23 @@ public class Service_Request extends AppCompatActivity {
 							} else {
 								AM_PM = "PM";
 							}
-							etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
-							StartHour = String.valueOf(selectedHour);
-							StartMinute = String.valueOf(selectedMinute);
+							if(selectedHour<10)
+							{
+								StartHour = "0"+String.valueOf(selectedHour);
+							}
+							else
+							{
+								StartHour = String.valueOf(selectedHour);
+							}
+							if(selectedMinute<10)
+							{
+								StartMinute = "0"+String.valueOf(selectedMinute);
+							}
+							else
+							{
+								StartMinute = String.valueOf(selectedMinute);
+							}
+							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
 						}
 					}, hour, minute, true);
 					mTimePicker.setTitle("Select Time");
@@ -1126,9 +1055,23 @@ public class Service_Request extends AppCompatActivity {
 						} else {
 							AM_PM = "PM";
 						}
-						etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
-						StartHour=String.valueOf(selectedHour);
-						StartMinute=String.valueOf(selectedMinute);
+						if(selectedHour<10)
+						{
+							StartHour = "0"+String.valueOf(selectedHour);
+						}
+						else
+						{
+							StartHour = String.valueOf(selectedHour);
+						}
+						if(selectedMinute<10)
+						{
+							StartMinute = "0"+String.valueOf(selectedMinute);
+						}
+						else
+						{
+							StartMinute = String.valueOf(selectedMinute);
+						}
+						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
 					}
 				}, hour, minute, true);
 				mTimePicker.setTitle("Select Time");
@@ -1153,9 +1096,23 @@ public class Service_Request extends AppCompatActivity {
 							} else {
 								AM_PM = "PM";
 							}
-							etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
-							EndHour = String.valueOf(selectedHour);
-							EndMinute = String.valueOf(selectedMinute);
+							if(selectedHour<10)
+							{
+								EndHour = "0"+String.valueOf(selectedHour);
+							}
+							else
+							{
+								EndHour = String.valueOf(selectedHour);
+							}
+							if(selectedMinute<10)
+							{
+								EndMinute = "0"+String.valueOf(selectedMinute);
+							}
+							else
+							{
+								EndMinute = String.valueOf(selectedMinute);
+							}
+							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
 						}
 					}, hour, minute, true);
 					mTimePicker.setTitle("Select Time");
@@ -1180,9 +1137,23 @@ public class Service_Request extends AppCompatActivity {
 						} else {
 							AM_PM = "PM";
 						}
-						etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
-						EndHour=String.valueOf(selectedHour);
-						EndMinute=String.valueOf(selectedMinute);
+						if(selectedHour<10)
+						{
+							EndHour = "0"+String.valueOf(selectedHour);
+						}
+						else
+						{
+							EndHour = String.valueOf(selectedHour);
+						}
+						if(selectedMinute<10)
+						{
+							EndMinute = "0"+String.valueOf(selectedMinute);
+						}
+						else
+						{
+							EndMinute = String.valueOf(selectedMinute);
+						}
+						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
 					}
 				}, hour, minute, true);
 				mTimePicker.setTitle("Select Time");
@@ -1213,19 +1184,18 @@ public class Service_Request extends AppCompatActivity {
 	}
 	public void form1()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.VISIBLE);
+		tvTitleTypePeriodService.setVisibility(View.VISIBLE);
+		spTypePeriodService.setVisibility(View.VISIBLE);
+		FillSpinner("TypePeriodService","Title",spTypePeriodService);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.VISIBLE);
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1235,28 +1205,25 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
 		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form2()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.GONE);
-		LinearCountMan.setVisibility(View.GONE);
-		LinearCountDoenotmatter.setVisibility(View.GONE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1266,29 +1233,26 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 
 	public void form3()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1298,28 +1262,25 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form4()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1329,28 +1290,25 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form5()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1362,28 +1320,27 @@ public class Service_Request extends AppCompatActivity {
 		FillSpinner("FieldofEducation","Title",spFieldEducation);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.VISIBLE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form6()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1393,28 +1350,28 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.VISIBLE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.VISIBLE);
+		FillSpinner("Language","Title",spLanguage);
 	}
 	public void form7()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1424,28 +1381,27 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.VISIBLE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form8()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1456,28 +1412,25 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldArt.setVisibility(View.VISIBLE);
 		FillSpinner("Arts","Title",spFieldArt);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.VISIBLE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form9()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.GONE);
-		LinearCountMan.setVisibility(View.GONE);
-		LinearCountDoenotmatter.setVisibility(View.GONE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1487,12 +1440,11 @@ public class Service_Request extends AppCompatActivity {
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.VISIBLE);
-		LinearTypeCar.setVisibility(View.VISIBLE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.VISIBLE);
+		FillSpinner("carwash","Title",spTypeService);
+		FillSpinner("TypeCar","Title",spTypeCar);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void FillSpinner(String tableName,String ColumnName,Spinner spinner){
 		List<String> labels = new ArrayList<String>();
@@ -1529,5 +1481,22 @@ public class Service_Request extends AppCompatActivity {
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(dataAdapter);
 	}
+	public void dialContactPhone(String phoneNumber) {
+		//startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
+		Intent callIntent = new Intent(Intent.ACTION_CALL);
+		callIntent.setData(Uri.parse("tel:" + phoneNumber));
+		if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+			// TODO: Consider calling
+			//    ActivityCompat#requestPermissions
+			// here to request the missing permissions, and then overriding
+			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			//                                          int[] grantResults)
+			// to handle the case where the user grants the permission. See the documentation
+			// for ActivityCompat#requestPermissions for more details.
+			return;
+		}
 
+
+		startActivity(callIntent);
+	}
 }

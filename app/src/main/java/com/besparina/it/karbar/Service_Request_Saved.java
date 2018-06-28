@@ -51,7 +51,7 @@ public class Service_Request_Saved extends AppCompatActivity {
 	private SQLiteDatabase db;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;
+	private Button btncredite;	private Button btnServiceEmergency;
 	private GoogleMap map;
 	private Typeface FontMitra;
 	private LatLng point;
@@ -79,7 +79,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+		btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
@@ -142,11 +142,11 @@ protected void onCreate(Bundle savedInstanceState) {
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
 		if (cursor2.getCount() > 0) {
-			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
 		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
 		if (cursor2.getCount() > 0) {
-			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
 		cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (cursor2.getCount() > 0) {
@@ -155,15 +155,15 @@ protected void onCreate(Bundle savedInstanceState) {
 				String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 				if(splitStr[1].compareTo("00")==0)
 				{
-					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+"(");
+					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
 				}
 				else
 				{
-					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+"(");
+					btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
 				}
 
 			} catch (Exception ex) {
-				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+"(");
+				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 			}
 		}
 		db.close();
@@ -194,6 +194,31 @@ protected void onCreate(Bundle savedInstanceState) {
 			public void onClick(View v) {
 
 				LoadActivity(Credit.class, "karbarCode", karbarCode);
+			}
+		});
+		btnServiceEmergency.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (ActivityCompat.checkSelfPermission(Service_Request_Saved.this,
+						android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+					if(ActivityCompat.shouldShowRequestPermissionRationale(Service_Request_Saved.this, android.Manifest.permission.CALL_PHONE))
+					{
+						ActivityCompat.requestPermissions(Service_Request_Saved.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+					}
+					else
+					{
+						ActivityCompat.requestPermissions(Service_Request_Saved.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+					}
+
+				}
+				db = dbh.getReadableDatabase();
+				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+				if (cursorPhone.getCount() > 0) {
+					cursorPhone.moveToNext();
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+				}
+				db.close();
 			}
 		});
 	//***************************************************************************************
@@ -835,6 +860,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 		});
 	}
+
 	public void dialContactPhone(String phoneNumber) {
 		//startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
 		Intent callIntent = new Intent(Intent.ACTION_CALL);

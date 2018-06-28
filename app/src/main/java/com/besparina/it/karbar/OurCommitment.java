@@ -3,13 +3,16 @@
     import android.app.Activity;
     import android.content.Context;
     import android.content.Intent;
+    import android.content.pm.PackageManager;
     import android.database.Cursor;
     import android.database.SQLException;
     import android.database.sqlite.SQLiteDatabase;
     import android.graphics.Typeface;
+    import android.net.Uri;
     import android.os.Bundle;
     import android.support.annotation.NonNull;
 
+    import android.support.v4.app.ActivityCompat;
     import android.view.KeyEvent;
     import android.view.MenuItem;
     import android.view.View;
@@ -24,7 +27,7 @@
         private String karbarCode;
         private Button btnOrder;
         private Button btnAcceptOrder;
-        private Button btncredite;
+        private Button btncredite;	private Button btnServiceEmergency;
         private TextView txtContent;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
@@ -38,7 +41,7 @@
         setContentView(R.layout.ourcommitment);
             btnOrder=(Button)findViewById(R.id.btnOrderBottom);
             btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-            btncredite=(Button)findViewById(R.id.btncrediteBottom);
+            btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
             dbh=new DatabaseHelper(getApplicationContext());
             try {
 
@@ -84,11 +87,11 @@
                     "Servicesdetails ON " +
                     "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
             if (cursor2.getCount() > 0) {
-                btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+                btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
             }
             cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
             if (cursor2.getCount() > 0) {
-                btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+"(");
+                btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
             }
             cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor2.getCount() > 0) {
@@ -97,15 +100,15 @@
 			String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
 			if(splitStr[1].compareTo("00")==0)
 			{
-				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+"(");
+				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
 			}
 			else
 			{
-				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+"(");
+				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
 			}
 
 		} catch (Exception ex) {
-			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+"(");
+			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 		}
             }
             db.close();
@@ -138,6 +141,31 @@
                     LoadActivity(Credit.class, "karbarCode", karbarCode);
                 }
             });
+            btnServiceEmergency.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (ActivityCompat.checkSelfPermission(OurCommitment.this,
+                            android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        if(ActivityCompat.shouldShowRequestPermissionRationale(OurCommitment.this, android.Manifest.permission.CALL_PHONE))
+                        {
+                            ActivityCompat.requestPermissions(OurCommitment.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+                        }
+                        else
+                        {
+                            ActivityCompat.requestPermissions(OurCommitment.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+                        }
+
+                    }
+                    db = dbh.getReadableDatabase();
+                    Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+                    if (cursorPhone.getCount() > 0) {
+                        cursorPhone.moveToNext();
+                        dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                    }
+                    db.close();
+                }
+            });
     }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -162,5 +190,23 @@
             intent.putExtra(VariableName2, VariableValue2);
 
             this.startActivity(intent);
+        }
+        public void dialContactPhone(String phoneNumber) {
+            //startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + phoneNumber));
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
+
+            startActivity(callIntent);
         }
     }
