@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:map="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,11 +23,19 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/EditOrder"
+            app:title="@string/service_request"
             app:titleTextColor="@color/md_black_1000"
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
             android:gravity="right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTitleService"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="#000000"/>
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -46,7 +53,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/appbar"
         android:verticalScrollbarPosition="right"
-        android:layout_marginBottom="65dp">
+        android:layout_marginBottom="75dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,633 +61,718 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="15dp">
+                android:layout_margin="15dp"
+                android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/LinearDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/LinearFromDate">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/calender"/>
+                            android:background="@drawable/calender" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/tvTitleFromDate"
-                            android:text="@string/FromDate"
-                            android:textColor="#000000"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:layout_gravity="center"/>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tvTitleToDate"
-                            android:text="@string/ToDate"
-                            android:textColor="#000000"
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:layout_gravity="center"/>
+                            android:text="@string/FromDate"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleToDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/ToDate"
+                            android:textColor="#213494" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_gravity="center"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
                         <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/etFromDate"
-                            android:textColor="#000000"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="2dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:background="@drawable/rounded_edittext_2"/>
-                        <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/etToDate"
-                            android:textColor="#000000"
-                            android:layout_marginRight="2dp"
                             android:layout_gravity="center"
-                            android:gravity="center"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
                             android:background="@drawable/rounded_edittext_2"
-                            android:layout_weight="1"/>
+                            android:gravity="center"
+                            android:textColor="#213494" />
+
+                        <EditText
+                            android:id="@+id/etToDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:gravity="center"
+                            android:textColor="#213494" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
+                        android:id="@+id/LinearFromTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:id="@+id/LinearFromTime">
+                        android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/clock"/>
+                            android:background="@drawable/clock" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/tvTitleFromTime"
-                            android:text="@string/FromTime"
-                            android:textColor="#000000"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"/>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tvTitleToTime"
-                            android:text="@string/ToTime"
-                            android:textColor="#000000"
-                            android:layout_weight="1"
                             android:layout_gravity="center"
-                            android:gravity="center"/>
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/FromTime"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleToTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/ToTime"
+                            android:textColor="#213494" />
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:id="@+id/LinearToTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:id="@+id/LinearToTime">
+                        android:orientation="horizontal">
+
                         <EditText
+                            android:id="@+id/etFromTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/etFromTime"
-                            android:textColor="#000000"
+                            android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
                             android:layout_weight="1"
-                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_edittext_2"
                             android:gravity="center"
-                            android:background="@drawable/rounded_edittext_2"/>
+                            android:textColor="#000000" />
+
                         <EditText
+                            android:id="@+id/etToTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/etToTime"
-                            android:textColor="#000000"
+                            android:layout_gravity="center"
                             android:layout_marginRight="2dp"
                             android:layout_weight="1"
-                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_edittext_2"
                             android:gravity="center"
-                            android:background="@drawable/rounded_edittext_2"/>
+                            android:textColor="#000000" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/LinearTypePeriodService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/LinearTypePeriodService">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/period_service"/>
+                            android:background="@drawable/period_service" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/tvTitleTypePeriodService"
-                            android:text="@string/ServicePeriod"
-                            android:textColor="#000000"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"/>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tvTitleStatus"
-                            android:text="@string/status"
-                            android:textColor="#000000"
-                            android:layout_weight="1"
                             android:layout_gravity="center"
-                            android:gravity="center"/>
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/ServicePeriod"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/status"
+                            android:textColor="#213494" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/spTypePeriodService"
-                            android:layout_marginLeft="2dp"
-                            android:background="@drawable/spinner_bg"
-                            android:layout_weight="1">
-                        </Spinner>
-                        <Spinner
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg"/>
+
+                        <Spinner
                             android:id="@+id/spStatus"
-                            android:background="@drawable/spinner_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginRight="2dp"
-                            android:layout_weight="1">
-                        </Spinner>
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg"/>
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearStatusCountHamyar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/LinearStatusCountWoman"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/man" />
+
+                        <TextView
+                            android:id="@+id/tvTitleCountMan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/CountMan"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleCountWoman"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/CountWoman"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleCountDoesnotmatter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/Doesnotmatter"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearCountMan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/etCountMan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:inputType="phone"
+                            android:textColor="#000000" />
+                        <EditText
+                            android:id="@+id/etCountWoman"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:inputType="phone"
+                            android:textColor="#000000" />
+                        <EditText
+                            android:id="@+id/etDoesnotmatter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:inputType="phone"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/LinearLearning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/book" />
+
+                        <TextView
+                            android:id="@+id/tvTitleLearning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="@string/TitleLearning"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/etTitleLearning"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <LinearLayout
+                        android:id="@+id/LinearGraid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/LinearStatusCountWoman">
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/man"/>
+                            android:background="@drawable/telescop" />
+
                         <TextView
+                            android:id="@+id/tvGraid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tvTitleCountMan"
-                            android:text="@string/CountMan"
-                            android:textColor="#000000"
-                            android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:layout_weight="1"/>
+                            android:text="@string/Graid"
+                            android:textColor="#000000" />
+
                         <TextView
+                            android:id="@+id/tvFieldEducation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tvTitleCountWoman"
-                            android:text="@string/CountWoman"
-                            android:textColor="#000000"
-                            android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:layout_weight="1"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvTitleCountDoesnotmatter"
-                            android:text="@string/Doesnotmatter"
-                            android:textColor="#000000"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_weight="1"/>
+                            android:text="@string/FieldEducation"
+                            android:textColor="#000000" />
+
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearFieldEducation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spGraid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Spinner
+                            android:id="@+id/spFieldEducation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearFieldArt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/LinearCountMan">
-                        <EditText
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/colorboom" />
+
+                        <TextView
+                            android:id="@+id/tvFieldArt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/etCountWoman"
-                            android:inputType="phone"
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:textColor="#000000"
-                            android:layout_marginLeft="2dp"
-                            android:background="@drawable/rounded_edittext_2"/>
-                        <EditText
-                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/FieldArt"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spFieldArt"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/etCountMan"
-                            android:inputType="phone"
-                            android:layout_weight="1"
-                            android:textColor="#000000"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@drawable/rounded_edittext_2"/>
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etDoesnotmatter"
-                            android:inputType="phone"
-                            android:layout_weight="1"
-                            android:textColor="#000000"
-                            android:layout_marginRight="2dp"
-                            android:background="@drawable/rounded_edittext_2"/>
+                            android:background="@drawable/spinner_bg" />
                     </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/LinearFieldArtOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleFieldArtOther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Other"
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/etFieldArtOther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_edittext_2"
+                        android:textColor="#000000" />
+                </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/LinearGenderStudentAndTeacher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/LinearLearning">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvTitleLearning"
-                        android:text="@string/TitleLearning"
-                        android:textColor="#000000"/>
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/etTitleLearning"
-                        android:layout_weight="1"
-                        android:textColor="#000000"
-                        android:background="@drawable/rounded_edittext_2"/>
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/man" />
+
+                        <TextView
+                            android:id="@+id/tvTitleGenderStudent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/GenderStudent"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/tvTitleGenderTeacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/GenderTeacher"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spGenderStudent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Spinner
+                            android:id="@+id/spGenderTeacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/LinearCarWash"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/LinearGraid">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Graid"
-                        android:id="@+id/tvGraid"
-                        android:textColor="#000000"/>
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spGraid"
-                        android:layout_weight="1"
-                        android:background="@drawable/spinner_bg"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearFieldEducation">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/FieldEducation"
-                        android:id="@+id/tvFieldEducation"
-                        android:textColor="#000000"/>
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spFieldEducation"
-                        android:layout_weight="1"
-                        android:background="@drawable/spinner_bg"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearFieldArt">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/FieldArt"
-                        android:id="@+id/tvFieldArt"
-                        android:textColor="#000000"/>
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spFieldArt"
-                        android:layout_weight="1"
-                        android:background="@drawable/spinner_bg"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearFieldArtOther">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvTitleFieldArtOther"
-                        android:text="@string/Other"
-                        android:textColor="#000000"/>
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/etFieldArtOther"
-                        android:layout_weight="1"
-                        android:textColor="#000000"
-                        android:background="@drawable/rounded_edittext_2"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearGenderStudent">
-                    <TextView
+                    android:orientation="vertical">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvTitleGenderStudent"
-                        android:text="@string/GenderStudent"
-                        android:textColor="#000000"/>
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/rgGenderStudent"
                         android:orientation="horizontal">
-                        <RadioButton
-                            android:layout_width="match_parent"
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/repair" />
+
+                        <TextView
+                            android:id="@+id/tvTitleTypeService"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rdbMaleStudent"
-                            android:text="@string/Male"
-                            android:checked="true">
-                        </RadioButton>
-                        <RadioButton
-                            android:layout_width="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/TypeService"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/tvTitleTypeCar"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rdbFemaleStudent"
-                            android:text="@string/Female"
-                            android:checked="true">
-                        </RadioButton>
-                    </RadioGroup>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearGenderTeacher">
-                    <TextView
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/TypeCar"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvTitleGenderTeacher"
-                        android:text="@string/GenderTeacher"
-                        android:textColor="#000000"
-                        />
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/rgGenderTeacher"
                         android:orientation="horizontal">
-                        <RadioButton
-                            android:layout_width="match_parent"
+
+                        <Spinner
+                            android:id="@+id/spTypeService"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rdbMaleTeacher"
-                            android:text="@string/Male"
-                            android:checked="true">
-                        </RadioButton>
-                        <RadioButton
-                            android:layout_width="match_parent"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Spinner
+                            android:id="@+id/spTypeCar"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rdbFemaleTeacher"
-                            android:text="@string/Female"/>
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rdbDoesnotmatter"
-                            android:text="@string/Doesnotmatter">
-                        </RadioButton>
-                    </RadioGroup>
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearTypeService">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvTitleTypeService"
-                        android:text="@string/TypeService"
-                        android:textColor="#000000"
-                        />
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/rgTypeService"
-                        android:orientation="horizontal">
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rdbRoshoie"
-                            android:text="@string/Roshoie"
-                            android:checked="true">
-                        </RadioButton>
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rdbRoshoieAndToShoie"
-                            android:text="@string/RoshoieAndToShoie"
-                            android:checked="true">
-                        </RadioButton>
-                    </RadioGroup>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearTypeCar">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvTitleTypeCar"
-                        android:text="@string/TypeCar"
-                        android:textColor="#000000"
-                        />
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/rgTypeCar"
-                        android:orientation="horizontal">
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rdbSavari"
-                            android:text="@string/Savari"
-                            android:checked="true">
-                        </RadioButton>
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rdbShasi"
-                            android:text="@string/Shasi"
-                            android:checked="true">
-                        </RadioButton>
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rdbVan"
-                            android:text="@string/Van"
-                            android:checked="true">
-                        </RadioButton>
-                    </RadioGroup>
-                </LinearLayout>
-                <LinearLayout
+                    android:id="@+id/LinerLayoutLanguege"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearLanguage">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/Language"
-                        android:textColor="#000000"
-                        android:id="@+id/tvLanguage"/>
-                    <Spinner
-                        android:layout_width="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/book" />
+
+                        <TextView
+                            android:id="@+id/tvLanguage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/Language"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearLanguage"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spLanguage"
-                        android:layout_weight="1"
-                        android:background="@drawable/spinner_bg"/>
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spLanguage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/LinearDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/LinearDescription">
+                    android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tvTitleDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/Description"
-                        android:textColor="#000000"/>
+                        android:textColor="#000000" />
+
                     <EditText
                         android:id="@+id/etDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="70dp"
                         android:layout_weight="1"
+                        android:background="@drawable/rounded_edittext_2"
                         android:inputType="textMultiLine"
-                        android:textColor="#000000"
-                        android:background="@drawable/rounded_edittext_2"/>
+                        android:textColor="#000000" />
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/LinearAddres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/LinearAddres">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/address"/>
+                            android:background="@drawable/address" />
+
                         <TextView
                             android:id="@+id/tvTitleAddres"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
                             android:text="@string/Addres"
-                            android:textColor="#000000"/>
+                            android:textColor="#000000" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
                         <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/spAddress"
-                            android:layout_weight="1"
-                            android:background="@drawable/spinner_bg"/>
-                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Button
                             android:id="@+id/btnAddAdres"
-                            android:text="+"
-                            android:background="@drawable/rounded_button_signin"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_button_signin"
+                            android:text="+" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/LinearEtAddres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/LinearEtAddres">
+                    android:orientation="horizontal">
                     <EditText
                         android:id="@+id/etAddres"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_weight="1"
+                        android:background="@drawable/rounded_edittext_2"
                         android:inputType="textMultiLine"
-                        android:textColor="#000000"
-                        android:background="@drawable/rounded_edittext_2" />
+                        android:textColor="#000000" />
                 </LinearLayout>
-                <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--android:id="@+id/map2"-->
-                <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="180dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--map:liteMode="true"-->
-                <!--map:uiZoomControls="false" />-->
-
             </LinearLayout>
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/map2"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                map:liteMode="true"
-                map:uiZoomControls="false" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -706,6 +798,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
+                    android:layout_marginBottom="10dp"
                     android:paddingRight="10dp"
                     android:background="@drawable/rounded_button_transparent"
                     android:drawableRight="@drawable/cansel"/>

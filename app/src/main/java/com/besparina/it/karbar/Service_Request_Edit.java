@@ -1,7 +1,10 @@
 package com.besparina.it.karbar;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,9 +14,13 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,8 +48,11 @@ import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import java.util.Date;
 import java.util.List;
 
 import ir.hamsaa.persiandatepicker.Listener;
@@ -52,9 +62,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Service_Request_Edit extends AppCompatActivity {
 	private String karbarCode;
 	private String DetailCode;
-	private String CodeOrderService;
 	private TextView tvTitleService;
-	private TextView tvTitleString;
 	private TextView tvTitleFromDate;
 	private TextView tvTitleToDate;
 	private TextView tvTitleFromTime;
@@ -75,8 +83,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 	private TextView tvLanguage;
 	private TextView tvTitleDescription;
 	private TextView tvTitleAddres;
-	private TextView tvTitleCodeService;
-	//*******************************************
+	//**************************************************************
 	private EditText etFromDate;
 	private EditText etToDate;
 	private EditText etFromTime;
@@ -88,42 +95,38 @@ public class Service_Request_Edit extends AppCompatActivity {
 	private EditText etDescription;
 	private EditText etTitleLearning;
 	private EditText etFieldArtOther;
+	//**************************************************************
 	private Spinner spGraid;
 	private Spinner spFieldEducation;
 	private Spinner spFieldArt;
 	private Spinner spLanguage;
-	private RadioGroup rgTypePeriodService;
-	private RadioGroup rgStatus;
-	private RadioGroup rgGenderStudent;
-	private RadioGroup rgGenderTeacher;
-	private RadioGroup rgTypeService;
-	private RadioGroup rgTypeCar;
-	private CheckBox chbDoesnotmatter;
+	private Spinner spAddress;
+	private Spinner spStatus;
+	private Spinner spTypeCar;
+	private Spinner spTypeService;
+	private Spinner spGenderStudent;
+	private Spinner spGenderTeacher;
+	private Spinner spTypePeriodService;
+	//**************************************************************
 	private Button btnSave;
-	private LinearLayout LinearFromDate;
-	private LinearLayout LinearToDate;
+	private LinearLayout LinearDate;
 	private LinearLayout LinearFromTime;
 	private LinearLayout LinearToTime;
-	private LinearLayout LinearTypePeriodService;
-	private LinearLayout LinearStatus;
-	private LinearLayout LinearStatusCountWoman;
-	private LinearLayout LinearCountMan;
-	private LinearLayout LinearCountDoenotmatter;
+	private LinearLayout LinearStatusCountHamyar;
 	private LinearLayout LinearLearning;
 	private LinearLayout LinearGraid;
 	private LinearLayout LinearFieldEducation;
 	private LinearLayout LinearFieldArt;
 	private LinearLayout LinearFieldArtOther;
-	private LinearLayout LinearGenderStudent;
-	private LinearLayout LinearGenderTeacher;
-	private LinearLayout LinearTypeService;
-	private LinearLayout LinearTypeCar;
+	private LinearLayout LinearGenderStudentAndTeacher;
+	private LinearLayout LinearCarWash;
 	private LinearLayout LinearLanguage;
 	private LinearLayout LinearAddres;
 	private LinearLayout LinearDescription;
+	private LinearLayout LinerLayoutLanguege;
+	//**************************************************************
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-	GoogleMap map;
 	private String typeForm;
 	private String CodeService;
 	///*************************************
@@ -142,63 +145,44 @@ public class Service_Request_Edit extends AppCompatActivity {
 	private String EndMinute ;
 	private String AddressCode ;
 	private String Description ;
-	private String IsEmergency ;
-	private String PeriodicServices ;
 	private String EducationGrade ;
 	private String FieldOfStudy ;
-	private String StudentGender ;
-	private String TeacherGender ;
 	private String EducationTitle ;
 	private String ArtField ;
-	private String CarWashType ;
-	private String CarType ;
 	private String Language ;
-	private RadioButton radioStatusButton;
-	private RadioButton radioTypePeriodServiceButton;
-	private RadioButton radioStudentGenderButton;
-	private RadioButton radioTeacherGenderButton;
-	private RadioButton radioCarWashTypeButton;
-	private RadioButton radiorgTypeCarButton;
-	private RadioButton rdbNormal;
-	private RadioButton rdbEmergency;
-	private RadioButton rdbDaily;
-	private RadioButton rdbWeekly;
-	private RadioButton rdbMiddle_of_the_week;
-	private RadioButton rdbMonthly;
-	private RadioButton rdbMaleStudent;
-	private RadioButton rdbFemaleStudent;
-	private RadioButton rdbMaleTeacher;
-	private RadioButton rdbFemaleTeacher;
-	private RadioButton rdbDoesnotmatter;
-	private RadioButton rdbRoshoieAndToShoie;
-	private RadioButton rdbRoshoie;
-	private RadioButton rdbSavari;
-	private RadioButton rdbShasi;
-	private RadioButton rdbVan;
-	private Spinner spAddress;
-	private LatLng point;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;	private Button btnServiceEmergency;
+	private Button btncredite;
+	private Button btnServiceEmergency;
 	private Button btnCansel;
+	private Button btnAddAdres;
+	private Typeface FontFace;
+	private String StudentGender;
+	private String IsEmergency;
+	private String PeriodicServices;
+	private String TeacherGender;
+	private String CarWashType;
+	private String CarType;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 	}
 	@Override
-protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.service_request_edit);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.service_request_edit);
 		//***************************************************************
-		Typeface FontFace = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+		FontFace = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
 		int textSize=18;
 		//****************************************************************
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
+		btnAddAdres=(Button)findViewById(R.id.btnAddAdres);
 		btnOrder.setTypeface(FontFace);
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 		btnAcceptOrder.setTypeface(FontFace);
-		btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 		btncredite.setTypeface(FontFace);
 		btnSave=(Button)findViewById(R.id.btnSave);
 		btnCansel=(Button)findViewById(R.id.btnCansel);
@@ -211,7 +195,6 @@ protected void onCreate(Bundle savedInstanceState) {
 		tvTitleService.setTextSize(textSize);
 		//**************************************************************************************
 		tvTitleService=(TextView)findViewById(R.id.tvTitleService);
-//		tvTitleString=(TextView)findViewById(R.id.tvTitleString);
 		tvTitleFromDate=(TextView)findViewById(R.id.tvTitleFromDate);
 		tvTitleToDate=(TextView)findViewById(R.id.tvTitleToDate);
 		tvTitleFromTime=(TextView)findViewById(R.id.tvTitleFromTime);
@@ -232,11 +215,8 @@ protected void onCreate(Bundle savedInstanceState) {
 		tvLanguage=(TextView)findViewById(R.id.tvLanguage);
 		tvTitleDescription=(TextView)findViewById(R.id.tvTitleDescription);
 		tvTitleAddres=(TextView)findViewById(R.id.tvTitleAddres);
-//		tvTitleCodeService=(TextView)findViewById(R.id.tvTitleCodeService);
-		//**************************************************************************************
 		//**************************************************************************************
 		tvTitleService.setTypeface(FontFace);
-		tvTitleString.setTypeface(FontFace);
 		tvTitleFromDate.setTypeface(FontFace);
 		tvTitleToDate.setTypeface(FontFace);
 		tvTitleFromTime.setTypeface(FontFace);
@@ -258,7 +238,6 @@ protected void onCreate(Bundle savedInstanceState) {
 		tvTitleAddres.setTypeface(FontFace);
 		//**************************************************************************************
 		tvTitleService.setTextSize(18);
-		tvTitleString.setTextSize(18);
 		tvTitleFromDate.setTextSize(18);
 		tvTitleToDate.setTextSize(18);
 		tvTitleFromTime.setTextSize(18);
@@ -278,7 +257,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		tvLanguage.setTextSize(18);
 		tvTitleDescription.setTextSize(18);
 		tvTitleAddres.setTextSize(18);
-		//******************************************************
+		//**************************************************************************************
 		etFromDate=(EditText)findViewById(R.id.etFromDate);
 		etToDate=(EditText)findViewById(R.id.etToDate);
 		etFromTime=(EditText)findViewById(R.id.etFromTime);
@@ -314,143 +293,78 @@ protected void onCreate(Bundle savedInstanceState) {
 		etDescription.setTextSize(textSize);
 		etTitleLearning.setTextSize(textSize);
 		etFieldArtOther.setTextSize(textSize);
-	  spGraid=(Spinner)findViewById(R.id.spGraid);
-	  spFieldEducation=(Spinner)findViewById(R.id.spFieldEducation);
-	  spFieldArt=(Spinner)findViewById(R.id.spFieldArt);
-	  spLanguage=(Spinner)findViewById(R.id.spLanguage);
-//	  rgTypePeriodService=(RadioGroup)findViewById(R.id.rgTypePeriodService);
-//	  rgStatus=(RadioGroup)findViewById(R.id.rgStatus);
-	  rgGenderStudent=(RadioGroup)findViewById(R.id.rgGenderStudent);
-	  rgGenderTeacher=(RadioGroup)findViewById(R.id.rgGenderTeacher);
-	  rgTypeService=(RadioGroup)findViewById(R.id.rgTypeService);
-	  rgTypeCar=(RadioGroup)findViewById(R.id.rgTypeCar);
-//	  chbDoesnotmatter=(CheckBox)findViewById(R.id.chbDoesnotmatter);
-	  LinearFromDate=(LinearLayout)findViewById(R.id.LinearFromDate);
-//	  LinearToDate=(LinearLayout)findViewById(R.id.LinearToDate);
-	  LinearFromTime=(LinearLayout)findViewById(R.id.LinearFromTime);
-	  LinearToTime=(LinearLayout)findViewById(R.id.LinearToTime);
-	  LinearTypePeriodService=(LinearLayout)findViewById(R.id.LinearTypePeriodService);
-//	  LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
-	  LinearStatusCountWoman=(LinearLayout)findViewById(R.id.LinearStatusCountWoman);
-	  LinearCountMan=(LinearLayout)findViewById(R.id.LinearCountMan);
-//	  LinearCountDoenotmatter=(LinearLayout)findViewById(R.id.LinearCountDoenotmatter);
-	  LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
-	  LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
-	  LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
-	  LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
-	  LinearFieldArtOther=(LinearLayout)findViewById(R.id.LinearFieldArtOther);
-	  LinearGenderStudent=(LinearLayout)findViewById(R.id.LinearGenderStudent);
-	  LinearGenderTeacher=(LinearLayout)findViewById(R.id.LinearGenderTeacher);
-	  LinearTypeService=(LinearLayout)findViewById(R.id.LinearTypeService);
-	  LinearTypeCar=(LinearLayout)findViewById(R.id.LinearTypeCar);
-	  LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
-	  LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
-	  LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
-//		rdbNormal= (RadioButton)findViewById(R.id.rdbNormal);
-//		rdbEmergency= (RadioButton)findViewById(R.id.rdbEmergency);
-//		rdbDaily= (RadioButton)findViewById(R.id.rdbDaily);
-//		rdbWeekly= (RadioButton)findViewById(R.id.rdbWeekly);
-//		rdbMiddle_of_the_week= (RadioButton)findViewById(R.id.rdbMiddle_of_the_week);
-//		rdbMonthly= (RadioButton)findViewById(R.id.rdbMonthly);
-		rdbMaleStudent= (RadioButton)findViewById(R.id.rdbMaleStudent);
-		rdbFemaleStudent= (RadioButton)findViewById(R.id.rdbFemaleStudent);
-		rdbMaleTeacher= (RadioButton)findViewById(R.id.rdbMaleTeacher);
-		rdbFemaleTeacher= (RadioButton)findViewById(R.id.rdbFemaleTeacher);
-		rdbDoesnotmatter= (RadioButton)findViewById(R.id.rdbDoesnotmatter);
-		rdbRoshoie= (RadioButton)findViewById(R.id.rdbRoshoie);
-		rdbRoshoieAndToShoie= (RadioButton)findViewById(R.id.rdbRoshoieAndToShoie);
-		rdbSavari= (RadioButton)findViewById(R.id.rdbSavari);
-		rdbShasi= (RadioButton)findViewById(R.id.rdbShasi);
-		rdbVan= (RadioButton)findViewById(R.id.rdbVan);
+
 		//***********************************************************************
-		rdbDaily.setTypeface(FontFace);
-		rdbWeekly.setTypeface(FontFace);
-		rdbMiddle_of_the_week.setTypeface(FontFace);
-		rdbMonthly.setTypeface(FontFace);
-		rdbNormal.setTypeface(FontFace);
-		rdbEmergency.setTypeface(FontFace);
-		rdbMaleStudent.setTypeface(FontFace);
-		rdbFemaleStudent.setTypeface(FontFace);
-		rdbMaleTeacher.setTypeface(FontFace);
-		rdbFemaleTeacher.setTypeface(FontFace);
-		rdbDoesnotmatter.setTypeface(FontFace);
-		rdbRoshoie.setTypeface(FontFace);
-		rdbRoshoieAndToShoie.setTypeface(FontFace);
-		rdbSavari.setTypeface(FontFace);
-		rdbShasi.setTypeface(FontFace);
-		rdbVan.setTypeface(FontFace);
-		//***********************************************************************rdbDaily.setTypeface(FontFace);
-		rdbWeekly.setTextSize(textSize);
-		rdbMiddle_of_the_week.setTextSize(textSize);
-		rdbMonthly.setTextSize(textSize);
-		rdbNormal.setTextSize(textSize);
-		rdbEmergency.setTextSize(textSize);
-		rdbMaleStudent.setTextSize(textSize);
-		rdbFemaleStudent.setTextSize(textSize);
-		rdbMaleTeacher.setTextSize(textSize);
-		rdbFemaleTeacher.setTextSize(textSize);
-		rdbDoesnotmatter.setTextSize(textSize);
-		rdbRoshoie.setTextSize(textSize);
-		rdbRoshoieAndToShoie.setTextSize(textSize);
-		rdbSavari.setTextSize(textSize);
-		rdbShasi.setTextSize(textSize);
-		rdbVan.setTextSize(textSize);
-		//*********************************************************
-		chbDoesnotmatter.setTypeface(FontFace);
-		chbDoesnotmatter.setTextSize(textSize);
-	dbh=new DatabaseHelper(getApplicationContext());
-	try {
+		spGraid=(Spinner)findViewById(R.id.spGraid);
+		spFieldEducation=(Spinner)findViewById(R.id.spFieldEducation);
+		spFieldArt=(Spinner)findViewById(R.id.spFieldArt);
+		spLanguage=(Spinner)findViewById(R.id.spLanguage);
+		spTypeCar=(Spinner)findViewById(R.id.spTypeCar);
+		spTypeService=(Spinner)findViewById(R.id.spTypeService);
+		spGenderStudent=(Spinner)findViewById(R.id.spGenderStudent);
+		spGenderTeacher=(Spinner)findViewById(R.id.spGenderTeacher);
+		spTypePeriodService=(Spinner)findViewById(R.id.spTypePeriodService);
+		spStatus=(Spinner)findViewById(R.id.spStatus);
+		//***********************************************************************
+		LinearDate=(LinearLayout)findViewById(R.id.LinearDate);
+		LinearFromTime=(LinearLayout)findViewById(R.id.LinearFromTime);
+		LinearToTime=(LinearLayout)findViewById(R.id.LinearToTime);
+		LinearStatusCountHamyar=(LinearLayout)findViewById(R.id.LinearStatusCountHamyar);
+		LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
+		LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
+		LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
+		LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
+		LinearFieldArtOther=(LinearLayout)findViewById(R.id.LinearFieldArtOther);
+		LinearGenderStudentAndTeacher=(LinearLayout)findViewById(R.id.LinearGenderStudentAndTeacher);
+		LinearCarWash=(LinearLayout)findViewById(R.id.LinearCarWash);
+		LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
+		LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
+		LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
+		LinerLayoutLanguege=(LinearLayout)findViewById(R.id.LinerLayoutLanguege);
 
-		dbh.createDataBase();
+		dbh=new DatabaseHelper(getApplicationContext());
+		try {
 
-	} catch (IOException ioe) {
+			dbh.createDataBase();
 
-		throw new Error("Unable to create database");
+		} catch (IOException ioe) {
 
-	}
+			throw new Error("Unable to create database");
 
-	try {
-
-		dbh.openDataBase();
-
-	} catch (SQLException sqle) {
-
-		throw sqle;
-	}
-	try
-	{
-		DetailCode = getIntent().getStringExtra("DetailCode").toString();
-	}
-	catch (Exception ex)
-	{
-		DetailCode="0";
-	}
-	try
-	{
-		CodeOrderService = getIntent().getStringExtra("CodeOrderService").toString();
-		tvTitleCodeService.setText(PersianDigitConverter.PerisanNumber(CodeOrderService));
-	}
-	catch (Exception ex)
-	{
-		CodeOrderService="0";
-		tvTitleCodeService.setText(PersianDigitConverter.PerisanNumber(CodeOrderService));
-	}
-	try
-	{
-		karbarCode = getIntent().getStringExtra("karbarCode").toString();
-	}
-	catch (Exception e)
-	{
-		db=dbh.getReadableDatabase();
-		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-		for(int i=0;i<coursors.getCount();i++){
-			coursors.moveToNext();
-
-			karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		db.close();
-	}
-	//*********************************************************************
+
+		try {
+
+			dbh.openDataBase();
+
+		} catch (SQLException sqle) {
+
+			throw sqle;
+		}
+		try
+		{
+			DetailCode = getIntent().getStringExtra("DetailCode").toString();
+		}
+		catch (Exception ex)
+		{
+			DetailCode="0";
+		}
+		try
+		{
+			karbarCode = getIntent().getStringExtra("karbarCode").toString();
+		}
+		catch (Exception e)
+		{
+			db=dbh.getReadableDatabase();
+			Cursor coursors = db.rawQuery("SELECT * FROM login",null);
+			for(int i=0;i<coursors.getCount();i++){
+				coursors.moveToNext();
+
+				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
+			}
+			db.close();
+		}
+		//*********************************************************************
 		db=dbh.getReadableDatabase();
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
@@ -482,6 +396,12 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		}
 		db.close();
+		btnAddAdres.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LoadActivity2(Map.class,"karbarCode", karbarCode,"DetailCode",DetailCode);
+			}
+		});
 		btnOrder.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -537,99 +457,37 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		});
 		//**************************************************************
-	spAddress=(Spinner)findViewById(R.id.spAddress);
-	FillSpinner("address","Name",spAddress);
-	spAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			db=dbh.getReadableDatabase();
-			Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Name='"+spAddress.getItemAtPosition(position).toString()+"'",null);
-			if(cursor.getCount()>0)
-			{
-				cursor.moveToNext();
-				etAddres.setText(cursor.getString(cursor.getColumnIndex("AddressText")));
-				etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
-				String latStr=cursor.getString(cursor.getColumnIndex("Lat"));
-				String lonStr=cursor.getString(cursor.getColumnIndex("Lng"));
-				double lat=0;
-				double lon=0;
-				if(latStr.length()>0 && lonStr.length()>0)
+		spAddress=(Spinner)findViewById(R.id.spAddress);
+		FillSpinner("address","Name",spAddress);
+		FillSpinner("ServiceStatus","Title",spStatus);
+		spAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				db=dbh.getReadableDatabase();
+				Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Name='"+spAddress.getItemAtPosition(position).toString()+"'",null);
+				if(cursor.getCount()>0)
 				{
-					lat=Double.parseDouble(latStr);
-					lon=Double.parseDouble(lonStr);
-				}
-				if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-					point = new LatLng(lat, lon);
+					cursor.moveToNext();
+					etAddres.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("AddressText"))));
+					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
 
 				}
-				else
-				{
-					point = new LatLng(35.691063, 51.407941);
-
-				}
-				map.clear();
-				map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-				map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
-			}
-			db.close();
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
-
-		}
-	});
-
-	//**************************************************************************************
-	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2)).getMapAsync(new OnMapReadyCallback() {
-		@Override
-
-		public void onMapReady(GoogleMap googleMap) {
-			map = googleMap;
-			db=dbh.getReadableDatabase();
-			String query="SELECT OrdersService.*,address.* FROM OrdersService " +
-					"LEFT JOIN " +
-					"address ON " +
-					"address.code=OrdersService.AddressCode WHERE OrdersService.Code="+CodeOrderService;
-			Cursor coursors = db.rawQuery(query,null);
-			if(coursors.getCount()>0)
-			{
-				coursors.moveToNext();
-				String latStr=coursors.getString(coursors.getColumnIndex("Lat"));
-				String lonStr=coursors.getString(coursors.getColumnIndex("Lng"));
-				double lat=0;
-				double lon=0;
-				if(latStr.length()>0 && lonStr.length()>0) {
-					 lat = Double.parseDouble(latStr);
-					 lon = Double.parseDouble(lonStr);
-				}
-				if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-					point = new LatLng(lat, lon);
-				}
-				else
-				{
-					point = new LatLng(lat, lon);
-				}
-			}
-			else {
-				point = new LatLng(35.691063, 51.407941);
+				db.close();
 			}
 
-			db.close();
-			map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
-			map.getUiSettings().setZoomControlsEnabled(true);
-		}
-	});
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
 
-//**************************************************************************************
+			}
+		});
+
 		db=dbh.getReadableDatabase();
 		Cursor coursors = db.rawQuery("SELECT * FROM Servicesdetails WHERE code='"+DetailCode+"'",null);
 		if(coursors.getCount()>0){
 			coursors.moveToNext();
 			typeForm=coursors.getString(coursors.getColumnIndex("type"));
 			CodeService=coursors.getString(coursors.getColumnIndex("servicename"));
-			tvTitleService.setText(": "+coursors.getString(coursors.getColumnIndex("name")));
+			tvTitleService.setText(":"+PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("name"))));
 		}
 		else
 		{
@@ -637,340 +495,292 @@ protected void onCreate(Bundle savedInstanceState) {
 			Toast.makeText(getBaseContext(), "نوع فرم ثبت نشده", Toast.LENGTH_LONG).show();
 		}
 		db.close();
-	switch (typeForm)
-	{
-		case "0":
-			form1();
-			break;
-		case "1":
-			form1();
-			break;
-		case "2":
-			form2();
-			break;
-		case "3":
-			form3();
-			break;
-		case "4":
-			form4();
-			break;
-		case "5":
-			form5();
-			break;
-		case "6":
-			form6();
-			break;
-		case "7":
-			form7();
-			break;
-		case "8":
-			form8();
-			break;
-		case "9":
-			form9();
-			break;
-	}
-	FillForm();
-	chbDoesnotmatter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			if(isChecked)
-			{
-
-				LinearStatusCountWoman.setVisibility(View.GONE);
-				LinearCountMan.setVisibility(View.GONE);
-				etDoesnotmatter.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				LinearStatusCountWoman.setVisibility(View.VISIBLE);
-				LinearCountMan.setVisibility(View.VISIBLE);
-				etDoesnotmatter.setVisibility(View.GONE);
-			}
+		switch (typeForm)
+		{
+			case "0":
+				form1();
+				break;
+			case "1":
+				form1();
+				break;
+			case "2":
+				form2();
+				break;
+			case "3":
+				form3();
+				break;
+			case "4":
+				form4();
+				break;
+			case "5":
+				form5();
+				break;
+			case "6":
+				form6();
+				break;
+			case "7":
+				form7();
+				break;
+			case "8":
+				form8();
+				break;
+			case "9":
+				form9();
+				break;
 		}
-	});
+		FillForm();
 		btnSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String ErrorStr="";
-				FemaleCount=etCountWoman.getText().toString();
-				HamyarCount=etDoesnotmatter.getText().toString();
-				MaleCount=etCountMan.getText().toString();
-				AddressCode=etAddres.getTag().toString();
-				if(etFromDate.length()==0)
-				{
-					ErrorStr+="تاریخ شروع را وارد نمایید"+"\n";
-				}
-				if(etToDate.length()==0)
-				{
-					ErrorStr+="تاریخ خاتمه را وارد نمایید"+"\n";
-				}
-				if(etFromTime.length()==0)
-				{
-					ErrorStr+="ساعت شروع را وارد نمایید"+"\n";
-				}
-				if(etToTime.length()==0)
-				{
-					ErrorStr+="ساعت خاتمه را وارد نمایید"+"\n";
-				}
-				if(etFromDate.getText().toString().compareTo(etToDate.getText().toString())>0)
-				{
-					ErrorStr+="تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد."+"\n";
-				}
-				if(AddressCode.length()==0)
-				{
-					ErrorStr+="آدرس را وارد نمایید"+"\n";
-				}
-				if(etFromDate.length()>=8 && etFromDate.length()<=10)
-				{
-					String DateSplit[]=etFromDate.getText().toString().split("/");
-					StartYear=DateSplit[0];
-					StartMonth=DateSplit[1];
-					StartDay=DateSplit[2];
-				}
-				else
-				{
-					ErrorStr+="تاریخ شروع را صحیح وارد نمایید"+"\n";
-				}
-				if(etToDate.length()>=8 && etToDate.length()<=10)
-				{
-					String DateSplit[]=etToDate.getText().toString().split("/");
-					EndYear=DateSplit[0];
-					EndMonth=DateSplit[1];
-					EndDay=DateSplit[2];
-				}
-				else
-				{
-					ErrorStr+="تاریخ خاتمه را صحیح وارد نمایید"+"\n";
-				}
-				if(etFromTime.length()>=3 && etFromTime.length()<=5)
-				{
-					String TimeSplit[]=etFromTime.getText().toString().split(":");
-					StartHour=TimeSplit[0];
-					StartMinute=TimeSplit[1];
-				}
-				else
-				{
-					ErrorStr+="زمان شروع را صحیح وارد نمایید"+"\n";
-				}
-				if(etToTime.length()>=3 && etToTime.length()<=5)
-				{
-					String TimeSplit[]=etToTime.getText().toString().split(":");
-					EndHour=TimeSplit[0];
-					EndMinute=TimeSplit[1];
-				}
-				else
-				{
-					ErrorStr+="زمان خاتمه را صحیح وارد نمایید"+"\n";
-				}
-				Description =etDescription.getText().toString();
-				//**************************************************************
-				int selectedId = rgStatus.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioStatusButton = (RadioButton) findViewById(selectedId);
-				IsEmergency =radioStatusButton.getText().toString();
-				if(IsEmergency.compareTo("عادی")==0)
-				{
-					IsEmergency="0";
-				}
-				else
-				{
-					IsEmergency="1";
-				}
-				//***************************************************************
-				
-				selectedId = rgTypePeriodService.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioTypePeriodServiceButton = (RadioButton) findViewById(selectedId);
-				PeriodicServices =radioTypePeriodServiceButton.getText().toString();
-				if(PeriodicServices.compareTo("روزانه")==0)
-				{
-					PeriodicServices ="1";
-				}
-				else if(PeriodicServices.compareTo("هفته در میان")==0)
-				{
-					PeriodicServices ="3";
-				}
-				else if(PeriodicServices.compareTo("هفتگی")==0)
-				{
-					PeriodicServices ="2";
-				}
-				else
-				{
-					PeriodicServices ="4";
-				}
-				//***************************************************************
-
-				try
-				{
-					EducationGrade =spGraid.getSelectedItem().toString();
-				}
-				catch (Exception ex)
-				{
-					EducationGrade ="0";
-				}
-				try
-				{
-					FieldOfStudy =etTitleLearning.getText().toString();
-					if(FieldOfStudy.length()==0)
-					{
-						FieldOfStudy="0";
-					}
-				}
-				catch (Exception ex)
-				{
-					FieldOfStudy ="0";
-				}
-
-				//**************************************************************
-				selectedId = rgGenderStudent.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioStudentGenderButton = (RadioButton) findViewById(selectedId);
-				StudentGender  =radioStudentGenderButton.getText().toString();
-				if(LinearGenderStudent.getVisibility()==View.VISIBLE) {
-					if (StudentGender.compareTo("زن") == 0) {
-						StudentGender = "1";
+				String ErrorStr = "";
+				FemaleCount = etCountWoman.getText().toString();
+				HamyarCount = etDoesnotmatter.getText().toString();
+				MaleCount = etCountMan.getText().toString();
+				try {
+					if (etAddres.getTag().toString().length() <= 0) {
+						ErrorStr += "آدرس را در قسمت تنظیمات حساب کاربری وارد نمایید." + "\n";
 					} else {
-						StudentGender = "2";
+						AddressCode = etAddres.getTag().toString();
 					}
+				} catch (Exception ex) {
+					ErrorStr += "آدرس را در قسمت تنظیمات حساب کاربری وارد نمایید." + "\n";
+				}
+				if (etFromDate.length() == 0) {
+					ErrorStr += "تاریخ شروع را وارد نمایید" + "\n";
+				}
+				if (etToDate.length() == 0) {
+					ErrorStr += "تاریخ خاتمه را وارد نمایید" + "\n";
+				}
+				if (etFromTime.length() == 0) {
+					ErrorStr += "ساعت شروع را وارد نمایید" + "\n";
+				}
+				if (etToTime.length() == 0) {
+					ErrorStr += "ساعت خاتمه را وارد نمایید" + "\n";
+				}
+				String SplitFromeDate[]=etFromDate.getText().toString().split("/");
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calFrom=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+				calFrom.setPersianDate(Integer.parseInt(SplitFromeDate[0])
+						,Integer.parseInt(SplitFromeDate[1])
+						,Integer.parseInt(SplitFromeDate[2]));
+				//******************
+				String SplitToDate[]=etToDate.getText().toString().split("/");
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calTo=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
+						,Integer.parseInt(SplitToDate[1])
+						,Integer.parseInt(SplitToDate[2]));
+				int compateDate= calFrom.compareTo(calTo);
+				if (compateDate>0) {
+					ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
 				}
 				else
 				{
-					StudentGender="0";
-				}
-				//***************************************************************
-				selectedId = rgGenderTeacher.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioTeacherGenderButton = (RadioButton) findViewById(selectedId);
-				TeacherGender  =radioTeacherGenderButton.getText().toString();
-				if(LinearGenderTeacher.getVisibility()==View.VISIBLE) {
-					if (TeacherGender.compareTo("زن") == 0) {
-						TeacherGender = "1";
-					} else if (TeacherGender.compareTo("مرد") == 0) {
-						TeacherGender = "2";
-					} else {
-						TeacherGender = "3";
-					}
-				}
-				else
-				{
-					TeacherGender="0";
-				}
-				//***************************************************************
-
-				try
-				{
-					EducationTitle =spFieldEducation.getSelectedItem().toString();
-				}
-				catch (Exception ex)
-				{
-					EducationTitle ="0";
-				}
-				try
-				{
-					ArtField =spFieldArt.getSelectedItem().toString();
-				}
-				catch (Exception ex)
-				{
-					ArtField ="0";
-				}
-				//***************************************************************
-				//***************************************************************
-				selectedId = rgTypeService.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radioCarWashTypeButton = (RadioButton) findViewById(selectedId);
-				CarWashType  =radioCarWashTypeButton.getText().toString();
-				if(LinearTypeService.getVisibility()==View.VISIBLE)
-				{
-					if(CarWashType.compareTo("روشویی")==0)
+					ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+					calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
+					String strTo=String.valueOf(calTo.getPersianYear());
+					if(calTo.getPersianMonth()<10)
 					{
-						CarWashType ="1";
+						strTo=strTo+"0"+String.valueOf(calTo.getPersianMonth());
 					}
 					else
 					{
-						CarWashType="2";
+						strTo=strTo+String.valueOf(calTo.getPersianMonth());
+					}
+					if(calTo.getPersianDay()<10)
+					{
+						strTo=strTo+"0"+String.valueOf(calTo.getPersianDay());
+					}
+					else
+					{
+						strTo=strTo+String.valueOf(calTo.getPersianDay());
+					}
+					//**********************************
+					String strNow=String.valueOf(calNow.getPersianYear());
+					if(calNow.getPersianMonth()<10)
+					{
+						strNow=strNow+"0"+String.valueOf(calNow.getPersianMonth());
+					}
+					else
+					{
+						strNow=strNow+String.valueOf(calNow.getPersianMonth());
+					}
+					if(calNow.getPersianDay()<10)
+					{
+						strNow=strNow+"0"+String.valueOf(calNow.getPersianDay());
+					}
+					else
+					{
+						strNow=strNow+String.valueOf(calNow.getPersianDay());
+					}
+					int temp=strTo.compareTo(strNow);
+					if(temp<0)
+					{
+						ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
+					}
+					else if(temp==0)
+					{
+						Calendar mcurrentTime = Calendar.getInstance();
+						int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+						int minute = mcurrentTime.get(Calendar.MINUTE);
+						String Fhour=etFromTime.getText().toString().replace(":","");
+						String Thour=etToTime.getText().toString().replace(":","");
+						if(Fhour.compareTo(Thour)>0)
+						{
+							ErrorStr += "ساعت خاتمه نمی تواند کوچکتر از ساعت شروع باشد." + "\n";
+						}
+						else if(Fhour.compareTo(Thour)==0)
+						{
+							ErrorStr += "ارائه سرویس در این تاریخ و ساعت مقدور نیست." + "\n";
+						}
 					}
 				}
-				else
-				{
-					CarWashType="0";
+				if (etFromDate.length() < 8 && etFromDate.length() > 10) {
+					ErrorStr += "تاریخ شروع را صحیح وارد نمایید" + "\n";
 				}
+				if (etToDate.length() < 8 && etToDate.length() > 10) {
+					ErrorStr += "تاریخ خاتمه را صحیح وارد نمایید" + "\n";
+				}
+				if (etFromTime.length() < 3 && etFromTime.length() > 5) {
+					ErrorStr += "زمان شروع را صحیح وارد نمایید" + "\n";
+				}
+				if (etToTime.length() < 3 && etToTime.length() > 5) {
+					ErrorStr += "زمان خاتمه را صحیح وارد نمایید" + "\n";
+				}
+//				if(etFromTime.getText().toString().compareTo(etToTime.getText().toString())>0)
+//				{
+//					ErrorStr+="ساعت شروع نمی تواند بزرگتر از ساعت خاتمه باشد."+"\n";
+//				}
 
+//				if(AddressCode.length()!=10)
+//				{
+//					ErrorStr+="آدرس را وارد نمایید"+"\n";
+//				}
+				Description = etDescription.getText().toString();
+				//**************************************************************
+				if (spStatus.getSelectedItem().toString().compareTo("عادی") == 0) {
+					IsEmergency = "0";
+				} else {
+					IsEmergency = "1";
+				}
 				//***************************************************************
-				selectedId = rgTypeCar.getCheckedRadioButtonId();
-				// find the radiobutton by returned id
-				radiorgTypeCarButton = (RadioButton) findViewById(selectedId);
-				CarType  =radiorgTypeCarButton.getText().toString();
-				if(LinearTypeCar.getVisibility()==View.VISIBLE) {
-					if (CarType.compareTo("سواری") == 0) {
+				if(spTypePeriodService.getVisibility()== View.VISIBLE) {
+					if (spTypePeriodService.getSelectedItem().toString().compareTo("روزانه") == 0) {
+						PeriodicServices = "1";
+					} else if (PeriodicServices.compareTo("هفته در میان") == 0) {
+						PeriodicServices = "2";
+					} else if (PeriodicServices.compareTo("هفتگی") == 0) {
+						PeriodicServices = "3";
+					} else {
+						PeriodicServices = "4";
+					}
+				}
+				//***************************************************************
+				try {
+					EducationGrade = spGraid.getSelectedItem().toString();
+				} catch (Exception ex) {
+					EducationGrade = "0";
+				}
+				try {
+					EducationTitle = etTitleLearning.getText().toString();
+					if (EducationTitle.length() == 0) {
+						EducationTitle = "0";
+					}
+				} catch (Exception ex) {
+					EducationTitle = "0";
+				}
+				//**************************************************************
+				if (spGenderStudent.getSelectedItem().toString().compareTo("زن") == 0) {
+					StudentGender = "1";
+				} else if(spGenderStudent.getSelectedItem().toString().compareTo(" ") == 0){
+					StudentGender = "0";
+				}
+				else {
+					StudentGender = "2";
+				}
+				//***************************************************************
+				if (spGenderTeacher.getSelectedItem().toString().compareTo("زن") == 0) {
+					TeacherGender = "1";
+				} else if (spGenderTeacher.getSelectedItem().toString().compareTo("مرد") == 0) {
+					TeacherGender = "2";
+				} else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
+					TeacherGender = "3";
+				}
+				else {
+					TeacherGender = "0";
+				}
+				//***************************************************************
+
+				try {
+					FieldOfStudy = spFieldEducation.getSelectedItem().toString();
+				} catch (Exception ex) {
+					FieldOfStudy = "0";
+				}
+				try {
+					ArtField = spFieldArt.getSelectedItem().toString();
+				} catch (Exception ex) {
+					ArtField = "0";
+				}
+				//***************************************************************
+				//***************************************************************
+				if(LinearCarWash.getVisibility()==View.VISIBLE) {
+					if (spTypeService.getSelectedItem().toString().compareTo("روشویی") == 0) {
+						CarWashType = "1";
+					} else if (spTypeService.getSelectedItem().toString().compareTo(" ") == 0) {
+						CarWashType = "0";
+					} else {
+						CarWashType = "2";
+					}
+				}
+				//***************************************************************
+				if(LinearCarWash.getVisibility()==View.VISIBLE) {
+					if (spTypeCar.getSelectedItem().toString().compareTo("سواری") == 0) {
 						CarType = "1";
 					} else if (CarType.compareTo("ون") == 0) {
 						CarType = "3";
+					} else if (CarType.compareTo(" ") == 0) {
+						CarType = "0";
 					} else {
 						CarType = "2";
 					}
 				}
-				else
-					{
-						CarType="0";
-					}
 				//***************************************************************
 
 
-				try
-				{
-					Language =spLanguage.getSelectedItem().toString();
+				try {
+					Language = String.valueOf(spLanguage.getSelectedItemId());
+				} catch (Exception ex) {
+					Language = "0";
 				}
-				catch (Exception ex)
-				{
-					Language ="0";
+				if(LinearStatusCountHamyar.getVisibility()==View.VISIBLE) {
+					if (etCountWoman.getText().length() > 0 || etCountMan.getText().length() > 0 || etDoesnotmatter.getText().length() > 0) {
+						if (etCountWoman.getText().toString().compareTo("0") == 0
+								&& etCountMan.getText().toString().compareTo("0") == 0
+								&& etDoesnotmatter.getText().toString().compareTo("0") == 0) {
+							ErrorStr += "تعداد همیار را مشخص نمایید" + "\n";
+						}
+					} else {
+						ErrorStr += "تعداد همیار را مشخص نمایید" + "\n";
+					}
 				}
-				if(chbDoesnotmatter.isChecked())
-				{
-					MaleCount="0";
-					FemaleCount="0";
-					HamyarCount = etDoesnotmatter.getText().toString();
-					if(HamyarCount.length()==0)
+				if (ErrorStr.length() == 0) {
 					{
+						SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request_Edit.this,
+								karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
+								StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
+								AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
+								FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
+						syncInsertUserServices.AsyncExecute();
+					}
 
-						ErrorStr+="تعداد همیار را مشخص نمایید"+"\n";
-					}
-				}
-				else
-				{
-					HamyarCount ="0";
-					if(MaleCount.length()==0)
-					{
-						MaleCount="0";
-					}
-					if(FemaleCount.length()==0)
-					{
-						FemaleCount="0";
-					}
-					if(MaleCount.compareTo("0")==0 && FemaleCount.compareTo("0")==0)
-					{
-						ErrorStr+="تعداد همیار مرد یا زن را مشخص نمایید"+"\n";
-					}
-				}
-				if(ErrorStr.length()==0)
-				{
-					SyncUpdateUserServices syncUpdateUserServices = new SyncUpdateUserServices(Service_Request_Edit.this,
-							karbarCode,CodeOrderService, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
-							StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
-							AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
-							FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
-					syncUpdateUserServices.AsyncExecute();
-				}
-				else
-				{
-						Toast.makeText(Service_Request_Edit.this, ErrorStr, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(Service_Request_Edit.this, ErrorStr, Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
+
 		btnCansel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				LoadActivity2(Service_Request_Saved.class, "karbarCode", karbarCode,"OrderCode",CodeOrderService);//todo
+				LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
 			}
 		});
 		spFieldArt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1000,7 +810,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					picker.setTodayButtonVisible(true);
 					//  picker.setInitDate(initDate);
 					picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-					picker.setMinYear(1300);
+					picker.setMinYear(1396);
 					picker.setActionTextColor(Color.GRAY);
 					//picker.setTypeFace(FontMitra);
 					picker.setListener(new Listener() {
@@ -1008,7 +818,25 @@ protected void onCreate(Bundle savedInstanceState) {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
+							StartYear=String.valueOf(persianCalendar.getPersianYear());
+							if(persianCalendar.getPersianMonth()<10)
+							{
+								StartMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+							}
+							else
+							{
+								StartMonth=String.valueOf(persianCalendar.getPersianMonth());
+							}
+							if(persianCalendar.getPersianDay()<10)
+							{
+								StartDay="0"+String.valueOf(persianCalendar.getPersianDay());
+							}
+							else
+							{
+								StartDay=String.valueOf(persianCalendar.getPersianDay());
+							}
+
+							etFromDate.setText(PersianDigitConverter.PerisanNumber(StartYear + "/" + StartMonth + "/" + StartDay));
 
 						}
 
@@ -1019,6 +847,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					});
 					picker.show();
 				}
+
 			}
 		});
 		etFromDate.setOnClickListener(new View.OnClickListener() {
@@ -1039,8 +868,25 @@ protected void onCreate(Bundle savedInstanceState) {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etFromDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
+						StartYear=String.valueOf(persianCalendar.getPersianYear());
+						if(persianCalendar.getPersianMonth()<10)
+						{
+							StartMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+						}
+						else
+						{
+							StartMonth=String.valueOf(persianCalendar.getPersianMonth());
+						}
+						if(persianCalendar.getPersianDay()<10)
+						{
+							StartDay="0"+String.valueOf(persianCalendar.getPersianDay());
+						}
+						else
+						{
+							StartDay=String.valueOf(persianCalendar.getPersianDay());
+						}
 
+						etFromDate.setText(PersianDigitConverter.PerisanNumber(StartYear + "/" + StartMonth + "/" + StartDay));
 					}
 
 					@Override
@@ -1071,8 +917,25 @@ protected void onCreate(Bundle savedInstanceState) {
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-							etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
+							EndYear=String.valueOf(persianCalendar.getPersianYear());
+							if(persianCalendar.getPersianMonth()<10)
+							{
+								EndMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+							}
+							else
+							{
+								EndMonth=String.valueOf(persianCalendar.getPersianMonth());
+							}
+							if(persianCalendar.getPersianDay()<10)
+							{
+								EndDay="0"+String.valueOf(persianCalendar.getPersianDay());
+							}
+							else
+							{
+								EndDay=String.valueOf(persianCalendar.getPersianDay());
+							}
 
+							etToDate.setText(PersianDigitConverter.PerisanNumber(EndYear + "/" + EndMonth + "/" + EndDay));
 						}
 
 						@Override
@@ -1082,6 +945,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					});
 					picker.show();
 				}
+
 			}
 		});
 		etToDate.setOnClickListener(new View.OnClickListener() {
@@ -1090,6 +954,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				PersianDatePickerDialog picker = new PersianDatePickerDialog(Service_Request_Edit.this);
 				picker.setPositiveButtonString("تایید");
 				picker.setNegativeButton("انصراف");
+
 				picker.setTodayButton("امروز");
 				picker.setTodayButtonVisible(true);
 				//  picker.setInitDate(initDate);
@@ -1102,8 +967,25 @@ protected void onCreate(Bundle savedInstanceState) {
 					@Override
 					public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 						//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-						etToDate.setText(PersianDigitConverter.PerisanNumber(persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay()));
+						EndYear=String.valueOf(persianCalendar.getPersianYear());
+						if(persianCalendar.getPersianMonth()<10)
+						{
+							EndMonth="0"+String.valueOf(persianCalendar.getPersianMonth());
+						}
+						else
+						{
+							EndMonth=String.valueOf(persianCalendar.getPersianMonth());
+						}
+						if(persianCalendar.getPersianDay()<10)
+						{
+							EndDay="0"+String.valueOf(persianCalendar.getPersianDay());
+						}
+						else
+						{
+							EndDay=String.valueOf(persianCalendar.getPersianDay());
+						}
 
+						etToDate.setText(PersianDigitConverter.PerisanNumber(EndYear + "/" + EndMonth + "/" + EndDay));
 					}
 
 					@Override
@@ -1114,6 +996,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				picker.show();
 			}
 		});
+		//***********************************************
 		etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -1132,11 +1015,25 @@ protected void onCreate(Bundle savedInstanceState) {
 							} else {
 								AM_PM = "PM";
 							}
-							etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
-							StartHour = String.valueOf(selectedHour);
-							StartMinute = String.valueOf(selectedMinute);
+							if(selectedHour<10)
+							{
+								StartHour = "0"+String.valueOf(selectedHour);
+							}
+							else
+							{
+								StartHour = String.valueOf(selectedHour);
+							}
+							if(selectedMinute<10)
+							{
+								StartMinute = "0"+String.valueOf(selectedMinute);
+							}
+							else
+							{
+								StartMinute = String.valueOf(selectedMinute);
+							}
+							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
 						}
-					}, hour, minute, false);
+					}, hour, minute, true);
 					mTimePicker.setTitle("Select Time");
 					mTimePicker.show();
 				}
@@ -1159,11 +1056,25 @@ protected void onCreate(Bundle savedInstanceState) {
 						} else {
 							AM_PM = "PM";
 						}
-						etFromTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
-						StartHour=String.valueOf(selectedHour);
-						StartMinute=String.valueOf(selectedMinute);
+						if(selectedHour<10)
+						{
+							StartHour = "0"+String.valueOf(selectedHour);
+						}
+						else
+						{
+							StartHour = String.valueOf(selectedHour);
+						}
+						if(selectedMinute<10)
+						{
+							StartMinute = "0"+String.valueOf(selectedMinute);
+						}
+						else
+						{
+							StartMinute = String.valueOf(selectedMinute);
+						}
+						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
 					}
-				}, hour, minute, false);
+				}, hour, minute, true);
 				mTimePicker.setTitle("Select Time");
 				mTimePicker.show();
 			}
@@ -1186,11 +1097,25 @@ protected void onCreate(Bundle savedInstanceState) {
 							} else {
 								AM_PM = "PM";
 							}
-							etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute)));
-							EndHour = String.valueOf(selectedHour);
-							EndMinute = String.valueOf(selectedMinute);
+							if(selectedHour<10)
+							{
+								EndHour = "0"+String.valueOf(selectedHour);
+							}
+							else
+							{
+								EndHour = String.valueOf(selectedHour);
+							}
+							if(selectedMinute<10)
+							{
+								EndMinute = "0"+String.valueOf(selectedMinute);
+							}
+							else
+							{
+								EndMinute = String.valueOf(selectedMinute);
+							}
+							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
 						}
-					}, hour, minute, false);
+					}, hour, minute, true);
 					mTimePicker.setTitle("Select Time");
 					mTimePicker.show();
 				}
@@ -1213,54 +1138,65 @@ protected void onCreate(Bundle savedInstanceState) {
 						} else {
 							AM_PM = "PM";
 						}
-						etToTime.setText(PersianDigitConverter.PerisanNumber(String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)));
-						EndHour=String.valueOf(selectedHour);
-						EndMinute=String.valueOf(selectedMinute);
+						if(selectedHour<10)
+						{
+							EndHour = "0"+String.valueOf(selectedHour);
+						}
+						else
+						{
+							EndHour = String.valueOf(selectedHour);
+						}
+						if(selectedMinute<10)
+						{
+							EndMinute = "0"+String.valueOf(selectedMinute);
+						}
+						else
+						{
+							EndMinute = String.valueOf(selectedMinute);
+						}
+						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
 					}
-				}, hour, minute, false);
+				}, hour, minute, true);
 				mTimePicker.setTitle("Select Time");
 				mTimePicker.show();
 			}
 		});
-}
-@Override
-public boolean onKeyDown( int keyCode, KeyEvent event )  {
-    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-    	LoadActivity2(Service_Request_Saved.class, "karbarCode", karbarCode,"OrderCode",CodeOrderService);
-    }
+	}
+	@Override
+	public boolean onKeyDown( int keyCode, KeyEvent event )  {
+		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
+			LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
+		}
 
-    return super.onKeyDown( keyCode, event );
-}
-public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+		return super.onKeyDown( keyCode, event );
+	}
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		Service_Request_Edit.this.startActivity(intent);
 	}
-public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
 	}
 	public void form1()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.VISIBLE);
+		tvTitleTypePeriodService.setVisibility(View.VISIBLE);
+		spTypePeriodService.setVisibility(View.VISIBLE);
+		FillSpinner("TypePeriodService","Title",spTypePeriodService);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.VISIBLE);
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1270,28 +1206,25 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
 		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form2()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.GONE);
-		LinearCountMan.setVisibility(View.GONE);
-		LinearCountDoenotmatter.setVisibility(View.GONE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1301,29 +1234,26 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 
 	public void form3()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1333,28 +1263,25 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form4()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1364,28 +1291,25 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form5()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1397,28 +1321,27 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		FillSpinner("FieldofEducation","Title",spFieldEducation);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.VISIBLE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form6()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1428,28 +1351,28 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.VISIBLE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.VISIBLE);
+		FillSpinner("Language","Title",spLanguage);
 	}
 	public void form7()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1459,28 +1382,27 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.VISIBLE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form8()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
+
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.VISIBLE);
-		LinearCountMan.setVisibility(View.VISIBLE);
-		LinearCountDoenotmatter.setVisibility(View.VISIBLE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
+
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1491,28 +1413,25 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldArt.setVisibility(View.VISIBLE);
 		FillSpinner("Arts","Title",spFieldArt);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.VISIBLE);
-		LinearGenderTeacher.setVisibility(View.VISIBLE);
-		LinearTypeService.setVisibility(View.GONE);
-		LinearTypeCar.setVisibility(View.GONE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.VISIBLE);
+		FillSpinner("GenderStudent","Title",spGenderStudent);
+		FillSpinner("GenderTeacher","Title",spGenderTeacher);
+		LinearCarWash.setVisibility(View.GONE);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void form9()
 	{
-		etDoesnotmatter.setVisibility(View.GONE);
 		//**********************************************
-		LinearFromDate.setVisibility(View.VISIBLE);
-		LinearToDate.setVisibility(View.VISIBLE);
+		LinearDate.setVisibility(View.VISIBLE);
+
 		//**********************************************
 		LinearFromTime.setVisibility(View.VISIBLE);
 		LinearToTime.setVisibility(View.VISIBLE);
 		//**********************************************
-		LinearTypePeriodService.setVisibility(View.GONE);
+		tvTitleTypePeriodService.setVisibility(View.GONE);
+		spTypePeriodService.setVisibility(View.GONE);
 		//**********************************************
-		LinearStatusCountWoman.setVisibility(View.GONE);
-		LinearCountMan.setVisibility(View.GONE);
-		LinearCountDoenotmatter.setVisibility(View.GONE);
+		LinearStatusCountHamyar.setVisibility(View.GONE);
 		//**********************************************
 		LinearAddres.setVisibility(View.VISIBLE);
 		LinearDescription.setVisibility(View.VISIBLE);
@@ -1522,12 +1441,11 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		LinearFieldEducation.setVisibility(View.GONE);
 		LinearFieldArt.setVisibility(View.GONE);
 		LinearFieldArtOther.setVisibility(View.GONE);
-		LinearGenderStudent.setVisibility(View.GONE);
-		LinearGenderTeacher.setVisibility(View.GONE);
-		LinearTypeService.setVisibility(View.VISIBLE);
-		LinearTypeCar.setVisibility(View.VISIBLE);
-		LinearLanguage.setVisibility(View.GONE);
-		LinearStatus.setVisibility(View.VISIBLE);
+		LinearGenderStudentAndTeacher.setVisibility(View.GONE);
+		LinearCarWash.setVisibility(View.VISIBLE);
+		FillSpinner("carwash","Title",spTypeService);
+		FillSpinner("TypeCar","Title",spTypeCar);
+		LinerLayoutLanguege.setVisibility(View.GONE);
 	}
 	public void FillSpinner(String tableName,String ColumnName,Spinner spinner){
 		List<String> labels = new ArrayList<String>();
@@ -1564,197 +1482,6 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(dataAdapter);
 	}
-	 public void FillForm()
-	 {
-		 db = dbh.getReadableDatabase();
-		 String query="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-				 "LEFT JOIN " +
-				 "Servicesdetails ON " +
-				 "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE OrdersService.Code="+CodeOrderService;
-		 Cursor cursor = db.rawQuery(query,null);
-		 if(cursor.getCount()>0)
-		 {
-			 cursor.moveToNext();
-			 if(cursor.getString(cursor.getColumnIndex("MaleCount")).compareTo("0")!=0) {
-				 etCountMan.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("MaleCount"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("FemaleCount")).compareTo("0")!=0) {
-				 etCountWoman.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("FemaleCount"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("HamyarCount")).compareTo("0")!=0) {
-				 chbDoesnotmatter.setChecked(true);
-				 LinearStatusCountWoman.setVisibility(View.GONE);
-				 LinearCountMan.setVisibility(View.GONE);
-				 etDoesnotmatter.setVisibility(View.VISIBLE);
-				 etDoesnotmatter.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("HamyarCount"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("null")!=0) {
-				 etFromDate.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("StartYear"))+
-						 "/"+cursor.getString(cursor.getColumnIndex("StartMonth"))+
-						 "/"+cursor.getString(cursor.getColumnIndex("StartDay"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("StartHour")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("StartHour")).compareTo("null")!=0) {
-				 etFromTime.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("StartHour"))+
-						 ":"+cursor.getString(cursor.getColumnIndex("StartMinute"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("EndYear")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("EndYear")).compareTo("null")!=0) {
-				 etToDate.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("EndYear"))+
-						 "/"+cursor.getString(cursor.getColumnIndex("EndMonth"))+
-						 "/"+cursor.getString(cursor.getColumnIndex("EndDay"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("EndHour")).compareTo("")!=0 ||
-					 cursor.getString(cursor.getColumnIndex("EndHour")).compareTo("null")!=0) {
-				 etToTime.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("EndHour"))+
-						 ":"+cursor.getString(cursor.getColumnIndex("EndMinute"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("Description")).length()!=0) {
-				 etDescription.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Description"))));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0) {
-
-				 rdbNormal.setChecked(true);
-			 }
-			 else
-			 {
-				 rdbEmergency.setChecked(true);
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("1")==0) {
-				 rdbDaily.setChecked(true);
-			 }
-			 else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("2")==0)
-			 {
-				 rdbWeekly.setChecked(true);
-			 }
-			 else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("3")==0)
-			 {
-				 rdbMiddle_of_the_week.setChecked(true);
-			 }
-			 else
-			 {
-				 rdbMonthly.setChecked(true);
-			 }
-			 //*********************Grade**********************************************
-			 int lensp=spGraid.getCount();
-			 int positionString=0;
-			 for(int i=0;i<lensp;i++){
-			 	if(cursor.getString(cursor.getColumnIndex("EducationGrade")).compareTo(spGraid.getItemAtPosition(i).toString())==0)
-				{
-					positionString=i;
-					break;
-				}
-			 }
-			spGraid.setSelection(positionString);
-			 //*****************************************************************************
-			 if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).length()!=0||
-					 cursor.getString(cursor.getColumnIndex("FieldOfStudy")).compareTo("null")!=0) {
-				 etTitleLearning.setText(cursor.getString(cursor.getColumnIndex("FieldOfStudy")));
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("StudentGender")).compareTo("2")==0) {
-				 rdbMaleStudent.setChecked(true);
-			 }
-			 else
-			 {
-				 rdbFemaleStudent.setChecked(true);
-			 }
-			 if(cursor.getString(cursor.getColumnIndex("TeacherGender")).compareTo("1")==0) {
-				 rdbMaleTeacher.setChecked(true);
-			 }
-			 else if(cursor.getString(cursor.getColumnIndex("TeacherGender")).compareTo("2")==0)
-			 {
-				 rdbFemaleTeacher.setChecked(true);
-			 }
-			 else
-			 {
-				 rdbDoesnotmatter.setChecked(true);
-			 }
-			//*********************Education**********************************************
-			 lensp=spFieldEducation.getCount();
-			 positionString=0;
-			 for(int i=0;i<lensp;i++){
-				 if(cursor.getString(cursor.getColumnIndex("EducationTitle")).compareTo(spFieldEducation.getItemAtPosition(i).toString())==0)
-				 {
-					 positionString=i;
-					 break;
-				 }
-			 }
-			 spFieldEducation.setSelection(positionString);
-			 //*****************************************************************************
-			//*********************ArtField**********************************************
-			 lensp=spFieldArt.getCount();
-			 positionString=0;
-			 for(int i=0;i<lensp;i++){
-				 if(cursor.getString(cursor.getColumnIndex("ArtField")).compareTo(spFieldArt.getItemAtPosition(i).toString())==0)
-				 {
-					 positionString=i;
-					 break;
-				 }
-			 }
-			 spFieldArt.setSelection(positionString);
-			 //*****************************************************************************
-			//*********************Language**********************************************
-			 lensp=spLanguage.getCount();
-			 positionString=0;
-			 for(int i=0;i<lensp;i++){
-				 if(cursor.getString(cursor.getColumnIndex("Language")).compareTo(spLanguage.getItemAtPosition(i).toString())==0)
-				 {
-					 positionString=i;
-					 break;
-				 }
-			 }
-			 spLanguage.setSelection(positionString);
-			 //*****************************************************************************
-			//*********************Address**********************************************
-			 db=dbh.getReadableDatabase();
-			 query="SELECT OrdersService.*,address.* FROM OrdersService " +
-					 "LEFT JOIN " +
-					 "address ON " +
-					 "address.code=OrdersService.AddressCode WHERE OrdersService.Code="+CodeOrderService;
-			 Cursor cursorAddress = db.rawQuery(query,null);
-			 if(cursorAddress.getCount()>0)
-			 {
-				 cursorAddress.moveToNext();
-				 lensp=spAddress.getCount();
-				 positionString=0;
-				 for(int i=0;i<lensp;i++){
-					 if(cursorAddress.getString(cursorAddress.getColumnIndex("Name")).compareTo(spAddress.getItemAtPosition(i).toString())==0)
-					 {
-						 positionString=i;
-						 break;
-					 }
-				 }
-				 spAddress.setSelection(positionString);
-			 }
-
-			 //*****************************************************************************
-			 if(cursor.getString(cursor.getColumnIndex("CarWashType")).compareTo("1")==0) {
-				 rdbRoshoie.setChecked(true);
-			 }
-			 else
-			 {
-				 rdbRoshoieAndToShoie.setChecked(true);
-			 }
-			 //*****************************************************************************
-			 if(cursor.getString(cursor.getColumnIndex("CarType")).compareTo("1")==0) {
-				 rdbSavari.setChecked(true);
-			 }
-			 else if(cursor.getString(cursor.getColumnIndex("CarType")).compareTo("2")==0)
-			 {
-				 rdbShasi.setChecked(true);
-			 }
-			 else
-			 {
-				 rdbVan.setChecked(true);
-			 }
-		 }
-		 else
-		 {
-			 Toast.makeText(Service_Request_Edit.this, "سرویس پیدا نشد! ", Toast.LENGTH_LONG).show();
-		 }
-		 db.close();
-	 }
 	public void dialContactPhone(String phoneNumber) {
 		//startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -1772,5 +1499,196 @@ public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValu
 
 
 		startActivity(callIntent);
+	}
+	public void FillForm()
+	{
+		db = dbh.getReadableDatabase();
+		String query="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+				"LEFT JOIN " +
+				"Servicesdetails ON " +
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE OrdersService.Code="+CodeOrderService;
+		Cursor cursor = db.rawQuery(query,null);
+		if(cursor.getCount()>0)
+		{
+			cursor.moveToNext();
+			if(cursor.getString(cursor.getColumnIndex("MaleCount")).compareTo("0")!=0) {
+				etCountMan.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("MaleCount"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("FemaleCount")).compareTo("0")!=0) {
+				etCountWoman.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("FemaleCount"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("HamyarCount")).compareTo("0")!=0) {
+				chbDoesnotmatter.setChecked(true);
+				LinearStatusCountWoman.setVisibility(View.GONE);
+				LinearCountMan.setVisibility(View.GONE);
+				etDoesnotmatter.setVisibility(View.VISIBLE);
+				etDoesnotmatter.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("HamyarCount"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("")!=0 ||
+					cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("null")!=0) {
+				etFromDate.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("StartYear"))+
+						"/"+cursor.getString(cursor.getColumnIndex("StartMonth"))+
+						"/"+cursor.getString(cursor.getColumnIndex("StartDay"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("StartHour")).compareTo("")!=0 ||
+					cursor.getString(cursor.getColumnIndex("StartHour")).compareTo("null")!=0) {
+				etFromTime.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("StartHour"))+
+						":"+cursor.getString(cursor.getColumnIndex("StartMinute"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("EndYear")).compareTo("")!=0 ||
+					cursor.getString(cursor.getColumnIndex("EndYear")).compareTo("null")!=0) {
+				etToDate.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("EndYear"))+
+						"/"+cursor.getString(cursor.getColumnIndex("EndMonth"))+
+						"/"+cursor.getString(cursor.getColumnIndex("EndDay"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("EndHour")).compareTo("")!=0 ||
+					cursor.getString(cursor.getColumnIndex("EndHour")).compareTo("null")!=0) {
+				etToTime.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("EndHour"))+
+						":"+cursor.getString(cursor.getColumnIndex("EndMinute"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("Description")).length()!=0) {
+				etDescription.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Description"))));
+			}
+			if(cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0) {
+
+				rdbNormal.setChecked(true);
+			}
+			else
+			{
+				rdbEmergency.setChecked(true);
+			}
+			if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("1")==0) {
+				rdbDaily.setChecked(true);
+			}
+			else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("2")==0)
+			{
+				rdbWeekly.setChecked(true);
+			}
+			else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("3")==0)
+			{
+				rdbMiddle_of_the_week.setChecked(true);
+			}
+			else
+			{
+				rdbMonthly.setChecked(true);
+			}
+			//*********************Grade**********************************************
+			int lensp=spGraid.getCount();
+			int positionString=0;
+			for(int i=0;i<lensp;i++){
+				if(cursor.getString(cursor.getColumnIndex("EducationGrade")).compareTo(spGraid.getItemAtPosition(i).toString())==0)
+				{
+					positionString=i;
+					break;
+				}
+			}
+			spGraid.setSelection(positionString);
+			//*****************************************************************************
+			if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).length()!=0||
+					cursor.getString(cursor.getColumnIndex("FieldOfStudy")).compareTo("null")!=0) {
+				etTitleLearning.setText(cursor.getString(cursor.getColumnIndex("FieldOfStudy")));
+			}
+			if(cursor.getString(cursor.getColumnIndex("StudentGender")).compareTo("2")==0) {
+				rdbMaleStudent.setChecked(true);
+			}
+			else
+			{
+				rdbFemaleStudent.setChecked(true);
+			}
+			if(cursor.getString(cursor.getColumnIndex("TeacherGender")).compareTo("1")==0) {
+				rdbMaleTeacher.setChecked(true);
+			}
+			else if(cursor.getString(cursor.getColumnIndex("TeacherGender")).compareTo("2")==0)
+			{
+				rdbFemaleTeacher.setChecked(true);
+			}
+			else
+			{
+				rdbDoesnotmatter.setChecked(true);
+			}
+			//*********************Education**********************************************
+			lensp=spFieldEducation.getCount();
+			positionString=0;
+			for(int i=0;i<lensp;i++){
+				if(cursor.getString(cursor.getColumnIndex("EducationTitle")).compareTo(spFieldEducation.getItemAtPosition(i).toString())==0)
+				{
+					positionString=i;
+					break;
+				}
+			}
+			spFieldEducation.setSelection(positionString);
+			//*****************************************************************************
+			//*********************ArtField**********************************************
+			lensp=spFieldArt.getCount();
+			positionString=0;
+			for(int i=0;i<lensp;i++){
+				if(cursor.getString(cursor.getColumnIndex("ArtField")).compareTo(spFieldArt.getItemAtPosition(i).toString())==0)
+				{
+					positionString=i;
+					break;
+				}
+			}
+			spFieldArt.setSelection(positionString);
+			//*****************************************************************************
+			//*********************Language**********************************************
+			lensp=spLanguage.getCount();
+			positionString=0;
+			for(int i=0;i<lensp;i++){
+				if(cursor.getString(cursor.getColumnIndex("Language")).compareTo(spLanguage.getItemAtPosition(i).toString())==0)
+				{
+					positionString=i;
+					break;
+				}
+			}
+			spLanguage.setSelection(positionString);
+			//*****************************************************************************
+			//*********************Address**********************************************
+			db=dbh.getReadableDatabase();
+			query="SELECT OrdersService.*,address.* FROM OrdersService " +
+					"LEFT JOIN " +
+					"address ON " +
+					"address.code=OrdersService.AddressCode WHERE OrdersService.Code="+CodeOrderService;
+			Cursor cursorAddress = db.rawQuery(query,null);
+			if(cursorAddress.getCount()>0)
+			{
+				cursorAddress.moveToNext();
+				lensp=spAddress.getCount();
+				positionString=0;
+				for(int i=0;i<lensp;i++){
+					if(cursorAddress.getString(cursorAddress.getColumnIndex("Name")).compareTo(spAddress.getItemAtPosition(i).toString())==0)
+					{
+						positionString=i;
+						break;
+					}
+				}
+				spAddress.setSelection(positionString);
+			}
+
+			//*****************************************************************************
+			if(cursor.getString(cursor.getColumnIndex("CarWashType")).compareTo("1")==0) {
+				rdbRoshoie.setChecked(true);
+			}
+			else
+			{
+				rdbRoshoieAndToShoie.setChecked(true);
+			}
+			//*****************************************************************************
+			if(cursor.getString(cursor.getColumnIndex("CarType")).compareTo("1")==0) {
+				rdbSavari.setChecked(true);
+			}
+			else if(cursor.getString(cursor.getColumnIndex("CarType")).compareTo("2")==0)
+			{
+				rdbShasi.setChecked(true);
+			}
+			else
+			{
+				rdbVan.setChecked(true);
+			}
+		}
+		else
+		{
+			Toast.makeText(Service_Request_Edit.this, "سرویس پیدا نشد! ", Toast.LENGTH_LONG).show();
+		}
+		db.close();
 	}
 }
