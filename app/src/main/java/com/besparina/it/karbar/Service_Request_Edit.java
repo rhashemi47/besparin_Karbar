@@ -1,10 +1,8 @@
 package com.besparina.it.karbar;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+//todo
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,45 +12,25 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
-
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import java.util.Date;
 import java.util.List;
 
 import ir.hamsaa.persiandatepicker.Listener;
@@ -163,6 +141,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 	private String TeacherGender;
 	private String CarWashType;
 	private String CarType;
+	private String CodeOrderService;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -348,6 +327,14 @@ public class Service_Request_Edit extends AppCompatActivity {
 		catch (Exception ex)
 		{
 			DetailCode="0";
+		}
+		try
+		{
+			CodeOrderService = getIntent().getStringExtra("CodeOrderService").toString();
+		}
+		catch (Exception ex)
+		{
+			CodeOrderService="0";
 		}
 		try
 		{
@@ -1518,10 +1505,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 				etCountWoman.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("FemaleCount"))));
 			}
 			if(cursor.getString(cursor.getColumnIndex("HamyarCount")).compareTo("0")!=0) {
-				chbDoesnotmatter.setChecked(true);
-				LinearStatusCountWoman.setVisibility(View.GONE);
-				LinearCountMan.setVisibility(View.GONE);
-				etDoesnotmatter.setVisibility(View.VISIBLE);
+
 				etDoesnotmatter.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("HamyarCount"))));
 			}
 			if(cursor.getString(cursor.getColumnIndex("StartYear")).compareTo("")!=0 ||
@@ -1551,26 +1535,26 @@ public class Service_Request_Edit extends AppCompatActivity {
 			}
 			if(cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0) {
 
-				rdbNormal.setChecked(true);
+				spStatus.setSelection(0);
 			}
 			else
 			{
-				rdbEmergency.setChecked(true);
+				spStatus.setSelection(1);
 			}
 			if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("1")==0) {
-				rdbDaily.setChecked(true);
+				spTypePeriodService.setSelection(0);
 			}
 			else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("2")==0)
 			{
-				rdbWeekly.setChecked(true);
+				spTypePeriodService.setSelection(1);
 			}
 			else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).compareTo("3")==0)
 			{
-				rdbMiddle_of_the_week.setChecked(true);
+				spTypePeriodService.setSelection(2);
 			}
 			else
 			{
-				rdbMonthly.setChecked(true);
+				spTypePeriodService.setSelection(3);
 			}
 			//*********************Grade**********************************************
 			int lensp=spGraid.getCount();
@@ -1589,22 +1573,22 @@ public class Service_Request_Edit extends AppCompatActivity {
 				etTitleLearning.setText(cursor.getString(cursor.getColumnIndex("FieldOfStudy")));
 			}
 			if(cursor.getString(cursor.getColumnIndex("StudentGender")).compareTo("2")==0) {
-				rdbMaleStudent.setChecked(true);
+				spGenderStudent.setSelection(1);
 			}
 			else
 			{
-				rdbFemaleStudent.setChecked(true);
+				spGenderStudent.setSelection(2);
 			}
 			if(cursor.getString(cursor.getColumnIndex("TeacherGender")).compareTo("1")==0) {
-				rdbMaleTeacher.setChecked(true);
+				spGenderTeacher.setSelection(1);
 			}
 			else if(cursor.getString(cursor.getColumnIndex("TeacherGender")).compareTo("2")==0)
 			{
-				rdbFemaleTeacher.setChecked(true);
+				spGenderTeacher.setSelection(2);
 			}
 			else
 			{
-				rdbDoesnotmatter.setChecked(true);
+				spGenderTeacher.setSelection(3);
 			}
 			//*********************Education**********************************************
 			lensp=spFieldEducation.getCount();
@@ -1666,23 +1650,23 @@ public class Service_Request_Edit extends AppCompatActivity {
 
 			//*****************************************************************************
 			if(cursor.getString(cursor.getColumnIndex("CarWashType")).compareTo("1")==0) {
-				rdbRoshoie.setChecked(true);
+				spTypeService.setSelection(1);
 			}
 			else
 			{
-				rdbRoshoieAndToShoie.setChecked(true);
+				spTypeService.setSelection(2);
 			}
 			//*****************************************************************************
 			if(cursor.getString(cursor.getColumnIndex("CarType")).compareTo("1")==0) {
-				rdbSavari.setChecked(true);
+				spTypeCar.setSelection(1);
 			}
 			else if(cursor.getString(cursor.getColumnIndex("CarType")).compareTo("2")==0)
 			{
-				rdbShasi.setChecked(true);
+				spTypeCar.setSelection(2);
 			}
 			else
 			{
-				rdbVan.setChecked(true);
+				spTypeCar.setSelection(3);
 			}
 		}
 		else

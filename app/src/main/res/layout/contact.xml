@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_layout_select_job_body">
+            android:background="@drawable/rounded_layout_text_list">
             <TextView
                 android:id="@+id/tvSendMessage"
                 android:layout_width="match_parent"

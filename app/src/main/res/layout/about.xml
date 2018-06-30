@@ -53,7 +53,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:background="@drawable/rounded_layout_select_job_body">
+            android:background="@drawable/rounded_layout_text_list">
             <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"

@@ -2,8 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:background="@drawable/menu_body">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:background="@drawable/background_actionbar"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/SavedAddres"
+            app:titleTextColor="@color/md_black_1000"
+            app:titleTextAppearance="@style/TextAppearance.Medium"
+            android:layout_gravity="right"
+            android:gravity="right">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/logo_toolbar"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                tools:ignore="RtlHardcoded" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +47,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:hint="@string/NameStateOrStreet"
+            android:background="@drawable/rounded_edittext_search"
             android:drawableLeft="@drawable/search" />
     </LinearLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -177,6 +210,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnSaveLocation"
             android:text="@string/SaveLocation"
+            android:paddingLeft="110dp"
+            android:paddingRight="110dp"
+            android:background="@drawable/rounded_button_signin"
+            android:drawableRight="@drawable/signin"
             android:layout_margin="10dp"/>
     </LinearLayout>
 

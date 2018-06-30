@@ -253,6 +253,7 @@ public class Map extends AppCompatActivity {
                 String StrnameAddress=NameAddres.getText().toString().trim();
                 String StrAddAddres=AddAddres.getText().toString().trim();
                 String StrError="";
+                String email="";
                 if(StrAddAddres.length()==0 || StrAddAddres.compareTo("")==0)
                 {
                     StrError="آدرس دقیق محل را وارد نمایید"+"\n";
@@ -278,12 +279,20 @@ public class Map extends AppCompatActivity {
                 else{
                     CodeCity="";
                 }
+                try
+                {
+                   email= etEmail.getText().toString();
+                }
+                catch (Exception e)
+                {
+                    email="";
+                }
                 if(StrError.length()==0 || StrError.compareTo("")==0)
                 {
                     String latStr=Double.toString(lat);
                     String lonStr=Double.toString(lang);
 
-                    SyncAddress syncAddress=new SyncAddress(Map.this,karbarCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,etEmail.getText().toString(),latStr,lonStr);//todo send Area
+                    SyncAddress syncAddress=new SyncAddress(Map.this,karbarCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,email,latStr,lonStr);//todo send Area
                     syncAddress.AsyncExecute();
                 }
                 db.close();

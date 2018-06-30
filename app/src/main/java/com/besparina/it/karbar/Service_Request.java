@@ -672,6 +672,10 @@ public class Service_Request extends AppCompatActivity {
 						PeriodicServices = "4";
 					}
 				}
+				else
+				{
+					PeriodicServices = "1";
+				}
 				//***************************************************************
 				try {
 					EducationGrade = spGraid.getSelectedItem().toString();
@@ -687,25 +691,35 @@ public class Service_Request extends AppCompatActivity {
 					EducationTitle = "0";
 				}
 				//**************************************************************
+				if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
 					if (spGenderStudent.getSelectedItem().toString().compareTo("زن") == 0) {
 						StudentGender = "1";
-					} else if(spGenderStudent.getSelectedItem().toString().compareTo(" ") == 0){
+					} else if (spGenderStudent.getSelectedItem().toString().compareTo(" ") == 0) {
 						StudentGender = "0";
-					}
-					else {
+					} else {
 						StudentGender = "2";
 					}
+				}
+				else
+				{
+					StudentGender = "0";
+				}
 				//***************************************************************
+				if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
 					if (spGenderTeacher.getSelectedItem().toString().compareTo("زن") == 0) {
 						TeacherGender = "1";
 					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("مرد") == 0) {
 						TeacherGender = "2";
 					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
 						TeacherGender = "3";
-					}
-					else {
+					} else {
 						TeacherGender = "0";
 					}
+				}
+				else
+				{
+					TeacherGender = "0";
+				}
 				//***************************************************************
 
 				try {
@@ -729,6 +743,10 @@ public class Service_Request extends AppCompatActivity {
 						CarWashType = "2";
 					}
 				}
+				else
+				{
+					CarWashType = "0";
+				}
 				//***************************************************************
 				if(LinearCarWash.getVisibility()==View.VISIBLE) {
 					if (spTypeCar.getSelectedItem().toString().compareTo("سواری") == 0) {
@@ -741,11 +759,21 @@ public class Service_Request extends AppCompatActivity {
 						CarType = "2";
 					}
 				}
+				else
+				{
+					CarType = "0";
+				}
 				//***************************************************************
 
 
 				try {
-					Language = String.valueOf(spLanguage.getSelectedItemId());
+					if (LinerLayoutLanguege.getVisibility() == View.VISIBLE) {
+						Language = String.valueOf(spLanguage.getSelectedItemId());
+					} else
+					{
+						Language = "0";
+					}
+
 				} catch (Exception ex) {
 					Language = "0";
 				}

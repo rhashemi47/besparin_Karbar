@@ -189,5 +189,11 @@
     <string name="The_cost_of_service_is_high">هزینه سرویس زیاد است</string>
     <string name="Other_reasons">دلایل دیگر</string>
     <string name="RechargeCredit">شارژ اعتبار</string>
+    <string name="Date">تاریخ:</string>
+    <string name="Time">ساعت کار:</string>
+    <string name="Address">محله:</string>
+    <string name="Emergency">فوریت:</string>
+    <string name="Status">وضعیت:</string>
+    <string name="SavedAddres">ثبت آدرس</string>
 
 </resources>

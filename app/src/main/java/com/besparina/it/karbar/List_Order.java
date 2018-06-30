@@ -17,6 +17,7 @@
     import android.view.View;
     import android.widget.Button;
     import android.widget.ListView;
+    import android.widget.Toast;
 
     import java.io.IOException;
     import java.util.ArrayList;
@@ -46,7 +47,8 @@
         lvServices=(ListView)findViewById(R.id.listViewOrders);
             btnOrder=(Button)findViewById(R.id.btnOrderBottom);
             btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-            btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+            btncredite=(Button)findViewById(R.id.btncrediteBottom);
+            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
             dbh=new DatabaseHelper(getApplicationContext());
             try {
 
@@ -118,6 +120,7 @@
                 EndTime=coursors.getString(coursors.getColumnIndex("EndHour"))+":"+
                         coursors.getString(coursors.getColumnIndex("EndMinute"));
                 String StrStatus="";
+                String Address="";
                 switch (coursors.getString(coursors.getColumnIndex("Status")))
                 {
                     case "0":
@@ -163,18 +166,26 @@
                         StrStatus="متوقف و تسویه نشده";
                         break;
                 }
-                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
-                        "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"+
-                        "تاریخ شروع: "+StartDate+"\n"+"تاریخ پایان: "+EndDate+"\n"+
-                        "ساعت شروع: "+StartTime+"\n "+"ساعت پایان: "+EndTime+"\n"+
-                        "فوریت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"))+"\n"+
-                        "وضعیت: " + StrStatus);
-                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
-                valuse.add(map);
+                Cursor coursors_address = db.rawQuery("SELECT * FROM address WHERE Code ='"+coursors.getString(coursors.getColumnIndex("AddressCode"))+"'", null);
+                if(coursors_address.getCount()>0) {
+                    coursors_address.moveToNext();
+                    map.put("TitleOrder",coursors.getString(coursors.getColumnIndex("name")));
+                    map.put( "NumberOrder" , coursors.getString(coursors.getColumnIndex("Code")));
+                    map.put( "DateOrder" ,StartDate + " - " + EndDate);
+                    map.put( "TimeOrder" ,StartTime + " - " + EndTime);
+                    map.put( "AddressOrder" ,coursors_address.getString(coursors_address.getColumnIndex("AddressText")));
+                    map.put( "EmergencyOrder" ,((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 0 ? "عادی" : "فوری")));
+                    map.put( "StatusOrder" ,StrStatus);
+                    valuse.add(map);
+                }
+                else
+                {
+                    Toast.makeText(List_Order.this,"خطا در بارگزاری اطلاعات",Toast.LENGTH_LONG).show();
+                }
             }
             db.close();
 
-            AdapterServices dataAdapter=new AdapterServices(this,valuse,karbarCode);
+            AdapterServices dataAdapter=new AdapterServices(List_Order.this,valuse,karbarCode);
             lvServices.setAdapter(dataAdapter);
 
 

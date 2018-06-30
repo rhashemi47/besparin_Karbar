@@ -51,13 +51,7 @@ public class Profile extends Activity {
 	private TextView tvUserName;
 	private TextView tvUserFName;
 	private TextView tvUserCode;
-	private TextView tvTitleUserCode;
-	private TextView tvTitleName;
-	private TextView tvTitleFName;
-	private TextView TextViewAge;
-	private TextView tvTitleNumberPhone;
-	private TextView tvTitleAdressAdd;
-	private TextView tvCodeMoaref;
+//	private TextView tvCodeMoaref;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private EditText brithday;
@@ -86,13 +80,7 @@ public class Profile extends Activity {
 		tvPhoneNumber=(TextView) findViewById(R.id.tvNumberPhone);
 		tvUserName=(TextView) findViewById(R.id.tvUserName);
 		tvUserFName=(TextView) findViewById(R.id.tvUserFName);
-//		tvTitleUserCode=(TextView) findViewById(R.id.tvTitleUserCode);
-//		tvTitleName=(TextView) findViewById(R.id.tvTitleName);
-//		tvTitleFName=(TextView) findViewById(R.id.tvTitleFName);
-//		TextViewAge=(TextView) findViewById(R.id.TextViewAge);
-//		tvTitleNumberPhone=(TextView) findViewById(R.id.tvTitleNumberPhone);
-//		tvTitleAdressAdd=(TextView) findViewById(R.id.tvTitleAdressAdd);
-		tvCodeMoaref=(TextView) findViewById(R.id.tvCodeMoaref);
+//		tvCodeMoaref=(TextView) findViewById(R.id.tvCodeMoaref);
 		tvUserCode=(TextView) findViewById(R.id.tvUserCode);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
@@ -131,18 +119,6 @@ public class Profile extends Activity {
 			}
 			db.close();
 		}
-//		GPSTracker gps = new GPSTracker(Profile.this);
-//
-//		// check if GPS enabled
-//		if (gps.canGetLocation()) {
-//
-//			//nothing
-//		} else {
-//			// can't get location
-//			// GPS or Network is not enabled
-//			// Ask user to enable GPS/network in settings
-//			gps.showSettingsAlert();
-//		}
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
 		tvPhoneNumber.setText(PersianDigitConverter.PerisanNumber(phonenumber));
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
@@ -161,21 +137,9 @@ public class Profile extends Activity {
 		tvPhoneNumber.setTextSize(18);
 		tvProfileRegentCode.setTypeface(FontMitra);
 		tvProfileRegentCode.setTextSize(18);
-//		tvTitleUserCode.setTypeface(FontMitra);
-		tvTitleName.setTypeface(FontMitra);
-		tvTitleFName.setTypeface(FontMitra);
-		TextViewAge.setTypeface(FontMitra);
-		tvTitleNumberPhone.setTypeface(FontMitra);
-		tvTitleAdressAdd.setTypeface(FontMitra);
-		tvCodeMoaref.setTypeface(FontMitra);
+//		tvCodeMoaref.setTypeface(FontMitra);
 		//******************************************
-		tvTitleUserCode.setTextSize(18);
-		tvTitleName.setTextSize(18);
-		tvTitleFName.setTextSize(18);
-		TextViewAge.setTextSize(18);
-		tvTitleNumberPhone.setTextSize(18);
-		tvTitleAdressAdd.setTextSize(18);
-		tvCodeMoaref.setTextSize(18);
+//		tvCodeMoaref.setTextSize(18);
 		db=dbh.getReadableDatabase();
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		for(int i=0;i<coursors.getCount();i++){
@@ -183,7 +147,15 @@ public class Profile extends Activity {
 			tvUserCode.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Code"))));
 			tvUserName.setText(coursors.getString(coursors.getColumnIndex("Name")));
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
-			brithday.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("BthDate"))));
+			try {
+				if (coursors.getString(coursors.getColumnIndex("BthDate")).length() > 0) {
+					brithday.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("BthDate"))));
+				}
+			}
+			catch (Exception e)
+			{
+
+			}
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
 		}
 

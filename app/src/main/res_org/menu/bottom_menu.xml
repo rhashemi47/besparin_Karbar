@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    >
+    <item
+        android:id="@+id/order"
+        android:title="@string/Order"
+        />
+    <item
+        android:id="@+id/AcceptOrder"
+        android:title="@string/AcceptOrder"/>
+    <item
+        android:id="@+id/credite"
+        android:title="@string/credite"/>
+</menu>

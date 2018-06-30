@@ -92,10 +92,13 @@ public class AdapterUpdateAddress extends BaseAdapter {
             holder = new ViewHolder();
             holder.txtNameAddress = (TextView) convertView.findViewById(R.id.txtNameAddress);
             holder.txtNameAddress.setTypeface(faceh);
-            holder.txtNameAddress.setTextSize(24);
+            holder.txtNameAddress.setTextSize(16);
             holder.txtContentAddress = (TextView) convertView.findViewById(R.id.txtContentAddress);
             holder.txtContentAddress.setTypeface(faceh);
-            holder.txtContentAddress.setTextSize(24);
+            holder.txtContentAddress.setTextSize(16);
+            holder.imgPointer=(ImageView)convertView.findViewById(R.id.imgPointer);
+            holder.imgEdit=(ImageView)convertView.findViewById(R.id.imgEdit);
+            holder.imgDelete=(ImageView)convertView.findViewById(R.id.imgDelete);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
