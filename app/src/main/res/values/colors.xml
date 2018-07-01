@@ -6,7 +6,7 @@
     <color name="coloremergency">#ff0000</color>
     <color name="colorbuttonview">#ffffff</color>
     <color name="colortab1">#ffd117</color>
-    <color name="greenlist">#70bd85</color>
-    <color name="redlist">#d97170</color>
+    <color name="greenlist">#6eba83</color>
+    <color name="redlist">#d66d6c</color>
     <color name="transparent">#00000000</color>
 </resources>

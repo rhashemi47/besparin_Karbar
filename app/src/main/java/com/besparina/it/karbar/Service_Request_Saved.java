@@ -8,12 +8,17 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +63,9 @@ public class Service_Request_Saved extends AppCompatActivity {
 	private TextView ContentShowJob;
 	private LinearLayout LinearIfoHamyar;
 	private ListView lvHamyar;
+	private String swStyle="1";
+	private SpannableString sp;
+	private CharSequence ContentText="";
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -415,6 +423,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 	}
 	public void prepareData()
 	{
+
 		db = dbh.getReadableDatabase();
 		String query="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 		"LEFT JOIN " +
@@ -424,9 +433,10 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		for(int i=0;i<cursor.getCount();i++){
 			cursor.moveToNext();
 			String Content="";
+
 			try
 			{
-				Content+="شماره درخواست: "+cursor.getString(cursor.getColumnIndex("Code"))+"\n";
+				getStyleString("شماره درخواست: "+cursor.getString(cursor.getColumnIndex("Code"))+"\n");
 			}
 			catch (Exception ex)
 			{
@@ -434,7 +444,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 			try
 			{
-				Content+="نام سرویس: "+cursor.getString(cursor.getColumnIndex("name"))+"\n";
+				getStyleString("نام سرویس: "+cursor.getString(cursor.getColumnIndex("name"))+ "\n");
 			}
 			catch (Exception ex)
 			{
@@ -442,7 +452,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 //			try
 //			{
-//				Content+="نام صاحبکار: "+cursor.getString(cursor.getColumnIndex("UserName"))+" "+cursor.getString(cursor.getColumnIndex("UserFamily"))+"\n";
+//				getStyleString("نام صاحبکار: "+cursor.getString(cursor.getColumnIndex("UserName"))+" "+cursor.getString(cursor.getColumnIndex("UserFamily"))+ "\n");
 //			}
 //			catch_money (Exception ex)
 //			{
@@ -451,8 +461,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("StartYear")).length()>0) {
-					Content += "تاریخ شروع: " + cursor.getString(cursor.getColumnIndex("StartYear")) + "/" +
-							cursor.getString(cursor.getColumnIndex("StartMonth")) + "/" + cursor.getString(cursor.getColumnIndex("StartDay")) + "\n";
+					Content +=getStyleString("تاریخ شروع: " + cursor.getString(cursor.getColumnIndex("StartYear")) + "/" +
+							cursor.getString(cursor.getColumnIndex("StartMonth")) + "/" + cursor.getString(cursor.getColumnIndex("StartDay"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -462,8 +472,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("EndYear")).length()>0) {
-					Content += "تاریخ پایان: " + cursor.getString(cursor.getColumnIndex("EndYear")) + "/" +
-							cursor.getString(cursor.getColumnIndex("EndMonth")) + "/" + cursor.getString(cursor.getColumnIndex("EndDay")) + "\n";
+					Content += getStyleString("تاریخ پایان: " + cursor.getString(cursor.getColumnIndex("EndYear")) + "/" +
+							cursor.getString(cursor.getColumnIndex("EndMonth")) + "/" + cursor.getString(cursor.getColumnIndex("EndDay"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -473,7 +483,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("StartHour")).length()>0) {
-					Content += "از ساعت: " + cursor.getString(cursor.getColumnIndex("StartHour")) + ":" + cursor.getString(cursor.getColumnIndex("StartMinute"))+ "  ";
+					Content +=getStyleString( "از ساعت: " + cursor.getString(cursor.getColumnIndex("StartHour")) + ":" + cursor.getString(cursor.getColumnIndex("StartMinute"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -483,7 +493,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("EndHour")).length()>0) {
-					Content += "تا ساعت: " + cursor.getString(cursor.getColumnIndex("EndHour")) + ":" + cursor.getString(cursor.getColumnIndex("EndMinute")) + "\n";
+					Content += getStyleString("تا ساعت: " + cursor.getString(cursor.getColumnIndex("EndHour")) + ":" + cursor.getString(cursor.getColumnIndex("EndMinute"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -494,19 +504,19 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			{
 				if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("1")==0)
 				{
-					Content+="خدمت دوره ای: "+"روزانه"+"\n";
+					getStyleString("خدمت دوره ای: "+"روزانه"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("2")==0)
 				{
-					Content+="خدمت دوره ای: "+"هفتگی"+"\n";
+					getStyleString("خدمت دوره ای: "+"هفتگی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("3")==0)
 				{
-					Content+="خدمت دوره ای: "+"هفته در میان"+"\n";
+					getStyleString("خدمت دوره ای: "+"هفته در میان"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("4")==0)
 				{
-					Content+="خدمت دوره ای: "+"ماهانه"+"\n";
+					getStyleString("خدمت دوره ای: "+"ماهانه"+ "\n");
 				}
 
 			}
@@ -517,7 +527,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("MaleCount")).toString().compareTo("0")!=0) {
-					Content += "تعداد همیار مرد: " + cursor.getString(cursor.getColumnIndex("MaleCount")) + "\n";
+					Content += getStyleString("تعداد همیار مرد: " + cursor.getString(cursor.getColumnIndex("MaleCount"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -527,7 +537,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("FemaleCount")).toString().compareTo("0")!=0) {
-					Content += "تعداد همیار زن: " + cursor.getString(cursor.getColumnIndex("FemaleCount")) + "\n";
+					Content += getStyleString("تعداد همیار زن: " + cursor.getString(cursor.getColumnIndex("FemaleCount"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -537,7 +547,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("HamyarCount")).toString().compareTo("0")!=0) {
-					Content += "تعداد همیار: " + cursor.getString(cursor.getColumnIndex("HamyarCount")) + "\n";
+					Content += getStyleString("تعداد همیار: " + cursor.getString(cursor.getColumnIndex("HamyarCount"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -547,7 +557,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("EducationTitle")).toString().compareTo("0")!=0) {
-					Content += "عنوان آموزش: " + cursor.getString(cursor.getColumnIndex("EducationTitle")) + "\n";
+					Content += getStyleString("عنوان آموزش: " + cursor.getString(cursor.getColumnIndex("EducationTitle"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -557,7 +567,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("EducationGrade")).toString().compareTo("0")!=0) {
-					Content += "پایه تحصیلی: " + cursor.getString(cursor.getColumnIndex("EducationGrade")) + "\n";
+					Content += getStyleString("پایه تحصیلی: " + cursor.getString(cursor.getColumnIndex("EducationGrade"))+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -567,19 +577,19 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("1")==0) {
-					Content += "رشته تحصیلی: " + "ابتدایی" + "\n";
+					Content += getStyleString("رشته تحصیلی: " + "ابتدایی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("2")==0) {
-					Content += "رشته تحصیلی: " + "متوسطه اول" + "\n";
+					Content +=getStyleString( "رشته تحصیلی: " + "متوسطه اول"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("3")==0) {
-					Content += "رشته تحصیلی: " + "علوم تجربی" + "\n";
+					Content +=getStyleString( "رشته تحصیلی: " + "علوم تجربی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("4")==0) {
-					Content += "رشته تحصیلی: " + "ریاضی و فیزیک" + "\n";
+					Content +=getStyleString( "رشته تحصیلی: " + "ریاضی و فیزیک"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("5")==0) {
-					Content += "رشته تحصیلی: " + "انسانی" + "\n";
+					Content +=getStyleString( "رشته تحصیلی: " + "انسانی"+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -591,29 +601,29 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("0")!=0)
 				{
 					if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("2")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("3")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("4")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("5")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("6")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-						Content += "رشته هنری: " + "موسیقی" + "\n";
+						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
 					}
 					else
 					{
-						Content += "رشته هنری: " + cursor.getString(cursor.getColumnIndex("ArtField")) + "\n";
+						Content +=getStyleString( "رشته هنری: " + cursor.getString(cursor.getColumnIndex("ArtField"))+ "\n");
 					}
 				}
 			}
@@ -624,22 +634,22 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("1")==0) {
-					Content += "زبان: " + "انگلیسی" + "\n";
+					Content +=getStyleString( "زبان: " + "انگلیسی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("2")==0) {
-					Content += "زبان: " + "روسی" + "\n";
+					Content +=getStyleString( "زبان: " + "روسی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("3")==0) {
-					Content += "زبان: " + "آلمانی" + "\n";
+					Content +=getStyleString( "زبان: " + "آلمانی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("4")==0) {
-					Content += "زبان: " + "فرانسه" + "\n";
+					Content +=getStyleString( "زبان: " + "فرانسه"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("5")==0) {
-					Content += "زبان: " + "ترکی" + "\n";
+					Content +=getStyleString( "زبان: " + "ترکی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("6")==0) {
-					Content += "زبان: " + "عربی" + "\n";
+					Content +=getStyleString( "زبان: " + "عربی"+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -649,10 +659,10 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
-					Content += "جنسیت دانش آموز: " + "زن" + "\n";
+					Content +=getStyleString( "جنسیت دانش آموز: " + "زن"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
-					Content += "جنسیت دانش آموز: " + "مرد" + "\n";
+					Content +=getStyleString( "جنسیت دانش آموز: " + "مرد"+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -662,10 +672,10 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("CarWashType")).toString().compareTo("1")==0) {
-					Content += "نوع سرویس: " + "روشویی" + "\n";
+					Content +=getStyleString( "نوع سرویس: " + "روشویی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("CarWashType")).toString().compareTo("2")==0) {
-					Content += "نوع سرویس: " + "روشویی و توشویی" + "\n";
+					Content +=getStyleString( "نوع سرویس: " + "روشویی و توشویی"+ "\n");
 				}
 			}
 			catch (Exception ex)
@@ -675,13 +685,13 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("CarType")).toString().compareTo("1")==0) {
-					Content+="نوع خودرو: "+"سواری"+"\n";
+					getStyleString("نوع خودرو: "+"سواری"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("CarType")).toString().compareTo("2")==0) {
-					Content += "نوع خودرو: " + "شاسی و نیم شاسی" + "\n";
+					Content +=getStyleString( "نوع خودرو: " + "شاسی و نیم شاسی"+ "\n");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("CarType")).toString().compareTo("3")==0) {
-					Content += "نوع خودرو: " + "ون" + "\n";
+					Content +=getStyleString( "نوع خودرو: " + "ون"+ "\n");
 				}
 
 			}
@@ -691,7 +701,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 			try
 			{
-				Content+="توضیحات: "+cursor.getString(cursor.getColumnIndex("Description"))+"\n";
+				getStyleString("توضیحات: "+cursor.getString(cursor.getColumnIndex("Description"))+ "\n");
 			}
 			catch (Exception ex)
 			{
@@ -708,7 +718,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				if(cursorAddress.getCount()>0)
 				{
 					cursorAddress.moveToNext();
-					Content+="آدرس: "+cursorAddress.getString(cursorAddress.getColumnIndex("AddressText"))+"\n";
+					getStyleString("آدرس: "+cursorAddress.getString(cursorAddress.getColumnIndex("AddressText"))+ "\n");
 				}
 
 			}
@@ -718,7 +728,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 			try
 			{
-				Content+="فوریت: "+((cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"))+" - ";
+				getStyleString("فوریت: "+((cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"))+" - "+ "\n");
 			}
 			catch (Exception ex)
 			{
@@ -783,10 +793,13 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					btnCansel.setEnabled(false);
 					break;
 			}
-			Content+="وضعیت: "+StrStatus;
-			ContentShowJob.setText(PersianDigitConverter.PerisanNumber(Content));
+			getStyleString("وضعیت: "+StrStatus);
+
 			ContentShowJob.setTypeface(FontMitra);
 			ContentShowJob.setTextSize(16);
+			ContentShowJob.setText(ContentText);
+
+//			ContentShowJob.setText(PersianDigitConverter.PerisanNumber(ContentShowJob.getText().toString()));
 			ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 			Cursor infoCursor=db.rawQuery("SELECT * FROM Hamyar WHERE CodeOrder='"+OrderCode+"'",null);
 			for(int j=0;j<infoCursor.getCount();j++){
@@ -806,8 +819,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					if(cursorVisit.getCount()>0)
 					{
 						cursorVisit.moveToNext();
-						map.put("Visit","تاریخ بازدید: " + cursorVisit.getString(cursorVisit.getColumnIndex("VisitDate"))+"\n"+
-						"ساعت بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("VisitTime"))+"\n"+
+						map.put("Visit","تاریخ بازدید: " + cursorVisit.getString(cursorVisit.getColumnIndex("VisitDate"))+
+						"ساعت بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("VisitTime"))+
 						"تاریخ اعلام بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("InsertDate")));
 					}
 					else
@@ -875,8 +888,30 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			// for ActivityCompat#requestPermissions for more details.
 			return;
 		}
-
-
 		startActivity(callIntent);
+	}
+	public CharSequence getStyleString(String str)
+	{
+		SpannableString spannableString=new SpannableString(PersianDigitConverter.PerisanNumber(str));
+		if(swStyle.compareTo("0")==0)
+		{
+			spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			swStyle="1";
+		}
+		else
+		{
+			spannableString.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			swStyle="0";
+		}
+//		String final_str = "<div " + style + "><span style=color:black>" + str + "</span></div>";
+//		final_str="<font style=\"color:black;"+style+"\">"+str+"</font>";
+		ContentText=TextUtils.concat(ContentText,spannableString);
+
+
+//		String htmltext = getString(R.string.html_text).replaceAll(": ",":");
+//		Spanned fromHtml = HtmlCompat.fromHtml(getContext(), htmltext, 0);
+//		textView.setMovementMethod(LinkMovementMethod.getInstance());
+//		textView.setText(fromHtml);
+		return ContentText;
 	}
 }
