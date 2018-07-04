@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layoutDirection="rtl"
-    android:background="@drawable/menu_body">
+    android:background="@drawable/menu_body"
+    android:focusableInTouchMode="true">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -47,6 +48,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:hint="@string/NameStateOrStreet"
+            android:padding="5dp"
             android:background="@drawable/rounded_edittext_search"
             android:drawableLeft="@drawable/search" />
     </LinearLayout>
@@ -86,20 +88,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/NameAddres"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"/>
-        <TextView
+            android:layout_marginLeft="20dp"
+            android:background="@color/transparent"/>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="---------------------------------------------------------------------"
-            android:layout_marginTop="-10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#468748"/>
+            android:layout_height="1dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#468748"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center">
@@ -113,13 +117,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-        <TextView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="---------------------------------------------------------------------"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#468748"/>
+            android:layout_height="1dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#468748"/>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -138,13 +142,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-        <TextView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="---------------------------------------------------------------------"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#468748"/>
+            android:layout_height="1dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#468748"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -161,36 +164,43 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:id="@+id/AddAddres"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@color/transparent"/>
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="#468748"/>
     </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tvTitleEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Email" />
-                <EditText
-                    android:id="@+id/etDetailAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:text=""
-                    android:layout_weight="1"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="---------------------------------------------------------------------"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="#468748"/>
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="8dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tvTitleEmail"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/Email" />-->
+                <!--<EditText-->
+                    <!--android:id="@+id/etDetailAddress"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:inputType="textMultiLine"-->
+                    <!--android:text=""-->
+                    <!--android:layout_weight="1"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="#468748"/>-->
+            <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,7 +222,7 @@
             android:text="@string/SaveLocation"
             android:paddingLeft="110dp"
             android:paddingRight="110dp"
-            android:background="@drawable/rounded_button_signin"
+            android:background="@drawable/rounded_button_save_map"
             android:drawableRight="@drawable/signin"
             android:layout_margin="10dp"/>
     </LinearLayout>

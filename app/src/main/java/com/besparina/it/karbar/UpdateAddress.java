@@ -51,7 +51,7 @@ public class UpdateAddress extends AppCompatActivity {
     private GoogleMap map;
     private String backToActivity;
     private String AddressCode;
-    private EditText etDetailAddress;
+//    private EditText etDetailAddress;
     private String IsDefault="0";
     private CheckBox chbIsDefaultAddres;
     private Spinner spState;
@@ -69,7 +69,7 @@ public class UpdateAddress extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
-        etDetailAddress=(EditText)findViewById(R.id.etDetailAddress);
+//        etDetailAddress=(EditText)findViewById(R.id.etDetailAddress);
         spState=(Spinner)findViewById(R.id.spState);
         spCity=(Spinner)findViewById(R.id.spCity);
         btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
@@ -187,7 +187,7 @@ public class UpdateAddress extends AppCompatActivity {
                     String latStr=Double.toString(lat);
                     String lonStr=Double.toString(lon);
 
-                    SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(UpdateAddress.this,karbarCode,AddressCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,etDetailAddress.getText().toString(),latStr,lonStr,status,"1");
+                    SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(UpdateAddress.this,karbarCode,AddressCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,"",latStr,lonStr,status,"1");
                     syncUpdateAddress.AsyncExecute();
                 }
 
@@ -203,7 +203,7 @@ public class UpdateAddress extends AppCompatActivity {
             coursors.moveToNext();
             NameAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Name"))));
             AddAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("AddressText"))));
-            etDetailAddress.setText(coursors.getString(coursors.getColumnIndex("Email")));
+//            etDetailAddress.setText(coursors.getString(coursors.getColumnIndex("Email")));
             if(coursors.getString(coursors.getColumnIndex("IsDefault")).compareTo("0")==0)
             {
                 chbIsDefaultAddres.setChecked(false);
@@ -224,8 +224,14 @@ public class UpdateAddress extends AppCompatActivity {
                     break;
                 }
             }
-            lat=Double.parseDouble(coursors.getString(coursors.getColumnIndex("Lat")));
-            lon=Double.parseDouble(coursors.getString(coursors.getColumnIndex("Lng")));
+            try {
+                lat = Double.parseDouble(coursors.getString(coursors.getColumnIndex("Lat")));
+                lon = Double.parseDouble(coursors.getString(coursors.getColumnIndex("Lng")));
+            }
+            catch (Exception e){
+                lat=0;
+                lon=0;
+            }
         }
         db.close();
         //*************************************************************************************************

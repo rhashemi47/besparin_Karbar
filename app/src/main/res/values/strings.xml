@@ -83,7 +83,7 @@
     <string name="value">مقدار</string>
     <string name="TitleTools">عنوان ملزومات</string>
     <string name="CheckTitleTool">آیا فاکتور ملزومات دارد؟</string>
-    <string name="Description">توضیحات</string>
+    <string name="Description">توضیحات:</string>
     <string name="Total">جمع</string>
     <string name="CaseResume">علت وقفه</string>
     <string name="CasePause">علت وقفه</string>
@@ -112,7 +112,7 @@
     <string name="CountWoman">تعداد زن</string>
     <string name="CountMan">تعداد مرد</string>
     <string name="Doesnotmatter">فرقی نمی کند</string>
-    <string name="Addres">آدرس</string>
+    <string name="Addres">آدرس:</string>
     <string name="SaveLocation">ثبت آدرس</string>
     <string name="Search">جست و جو</string>
     <string name="usercode">کد کاربری</string>
@@ -178,7 +178,7 @@
     <string name="CodeDesired_service">شماره درخواست</string>
     <string name="CrediteCode">کد اعتباری</string>
     <string name="Credits_History">لیست اعتبارات</string>
-    <string name="NameStateOrStreet">نام مجله / خیابان</string>
+    <string name="NameStateOrStreet">نام محله / خیابان</string>
     <string name="SaveChange">ثبت تغییرات</string>
     <string name="nameLocation">نام محل</string>
     <string name="LocationHamyar">موقعیت همیار</string>
@@ -195,5 +195,18 @@
     <string name="Emergency">فوریت:</string>
     <string name="Status">وضعیت:</string>
     <string name="SavedAddres">ثبت آدرس</string>
+    <string name="DateStart">تاریخ شروع:</string>
+    <string name="DateEnd">تاریخ پایان:</string>
+    <string name="PeriodAndEmergency">خدمات دوره ای / فوریت</string>
+    <string name="CountHamyar">تعداد همیاران:</string>
+    <string name="Learning">عنوان آموزش:</string>
+    <string name="TitleGraid">پایه تحصیلی:</string>
+    <string name="TitleFieldEducation">رشته تحصیلی:</string>
+    <string name="TitleFieldArt">رشته هنری:</string>
+    <string name="TitleGenderStudent">جنسیت دانش آموز:</string>
+    <string name="TitleGenderTeacher">جنسیت معلم:</string>
+    <string name="TitleCarWashType">نوع سرویس:</string>
+    <string name="TitleCarType">نوع ماشین:</string>
+    <string name="TitleLanguage">زبان:</string>
 
 </resources>

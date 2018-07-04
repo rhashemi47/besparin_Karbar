@@ -15,7 +15,6 @@ import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
@@ -46,25 +45,66 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Service_Request_Saved extends AppCompatActivity {
 	private String karbarCode;
 	private String OrderCode;
+	//************************************************************
 	private Button btnCansel;
 	private Button btnshowFactor;
 	private Button btnEditOrder;
 	private Button btnRefreshOrder;
 	private Button btnCallHamyar;
 	private Button btnCallSupporter;
-	private DatabaseHelper dbh;
-	private SQLiteDatabase db;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;	private Button btnServiceEmergency;
+	private Button btncredite;
+	private Button btnServiceEmergency;
+	//************************************************************
+	private LinearLayout LinearIfoHamyar;
+	private LinearLayout LinearTitle;
+	private LinearLayout LinearDateStart;
+	private LinearLayout LinearDateEnd;
+	private LinearLayout LinearTime;
+	private LinearLayout LinearPeriodAndEmergency;
+	private LinearLayout LinearCountHamyar;
+	private LinearLayout LinearAddres;
+	private LinearLayout LinearDescription;
+	private LinearLayout LinearLearning;
+	private LinearLayout LinearGraid;
+	private LinearLayout LinearFieldEducation;
+	private LinearLayout LinearFieldArt;
+	private LinearLayout LinearGenderStudent;
+	private LinearLayout LinearGenderTeacher;
+	private LinearLayout LinearCarWash;
+	private LinearLayout LinearCarType;
+	private LinearLayout LinearLanguage;
+	private LinearLayout LinearStatus;
+
+	//************************************************************
+	private TextView tvCodeRequset;
+	private TextView txtTitleOrder;
+	private TextView txtDateStart;
+	private TextView txtDateEnd;
+	private TextView txtTime;
+	private TextView txtPeriodAndEmergency;
+	private TextView txtCountHamyar;
+	private TextView txtAddres;
+	private TextView txtDescription;
+	private TextView txtLearning;
+	private TextView txtGraid;
+	private TextView txtFieldEducation;
+	private TextView txtFieldArt;
+	private TextView txtGenderStudent;
+	private TextView txtGenderTeacher;
+	private TextView txtCarWash;
+	private TextView txtCarType;
+	private TextView txtLanguage;
+	private TextView txtStatus;
+	//************************************************************
+	private DatabaseHelper dbh;
+	private SQLiteDatabase db;
 	private GoogleMap map;
 	private Typeface FontMitra;
 	private LatLng point;
-	private TextView ContentShowJob;
-	private LinearLayout LinearIfoHamyar;
 	private ListView lvHamyar;
 	private String swStyle="1";
-	private SpannableString sp;
 	private CharSequence ContentText="";
 
 	@Override
@@ -75,20 +115,101 @@ public class Service_Request_Saved extends AppCompatActivity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.service_request_saved);
-	ContentShowJob=(TextView)findViewById(R.id.ContentShowJob);
 		btnCansel=(Button)findViewById(R.id.btnCansel);
 		btnshowFactor=(Button)findViewById(R.id.btnshowFactor);
 		btnEditOrder=(Button)findViewById(R.id.btnEditOrder);
 		btnRefreshOrder=(Button)findViewById(R.id.btnRefreshOrder);
 		btnCallSupporter=(Button)findViewById(R.id.btnCallSupporter);
 		btnCallHamyar=(Button)findViewById(R.id.btnCallHamyar);
-		LinearIfoHamyar=(LinearLayout)findViewById(R.id.LinearIfoHamyar);
 		lvHamyar=(ListView)findViewById(R.id.lvHamyar);
-
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-		btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 
+		//*********************************************************************
+		LinearIfoHamyar=(LinearLayout)findViewById(R.id.LinearIfoHamyar);
+		LinearTitle=(LinearLayout)findViewById(R.id.LinearTitle);
+		LinearDateStart=(LinearLayout)findViewById(R.id.LinearDateStart);
+		LinearDateEnd=(LinearLayout)findViewById(R.id.LinearDateEnd);
+		LinearTime=(LinearLayout)findViewById(R.id.LinearTime);
+		LinearPeriodAndEmergency=(LinearLayout)findViewById(R.id.LinearPeriodAndEmergency);
+		LinearCountHamyar=(LinearLayout)findViewById(R.id.LinearCountHamyar);
+		LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
+		LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
+		LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
+		LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
+		LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
+		LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
+		LinearGenderStudent=(LinearLayout)findViewById(R.id.LinearGenderStudent);
+		LinearGenderTeacher=(LinearLayout)findViewById(R.id.LinearGenderTeacher);
+		LinearCarWash=(LinearLayout)findViewById(R.id.LinearCarWash);
+		LinearCarType=(LinearLayout)findViewById(R.id.LinearCarType);
+		LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
+		LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
+		//*********************************************************************
+		tvCodeRequset=(TextView)findViewById(R.id.tvCodeRequset);
+		txtTitleOrder=(TextView)findViewById(R.id.txtTitleOrder);
+		txtDateStart=(TextView)findViewById(R.id.txtDateStart);
+		txtDateEnd=(TextView)findViewById(R.id.txtDateEnd);
+		txtTime=(TextView)findViewById(R.id.txtTime);
+		txtPeriodAndEmergency=(TextView)findViewById(R.id.txtPeriodAndEmergency);
+		txtCountHamyar=(TextView)findViewById(R.id.txtCountHamyar);
+		txtAddres=(TextView)findViewById(R.id.txtAddres);
+		txtDescription=(TextView)findViewById(R.id.txtDescription);
+		txtLearning=(TextView)findViewById(R.id.txtLearning);
+		txtGraid=(TextView)findViewById(R.id.txtGraid);
+		txtFieldEducation=(TextView)findViewById(R.id.txtFieldEducation);
+		txtFieldArt=(TextView)findViewById(R.id.txtFieldArt);
+		txtGenderStudent=(TextView)findViewById(R.id.txtGenderStudent);
+		txtGenderTeacher=(TextView)findViewById(R.id.txtGenderTeacher);
+		txtCarWash=(TextView)findViewById(R.id.txtCarWash);
+		txtCarType=(TextView)findViewById(R.id.txtCarType);
+		txtLanguage=(TextView)findViewById(R.id.txtLanguage);
+		txtStatus=(TextView)findViewById(R.id.txtStatus);
+		//*********************************************************************
+		FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+		//*********************************************************************
+		tvCodeRequset.setTypeface(FontMitra);
+		txtTitleOrder.setTypeface(FontMitra);
+		txtDateStart.setTypeface(FontMitra);
+		txtDateEnd.setTypeface(FontMitra);
+		txtTime.setTypeface(FontMitra);
+		txtPeriodAndEmergency.setTypeface(FontMitra);
+		txtCountHamyar.setTypeface(FontMitra);
+		txtAddres.setTypeface(FontMitra);
+		txtDescription.setTypeface(FontMitra);
+		txtLearning.setTypeface(FontMitra);
+		txtGraid.setTypeface(FontMitra);
+		txtFieldEducation.setTypeface(FontMitra);
+		txtFieldArt.setTypeface(FontMitra);
+		txtGenderStudent.setTypeface(FontMitra);
+		txtGenderTeacher.setTypeface(FontMitra);
+		txtCarWash.setTypeface(FontMitra);
+		txtCarType.setTypeface(FontMitra);
+		txtLanguage.setTypeface(FontMitra);
+		txtStatus.setTypeface(FontMitra);
+		//*********************************************************************
+		tvCodeRequset.setTextSize(16);
+		txtTitleOrder.setTextSize(16);
+		txtDateStart.setTextSize(16);
+		txtDateEnd.setTextSize(16);
+		txtTime.setTextSize(16);
+		txtPeriodAndEmergency.setTextSize(16);
+		txtCountHamyar.setTextSize(16);
+		txtAddres.setTextSize(16);
+		txtDescription.setTextSize(16);
+		txtLearning.setTextSize(16);
+		txtGraid.setTextSize(16);
+		txtFieldEducation.setTextSize(16);
+		txtFieldArt.setTextSize(16);
+		txtGenderStudent.setTextSize(16);
+		txtGenderTeacher.setTextSize(16);
+		txtCarWash.setTextSize(16);
+		txtCarType.setTextSize(16);
+		txtLanguage.setTextSize(16);
+		txtStatus.setTextSize(16);
+		//*********************************************************************
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -132,8 +253,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	//**************************************************************************************
 
-	FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-
 	btnCansel.setTypeface(FontMitra);
 	btnshowFactor.setTypeface(FontMitra);
 	btnEditOrder.setTypeface(FontMitra);
@@ -143,7 +262,10 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnOrder.setTypeface(FontMitra);
 	btnAcceptOrder.setTypeface(FontMitra);
 	btncredite.setTypeface(FontMitra);
-	prepareData();
+	//**************************************************************************
+		prepareData();
+	//**************************************************************************
+
 		db=dbh.getReadableDatabase();
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
@@ -430,134 +552,131 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				"Servicesdetails ON " +
 				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE OrdersService.Code="+OrderCode;
 		Cursor cursor = db.rawQuery(query,null);
-		for(int i=0;i<cursor.getCount();i++){
+		for(int i=0;i<cursor.getCount();i++) {
 			cursor.moveToNext();
-			String Content="";
+			try {
+				tvCodeRequset.setText(cursor.getString(cursor.getColumnIndex("Code")));
+			} catch (Exception ex) {
+				//todo
+			}
+			try {
+				LinearTitle.setVisibility(View.VISIBLE);
+				LinearTitle.setBackgroundColor(getStyleLinear());
+				txtTitleOrder.setText(cursor.getString(cursor.getColumnIndex("name")));
+			} catch (Exception ex) {
+				//todo
+			}
+			try {
+				if (cursor.getString(cursor.getColumnIndex("StartYear")).length() > 0) {
+					LinearDateStart.setVisibility(View.VISIBLE);
+					LinearDateStart.setBackgroundColor(getStyleLinear());
+					txtDateStart.setText(cursor.getString(cursor.getColumnIndex("StartYear")) + "/" +
+							cursor.getString(cursor.getColumnIndex("StartMonth")) + "/" + cursor.getString(cursor.getColumnIndex("StartDay")));
+				}
+			} catch (Exception ex) {
+				//todo
+			}
+			try {
+				if (cursor.getString(cursor.getColumnIndex("EndYear")).length() > 0) {
+					LinearDateEnd.setVisibility(View.VISIBLE);
+					LinearDateEnd.setBackgroundColor(getStyleLinear());
+					txtDateEnd.setText(cursor.getString(cursor.getColumnIndex("EndYear")) + "/" +
+							cursor.getString(cursor.getColumnIndex("EndMonth")) + "/" + cursor.getString(cursor.getColumnIndex("EndDay")));
+				}
+			} catch (Exception ex) {
+				//todo
+			}
+			try {
+				String Content = "";
+				if (cursor.getString(cursor.getColumnIndex("StartHour")).length() > 0) {
+					LinearTime.setVisibility(View.VISIBLE);
+					LinearTime.setBackgroundColor(getStyleLinear());
+					Content += cursor.getString(cursor.getColumnIndex("StartHour")) + ":" + cursor.getString(cursor.getColumnIndex("StartMinute")) + " - ";
+				}
+				if (cursor.getString(cursor.getColumnIndex("EndHour")).length() > 0) {
+					Content += cursor.getString(cursor.getColumnIndex("EndHour")) + ":" + cursor.getString(cursor.getColumnIndex("EndMinute"));
+					txtTime.setText(Content);
+				}
+			} catch (Exception ex) {
+				//todo
+			}
+			try {
 
-			try
-			{
-				getStyleString("شماره درخواست: "+cursor.getString(cursor.getColumnIndex("Code"))+"\n");
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				//todo
 			}
-			try
-			{
-				getStyleString("نام سرویس: "+cursor.getString(cursor.getColumnIndex("name"))+ "\n");
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
-//			try
-//			{
-//				getStyleString("نام صاحبکار: "+cursor.getString(cursor.getColumnIndex("UserName"))+" "+cursor.getString(cursor.getColumnIndex("UserFamily"))+ "\n");
-//			}
-//			catch_money (Exception ex)
-//			{
-//				//todo
-//			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("StartYear")).length()>0) {
-					Content +=getStyleString("تاریخ شروع: " + cursor.getString(cursor.getColumnIndex("StartYear")) + "/" +
-							cursor.getString(cursor.getColumnIndex("StartMonth")) + "/" + cursor.getString(cursor.getColumnIndex("StartDay"))+ "\n");
-				}
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("EndYear")).length()>0) {
-					Content += getStyleString("تاریخ پایان: " + cursor.getString(cursor.getColumnIndex("EndYear")) + "/" +
-							cursor.getString(cursor.getColumnIndex("EndMonth")) + "/" + cursor.getString(cursor.getColumnIndex("EndDay"))+ "\n");
-				}
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("StartHour")).length()>0) {
-					Content +=getStyleString( "از ساعت: " + cursor.getString(cursor.getColumnIndex("StartHour")) + ":" + cursor.getString(cursor.getColumnIndex("StartMinute"))+ "\n");
-				}
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("EndHour")).length()>0) {
-					Content += getStyleString("تا ساعت: " + cursor.getString(cursor.getColumnIndex("EndHour")) + ":" + cursor.getString(cursor.getColumnIndex("EndMinute"))+ "\n");
-				}
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("1")==0)
-				{
-					getStyleString("خدمت دوره ای: "+"روزانه"+ "\n");
-				}
-				else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("2")==0)
-				{
-					getStyleString("خدمت دوره ای: "+"هفتگی"+ "\n");
-				}
-				else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("3")==0)
-				{
-					getStyleString("خدمت دوره ای: "+"هفته در میان"+ "\n");
-				}
-				else if(cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("4")==0)
-				{
-					getStyleString("خدمت دوره ای: "+"ماهانه"+ "\n");
+			String PAndE="";
+			try {
+				LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+				LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+				if (cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("1") == 0) {
+					PAndE="روزانه";
+				} else if (cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("2") == 0) {
+					PAndE="هفتگی";
+				} else if (cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("3") == 0) {
+					PAndE="هفته در میان";
+				} else if (cursor.getString(cursor.getColumnIndex("PeriodicServices")).toString().compareTo("4") == 0) {
+					PAndE="ماهانه";
 				}
 
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				//todo
 			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("MaleCount")).toString().compareTo("0")!=0) {
-					Content += getStyleString("تعداد همیار مرد: " + cursor.getString(cursor.getColumnIndex("MaleCount"))+ "\n");
+			try {
+				if(PAndE.length()>0) {
+					txtPeriodAndEmergency.setText(PAndE + "/" + ((cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0") == 0 ? "عادی" : "فوری")));
 				}
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("FemaleCount")).toString().compareTo("0")!=0) {
-					Content += getStyleString("تعداد همیار زن: " + cursor.getString(cursor.getColumnIndex("FemaleCount"))+ "\n");
+				else
+				{
+					txtPeriodAndEmergency.setText(((cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0") == 0 ? "عادی" : "فوری")));
 				}
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				//todo
 			}
-			try
-			{
-				if(cursor.getString(cursor.getColumnIndex("HamyarCount")).toString().compareTo("0")!=0) {
-					Content += getStyleString("تعداد همیار: " + cursor.getString(cursor.getColumnIndex("HamyarCount"))+ "\n");
-				}
+			String CountStr = "";
+			LinearCountHamyar.setVisibility(View.VISIBLE);
+			LinearCountHamyar.setBackgroundColor(getStyleLinear());
+			try {
+					if (cursor.getString(cursor.getColumnIndex("MaleCount")).toString().compareTo("0") != 0) {
+						if (CountStr.length() == 0) {
+							CountStr = cursor.getString(cursor.getColumnIndex("MaleCount")) + "مرد ";
+						}
+						else
+						{
+							CountStr += " - " + cursor.getString(cursor.getColumnIndex("MaleCount")) + "مرد ";
+						}
+					}
+					if (cursor.getString(cursor.getColumnIndex("FemaleCount")).toString().compareTo("0") != 0)
+					{
+						if (CountStr.length() == 0) {
+							CountStr = cursor.getString(cursor.getColumnIndex("FemaleCount")) + "زن ";
+						}
+						else
+						{
+							CountStr += " - " + cursor.getString(cursor.getColumnIndex("FemaleCount")) + "زن ";
+						}
+					}
+					if (cursor.getString(cursor.getColumnIndex("HamyarCount")).toString().compareTo("0") != 0) {
+						if (CountStr.length() == 0) {
+							CountStr = cursor.getString(cursor.getColumnIndex("HamyarCount"));
+						}
+						else
+						{
+							CountStr += " - " + cursor.getString(cursor.getColumnIndex("HamyarCount"));
+						}
+					}
+					txtCountHamyar.setText(CountStr);
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				//todo
+
 			}
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("EducationTitle")).toString().compareTo("0")!=0) {
-					Content += getStyleString("عنوان آموزش: " + cursor.getString(cursor.getColumnIndex("EducationTitle"))+ "\n");
+					LinearLearning.setVisibility(View.VISIBLE);
+					LinearLearning.setBackgroundColor(getStyleLinear());
+					txtLearning.setText(cursor.getString(cursor.getColumnIndex("EducationTitle")));
 				}
 			}
 			catch (Exception ex)
@@ -567,7 +686,9 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("EducationGrade")).toString().compareTo("0")!=0) {
-					Content += getStyleString("پایه تحصیلی: " + cursor.getString(cursor.getColumnIndex("EducationGrade"))+ "\n");
+					LinearGraid.setVisibility(View.VISIBLE);
+					LinearGraid.setBackgroundColor(getStyleLinear());
+					txtGraid.setText(cursor.getString(cursor.getColumnIndex("EducationGrade")));
 				}
 			}
 			catch (Exception ex)
@@ -577,19 +698,29 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("1")==0) {
-					Content += getStyleString("رشته تحصیلی: " + "ابتدایی"+ "\n");
+					LinearFieldEducation.setVisibility(View.VISIBLE);
+					LinearFieldEducation.setBackgroundColor(getStyleLinear());
+					txtFieldEducation.setText("ابتدایی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("2")==0) {
-					Content +=getStyleString( "رشته تحصیلی: " + "متوسطه اول"+ "\n");
+					LinearFieldEducation.setVisibility(View.VISIBLE);
+					LinearFieldEducation.setBackgroundColor(getStyleLinear());
+					txtFieldEducation.setText("متوسطه اول");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("3")==0) {
-					Content +=getStyleString( "رشته تحصیلی: " + "علوم تجربی"+ "\n");
+					LinearFieldEducation.setVisibility(View.VISIBLE);
+					LinearFieldEducation.setBackgroundColor(getStyleLinear());
+					txtFieldEducation.setText("علوم تجربی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("4")==0) {
-					Content +=getStyleString( "رشته تحصیلی: " + "ریاضی و فیزیک"+ "\n");
+					LinearFieldEducation.setVisibility(View.VISIBLE);
+					LinearFieldEducation.setBackgroundColor(getStyleLinear());
+					txtFieldEducation.setText("ریاضی و فیزیک");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("FieldOfStudy")).toString().compareTo("5")==0) {
-					Content +=getStyleString( "رشته تحصیلی: " + "انسانی"+ "\n");
+					LinearFieldEducation.setVisibility(View.VISIBLE);
+					LinearFieldEducation.setBackgroundColor(getStyleLinear());
+					txtFieldEducation.setText("انسانی");
 				}
 			}
 			catch (Exception ex)
@@ -600,30 +731,28 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			{
 				if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("0")!=0)
 				{
-					if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("2")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
+					LinearFieldArt.setVisibility(View.VISIBLE);
+					LinearFieldArt.setBackgroundColor(getStyleLinear());
+					if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("1")==0) {
+						txtFieldArt.setText("موسیقی");
+					}
+					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("2")==0) {
+						txtFieldArt.setText("طراحی و نقاشی");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("3")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
+						txtFieldArt.setText("خوشنویسی");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("4")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
+						txtFieldArt.setText("عکاسی");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("5")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
+						txtFieldArt.setText("بافندگی");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("6")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
+						txtFieldArt.setText("خیاطی");
 					}
 					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
-					}
-					else if(cursor.getString(cursor.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-						Content +=getStyleString( "رشته هنری: " + "موسیقی"+ "\n");
-					}
-					else
-					{
-						Content +=getStyleString( "رشته هنری: " + cursor.getString(cursor.getColumnIndex("ArtField"))+ "\n");
+						txtFieldArt.setText("سایر");
 					}
 				}
 			}
@@ -634,22 +763,34 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("1")==0) {
-					Content +=getStyleString( "زبان: " + "انگلیسی"+ "\n");
+					LinearLanguage.setVisibility(View.VISIBLE);
+					LinearLanguage.setBackgroundColor(getStyleLinear());
+					txtLanguage.setText("انگلیسی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("2")==0) {
-					Content +=getStyleString( "زبان: " + "روسی"+ "\n");
+					LinearLanguage.setVisibility(View.VISIBLE);
+					LinearLanguage.setBackgroundColor(getStyleLinear());
+					txtLanguage.setText("روسی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("3")==0) {
-					Content +=getStyleString( "زبان: " + "آلمانی"+ "\n");
+					LinearLanguage.setVisibility(View.VISIBLE);
+					LinearLanguage.setBackgroundColor(getStyleLinear());
+					txtLanguage.setText("آلمانی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("4")==0) {
-					Content +=getStyleString( "زبان: " + "فرانسه"+ "\n");
+					LinearLanguage.setVisibility(View.VISIBLE);
+					LinearLanguage.setBackgroundColor(getStyleLinear());
+					txtLanguage.setText("فرانسه");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("5")==0) {
-					Content +=getStyleString( "زبان: " + "ترکی"+ "\n");
+					LinearLanguage.setVisibility(View.VISIBLE);
+					LinearLanguage.setBackgroundColor(getStyleLinear());
+					txtLanguage.setText("ترکی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("Language")).toString().compareTo("6")==0) {
-					Content +=getStyleString( "زبان: " + "عربی"+ "\n");
+					LinearLanguage.setVisibility(View.VISIBLE);
+					LinearLanguage.setBackgroundColor(getStyleLinear());
+					txtLanguage.setText("عربی");
 				}
 			}
 			catch (Exception ex)
@@ -659,10 +800,31 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
-					Content +=getStyleString( "جنسیت دانش آموز: " + "زن"+ "\n");
+					LinearGenderStudent.setVisibility(View.VISIBLE);
+					LinearGenderStudent.setBackgroundColor(getStyleLinear());
+					txtGenderStudent.setText("زن");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
-					Content +=getStyleString( "جنسیت دانش آموز: " + "مرد"+ "\n");
+					LinearGenderStudent.setVisibility(View.VISIBLE);
+					LinearGenderStudent.setBackgroundColor(getStyleLinear());
+					txtGenderStudent.setText("مرد");
+				}
+			}
+			catch (Exception ex)
+			{
+				//todo
+			}
+			try
+			{
+				if(cursor.getString(cursor.getColumnIndex("TeacherGender")).toString().compareTo("1")==0) {
+					LinearGenderTeacher.setVisibility(View.VISIBLE);
+					LinearGenderTeacher.setBackgroundColor(getStyleLinear());
+					txtGenderTeacher.setText("زن");
+				}
+				else if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
+					LinearGenderTeacher.setVisibility(View.VISIBLE);
+					LinearGenderTeacher.setBackgroundColor(getStyleLinear());
+					txtGenderTeacher.setText("مرد");
 				}
 			}
 			catch (Exception ex)
@@ -672,10 +834,14 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("CarWashType")).toString().compareTo("1")==0) {
-					Content +=getStyleString( "نوع سرویس: " + "روشویی"+ "\n");
+					LinearCarWash.setVisibility(View.VISIBLE);
+					LinearCarWash.setBackgroundColor(getStyleLinear());
+					txtCarWash.setText("روشویی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("CarWashType")).toString().compareTo("2")==0) {
-					Content +=getStyleString( "نوع سرویس: " + "روشویی و توشویی"+ "\n");
+					LinearCarWash.setVisibility(View.VISIBLE);
+					LinearCarWash.setBackgroundColor(getStyleLinear());
+					txtCarWash.setText("روشویی و توشویی");
 				}
 			}
 			catch (Exception ex)
@@ -685,13 +851,19 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try
 			{
 				if(cursor.getString(cursor.getColumnIndex("CarType")).toString().compareTo("1")==0) {
-					getStyleString("نوع خودرو: "+"سواری"+ "\n");
+					LinearCarType.setVisibility(View.VISIBLE);
+					LinearCarType.setBackgroundColor(getStyleLinear());
+					txtCarType.setText("سواری");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("CarType")).toString().compareTo("2")==0) {
-					Content +=getStyleString( "نوع خودرو: " + "شاسی و نیم شاسی"+ "\n");
+					LinearCarType.setVisibility(View.VISIBLE);
+					LinearCarType.setBackgroundColor(getStyleLinear());
+					txtCarType.setText("شاسی و نیم شاسی");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("CarType")).toString().compareTo("3")==0) {
-					Content +=getStyleString( "نوع خودرو: " + "ون"+ "\n");
+					LinearCarType.setVisibility(View.VISIBLE);
+					LinearCarType.setBackgroundColor(getStyleLinear());
+					txtCarType.setText("ون");
 				}
 
 			}
@@ -701,7 +873,9 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 			try
 			{
-				getStyleString("توضیحات: "+cursor.getString(cursor.getColumnIndex("Description"))+ "\n");
+				LinearDescription.setVisibility(View.VISIBLE);
+				LinearDescription.setBackgroundColor(getStyleLinear());
+				txtDescription.setText(cursor.getString(cursor.getColumnIndex("Description")));
 			}
 			catch (Exception ex)
 			{
@@ -718,7 +892,9 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				if(cursorAddress.getCount()>0)
 				{
 					cursorAddress.moveToNext();
-					getStyleString("آدرس: "+cursorAddress.getString(cursorAddress.getColumnIndex("AddressText"))+ "\n");
+					LinearAddres.setVisibility(View.VISIBLE);
+					LinearAddres.setBackgroundColor(getStyleLinear());
+					txtAddres.setText(cursorAddress.getString(cursorAddress.getColumnIndex("AddressText")));
 				}
 
 			}
@@ -726,19 +902,14 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			{
 				//todo
 			}
-			try
-			{
-				getStyleString("فوریت: "+((cursor.getString(cursor.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"))+" - "+ "\n");
-			}
-			catch (Exception ex)
-			{
-				//todo
-			}
+
 			String StrStatus="";
 			switch (cursor.getString(cursor.getColumnIndex("Status")))
 			{
 				case "0":
 					StrStatus="آزاد";
+					LinearStatus.setVisibility(View.VISIBLE);
+					LinearStatus.setBackgroundColor(getStyleLinear());
 					LinearIfoHamyar.setVisibility(View.GONE);
 					break;
 				case "1":
@@ -793,13 +964,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					btnCansel.setEnabled(false);
 					break;
 			}
-			getStyleString("وضعیت: "+StrStatus);
-
-			ContentShowJob.setTypeface(FontMitra);
-			ContentShowJob.setTextSize(16);
-			ContentShowJob.setText(ContentText);
-
-//			ContentShowJob.setText(PersianDigitConverter.PerisanNumber(ContentShowJob.getText().toString()));
+			txtStatus.setText(StrStatus);
+			//******************************************************************
 			ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 			Cursor infoCursor=db.rawQuery("SELECT * FROM Hamyar WHERE CodeOrder='"+OrderCode+"'",null);
 			for(int j=0;j<infoCursor.getCount();j++){
@@ -819,8 +985,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					if(cursorVisit.getCount()>0)
 					{
 						cursorVisit.moveToNext();
-						map.put("Visit","تاریخ بازدید: " + cursorVisit.getString(cursorVisit.getColumnIndex("VisitDate"))+
-						"ساعت بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("VisitTime"))+
+						map.put("Visit","تاریخ بازدید: " + cursorVisit.getString(cursorVisit.getColumnIndex("VisitDate")) + "\n" +
+						"ساعت بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("VisitTime")) + "\n" +
 						"تاریخ اعلام بازدید: "+ cursorVisit.getString(cursorVisit.getColumnIndex("InsertDate")));
 					}
 					else
@@ -890,28 +1056,18 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		}
 		startActivity(callIntent);
 	}
-	public CharSequence getStyleString(String str)
+	public int getStyleLinear()
 	{
-		SpannableString spannableString=new SpannableString(PersianDigitConverter.PerisanNumber(str));
 		if(swStyle.compareTo("0")==0)
 		{
-			spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 			swStyle="1";
+
+			return Color.LTGRAY;
 		}
 		else
 		{
-			spannableString.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 			swStyle="0";
+			return Color.TRANSPARENT;
 		}
-//		String final_str = "<div " + style + "><span style=color:black>" + str + "</span></div>";
-//		final_str="<font style=\"color:black;"+style+"\">"+str+"</font>";
-		ContentText=TextUtils.concat(ContentText,spannableString);
-
-
-//		String htmltext = getString(R.string.html_text).replaceAll(": ",":");
-//		Spanned fromHtml = HtmlCompat.fromHtml(getContext(), htmltext, 0);
-//		textView.setMovementMethod(LinkMovementMethod.getInstance());
-//		textView.setText(fromHtml);
-		return ContentText;
 	}
 }

@@ -39,7 +39,7 @@ public class SyncUpdateAddress {
 	private String WsResponse;
 	private String Flag;
 	//private String acceptcode;
-	private boolean CuShowDialog=false;
+	private boolean CuShowDialog=true;
 	//Contractor
 	public SyncUpdateAddress(Activity activity,
 							 String pUserCode,

@@ -20,8 +20,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:id="@+id/imgHamyar"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center"/>
 
     </LinearLayout>
     <LinearLayout
@@ -40,8 +39,8 @@
             android:text="@string/CallHamyar"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingRight="110dp"
-            android:paddingLeft="110dp"
+            android:paddingRight="90dp"
+            android:paddingLeft="90dp"
             android:drawableRight="@drawable/phone"
             android:background="@drawable/rounded_button_signin"/>
         <Button

@@ -2,6 +2,7 @@ package com.besparina.it.karbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -220,7 +221,14 @@ public class SyncGetUserAddress {
 		db.close();
 		if(this.Flag.compareTo("0")!=0) {
 			Toast.makeText(activity, "درخواست انجام شد.", Toast.LENGTH_LONG).show();
+			LoadActivity(List_Address.class,"karbarCode",pUserCode);
 		}
     }
-	
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+	{
+		Intent intent = new Intent(this.activity,Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		activity.startActivity(intent);
+	}
 }

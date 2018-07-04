@@ -380,7 +380,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="@string/TitleLearning"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -420,7 +420,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/Graid"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
 
                         <TextView
                             android:id="@+id/tvFieldEducation"
@@ -429,7 +429,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/FieldEducation"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
 
                     </LinearLayout>
 
@@ -483,10 +483,8 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/FieldArt"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
                     </LinearLayout>
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -511,7 +509,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Other"
-                        android:textColor="#000000" />
+                        android:textColor="#213494"/>
 
                     <EditText
                         android:id="@+id/etFieldArtOther"
@@ -519,7 +517,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_edittext_2"
-                        android:textColor="#000000" />
+                        android:textColor="#213494" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -546,7 +544,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/GenderStudent"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
 
                         <TextView
                             android:id="@+id/tvTitleGenderTeacher"
@@ -556,7 +554,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/GenderTeacher"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -606,7 +604,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/TypeService"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
 
                         <TextView
                             android:id="@+id/tvTitleTypeCar"
@@ -616,7 +614,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/TypeCar"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -667,7 +665,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/Language"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -698,7 +696,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Description"
-                        android:textColor="#000000" />
+                        android:textColor="#213494" />
 
                     <EditText
                         android:id="@+id/etDescription"
@@ -733,7 +731,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
                             android:text="@string/Addres"
-                            android:textColor="#000000" />
+                            android:textColor="#213494" />
                     </LinearLayout>
 
                     <LinearLayout

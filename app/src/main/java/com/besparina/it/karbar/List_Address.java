@@ -188,7 +188,7 @@
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            List_Address.this.LoadActivity(MainMenu.class, "karbarCode", karbarCode);
+            List_Address.this.LoadActivity(Profile.class, "karbarCode", karbarCode);
         }
 
         return super.onKeyDown( keyCode, event );

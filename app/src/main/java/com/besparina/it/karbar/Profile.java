@@ -51,7 +51,6 @@ public class Profile extends Activity {
 	private TextView tvUserName;
 	private TextView tvUserFName;
 	private TextView tvUserCode;
-//	private TextView tvCodeMoaref;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private EditText brithday;
@@ -113,7 +112,6 @@ public class Profile extends Activity {
 			Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 			for(int i=0;i<coursors.getCount();i++){
 				coursors.moveToNext();
-
 				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 				phonenumber=coursors.getString(coursors.getColumnIndex("Phone"));
 			}
@@ -224,7 +222,6 @@ public class Profile extends Activity {
 						monStr=splitDate[1];
 						dayStr=splitDate[2];
 					}
-
 					@Override
 					public void onDismissed() {
 
@@ -251,7 +248,6 @@ public class Profile extends Activity {
 					picker.setActionTextColor(Color.GRAY);
 					//picker.setTypeFace(FontMitra);
 					picker.setListener(new Listener() {
-
 						@Override
 						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
 							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
@@ -262,7 +258,6 @@ public class Profile extends Activity {
 							monStr=splitDate[1];
 							dayStr=splitDate[2];
 						}
-
 						@Override
 						public void onDismissed() {
 
@@ -389,7 +384,6 @@ public class Profile extends Activity {
 			Intent intent = new Intent(getApplicationContext(),Cls);
 			intent.putExtra(VariableName, VariableValue);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
 			Profile.this.startActivity(intent);
 		}
 	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)

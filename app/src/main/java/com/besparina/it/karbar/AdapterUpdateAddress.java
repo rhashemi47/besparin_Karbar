@@ -132,8 +132,9 @@ public class AdapterUpdateAddress extends BaseAdapter {
         public void onClick(View v) {
             String item = ((ImageView)v).getTag().toString();
             Intent intent = new Intent(activity.getApplicationContext(),UpdateAddress.class);
-            intent.putExtra("Code",item);
+            intent.putExtra("AddressCode",item);
             intent.putExtra("status","1");
+            intent.putExtra("karbarCode",karbarCode);
             activity.startActivity(intent);
         }
     };

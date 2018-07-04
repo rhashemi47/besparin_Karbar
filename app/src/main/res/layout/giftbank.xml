@@ -48,7 +48,7 @@
             android:layout_height="300dp"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_layout_text_list">
+            android:background="@drawable/rounded_layout_list_body">
         </LinearLayout>
 
     </LinearLayout>
