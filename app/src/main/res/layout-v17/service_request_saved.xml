@@ -458,7 +458,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/LinearStatus"
-                                android:visibility="gone"
+                                android:visibility="visible"
                                 android:layout_gravity="center"
                                 android:gravity="center">
                                 <TextView
@@ -468,7 +468,8 @@
                                     android:textColor="#000000"
                                     android:text="@string/Status"
                                     android:layout_gravity="center"
-                                    android:gravity="center"
+                                    android:gravity="left"
+                                    android:layout_marginLeft="5dp"
                                     android:textSize="16sp"
                                     android:layout_weight="1"/>
                                 <TextView
@@ -477,7 +478,8 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="#000000"
                                     android:layout_gravity="center"
-                                    android:gravity="center"
+                                    android:gravity="right"
+                                    android:layout_marginRight="5dp"
                                     android:layout_weight="1"/>
                             </LinearLayout>
                         </LinearLayout>
@@ -548,7 +550,7 @@
                     android:id="@+id/btnshowFactor"
                     android:text="@string/showfactor"
                     android:drawableRight="@drawable/factor"
-                    android:background="@drawable/rounded_button_signin"
+                    android:background="@drawable/rounded_button_profile"
                     android:layout_marginTop="5dp"
                     android:paddingLeft="110dp"
                     android:paddingRight="110dp"
@@ -573,7 +575,7 @@
                     android:layout_weight="1"
                     android:paddingRight="20dp"
                     android:paddingLeft="20dp"
-                   android:layout_marginRight="30dp"
+                   android:layout_marginRight="20dp"
                     android:layout_marginLeft="5dp"/>
                 <Button
                     android:layout_width="50dp"
@@ -585,7 +587,7 @@
                     android:layout_weight="1"
                     android:paddingRight="20dp"
                     android:paddingLeft="20dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>
             <LinearLayout
@@ -605,7 +607,7 @@
                     android:layout_weight="1"
                     android:paddingRight="20dp"
                     android:paddingLeft="20dp"
-                   android:layout_marginRight="30dp"
+                   android:layout_marginRight="20dp"
                     android:layout_marginLeft="5dp"/>
                 <Button
                     android:layout_width="50dp"
@@ -617,7 +619,7 @@
                     android:layout_weight="1"
                     android:paddingRight="20dp"
                     android:paddingLeft="5dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>
             <LinearLayout

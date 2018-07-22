@@ -159,7 +159,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/Addres"/>
+            android:text="@string/DetailAddres"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -220,10 +220,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnSaveLocation"
             android:text="@string/SaveLocation"
-            android:paddingLeft="110dp"
-            android:paddingRight="110dp"
+            android:paddingLeft="150dp"
+            android:paddingRight="150dp"
             android:background="@drawable/rounded_button_save_map"
-            android:drawableRight="@drawable/signin"
+            android:drawableRight="@drawable/save"
             android:layout_margin="10dp"/>
     </LinearLayout>
 

@@ -11,8 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
@@ -543,6 +545,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 
 		this.startActivity(intent);
 	}
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	public void prepareData()
 	{
 
@@ -1056,13 +1059,14 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		}
 		startActivity(callIntent);
 	}
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	public int getStyleLinear()
 	{
 		if(swStyle.compareTo("0")==0)
 		{
 			swStyle="1";
 
-			return Color.LTGRAY;
+			return getColor(R.color.gray);
 		}
 		else
 		{

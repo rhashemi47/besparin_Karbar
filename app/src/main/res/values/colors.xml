@@ -9,4 +9,5 @@
     <color name="greenlist">#6eba83</color>
     <color name="redlist">#d66d6c</color>
     <color name="transparent">#00000000</color>
+    <color name="gray">#d9d7d8</color>
 </resources>
