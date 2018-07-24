@@ -1,10 +1,6 @@
 package com.besparina.it.karbar;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,53 +10,38 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
+import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import java.util.Date;
 import java.util.List;
 
 import ir.hamsaa.persiandatepicker.Listener;
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+
 public class Service_Request extends AppCompatActivity {
 	private String karbarCode;
+	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 	private String DetailCode;
 	private TextView tvTitleService;
 	private TextView tvTitleFromDate;
@@ -1028,164 +1009,169 @@ public class Service_Request extends AppCompatActivity {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {
-					Calendar mcurrentTime = Calendar.getInstance();
-					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-					int minute = mcurrentTime.get(Calendar.MINUTE);
-
-					TimePickerDialog mTimePicker;
-					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-						@Override
-						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-							String AM_PM;
-							if (selectedHour >= 0 && selectedHour < 12) {
-								AM_PM = "AM";
-							} else {
-								AM_PM = "PM";
-							}
-							if(selectedHour<10)
-							{
-								StartHour = "0"+String.valueOf(selectedHour);
-							}
-							else
-							{
-								StartHour = String.valueOf(selectedHour);
-							}
-							if(selectedMinute<10)
-							{
-								StartMinute = "0"+String.valueOf(selectedMinute);
-							}
-							else
-							{
-								StartMinute = String.valueOf(selectedMinute);
-							}
-							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
-						}
-					}, hour, minute, true);
-					mTimePicker.setTitle("Select Time");
-					mTimePicker.show();
+//					Calendar mcurrentTime = Calendar.getInstance();
+//					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//					int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//					TimePickerDialog mTimePicker;
+//					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//						@Override
+//						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//							String AM_PM;
+//							if (selectedHour >= 0 && selectedHour < 12) {
+//								AM_PM = "AM";
+//							} else {
+//								AM_PM = "PM";
+//							}
+//							if(selectedHour<10)
+//							{
+//								StartHour = "0"+String.valueOf(selectedHour);
+//							}
+//							else
+//							{
+//								StartHour = String.valueOf(selectedHour);
+//							}
+//							if(selectedMinute<10)
+//							{
+//								StartMinute = "0"+String.valueOf(selectedMinute);
+//							}
+//							else
+//							{
+//								StartMinute = String.valueOf(selectedMinute);
+//							}
+//							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
+//						}
+//					}, hour, minute, true);
+//					mTimePicker.setTitle("Select Time");
+//					mTimePicker.show();
+					//***********
+						GetTime(etFromTime);
 				}
 			}
 		});
 		etFromTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Calendar mcurrentTime = Calendar.getInstance();
-				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-				int minute = mcurrentTime.get(Calendar.MINUTE);
+//				Calendar mcurrentTime = Calendar.getInstance();
+//				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//				int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//				TimePickerDialog mTimePicker;
+//				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//					@Override
+//					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//						String AM_PM;
+//						if (selectedHour >=0 && selectedHour < 12){
+//							AM_PM = "AM";
+//						} else {
+//							AM_PM = "PM";
+//						}
+//						if(selectedHour<10)
+//						{
+//							StartHour = "0"+String.valueOf(selectedHour);
+//						}
+//						else
+//						{
+//							StartHour = String.valueOf(selectedHour);
+//						}
+//						if(selectedMinute<10)
+//						{
+//							StartMinute = "0"+String.valueOf(selectedMinute);
+//						}
+//						else
+//						{
+//							StartMinute = String.valueOf(selectedMinute);
+//						}
+//						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
+//					}
+//				}, hour, minute, true);
+//				mTimePicker.setTitle("Select Time");
+//				mTimePicker.show();
 
-				TimePickerDialog mTimePicker;
-				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-					@Override
-					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-						String AM_PM;
-						if (selectedHour >=0 && selectedHour < 12){
-							AM_PM = "AM";
-						} else {
-							AM_PM = "PM";
-						}
-						if(selectedHour<10)
-						{
-							StartHour = "0"+String.valueOf(selectedHour);
-						}
-						else
-						{
-							StartHour = String.valueOf(selectedHour);
-						}
-						if(selectedMinute<10)
-						{
-							StartMinute = "0"+String.valueOf(selectedMinute);
-						}
-						else
-						{
-							StartMinute = String.valueOf(selectedMinute);
-						}
-						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
-					}
-				}, hour, minute, true);
-				mTimePicker.setTitle("Select Time");
-				mTimePicker.show();
+				GetTime(etFromTime);
 			}
 		});
 		etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {
-					Calendar mcurrentTime = Calendar.getInstance();
-					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-					int minute = mcurrentTime.get(Calendar.MINUTE);
-
-					TimePickerDialog mTimePicker;
-					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-						@Override
-						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-							String AM_PM;
-							if (selectedHour >= 0 && selectedHour < 12) {
-								AM_PM = "AM";
-							} else {
-								AM_PM = "PM";
-							}
-							if(selectedHour<10)
-							{
-								EndHour = "0"+String.valueOf(selectedHour);
-							}
-							else
-							{
-								EndHour = String.valueOf(selectedHour);
-							}
-							if(selectedMinute<10)
-							{
-								EndMinute = "0"+String.valueOf(selectedMinute);
-							}
-							else
-							{
-								EndMinute = String.valueOf(selectedMinute);
-							}
-							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
-						}
-					}, hour, minute, true);
-					mTimePicker.setTitle("Select Time");
-					mTimePicker.show();
+//					Calendar mcurrentTime = Calendar.getInstance();
+//					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//					int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//					TimePickerDialog mTimePicker;
+//					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//						@Override
+//						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//							String AM_PM;
+//							if (selectedHour >= 0 && selectedHour < 12) {
+//								AM_PM = "AM";
+//							} else {
+//								AM_PM = "PM";
+//							}
+//							if(selectedHour<10)
+//							{
+//								EndHour = "0"+String.valueOf(selectedHour);
+//							}
+//							else
+//							{
+//								EndHour = String.valueOf(selectedHour);
+//							}
+//							if(selectedMinute<10)
+//							{
+//								EndMinute = "0"+String.valueOf(selectedMinute);
+//							}
+//							else
+//							{
+//								EndMinute = String.valueOf(selectedMinute);
+//							}
+//							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
+//						}
+//					}, hour, minute, true);
+//					mTimePicker.setTitle("Select Time");
+//					mTimePicker.show();
+					GetTime(etToTime);
 				}
 			}
 		});
 		etToTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Calendar mcurrentTime = Calendar.getInstance();
-				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-				int minute = mcurrentTime.get(Calendar.MINUTE);
-
-				TimePickerDialog mTimePicker;
-				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-					@Override
-					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-						String AM_PM;
-						if (selectedHour >=0 && selectedHour < 12){
-							AM_PM = "AM";
-						} else {
-							AM_PM = "PM";
-						}
-						if(selectedHour<10)
-						{
-							EndHour = "0"+String.valueOf(selectedHour);
-						}
-						else
-						{
-							EndHour = String.valueOf(selectedHour);
-						}
-						if(selectedMinute<10)
-						{
-							EndMinute = "0"+String.valueOf(selectedMinute);
-						}
-						else
-						{
-							EndMinute = String.valueOf(selectedMinute);
-						}
-						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
-					}
-				}, hour, minute, true);
-				mTimePicker.setTitle("Select Time");
-				mTimePicker.show();
+//				Calendar mcurrentTime = Calendar.getInstance();
+//				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//				int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//				TimePickerDialog mTimePicker;
+//				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//					@Override
+//					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//						String AM_PM;
+//						if (selectedHour >=0 && selectedHour < 12){
+//							AM_PM = "AM";
+//						} else {
+//							AM_PM = "PM";
+//						}
+//						if(selectedHour<10)
+//						{
+//							EndHour = "0"+String.valueOf(selectedHour);
+//						}
+//						else
+//						{
+//							EndHour = String.valueOf(selectedHour);
+//						}
+//						if(selectedMinute<10)
+//						{
+//							EndMinute = "0"+String.valueOf(selectedMinute);
+//						}
+//						else
+//						{
+//							EndMinute = String.valueOf(selectedMinute);
+//						}
+//						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
+//					}
+//				}, hour, minute, true);
+//				mTimePicker.setTitle("Select Time");
+//				mTimePicker.show();
 			}
 		});
 	}
@@ -1514,17 +1500,72 @@ public class Service_Request extends AppCompatActivity {
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
 		callIntent.setData(Uri.parse("tel:" + phoneNumber));
 		if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-			// TODO: Consider calling
-			//    ActivityCompat#requestPermissions
-			// here to request the missing permissions, and then overriding
-			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-			//                                          int[] grantResults)
-			// to handle the case where the user grants the permission. See the documentation
-			// for ActivityCompat#requestPermissions for more details.
+			ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.CALL_PHONE},REQUEST_CODE_ASK_PERMISSIONS);
 			return;
 		}
-
-
 		startActivity(callIntent);
+	}
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case REQUEST_CODE_ASK_PERMISSIONS:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// Permission Granted
+					db = dbh.getReadableDatabase();
+					Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+					if (cursorPhone.getCount() > 0) {
+						cursorPhone.moveToNext();
+						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					}
+					db.close();
+				} else {
+					// Permission Denied
+					Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+							.show();
+				}
+				break;
+			default:
+				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+	}
+	public void GetTime(final EditText editText)
+	{
+		Calendar now = Calendar.getInstance();
+		MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this, new MyTimePickerDialog.OnTimeSetListener() {
+
+			@Override
+			public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
+				// TODO Auto-generated method stub
+				/*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
+						":" + String.format("%02d", minute) +
+						":" + String.format("%02d", seconds));	*/
+				db=dbh.getWritableDatabase();
+				String query="UPDATE  DateTB SET Time = '" +String.valueOf(hourOfDay)+":"+String.valueOf(minute)+"'";
+				db.execSQL(query);
+				String  hour,min;
+				if(hourOfDay<10)
+				{
+					hour="0"+String.valueOf(hourOfDay);
+				}
+				else
+				{
+					hour=String.valueOf(hourOfDay);
+				}
+				if(minute<10)
+				{
+					min="0"+String.valueOf(minute);
+				}
+				else
+				{
+					min=String.valueOf(minute);
+				}
+				editText.setText(hour + ":" + min);
+			}
+		}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
+		mTimePicker.setTitle("انتخاب زمان");
+		mTimePicker.setButton(BUTTON_POSITIVE,"تایید",mTimePicker);
+		mTimePicker.setButton(BUTTON_NEGATIVE,"انصراف",mTimePicker);
+		mTimePicker.show();
+
 	}
 }

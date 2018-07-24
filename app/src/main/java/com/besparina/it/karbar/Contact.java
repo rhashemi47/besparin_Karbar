@@ -1,5 +1,7 @@
 package com.besparina.it.karbar;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -23,12 +26,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Contact extends Activity {
 	private String karbarCode;
-
+	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;	private Button btnServiceEmergency;
+	private Button btncredite;
+	private Button btnServiceEmergency;
+	private Button btnCallSupporter;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -41,6 +46,7 @@ public class Contact extends Activity {
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 		btncredite=(Button)findViewById(R.id.btncrediteBottom);
 		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+		btnCallSupporter=(Button)findViewById(R.id.btnCallSupporter);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
 
@@ -161,6 +167,18 @@ public class Contact extends Activity {
 				db.close();
 			}
 		});
+		btnCallSupporter.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				db = dbh.getReadableDatabase();
+				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+				if (cursorPhone.getCount() > 0) {
+					cursorPhone.moveToNext();
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+				}
+				db.close();
+			}
+		});
 	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -191,17 +209,32 @@ public class Contact extends Activity {
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
 		callIntent.setData(Uri.parse("tel:" + phoneNumber));
 		if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-			// TODO: Consider calling
-			//    ActivityCompat#requestPermissions
-			// here to request the missing permissions, and then overriding
-			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-			//                                          int[] grantResults)
-			// to handle the case where the user grants the permission. See the documentation
-			// for ActivityCompat#requestPermissions for more details.
+			ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},REQUEST_CODE_ASK_PERMISSIONS);
 			return;
 		}
-
-
 		startActivity(callIntent);
+	}
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case REQUEST_CODE_ASK_PERMISSIONS:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// Permission Granted
+					db = dbh.getReadableDatabase();
+					Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+					if (cursorPhone.getCount() > 0) {
+						cursorPhone.moveToNext();
+						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					}
+					db.close();
+				} else {
+					// Permission Denied
+					Toast.makeText(Contact.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+							.show();
+				}
+				break;
+			default:
+				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
 	}
 }

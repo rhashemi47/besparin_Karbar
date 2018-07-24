@@ -49,6 +49,7 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:textSize="18dp"
+            android:text="موردی جهت نمایش وجود ندارد"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#000000"/>

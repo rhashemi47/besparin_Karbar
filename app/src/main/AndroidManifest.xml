@@ -93,6 +93,9 @@
         <activity
             android:name="com.besparina.it.karbar.ShowFactor"
             android:noHistory="false"/>
+        <activity
+            android:name="com.besparina.it.karbar.Credit_History"
+            android:noHistory="false"/>
         <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved">
 
         </service>

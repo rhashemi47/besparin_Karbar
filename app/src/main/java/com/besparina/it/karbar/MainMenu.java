@@ -81,6 +81,7 @@ public class MainMenu extends AppCompatActivity {
     Custom_ViewFlipper viewFlipper;
     GestureDetector mGestureDetector;
     private String countOrder;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -578,27 +579,27 @@ public class MainMenu extends AppCompatActivity {
                 .withShowDrawerOnFirstLaunch(true)
                 .addDrawerItems(
                         new SecondaryDrawerItem().withName(R.string.Profile).withIcon(R.drawable.profile).withSelectable(false).withEnabled(IsActive),
-                        // new SecondaryDrawerItem().withName(R.string.Credits).withIcon(R.drawable.job).withBadge(countOrder).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.Credits).withIcon(R.drawable.creditinmenu).withSelectable(false).withEnabled(IsActive),
-                        new SecondaryDrawerItem().withName(R.string.GiftBank).withIcon(R.drawable.gift).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.Invite_friends).withIcon(R.drawable.invit_friend).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.History).withIcon(R.drawable.history).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.Messages).withIcon(R.drawable.messages).withBadge(countMessage).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
+                        new SecondaryDrawerItem().withName(R.string.Contact).withIcon(R.drawable.contact).withSelectable(false),
+                        new SecondaryDrawerItem().withName(R.string.TermsـandـConditions).withIcon(R.drawable.terms_and_conditions).withSelectable(false).withEnabled(IsActive),
+                        new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
+                        new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
+                        // new SecondaryDrawerItem().withName(R.string.Credits).withIcon(R.drawable.job).withBadge(countOrder).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
+//                        new SecondaryDrawerItem().withName(R.string.GiftBank).withIcon(R.drawable.gift).withSelectable(false).withEnabled(IsActive),
                         // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
 //                        new SecondaryDrawerItem().withName(R.string.Yourcommitment).withIcon(R.drawable.yourcommitment).withSelectable(false),
 //                        new SecondaryDrawerItem().withName(R.string.Ourcommitment).withIcon(R.drawable.ourcommitment).withSelectable(false),
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
 
 
-                        new SecondaryDrawerItem().withName(R.string.Contact).withIcon(R.drawable.contact).withSelectable(false),
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        new SecondaryDrawerItem().withName(R.string.TermsـandـConditions).withIcon(R.drawable.terms_and_conditions).withSelectable(false).withEnabled(IsActive),
-                        new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
+//                        new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
 
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
                 )
 //                .addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
 //                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
@@ -644,7 +645,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 4:
+                            case 3:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM Profile", null);
                                 if (c.getCount() > 0) {
@@ -654,18 +655,17 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 3:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login", null);
-                                if (c.getCount() > 0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                }
-                                db.close();
-
-                                break;
-                            case 5:
+//                            case 4:
+//                                db = dbh.getReadableDatabase();
+//                                c = db.rawQuery("SELECT * FROM login", null);
+//                                if (c.getCount() > 0) {
+//                                    c.moveToNext();
+//
+//                                    LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
+//                                }
+//                                db.close();
+//                                break;
+                            case 4:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login", null);
                                 if (c.getCount() > 0) {
@@ -680,7 +680,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 6:
+                            case 5:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login", null);
                                 if (c.getCount() > 0) {
@@ -690,7 +690,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 7:
+                            case 6:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login", null);
                                 if (c.getCount() > 0) {
@@ -700,7 +700,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 8:
+                            case 7:
 //                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
                                 AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
                                 // set the message to display
@@ -741,7 +741,7 @@ public class MainMenu extends AppCompatActivity {
                                 });
                                 alertbox.show();
                                 break;
-                            case 9:
+                            case 8:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login", null);
                                 if (c.getCount() > 0) {
@@ -751,30 +751,30 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 10:
-
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login", null);
-                                if (c.getCount() > 0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(Help.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                }
-                                break;
+//                            case 10:
+//
+//                                db = dbh.getReadableDatabase();
+//                                c = db.rawQuery("SELECT * FROM login", null);
+//                                if (c.getCount() > 0) {
+//                                    c.moveToNext();
+//
+//                                    LoadActivity(Help.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
+//                                }
+//                                break;
 //                            case 11:
 ////                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
 //                                ExitApplication();
 //                                break;
-                            case 11:
+                            case 9:
 //                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
                                 Logout();
                                 break;
-                            case 14:
-                                Toast.makeText(MainMenu.this, "تلگرام", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 15:
-                                Toast.makeText(MainMenu.this, "اینستاگرام", Toast.LENGTH_SHORT).show();
-                                break;
+//                            case 14:
+//                                Toast.makeText(MainMenu.this, "تلگرام", Toast.LENGTH_SHORT).show();
+//                                break;
+//                            case 15:
+//                                Toast.makeText(MainMenu.this, "اینستاگرام", Toast.LENGTH_SHORT).show();
+//                                break;
                         }
                         return true;
                     }
@@ -861,18 +861,33 @@ public class MainMenu extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},REQUEST_CODE_ASK_PERMISSIONS);
             return;
         }
-
-
         startActivity(callIntent);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    db = dbh.getReadableDatabase();
+                    Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+                    if (cursorPhone.getCount() > 0) {
+                        cursorPhone.moveToNext();
+                        dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                    }
+                    db.close();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(MainMenu.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
     void sharecode(String shareStr)
     {

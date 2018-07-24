@@ -40,4 +40,5 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'com.github.hamsaadev:Persian-Date-Picker-Dialog:V1.2'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
+    compile 'com.kovachcode:timePickerWithSeconds:1.0.1'
 }

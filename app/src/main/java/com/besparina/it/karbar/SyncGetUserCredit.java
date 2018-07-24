@@ -3,6 +3,7 @@ package com.besparina.it.karbar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -190,10 +191,22 @@ public class SyncGetUserCredit {
 	}
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		db=dbh.getWritableDatabase();
-			String query="UPDATE AmountCredit SET Amount='"+this.WsResponse+"'" ;
+    	db=dbh.getReadableDatabase();
+    	String Query="SELECT * FROM AmountCredit";
+    	Cursor cursor=db.rawQuery(Query,null);
+    	if(cursor.getCount()>0) {
+			db = dbh.getWritableDatabase();
+			String query = "UPDATE AmountCredit SET Amount='" + this.WsResponse + "'";
 			db.execSQL(query);
-		db.close();
+			db.close();
+		}
+		else
+		{
+			db = dbh.getWritableDatabase();
+			String query = "INSERT INTO AmountCredit (Amount) VALUES('" + this.WsResponse + "')";
+			db.execSQL(query);
+			db.close();
+		}
 		if(this.Flag.compareTo("0")!=0) {
 			Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 			LoadActivity(Credit.class, "karbarCode", pUserCode);

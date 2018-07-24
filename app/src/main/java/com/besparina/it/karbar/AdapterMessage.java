@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -50,6 +51,7 @@ public class AdapterMessage extends BaseAdapter {
         TextView txtValues;
         TextView txtContent;
         ImageView imgIcon;
+        LinearLayout LinearMessage;
     }
 
     // @Override
@@ -62,6 +64,7 @@ public class AdapterMessage extends BaseAdapter {
             Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
             convertView = inflater.inflate(R.layout.list_item_message, null);
             holder = new ViewHolder();
+            holder.LinearMessage = (LinearLayout) convertView.findViewById(R.id.LinearMessage);
             holder.imgIcon = (ImageView)convertView.findViewById(R.id.imgIcon);
             holder.txtValues = (TextView) convertView.findViewById(R.id.txtTitleMail);
             holder.txtContent = (TextView) convertView.findViewById(R.id.txtContentMail);
@@ -85,13 +88,15 @@ public class AdapterMessage extends BaseAdapter {
             holder.txtValues.setTextColor(R.color.md_green_500);
             holder.imgIcon.setImageResource(R.drawable.mread);
         }
-        holder.imgIcon.setTag(code);
-        holder.imgIcon.setOnClickListener(ImageItemOnclick);
+//        holder.imgIcon.setTag(code);
+        holder.LinearMessage.setTag(code);
+//        holder.imgIcon.setOnClickListener(ImageItemOnclick);
         holder.txtValues.setText(PersianDigitConverter.PerisanNumber(name));
         holder.txtContent.setText(PersianDigitConverter.PerisanNumber(content));
-        holder.txtValues.setTag(code);
-        holder.txtValues.setOnClickListener(TextViewItemOnclick);
-        holder.txtContent.setOnClickListener(TextViewItemOnclick);
+//        holder.txtValues.setTag(code);
+//        holder.txtValues.setOnClickListener(TextViewItemOnclick);
+//        holder.txtContent.setOnClickListener(TextViewItemOnclick);
+        holder.LinearMessage.setOnClickListener(TextViewItemOnclick);
 
         return convertView;
     }
@@ -100,7 +105,7 @@ public class AdapterMessage extends BaseAdapter {
     private OnClickListener TextViewItemOnclick = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            String item = ((TextView)v).getTag().toString();
+            String item = ((LinearLayout)v).getTag().toString();
             Intent intent = new Intent(activity.getApplicationContext(),ShowMessage.class);
             intent.putExtra("Code",item);
             activity.startActivity(intent);
