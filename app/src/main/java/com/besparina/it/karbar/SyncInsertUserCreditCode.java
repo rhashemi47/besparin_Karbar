@@ -2,8 +2,6 @@ package com.besparina.it.karbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -18,7 +16,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncGettUserCreditHistory {
+public class SyncInsertUserCreditCode {
 
 	//Primary Variable
 	DatabaseHelper dbh;
@@ -26,15 +24,16 @@ public class SyncGettUserCreditHistory {
 	PublicVariable PV;
     InternetConnection IC;
 	private Activity activity;
+	private String CreditCode;
 	private String pkarbarCode;
-	private String Flag;
 	private String WsResponse;
+	//private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncGettUserCreditHistory(Activity activity, String pkarbarCode,String Flag) {
+	public SyncInsertUserCreditCode(Activity activity, String CreditCode, String pkarbarCode) {
 		this.activity = activity;
+		this.CreditCode = CreditCode;
 		this.pkarbarCode=pkarbarCode;
-		this.Flag=Flag;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -94,7 +93,7 @@ public class SyncGettUserCreditHistory {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GettUserCreditHistory");
+        		CallWsMethod("UseCreditCode");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -112,16 +111,20 @@ public class SyncGettUserCreditHistory {
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	//Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
+	            	Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainActivity.class,"karbarCode",karbarCode,"updateflag","1");
 	            }
+				else if(WsResponse.toString().compareTo("1") == 0)
+				{
+					InsertDataFromWsToDb();
+				}
 				else if(WsResponse.toString().compareTo("2") == 0)
 				{
 					Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
 				}
-				else
+				else if(WsResponse.toString().compareTo("3") == 0)
 				{
-					InsertDataFromWsToDb();
+					Toast.makeText(this.activity.getApplicationContext(), "کد اعتباری نامعتبر است", Toast.LENGTH_LONG).show();
 				}
 
         	}
@@ -167,6 +170,16 @@ public class SyncGettUserCreditHistory {
 		pkarbarCodePI.setType(String.class);
 	    //Add the property to request object
 	    request.addProperty(pkarbarCodePI);
+	    //*****************************************************
+		PropertyInfo PricePI = new PropertyInfo();
+		//Set Name
+		PricePI.setName("CreditCode");
+		//Set Value
+		PricePI.setValue(this.CreditCode);
+		//Set dataType
+		PricePI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(PricePI);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -188,46 +201,14 @@ public class SyncGettUserCreditHistory {
 	    	e.printStackTrace();
 	    }
 	}
-
-	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
-	{
-		Intent intent = new Intent(activity,Cls);
-		intent.putExtra(VariableName, VariableValue);
-
-		activity.startActivity(intent);
-	}
-
+	
+	
 	public void InsertDataFromWsToDb()
     {
-		if(WsResponse.toString().compareTo("3") == 0)
-		{
-			LoadActivity(Credit.class, "karbarCode", this.pkarbarCode);
-		}
-		else {
-			String[] res;
-			String[] value;
-			res = WsResponse.split("@@");
-			String query = null;
-			db = dbh.getWritableDatabase();
-			db.execSQL("DELETE FROM credits");
-			for (int i = 0; i < res.length; i++) {
-				value = res[i].split("##");
-				query = "INSERT INTO credits (Code,TransactionType,Price,TransactionDate,PaymentMethod,DocNumber,Description,InsertDate)" +
-						" VALUES('" + value[0] +
-						"','" + value[1] +
-						"','" + value[2] +
-						"','" + value[3] +
-						"','" + value[4] +
-						"','" + value[5] +
-						"','" + value[6] +
-						"','" + value[7] +
-						"')";
-				db.execSQL(query);
-			}
-			db.close();
-			SyncGetUserCredit syncGetUserCredit = new SyncGetUserCredit(this.activity, pkarbarCode, this.Flag);
-			syncGetUserCredit.AsyncExecute();
-		}
-	}
+		SyncGetUserCredit SyncGetUserCredit =new SyncGetUserCredit(this.activity,this.pkarbarCode,"1");
+		SyncGetUserCredit.AsyncExecute();
 
+		SyncGettUserCreditHistory syncGettUserCreditHistory =new SyncGettUserCreditHistory(this.activity,this.pkarbarCode,"1");
+		syncGettUserCreditHistory.AsyncExecute();
+	}
 }

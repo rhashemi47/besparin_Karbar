@@ -61,7 +61,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Map extends AppCompatActivity {
     private String karbarCode;
     private String area="";
-
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private Button btnSaveLocation;
@@ -72,7 +71,6 @@ public class Map extends AppCompatActivity {
     private GoogleMap map;
     private String backToActivity;
     private String DetailCode;
-    private EditText etEmail;
     private EditText etArea;
     private String IsDefault = "0";
     private CheckBox chbIsDefaultAddres;
@@ -83,6 +81,29 @@ public class Map extends AppCompatActivity {
     public Handler mHandler;
     public boolean continue_or_stop=true;
     private GPSTracker gps;
+    //*************************************
+    private String MaleCount ;
+    private String FemaleCount ;
+    private String HamyarCount ;
+    private String StartYear ;
+    private String StartMonth ;
+    private String StartDay ;
+    private String StartHour ;
+    private String EndYear ;
+    private String EndHour ;
+    private String AddressCode ;
+    private String Description ;
+    private String EducationGrade ;
+    private String FieldOfStudy ;
+    private String EducationTitle ;
+    private String ArtField ;
+    private String Language ;
+    private String StudentGender;
+    private String IsEmergency;
+    private String PeriodicServices;
+    private String TeacherGender;
+    private String CarWashType;
+    private String CarType;
 
 
     @Override
@@ -94,7 +115,6 @@ public class Map extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
-        etEmail = (EditText) findViewById(R.id.etEmail);
         etArea = (EditText) findViewById(R.id.etArea);
         spState = (Spinner) findViewById(R.id.spState);
         spCity = (Spinner) findViewById(R.id.spCity);
@@ -144,7 +164,7 @@ public class Map extends AppCompatActivity {
                 }
             }
         }).start();
-
+//******************************************************************************
         try {
             karbarCode = getIntent().getStringExtra("karbarCode").toString();
         } catch (Exception e) {
@@ -159,7 +179,88 @@ public class Map extends AppCompatActivity {
             DetailCode = getIntent().getStringExtra("DetailCode").toString();
         } catch (Exception e) {
             DetailCode = "";
+        }try {
+            MaleCount = getIntent().getStringExtra("MaleCount").toString();
+        } catch (Exception e) {
+            MaleCount = "";
+        }try {
+            FemaleCount = getIntent().getStringExtra("FemaleCount").toString();
+        } catch (Exception e) {
+            FemaleCount = "";
+        }try {
+            HamyarCount = getIntent().getStringExtra("HamyarCount").toString();
+        } catch (Exception e) {
+            HamyarCount = "";
+        }try {
+            StartYear = getIntent().getStringExtra("StartYear").toString();
+        } catch (Exception e) {
+            StartYear = "";
+        }try {
+            StartHour = getIntent().getStringExtra("StartHour").toString();
+        } catch (Exception e) {
+            StartHour = "";
+        }try {
+            EndYear = getIntent().getStringExtra("EndYear").toString();
+        } catch (Exception e) {
+            EndYear = "";
+        }try {
+            EndHour = getIntent().getStringExtra("EndHour").toString();
+        } catch (Exception e) {
+            EndHour = "";
+        }try {
+            AddressCode = getIntent().getStringExtra("AddressCode").toString();
+        } catch (Exception e) {
+            AddressCode = "";
+        }try {
+            Description = getIntent().getStringExtra("Description").toString();
+        } catch (Exception e) {
+            Description = "";
+        }try {
+            IsEmergency = getIntent().getStringExtra("IsEmergency").toString();
+        } catch (Exception e) {
+            IsEmergency = "";
+        }try {
+            PeriodicServices = getIntent().getStringExtra("PeriodicServices").toString();
+        } catch (Exception e) {
+            PeriodicServices = "";
+        }try {
+            EducationGrade = getIntent().getStringExtra("EducationGrade").toString();
+        } catch (Exception e) {
+            EducationGrade = "";
+        }try {
+            FieldOfStudy = getIntent().getStringExtra("FieldOfStudy").toString();
+        } catch (Exception e) {
+            FieldOfStudy = "";
+        }try {
+            StudentGender = getIntent().getStringExtra("StudentGender").toString();
+        } catch (Exception e) {
+            StudentGender = "";
+        }try {
+            TeacherGender = getIntent().getStringExtra("TeacherGender").toString();
+        } catch (Exception e) {
+            TeacherGender = "";
+        }try {
+            EducationTitle = getIntent().getStringExtra("EducationTitle").toString();
+        } catch (Exception e) {
+            EducationTitle = "";
+        }try {
+            ArtField = getIntent().getStringExtra("ArtField").toString();
+        } catch (Exception e) {
+            ArtField = "";
+        }try {
+            CarWashType = getIntent().getStringExtra("CarWashType").toString();
+        } catch (Exception e) {
+            CarWashType = "";
+        }try {
+            CarType = getIntent().getStringExtra("CarType").toString();
+        } catch (Exception e) {
+            CarType = "";
+        }try {
+            Language = getIntent().getStringExtra("Language").toString();
+        } catch (Exception e) {
+            Language = "";
         }
+//******************************************************************************
         dbh = new DatabaseHelper(getApplicationContext());
         try {
 
@@ -279,14 +380,14 @@ public class Map extends AppCompatActivity {
                 else{
                     CodeCity="";
                 }
-                try
-                {
-                   email= etEmail.getText().toString();
-                }
-                catch (Exception e)
-                {
-                    email="";
-                }
+//                try
+//                {
+//                   email= etEmail.getText().toString();
+//                }
+//                catch (Exception e)
+//                {
+//                    email="";
+//                }
                 if(StrError.length()==0 || StrError.compareTo("")==0)
                 {
                     String latStr=Double.toString(lat);
@@ -310,7 +411,30 @@ public class Map extends AppCompatActivity {
             }else
             {
                 continue_or_stop=false;
-                LoadActivity2(Service_Request.class, "karbarCode", karbarCode,"DetailCode",DetailCode);
+                LoadActivity2(Service_Request.class,
+                        "karbarCode", karbarCode,
+                        "DetailCode",DetailCode,
+                        "MaleCount", MaleCount,
+                        "FemaleCount", FemaleCount,
+                        "HamyarCount", HamyarCount,
+                        "StartYear", StartYear,
+                        "StartHour", StartHour,
+                        "EndYear", EndYear,
+                        "EndHour", EndHour ,
+                        "AddressCode",AddressCode,
+                        "Description", Description,
+                        "IsEmergency", IsEmergency,
+                        "PeriodicServices", PeriodicServices,
+                        "EducationGrade", EducationGrade,
+                        "FieldOfStudy", FieldOfStudy,
+                        "StudentGender", StudentGender,
+                        "TeacherGender", TeacherGender,
+                        "EducationTitle", EducationTitle,
+                        "ArtField", ArtField,
+                        "CarWashType", CarWashType,
+                        "CarType", CarType,
+                        "Language", Language
+                );
             }
 
         }
@@ -324,10 +448,52 @@ public class Map extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         this.startActivity(intent);
     }
-    public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2) {
+    public void LoadActivity2(Class<?> Cls,
+                              String VariableName, String VariableValue,
+                              String VariableName2, String VariableValue2,
+                              String VariableName3, String VariableValue3,
+                            String VariableName4, String VariableValue4,
+                            String VariableName5, String VariableValue5,
+                            String VariableName6, String VariableValue6,
+                            String VariableName7, String VariableValue7,
+                            String VariableName8, String VariableValue8,
+                            String VariableName9, String VariableValue9,
+                            String VariableName10, String VariableValue10,
+                            String VariableName11, String VariableValue11,
+                            String VariableName12, String VariableValue12,
+                            String VariableName13, String VariableValue13,
+                            String VariableName14, String VariableValue14,
+                            String VariableName15, String VariableValue15,
+                            String VariableName16, String VariableValue16,
+                            String VariableName17, String VariableValue17,
+                            String VariableName18, String VariableValue18,
+                            String VariableName19, String VariableValue19,
+                            String VariableName20, String VariableValue20,
+                            String VariableName21, String VariableValue21,
+                            String VariableName22, String VariableValue22) {
         Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
+        intent.putExtra(VariableName3, VariableValue3);
+        intent.putExtra(VariableName4, VariableValue4);
+        intent.putExtra(VariableName5, VariableValue5);
+        intent.putExtra(VariableName6, VariableValue6);
+        intent.putExtra(VariableName7, VariableValue7);
+        intent.putExtra(VariableName8, VariableValue8);
+        intent.putExtra(VariableName9, VariableValue9);
+        intent.putExtra(VariableName10, VariableValue10);
+        intent.putExtra(VariableName11, VariableValue11);
+        intent.putExtra(VariableName12, VariableValue12);
+        intent.putExtra(VariableName13, VariableValue13);
+        intent.putExtra(VariableName14, VariableValue14);
+        intent.putExtra(VariableName15, VariableValue15);
+        intent.putExtra(VariableName16, VariableValue16);
+        intent.putExtra(VariableName17, VariableValue17);
+        intent.putExtra(VariableName18, VariableValue18);
+        intent.putExtra(VariableName19, VariableValue19);
+        intent.putExtra(VariableName20, VariableValue20);
+        intent.putExtra(VariableName21, VariableValue21);
+        intent.putExtra(VariableName22, VariableValue22);
         this.startActivity(intent);
     }
     private void FillSpinnerChild(String StateId) {

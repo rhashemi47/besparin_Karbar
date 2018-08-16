@@ -28,6 +28,7 @@
             android:layout_gravity="right"
             android:gravity="right">
             <ImageView
+                android:id="@+id/BesparinaLogo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/logo_toolbar"
@@ -92,11 +93,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
             <GridView
                 android:id="@+id/GridViewServices"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="410dp"
+                android:layout_marginTop="40dp"
                 android:numColumns="3">
             </GridView>
             <ListView

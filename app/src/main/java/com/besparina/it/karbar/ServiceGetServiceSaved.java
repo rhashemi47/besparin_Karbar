@@ -74,7 +74,7 @@ public class ServiceGetServiceSaved extends Service {
                                     syncGetUserServices.AsyncExecute();
                                 }
                             });
-                            Thread.sleep(60000); // every 60 seconds
+                            Thread.sleep(6000); // every 6 seconds
                         } catch (Exception e) {
                             // TODO: handle exception
                         }

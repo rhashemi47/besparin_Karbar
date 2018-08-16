@@ -10,6 +10,8 @@
 
     import android.view.KeyEvent;
     import android.view.MenuItem;
+    import android.view.View;
+    import android.widget.ImageView;
 
     import java.io.IOException;
 
@@ -58,6 +60,14 @@
             String Query="UPDATE UpdateApp SET Status='1'";
             db=dbh.getWritableDatabase();
             db.execSQL(Query);
+
+            ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+            imgview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoadActivity(MainMenu.class,"","");
+                }
+            });
 
     }
     @Override

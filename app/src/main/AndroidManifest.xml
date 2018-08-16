@@ -14,7 +14,7 @@
             android:name="com.besparina.it.karbar.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="false" >
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,7 +83,7 @@
             android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.List_Order"
-            android:noHistory="false"/>
+            android:noHistory="true"/>
         <activity
             android:name="com.besparina.it.karbar.Service_Request_Saved"
             android:noHistory="false"/>
@@ -95,7 +95,7 @@
             android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.karbar.Credit_History"
-            android:noHistory="false"/>
+            android:noHistory="true"/>
         <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved">
 
         </service>
@@ -133,6 +133,7 @@
                     "android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+        
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

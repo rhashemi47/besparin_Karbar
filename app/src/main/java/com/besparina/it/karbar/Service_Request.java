@@ -2,6 +2,7 @@ package com.besparina.it.karbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -20,10 +21,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
@@ -117,13 +118,13 @@ public class Service_Request extends AppCompatActivity {
 	private String StartYear ;
 	private String StartMonth ;
 	private String StartDay ;
-	private String StartHour ;
-	private String StartMinute ;
+	public String StartHour ;
+	public String StartMinute ;
 	private String EndYear ;
 	private String EndMonth ;
 	private String EndDay ;
-	private String EndHour ;
-	private String EndMinute ;
+	public String EndHour ;
+	public String EndMinute ;
 	private String AddressCode ;
 	private String Description ;
 	private String EducationGrade ;
@@ -153,6 +154,8 @@ public class Service_Request extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.service_request);
+		//***************************************************************
+
 		//***************************************************************
 		FontFace = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
 		int textSize=18;
@@ -345,12 +348,102 @@ public class Service_Request extends AppCompatActivity {
 			}
 			db.close();
 		}
+//**************************************************************************
+        try {
+            MaleCount = getIntent().getStringExtra("MaleCount").toString();
+        } catch (Exception e) {
+            MaleCount = "";
+        }try {
+            FemaleCount = getIntent().getStringExtra("FemaleCount").toString();
+        } catch (Exception e) {
+            FemaleCount = "";
+        }try {
+            HamyarCount = getIntent().getStringExtra("HamyarCount").toString();
+        } catch (Exception e) {
+            HamyarCount = "";
+        }try {
+            StartYear = getIntent().getStringExtra("StartYear").toString();
+        } catch (Exception e) {
+            StartYear = "";
+        }try {
+            StartHour = getIntent().getStringExtra("StartHour").toString();
+        } catch (Exception e) {
+            StartHour = "";
+        }try {
+            EndYear = getIntent().getStringExtra("EndYear").toString();
+        } catch (Exception e) {
+            EndYear = "";
+        }try {
+            EndHour = getIntent().getStringExtra("EndHour").toString();
+        } catch (Exception e) {
+            EndHour = "";
+        }try {
+            AddressCode = getIntent().getStringExtra("AddressCode").toString();
+        } catch (Exception e) {
+            AddressCode = "";
+        }try {
+            Description = getIntent().getStringExtra("Description").toString();
+        } catch (Exception e) {
+            Description = "";
+        }try {
+            IsEmergency = getIntent().getStringExtra("IsEmergency").toString();
+        } catch (Exception e) {
+            IsEmergency = "";
+        }try {
+            PeriodicServices = getIntent().getStringExtra("PeriodicServices").toString();
+        } catch (Exception e) {
+            PeriodicServices = "";
+        }try {
+            EducationGrade = getIntent().getStringExtra("EducationGrade").toString();
+        } catch (Exception e) {
+            EducationGrade = "";
+        }try {
+            FieldOfStudy = getIntent().getStringExtra("FieldOfStudy").toString();
+        } catch (Exception e) {
+            FieldOfStudy = "";
+        }try {
+            StudentGender = getIntent().getStringExtra("StudentGender").toString();
+        } catch (Exception e) {
+            StudentGender = "";
+        }try {
+            TeacherGender = getIntent().getStringExtra("TeacherGender").toString();
+        } catch (Exception e) {
+            TeacherGender = "";
+        }try {
+            EducationTitle = getIntent().getStringExtra("EducationTitle").toString();
+        } catch (Exception e) {
+            EducationTitle = "";
+        }try {
+            ArtField = getIntent().getStringExtra("ArtField").toString();
+        } catch (Exception e) {
+            ArtField = "";
+        }try {
+            CarWashType = getIntent().getStringExtra("CarWashType").toString();
+        } catch (Exception e) {
+            CarWashType = "";
+        }try {
+            CarType = getIntent().getStringExtra("CarType").toString();
+        } catch (Exception e) {
+            CarType = "";
+        }try {
+            Language = getIntent().getStringExtra("Language").toString();
+        } catch (Exception e) {
+            Language = "";
+        }
+		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+		imgview.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LoadActivity(MainMenu.class,"","");
+			}
+		});
+
 		//*********************************************************************
 		db=dbh.getReadableDatabase();
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
 				"Servicesdetails ON " +
-				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
 		if (cursor2.getCount() > 0) {
 			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
@@ -380,7 +473,142 @@ public class Service_Request extends AppCompatActivity {
 		btnAddAdres.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LoadActivity2(Map.class,"karbarCode", karbarCode,"DetailCode",DetailCode);
+				//LoadActivity2(Map.class,"karbarCode", karbarCode,"DetailCode",DetailCode);
+                //**************************************************************
+                if (spStatus.getSelectedItem().toString().compareTo("عادی") == 0) {
+                    IsEmergency = "0";
+                } else {
+                    IsEmergency = "1";
+                }
+                //***************************************************************
+                //**************************************************************
+                if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
+                    if (spGenderStudent.getSelectedItem().toString().compareTo("خانم") == 0) {
+                        StudentGender = "1";
+                    } else if (spGenderStudent.getSelectedItem().toString().compareTo("آقا") == 0) {
+                        StudentGender = "0";
+                    } else {
+                        StudentGender = "2";
+                    }
+                }
+                else
+                {
+                    StudentGender = "0";
+                }
+                //***************************************************************
+                if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
+                    if (spGenderTeacher.getSelectedItem().toString().compareTo("خانم") == 0) {
+                        TeacherGender = "1";
+                    } else if (spGenderTeacher.getSelectedItem().toString().compareTo("آقا") == 0) {
+                        TeacherGender = "2";
+                    } else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
+                        TeacherGender = "3";
+                    } else {
+                        TeacherGender = "0";
+                    }
+                }
+                else
+                {
+                    TeacherGender = "0";
+                }
+                //***************************************************************
+
+                try {
+                    String	FieldOfStudyName = spFieldEducation.getSelectedItem().toString();
+                    FieldOfStudy = GetFieldofEducationCode(FieldOfStudyName);
+                } catch (Exception ex) {
+                    FieldOfStudy = "0";
+                }
+                try {
+                    String ArtName = spFieldArt.getSelectedItem().toString();
+                    ArtField = GetArtCode(ArtName);
+                } catch (Exception ex) {
+                    ArtField = "0";
+                }
+                //***************************************************************
+                //***************************************************************
+                if(LinearCarWash.getVisibility()==View.VISIBLE) {
+                    if (spTypeService.getSelectedItem().toString().compareTo("روشویی") == 0) {
+                        CarWashType = "1";
+                    } else if (spTypeService.getSelectedItem().toString().compareTo(" ") == 0) {
+                        CarWashType = "0";
+                    } else {
+                        CarWashType = "2";
+                    }
+                }
+                else
+                {
+                    CarWashType = "0";
+                }
+                //***************************************************************
+                if(LinearCarWash.getVisibility()==View.VISIBLE) {
+                    if (spTypeCar.getSelectedItem().toString().compareTo("سواری") == 0) {
+                        CarType = "1";
+                    } else if (CarType.compareTo("ون") == 0) {
+                        CarType = "3";
+                    } else if (CarType.compareTo(" ") == 0) {
+                        CarType = "0";
+                    } else {
+                        CarType = "2";
+                    }
+                }
+                else
+                {
+                    CarType = "0";
+                }
+                //***************************************************************
+
+
+                try {
+                    if (LinerLayoutLanguege.getVisibility() == View.VISIBLE) {
+                        Language = String.valueOf(spLanguage.getSelectedItemId());
+                    } else
+                    {
+                        Language = "0";
+                    }
+
+                } catch (Exception ex) {
+                    Language = "0";
+                }
+                if(spTypePeriodService.getVisibility()== View.VISIBLE) {
+                    if (spTypePeriodService.getSelectedItem().toString().compareTo("روزانه") == 0) {
+                        PeriodicServices = "1";
+                    } else if (spTypePeriodService.getSelectedItem().toString().compareTo("هفته در میان") == 0) {
+                        PeriodicServices = "2";
+                    } else if (spTypePeriodService.getSelectedItem().toString().compareTo("هفتگی") == 0) {
+                        PeriodicServices = "3";
+                    } else {
+                        PeriodicServices = "4";
+                    }
+                }
+                else
+                {
+                    PeriodicServices = "1";
+                }
+                //***************************************************************
+                LoadActivity_Map(Map.class, "karbarCode", karbarCode,
+                        "DetailCode",DetailCode,
+                        "MaleCount", etCountMan.getText().toString(),
+                        "FemaleCount", etCountWoman.getText().toString(),
+                        "HamyarCount", etDoesnotmatter.getText().toString(),
+                        "StartYear", etFromDate.getText().toString(),
+                        "StartHour", etFromTime.getText().toString(),
+                        "EndYear", etToDate.getText().toString(),
+                        "EndHour", etToTime.getText().toString(),
+                        "AddressCode",AddressCode,
+                        "Description", Description,
+                        "IsEmergency", IsEmergency,
+                        "PeriodicServices", PeriodicServices,
+                        "EducationGrade", EducationGrade,
+                        "FieldOfStudy", FieldOfStudy,
+                        "StudentGender", StudentGender,
+                        "TeacherGender", TeacherGender,
+                        "EducationTitle", EducationTitle,
+                        "ArtField", ArtField,
+                        "CarWashType", CarWashType,
+                        "CarType", CarType,
+                        "Language", Language);
+
 			}
 		});
 		btnOrder.setOnClickListener(new View.OnClickListener() {
@@ -390,7 +618,7 @@ public class Service_Request extends AppCompatActivity {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
 				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -451,6 +679,7 @@ public class Service_Request extends AppCompatActivity {
 					cursor.moveToNext();
 					etAddres.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("AddressText"))));
 					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
+					AddressCode=String.valueOf(position);
 
 				}
 				db.close();
@@ -509,13 +738,20 @@ public class Service_Request extends AppCompatActivity {
 				form9();
 				break;
 		}
+
+        //**************************************************************************
+        if(StartYear.length()>0) {
+            FillForm();
+        }
+        //**************************************************************************
+
 		btnSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String ErrorStr = "";
-				FemaleCount = etCountWoman.getText().toString();
-				HamyarCount = etDoesnotmatter.getText().toString();
-				MaleCount = etCountMan.getText().toString();
+				FemaleCount = PersianDigitConverter.EnglishNumber(etCountWoman.getText().toString());
+				HamyarCount = PersianDigitConverter.EnglishNumber(etDoesnotmatter.getText().toString());
+				MaleCount = PersianDigitConverter.EnglishNumber(etCountMan.getText().toString());
 				try {
 					if (etAddres.getTag().toString().length() <= 0) {
 						ErrorStr += "آدرس را در قسمت تنظیمات حساب کاربری وارد نمایید." + "\n";
@@ -548,15 +784,22 @@ public class Service_Request extends AppCompatActivity {
 				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
 						,Integer.parseInt(SplitToDate[1])
 								,Integer.parseInt(SplitToDate[2]));
+
+
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+				calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
+				String strNow = null;
+				String strFrom= null;
+				String strTo= null;
+				
 				int compateDate= calFrom.compareTo(calTo);
 				if (compateDate>0) {
 					ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
 				}
 				else
 				{
-					ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-					calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
-					String strTo=String.valueOf(calTo.getPersianYear());
+
+					 strTo=String.valueOf(calTo.getPersianYear());
 					if(calTo.getPersianMonth()<10)
 					{
 						strTo=strTo+"0"+String.valueOf(calTo.getPersianMonth());
@@ -574,7 +817,7 @@ public class Service_Request extends AppCompatActivity {
 						strTo=strTo+String.valueOf(calTo.getPersianDay());
 					}
 					//**********************************
-					String strNow=String.valueOf(calNow.getPersianYear());
+					 strNow=String.valueOf(calNow.getPersianYear());
 					if(calNow.getPersianMonth()<10)
 					{
 						strNow=strNow+"0"+String.valueOf(calNow.getPersianMonth());
@@ -591,8 +834,34 @@ public class Service_Request extends AppCompatActivity {
 					{
 						strNow=strNow+String.valueOf(calNow.getPersianDay());
 					}
+
+					//**********************************
+					 strFrom=String.valueOf(calFrom.getPersianYear());
+					if(calFrom.getPersianMonth()<10)
+					{
+						strFrom=strFrom+"0"+String.valueOf(calFrom.getPersianMonth());
+					}
+					else
+					{
+						strFrom=strFrom+String.valueOf(calFrom.getPersianMonth());
+					}
+					if(calFrom.getPersianDay()<10)
+					{
+						strFrom=strFrom+"0"+String.valueOf(calFrom.getPersianDay());
+					}
+					else
+					{
+						strFrom=strFrom+String.valueOf(calFrom.getPersianDay());
+					}
+
 					int temp=strTo.compareTo(strNow);
-					if(temp<0)
+
+					int tempFrom=strFrom.compareTo(strNow);
+					if(tempFrom<0)
+					{
+						ErrorStr += "تاریخ شروع نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
+					}
+					else if(temp<0)
 					{
 						ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
 					}
@@ -645,9 +914,9 @@ public class Service_Request extends AppCompatActivity {
 				if(spTypePeriodService.getVisibility()== View.VISIBLE) {
 					if (spTypePeriodService.getSelectedItem().toString().compareTo("روزانه") == 0) {
 						PeriodicServices = "1";
-					} else if (PeriodicServices.compareTo("هفته در میان") == 0) {
+					} else if (spTypePeriodService.getSelectedItem().toString().compareTo("هفته در میان") == 0) {
 						PeriodicServices = "2";
-					} else if (PeriodicServices.compareTo("هفتگی") == 0) {
+					} else if (spTypePeriodService.getSelectedItem().toString().compareTo("هفتگی") == 0) {
 						PeriodicServices = "3";
 					} else {
 						PeriodicServices = "4";
@@ -673,9 +942,9 @@ public class Service_Request extends AppCompatActivity {
 				}
 				//**************************************************************
 				if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
-					if (spGenderStudent.getSelectedItem().toString().compareTo("زن") == 0) {
+					if (spGenderStudent.getSelectedItem().toString().compareTo("خانم") == 0) {
 						StudentGender = "1";
-					} else if (spGenderStudent.getSelectedItem().toString().compareTo(" ") == 0) {
+					} else if (spGenderStudent.getSelectedItem().toString().compareTo("آقا") == 0) {
 						StudentGender = "0";
 					} else {
 						StudentGender = "2";
@@ -687,9 +956,9 @@ public class Service_Request extends AppCompatActivity {
 				}
 				//***************************************************************
 				if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
-					if (spGenderTeacher.getSelectedItem().toString().compareTo("زن") == 0) {
+					if (spGenderTeacher.getSelectedItem().toString().compareTo("خانم") == 0) {
 						TeacherGender = "1";
-					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("مرد") == 0) {
+					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("آقا") == 0) {
 						TeacherGender = "2";
 					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
 						TeacherGender = "3";
@@ -704,12 +973,14 @@ public class Service_Request extends AppCompatActivity {
 				//***************************************************************
 
 				try {
-					FieldOfStudy = spFieldEducation.getSelectedItem().toString();
+				String	FieldOfStudyName = spFieldEducation.getSelectedItem().toString();
+					FieldOfStudy = GetFieldofEducationCode(FieldOfStudyName);
 				} catch (Exception ex) {
 					FieldOfStudy = "0";
 				}
 				try {
-					ArtField = spFieldArt.getSelectedItem().toString();
+					String ArtName = spFieldArt.getSelectedItem().toString();
+					ArtField = GetArtCode(ArtName);
 				} catch (Exception ex) {
 					ArtField = "0";
 				}
@@ -769,14 +1040,55 @@ public class Service_Request extends AppCompatActivity {
 						ErrorStr += "تعداد همیار را مشخص نمایید" + "\n";
 					}
 				}
+
 				if (ErrorStr.length() == 0) {
 					{
-						SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request.this,
-								karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
-								StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
-								AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
-								FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
-						syncInsertUserServices.AsyncExecute();
+                        String spDateStart[]=PersianDigitConverter.EnglishNumber(etFromDate.getText().toString()).split("/");
+                        StartYear=spDateStart[0];
+                        StartMonth=spDateStart[1];
+                        StartDay=spDateStart[2];
+                        //*************************************************************
+                        String spDateEnd[]=PersianDigitConverter.EnglishNumber(etToDate.getText().toString()).split("/");
+                        EndYear=spDateEnd[0];
+                        EndMonth=spDateEnd[1];
+                        EndDay=spDateEnd[2];
+                        //*************************************************************
+						String SpStartTime[]=PersianDigitConverter.EnglishNumber(etFromTime.getText().toString()).split(":");
+						StartHour=SpStartTime[0];
+						StartMinute=SpStartTime[1];
+						String FullStartTime = StartHour+StartMinute;
+						String FinalStartFullDate = strFrom+StartHour+StartMinute;
+						String FinalNowFullDate  = strNow + calNow.getTime().getHours()+calNow.getTime().getMinutes();
+						String SpEndTime[]=PersianDigitConverter.EnglishNumber(etToTime.getText().toString()).split(":");
+						EndHour=SpEndTime[0];
+						EndMinute=SpEndTime[1];
+						String FullEndTime = EndHour+EndMinute;
+						int TempDate = strFrom.compareTo(strTo);
+						int TempTime = FullEndTime.compareTo(FullStartTime);
+						int TempStartDate = FinalStartFullDate.compareTo(FinalNowFullDate);
+						if(TempStartDate > 0) {
+							boolean Flag = false;
+							if(TempDate==0 & TempTime < 0)
+							{
+								Flag = true;
+							}
+							if(Flag==false) {
+								SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request.this,
+										karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
+										StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
+										AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
+										FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
+								syncInsertUserServices.AsyncExecute();
+							}
+							else
+							{
+								Toast.makeText(Service_Request.this, "ساعت پایان نباید کوچکتر از ساعت شروع باشد", Toast.LENGTH_SHORT).show();
+							}
+						}
+						else
+						{
+							Toast.makeText(Service_Request.this, "تاریخ و ساعت شروع نباید کوچکتر از زمان جاری باشد", Toast.LENGTH_SHORT).show();
+						}
 					}
 
 				} else {
@@ -1009,176 +1321,43 @@ public class Service_Request extends AppCompatActivity {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {
-//					Calendar mcurrentTime = Calendar.getInstance();
-//					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//					int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//					TimePickerDialog mTimePicker;
-//					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-//						@Override
-//						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//							String AM_PM;
-//							if (selectedHour >= 0 && selectedHour < 12) {
-//								AM_PM = "AM";
-//							} else {
-//								AM_PM = "PM";
-//							}
-//							if(selectedHour<10)
-//							{
-//								StartHour = "0"+String.valueOf(selectedHour);
-//							}
-//							else
-//							{
-//								StartHour = String.valueOf(selectedHour);
-//							}
-//							if(selectedMinute<10)
-//							{
-//								StartMinute = "0"+String.valueOf(selectedMinute);
-//							}
-//							else
-//							{
-//								StartMinute = String.valueOf(selectedMinute);
-//							}
-//							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
-//						}
-//					}, hour, minute, true);
-//					mTimePicker.setTitle("Select Time");
-//					mTimePicker.show();
-					//***********
-						GetTime(etFromTime);
+
+					GetTime(etFromTime,StartHour,StartMinute);
 				}
 			}
 		});
 		etFromTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Calendar mcurrentTime = Calendar.getInstance();
-//				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//				int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//				TimePickerDialog mTimePicker;
-//				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-//					@Override
-//					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//						String AM_PM;
-//						if (selectedHour >=0 && selectedHour < 12){
-//							AM_PM = "AM";
-//						} else {
-//							AM_PM = "PM";
-//						}
-//						if(selectedHour<10)
-//						{
-//							StartHour = "0"+String.valueOf(selectedHour);
-//						}
-//						else
-//						{
-//							StartHour = String.valueOf(selectedHour);
-//						}
-//						if(selectedMinute<10)
-//						{
-//							StartMinute = "0"+String.valueOf(selectedMinute);
-//						}
-//						else
-//						{
-//							StartMinute = String.valueOf(selectedMinute);
-//						}
-//						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
-//					}
-//				}, hour, minute, true);
-//				mTimePicker.setTitle("Select Time");
-//				mTimePicker.show();
 
-				GetTime(etFromTime);
+				GetTime(etFromTime,StartHour,StartMinute);
 			}
 		});
 		etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {
-//					Calendar mcurrentTime = Calendar.getInstance();
-//					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//					int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//					TimePickerDialog mTimePicker;
-//					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-//						@Override
-//						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//							String AM_PM;
-//							if (selectedHour >= 0 && selectedHour < 12) {
-//								AM_PM = "AM";
-//							} else {
-//								AM_PM = "PM";
-//							}
-//							if(selectedHour<10)
-//							{
-//								EndHour = "0"+String.valueOf(selectedHour);
-//							}
-//							else
-//							{
-//								EndHour = String.valueOf(selectedHour);
-//							}
-//							if(selectedMinute<10)
-//							{
-//								EndMinute = "0"+String.valueOf(selectedMinute);
-//							}
-//							else
-//							{
-//								EndMinute = String.valueOf(selectedMinute);
-//							}
-//							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
-//						}
-//					}, hour, minute, true);
-//					mTimePicker.setTitle("Select Time");
-//					mTimePicker.show();
-					GetTime(etToTime);
+					GetTime(etToTime,EndHour,EndMinute);
 				}
 			}
 		});
 		etToTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Calendar mcurrentTime = Calendar.getInstance();
-//				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//				int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//				TimePickerDialog mTimePicker;
-//				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
-//					@Override
-//					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//						String AM_PM;
-//						if (selectedHour >=0 && selectedHour < 12){
-//							AM_PM = "AM";
-//						} else {
-//							AM_PM = "PM";
-//						}
-//						if(selectedHour<10)
-//						{
-//							EndHour = "0"+String.valueOf(selectedHour);
-//						}
-//						else
-//						{
-//							EndHour = String.valueOf(selectedHour);
-//						}
-//						if(selectedMinute<10)
-//						{
-//							EndMinute = "0"+String.valueOf(selectedMinute);
-//						}
-//						else
-//						{
-//							EndMinute = String.valueOf(selectedMinute);
-//						}
-//						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
-//					}
-//				}, hour, minute, true);
-//				mTimePicker.setTitle("Select Time");
-//				mTimePicker.show();
+
+				GetTime(etToTime,EndHour,EndMinute);
 			}
 		});
 	}
+
+
+
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
 		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-			LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
+            LoadActivity2(List_ServiceDerails.class,
+                    "karbarCode", karbarCode,
+                    "codeService",DetailCode);
 		}
 
 		return super.onKeyDown( keyCode, event );
@@ -1189,11 +1368,58 @@ public class Service_Request extends AppCompatActivity {
 		intent.putExtra(VariableName, VariableValue);
 		Service_Request.this.startActivity(intent);
 	}
-	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName1, String VariableValue1)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
-		intent.putExtra(VariableName2, VariableValue2);
+		intent.putExtra(VariableName1, VariableValue1);
+		Service_Request.this.startActivity(intent);
+	}
+	public void LoadActivity_Map(Class<?> Cls, String VariableName, String VariableValue,
+                              String VariableName2, String VariableValue2,
+                              String VariableName3, String VariableValue3,
+                              String VariableName4, String VariableValue4,
+                              String VariableName5, String VariableValue5,
+                              String VariableName6, String VariableValue6,
+                              String VariableName7, String VariableValue7,
+                              String VariableName8, String VariableValue8,
+                              String VariableName9, String VariableValue9,
+                              String VariableName10, String VariableValue10,
+                              String VariableName11, String VariableValue11,
+                              String VariableName12, String VariableValue12,
+                              String VariableName13, String VariableValue13,
+                              String VariableName14, String VariableValue14,
+                              String VariableName15, String VariableValue15,
+                              String VariableName16, String VariableValue16,
+                              String VariableName17, String VariableValue17,
+                              String VariableName18, String VariableValue18,
+                              String VariableName19, String VariableValue19,
+                              String VariableName20, String VariableValue20,
+                              String VariableName21, String VariableValue21,
+                              String VariableName22, String VariableValue22) {
+        Intent intent = new Intent(getApplicationContext(), Cls);
+        intent.putExtra(VariableName, VariableValue);
+        intent.putExtra(VariableName2, VariableValue2);
+        intent.putExtra(VariableName3, VariableValue3);
+        intent.putExtra(VariableName4, VariableValue4);
+        intent.putExtra(VariableName5, VariableValue5);
+        intent.putExtra(VariableName6, VariableValue6);
+        intent.putExtra(VariableName7, VariableValue7);
+        intent.putExtra(VariableName8, VariableValue8);
+        intent.putExtra(VariableName9, VariableValue9);
+        intent.putExtra(VariableName10, VariableValue10);
+        intent.putExtra(VariableName11, VariableValue11);
+        intent.putExtra(VariableName12, VariableValue12);
+        intent.putExtra(VariableName13, VariableValue13);
+        intent.putExtra(VariableName14, VariableValue14);
+        intent.putExtra(VariableName15, VariableValue15);
+        intent.putExtra(VariableName16, VariableValue16);
+        intent.putExtra(VariableName17, VariableValue17);
+        intent.putExtra(VariableName18, VariableValue18);
+        intent.putExtra(VariableName19, VariableValue19);
+        intent.putExtra(VariableName20, VariableValue20);
+        intent.putExtra(VariableName21, VariableValue21);
+        intent.putExtra(VariableName22, VariableValue22);
 		startActivity(intent);
 	}
 	public void form1()
@@ -1528,44 +1754,217 @@ public class Service_Request extends AppCompatActivity {
 				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
 	}
-	public void GetTime(final EditText editText)
+	public void GetTime(final EditText editText, final String value_Hour, final String value_Min)
 	{
 		Calendar now = Calendar.getInstance();
-		MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this, new MyTimePickerDialog.OnTimeSetListener() {
-
+//		MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this, new MyTimePickerDialog.OnTimeSetListener() {
+//
+//			@Override
+//			public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
+//				// TODO Auto-generated method stub
+//				/*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
+//						":" + String.format("%02d", minute) +
+//						":" + String.format("%02d", seconds));	*/
+////				db=dbh.getWritableDatabase();
+////				String query="UPDATE  DateTB SET Time = '" +String.valueOf(hourOfDay)+":"+String.valueOf(minute)+"'";
+////				db.execSQL(query);
+//				String  hour,min;
+//				if(hourOfDay<10)
+//				{
+//					hour="0"+String.valueOf(hourOfDay);
+//				}
+//				else
+//				{
+//					hour=String.valueOf(hourOfDay);
+//				}
+//				if(minute<10)
+//				{
+//					min="0"+String.valueOf(minute);
+//				}
+//				else
+//				{
+//					min=String.valueOf(minute);
+//				}
+//
+//				editText.setText(hour + ":" + min);
+//			}
+//		}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
+//		mTimePicker.setTitle("انتخاب زمان");
+//		mTimePicker.setButton(BUTTON_POSITIVE,"تایید",mTimePicker);
+//		mTimePicker.setButton(BUTTON_NEGATIVE,"انصراف",mTimePicker);
+//		mTimePicker.show();
+		Alert_Clock alert_clock=new Alert_Clock(Service_Request.this, new Alert_Clock.OnTimeSetListener() {
 			@Override
-			public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
-				// TODO Auto-generated method stub
-				/*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
-						":" + String.format("%02d", minute) +
-						":" + String.format("%02d", seconds));	*/
-				db=dbh.getWritableDatabase();
-				String query="UPDATE  DateTB SET Time = '" +String.valueOf(hourOfDay)+":"+String.valueOf(minute)+"'";
-				db.execSQL(query);
-				String  hour,min;
-				if(hourOfDay<10)
-				{
-					hour="0"+String.valueOf(hourOfDay);
-				}
-				else
-				{
-					hour=String.valueOf(hourOfDay);
-				}
-				if(minute<10)
-				{
-					min="0"+String.valueOf(minute);
-				}
-				else
-				{
-					min=String.valueOf(minute);
-				}
-				editText.setText(hour + ":" + min);
+			public void onTimeSet(String hourOfDay, String minute) {
+				editText.setText(hourOfDay + ":" + minute);
 			}
-		}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
-		mTimePicker.setTitle("انتخاب زمان");
-		mTimePicker.setButton(BUTTON_POSITIVE,"تایید",mTimePicker);
-		mTimePicker.setButton(BUTTON_NEGATIVE,"انصراف",mTimePicker);
-		mTimePicker.show();
-
+		}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+		alert_clock.show();
 	}
+
+	public String GetArtCode(String ArtName)
+	{
+		db=dbh.getReadableDatabase();
+		Cursor coursors = db.rawQuery("SELECT * FROM Arts WHERE Title='"+ArtName+"'",null);
+		if(coursors.getCount()>0){
+			coursors.moveToNext();
+			return coursors.getString(coursors.getColumnIndex("Code"));
+		}
+		return"0";
+	}
+	public String GetFieldofEducationCode(String FieldofEducationName)
+	{
+		db=dbh.getReadableDatabase();
+		Cursor coursors = db.rawQuery("SELECT * FROM FieldofEducation WHERE Title='"+FieldofEducationName+"'",null);
+		if(coursors.getCount()>0){
+			coursors.moveToNext();
+			return coursors.getString(coursors.getColumnIndex("Code"));
+		}
+		return"0";
+	}
+    public void FillForm()
+    {
+            if(MaleCount.compareTo("0")!=0) {
+                etCountMan.setText(PersianDigitConverter.PerisanNumber(MaleCount));
+            }
+            if(FemaleCount.compareTo("0")!=0) {
+                etCountWoman.setText(PersianDigitConverter.PerisanNumber(FemaleCount));
+            }
+            if(HamyarCount.compareTo("0")!=0) {
+
+                etDoesnotmatter.setText(PersianDigitConverter.PerisanNumber(HamyarCount));
+            }
+            if(StartYear.compareTo("")!=0 ||
+                    StartYear.compareTo("null")!=0) {
+                etFromDate.setText(PersianDigitConverter.PerisanNumber(StartYear));
+            }
+            if(StartHour.compareTo("")!=0 ||
+                    StartHour.compareTo("null")!=0) {
+                etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour));
+            }
+            if(EndYear.compareTo("")!=0 ||
+                    EndYear.compareTo("null")!=0) {
+                etToDate.setText(PersianDigitConverter.PerisanNumber(EndYear));
+            }
+            if(EndHour.compareTo("")!=0 ||
+                    EndHour.compareTo("null")!=0) {
+                etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour));
+            }
+            if(Description.length()!=0) {
+                etDescription.setText(PersianDigitConverter.PerisanNumber(Description));
+            }
+            if(IsEmergency.compareTo("0")==0) {
+
+                spStatus.setSelection(0);
+            }
+            else
+            {
+                spStatus.setSelection(1);
+            }
+            if(PeriodicServices.compareTo("1")==0) {
+                spTypePeriodService.setSelection(0);
+            }
+            else if(PeriodicServices.compareTo("2")==0)
+            {
+                spTypePeriodService.setSelection(1);
+            }
+            else if(PeriodicServices.compareTo("3")==0)
+            {
+                spTypePeriodService.setSelection(2);
+            }
+            else
+            {
+                spTypePeriodService.setSelection(3);
+            }
+            //*********************Grade**********************************************
+            int lensp=spGraid.getCount();
+            int positionString=0;
+            for(int i=0;i<lensp;i++){
+                if(EducationGrade.compareTo(spGraid.getItemAtPosition(i).toString())==0)
+                {
+                    positionString=i;
+                    break;
+                }
+            }
+            spGraid.setSelection(positionString);
+            //*****************************************************************************
+            if(FieldOfStudy.length()!=0||
+                    FieldOfStudy.compareTo("null")!=0) {
+                etTitleLearning.setText(FieldOfStudy);
+            }
+            if(StudentGender.compareTo("2")==0) {
+                spGenderStudent.setSelection(1);
+            }
+            else
+            {
+                spGenderStudent.setSelection(2);
+            }
+            if(TeacherGender.compareTo("1")==0) {
+                spGenderTeacher.setSelection(1);
+            }
+            else if(TeacherGender.compareTo("2")==0)
+            {
+                spGenderTeacher.setSelection(2);
+            }
+            else
+            {
+                spGenderTeacher.setSelection(3);
+            }
+            //*********************Education**********************************************
+            lensp=spFieldEducation.getCount();
+            positionString=0;
+            for(int i=0;i<lensp;i++){
+                if(EducationTitle.compareTo(spFieldEducation.getItemAtPosition(i).toString())==0)
+                {
+                    positionString=i;
+                    break;
+                }
+            }
+            spFieldEducation.setSelection(positionString);
+            //*********************ArtField**********************************************
+            lensp=spFieldArt.getCount();
+            positionString=0;
+            for(int i=0;i<lensp;i++){
+                if(ArtField.compareTo(spFieldArt.getItemAtPosition(i).toString())==0)
+                {
+                    positionString=i;
+                    break;
+                }
+            }
+            spFieldArt.setSelection(positionString);
+            //*****************************************************************************
+            //*********************Language**********************************************
+            lensp=spLanguage.getCount();
+            positionString=0;
+            for(int i=0;i<lensp;i++){
+                if(Language.compareTo(spLanguage.getItemAtPosition(i).toString())==0)
+                {
+                    positionString=i;
+                    break;
+                }
+            }
+            spLanguage.setSelection(positionString);
+            //*********************Address**********************************************
+                spAddress.setSelection(Integer.parseInt(AddressCode));
+            //*****************************************************************************
+            if(CarWashType.compareTo("1")==0) {
+                spTypeService.setSelection(1);
+            }
+            else
+            {
+                spTypeService.setSelection(2);
+            }
+            //*****************************************************************************
+            if(CarType.compareTo("1")==0) {
+                spTypeCar.setSelection(1);
+            }
+            else if(CarType.compareTo("2")==0)
+            {
+                spTypeCar.setSelection(2);
+            }
+            else
+            {
+                spTypeCar.setSelection(3);
+            }
+        }
 }

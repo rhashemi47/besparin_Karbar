@@ -19,10 +19,21 @@ android {
     }
     productFlavors {
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -41,4 +52,8 @@ dependencies {
     compile 'com.github.hamsaadev:Persian-Date-Picker-Dialog:V1.2'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
     compile 'com.kovachcode:timePickerWithSeconds:1.0.1'
+    compile 'com.android.support:multidex:1.0.3'
+    compile (group:'org.apache.httpcomponents',name:'httpmime',version:'4.3.5') {
+        exclude module:'org.apache.httpcomponents:httpclient'
+    }
 }

@@ -109,8 +109,8 @@
     <string name="status">وضعیت</string>
     <string name="normal">عادی</string>
     <string name="emergency">فوری</string>
-    <string name="CountWoman">تعداد زن</string>
-    <string name="CountMan">تعداد مرد</string>
+    <string name="CountWoman">تعداد خانم</string>
+    <string name="CountMan">تعداد آقا</string>
     <string name="Doesnotmatter">فرقی نمی کند</string>
     <string name="Addres">آدرس:</string>
     <string name="SaveLocation">ثبت آدرس</string>
@@ -134,8 +134,8 @@
     <string name="Monthly">ماهانه</string>
     <string name="Graid">پایه تحصیلی</string>
     <string name="FieldEducation">رشته تحصیلی</string>
-    <string name="Male">مرد</string>
-    <string name="Female">زن</string>
+    <string name="Male">آقا</string>
+    <string name="Female">خانم</string>
     <string name="GenderStudent">جنسیت دانش آموز</string>
     <string name="GenderTeacher">جنیست معلم</string>
     <string name="TitleLearning">عنوان آموزش</string>
@@ -209,5 +209,9 @@
     <string name="TitleCarType">نوع ماشین:</string>
     <string name="TitleLanguage">زبان:</string>
     <string name="DetailAddres">جزئیات آدرس:</string>
+    <string name="Accept">تایید</string>
+    <string name="SelectTime">انتخاب زمان</string>
+    <string name="SignUpOrLogin">ثبت نام / ورود</string>
+    <string name="LoginGuest">ورود مهمان</string>
 
 </resources>

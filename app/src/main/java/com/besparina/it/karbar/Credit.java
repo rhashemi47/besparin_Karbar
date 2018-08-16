@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -110,6 +111,16 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	}
 
+
+	ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+	imgview.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			LoadActivity(MainMenu.class,"","");
+		}
+	});
+
+
 	btnIncreseCredit=(Button)findViewById(R.id.btnIncresCredit);
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 //	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
@@ -117,6 +128,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
 	tvRecentCreditsValue.setTypeface(FontMitra);
 	etCurrencyInsertCredit.addTextChangedListener(new NumberTextWatcherForThousand(etCurrencyInsertCredit));
+	GetSeprator N = new GetSeprator();
 	try
 	{
 		String Content="";
@@ -135,15 +147,16 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 
 		}
+
 		if(Content.compareTo("")==0){
-			tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber("0"+" ریال"));
+			tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber(N.getDecimalFormattedString("0")+" ریال"));
 		}
 		else {
-			tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber(Content+" ریال"));
+			tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber(N.getDecimalFormattedString(Content)+" ریال"));
 		}
 	}
 	catch (Exception ex){
-		tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber("0"+" ریال"));
+		tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber(N.getDecimalFormattedString("0")+" ریال"));
 	}
 	btnIncreseCredit.setOnClickListener(new View.OnClickListener() {
 		@Override
@@ -170,8 +183,8 @@ protected void onCreate(Bundle savedInstanceState) {
 				}
 				else
 				{
-					SyncInsertUserCredit syncInsertUserCredit = new SyncInsertUserCredit(Credit.this, etCurrencyInsertCredit.getText().toString(), karbarCode, "1", "10004", "تست");
-					syncInsertUserCredit.AsyncExecute();//todo New Web Srvice For Etebar
+					SyncInsertUserCreditCode syncInsertUserCreditcode = new SyncInsertUserCreditCode(Credit.this, etCurrencyInsertEtebar.getText().toString(), karbarCode);
+					syncInsertUserCreditcode.AsyncExecute();//todo New Web Srvice For Etebar
 				}
 			}
 			else
@@ -184,7 +197,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 			"LEFT JOIN " +
 			"Servicesdetails ON " +
-			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
 	if (cursor2.getCount() > 0) {
 		btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 	}
@@ -223,7 +236,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 					"LEFT JOIN " +
 					"Servicesdetails ON " +
-					"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+					"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
 			LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 		}
 	});

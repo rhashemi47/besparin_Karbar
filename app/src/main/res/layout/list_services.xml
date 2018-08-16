@@ -24,6 +24,7 @@
             android:layout_gravity="right"
             android:gravity="right">
             <ImageView
+                android:id="@+id/BesparinaLogo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/logo_toolbar"

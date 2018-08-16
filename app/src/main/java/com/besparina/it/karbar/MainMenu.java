@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.support.annotation.RequiresApi;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -82,6 +84,7 @@ public class MainMenu extends AppCompatActivity {
     GestureDetector mGestureDetector;
     private String countOrder;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private String AppVersion;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -130,6 +133,18 @@ public class MainMenu extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
+        PackageInfo pInfo = null;
+        try {
+            pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+        if(version.length()>0) {
+            AppVersion = version;
+            WsDownLoadUpdate wsDownLoadUpdate=new WsDownLoadUpdate(MainMenu.this,AppVersion, PublicVariable.LinkFileTextCheckVersion,PublicVariable.DownloadAppUpdateLinkAPK);
+            wsDownLoadUpdate.AsyncExecute();
+        }
         faceh = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
         btnOrder = (Button) findViewById(R.id.btnOrderBottom);
         btnAcceptOrder = (Button) findViewById(R.id.btnAcceptOrderBottom);
@@ -313,7 +328,7 @@ public class MainMenu extends AppCompatActivity {
         Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+                "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
         if (cursor2.getCount() > 0) {
             btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
         }
@@ -347,7 +362,7 @@ public class MainMenu extends AppCompatActivity {
                 QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
-                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
                 LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
             }
         });
@@ -477,7 +492,7 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");
                 db.close();
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                Intent startMain = new Intent(MainMenu.this, MainMenu.class);
 
 
                 startMain.addCategory(Intent.CATEGORY_HOME);
@@ -819,14 +834,14 @@ public class MainMenu extends AppCompatActivity {
 //        alertbox.show();
 //    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            //ExitApplication();
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+//            //ExitApplication();
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue) {
         Intent intent = new Intent(getApplicationContext(), Cls);
@@ -900,14 +915,56 @@ public class MainMenu extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+//        if (doubleBackToExitPressedOnce) {
+//
+//            Intent startMain = new Intent(Intent.ACTION_MAIN);
+//
+//
+//            startMain.addCategory(Intent.CATEGORY_HOME);
+//
+////                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//
+//            startActivity(startMain);
+//
+//            finish();
+//            super.onBackPressed();
+//            return;
+//        }
+//        drawer.closeDrawer();
+//        this.doubleBackToExitPressedOnce = true;
+//
+////        Snackbar.make(findViewById(R.id.background_place_holder_image_view), "Please click BACK again to exit", Snackbar.LENGTH_SHORT).show();
+//        Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 2000);
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
 
+        }
+        else {
+
+//            Intent startMain = new Intent(Intent.ACTION_MAIN);
+//
+//            startMain.addCategory(Intent.CATEGORY_HOME);
+//
+//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//
+//            startActivity(startMain);
+//
+//            finish();
             Intent startMain = new Intent(Intent.ACTION_MAIN);
 
 
             startMain.addCategory(Intent.CATEGORY_HOME);
 
-//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             startActivity(startMain);
@@ -916,19 +973,6 @@ public class MainMenu extends AppCompatActivity {
             super.onBackPressed();
             return;
         }
-        drawer.closeDrawer();
-        this.doubleBackToExitPressedOnce = true;
-
-//        Snackbar.make(findViewById(R.id.background_place_holder_image_view), "Please click BACK again to exit", Snackbar.LENGTH_SHORT).show();
-        Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
     }
     public void Check_Login(String karbarCode)
     {

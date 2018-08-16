@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -254,6 +255,14 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 		db.close();
 	}
+
+		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+		imgview.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LoadActivity(MainMenu.class,"","");
+			}
+		});
 	//**************************************************************************************
 
 	btnCansel.setTypeface(FontMitra);
@@ -273,7 +282,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
 				"Servicesdetails ON " +
-				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
 		if (cursor2.getCount() > 0) {
 			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
@@ -307,7 +316,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
 				LoadActivity3(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -477,10 +486,16 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			}
 			db = dbh.getReadableDatabase();
-			Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+			Cursor cursorPhone = db.rawQuery("SELECT ifnull(Mobile,0)Mobile FROM InfoHamyar WHERE Code=(SELECT CodeHamyarInfo FROM Hamyar WHERE CodeOrder="+OrderCode+")", null);
 			if (cursorPhone.getCount() > 0) {
 				cursorPhone.moveToNext();
-				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+				try {
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
+				}catch (Exception e){ Toast.makeText(Service_Request_Saved.this,"شماره تماس همیار شما ثبت نشده است",Toast.LENGTH_LONG).show(); }
+			}
+			else
+			{
+				Toast.makeText(Service_Request_Saved.this,"سرویس شما توسط هیچ همیاری انتخاب نشده است",Toast.LENGTH_LONG).show();
 			}
 			db.close();
 		}
@@ -643,21 +658,21 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			try {
 					if (cursor.getString(cursor.getColumnIndex("MaleCount")).toString().compareTo("0") != 0) {
 						if (CountStr.length() == 0) {
-							CountStr = cursor.getString(cursor.getColumnIndex("MaleCount")) + "مرد ";
+							CountStr = cursor.getString(cursor.getColumnIndex("MaleCount")) + "آقا ";
 						}
 						else
 						{
-							CountStr += " - " + cursor.getString(cursor.getColumnIndex("MaleCount")) + "مرد ";
+							CountStr += " - " + cursor.getString(cursor.getColumnIndex("MaleCount")) + "آقا ";
 						}
 					}
 					if (cursor.getString(cursor.getColumnIndex("FemaleCount")).toString().compareTo("0") != 0)
 					{
 						if (CountStr.length() == 0) {
-							CountStr = cursor.getString(cursor.getColumnIndex("FemaleCount")) + "زن ";
+							CountStr = cursor.getString(cursor.getColumnIndex("FemaleCount")) + "خانم ";
 						}
 						else
 						{
-							CountStr += " - " + cursor.getString(cursor.getColumnIndex("FemaleCount")) + "زن ";
+							CountStr += " - " + cursor.getString(cursor.getColumnIndex("FemaleCount")) + "خانم ";
 						}
 					}
 					if (cursor.getString(cursor.getColumnIndex("HamyarCount")).toString().compareTo("0") != 0) {
@@ -806,12 +821,12 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
 					LinearGenderStudent.setVisibility(View.VISIBLE);
 					LinearGenderStudent.setBackgroundColor(getStyleLinear());
-					txtGenderStudent.setText("زن");
+					txtGenderStudent.setText("خانم");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
 					LinearGenderStudent.setVisibility(View.VISIBLE);
 					LinearGenderStudent.setBackgroundColor(getStyleLinear());
-					txtGenderStudent.setText("مرد");
+					txtGenderStudent.setText("آقا");
 				}
 			}
 			catch (Exception ex)
@@ -823,12 +838,12 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				if(cursor.getString(cursor.getColumnIndex("TeacherGender")).toString().compareTo("1")==0) {
 					LinearGenderTeacher.setVisibility(View.VISIBLE);
 					LinearGenderTeacher.setBackgroundColor(getStyleLinear());
-					txtGenderTeacher.setText("زن");
+					txtGenderTeacher.setText("خانم");
 				}
 				else if(cursor.getString(cursor.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
 					LinearGenderTeacher.setVisibility(View.VISIBLE);
 					LinearGenderTeacher.setBackgroundColor(getStyleLinear());
-					txtGenderTeacher.setText("مرد");
+					txtGenderTeacher.setText("آقا");
 				}
 			}
 			catch (Exception ex)

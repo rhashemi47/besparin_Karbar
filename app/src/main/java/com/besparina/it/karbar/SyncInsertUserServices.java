@@ -635,6 +635,7 @@ public class SyncInsertUserServices {
 							Language+"','0')");
 		db.close();
 		Toast.makeText(activity, "درخواست ثبت شد.", Toast.LENGTH_LONG).show();
+		activity.finish();
 		LoadActivity(MainMenu.class, "karbarCode", pUserCode);
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)

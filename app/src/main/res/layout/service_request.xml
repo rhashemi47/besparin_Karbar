@@ -37,6 +37,7 @@
                 android:layout_marginRight="5dp"
                 android:textColor="#000000"/>
             <ImageView
+                android:id="@+id/BesparinaLogo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/logo_toolbar"
@@ -297,7 +298,8 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/CountMan"
-                            android:textColor="#213494" />
+                            android:textColor="#213494"
+                            android:textAlignment="gravity"/>
 
                         <TextView
                             android:id="@+id/tvTitleCountWoman"
@@ -307,7 +309,8 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/CountWoman"
-                            android:textColor="#213494" />
+                            android:textColor="#213494"
+                            android:textAlignment="gravity"/>
 
                         <TextView
                             android:id="@+id/tvTitleCountDoesnotmatter"
@@ -317,7 +320,8 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/Doesnotmatter"
-                            android:textColor="#213494" />
+                            android:textColor="#213494"
+                            android:textAlignment="gravity"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -335,7 +339,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_edittext_2"
                             android:inputType="phone"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:textAlignment="gravity"/>
                         <EditText
                             android:id="@+id/etCountWoman"
                             android:layout_width="wrap_content"
@@ -344,7 +350,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_edittext_2"
                             android:inputType="phone"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:textAlignment="gravity"/>
                         <EditText
                             android:id="@+id/etDoesnotmatter"
                             android:layout_width="wrap_content"
@@ -353,7 +361,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_edittext_2"
                             android:inputType="phone"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:textAlignment="gravity"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout

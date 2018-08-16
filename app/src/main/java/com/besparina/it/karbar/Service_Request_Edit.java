@@ -22,11 +22,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +39,9 @@ import java.util.List;
 import ir.hamsaa.persiandatepicker.Listener;
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
 
 public class Service_Request_Edit extends AppCompatActivity {
 	private String karbarCode;
@@ -352,12 +358,21 @@ public class Service_Request_Edit extends AppCompatActivity {
 			}
 			db.close();
 		}
+
+		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+		imgview.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LoadActivity(MainMenu.class,"","");
+			}
+		});
+
 		//*********************************************************************
 		db=dbh.getReadableDatabase();
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
 				"Servicesdetails ON " +
-				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'", null);
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
 		if (cursor2.getCount() > 0) {
 			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
@@ -397,7 +412,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
 				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -517,6 +532,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 				break;
 		}
 		FillForm();
+
 		btnSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -556,33 +572,45 @@ public class Service_Request_Edit extends AppCompatActivity {
 				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
 						,Integer.parseInt(SplitToDate[1])
 						,Integer.parseInt(SplitToDate[2]));
+
+
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+				calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
+				String strNow = null;
+				String strFrom= null;
+				String strTo= null;
+
 				int compateDate= calFrom.compareTo(calTo);
 				if (compateDate>0) {
 					ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
 				}
 				else
 				{
-					ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-					calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
-					String strTo=String.valueOf(calTo.getPersianYear());
+
+					strTo=String.valueOf(calTo.getPersianYear());
+					EndYear=String.valueOf(calTo.getPersianYear());
 					if(calTo.getPersianMonth()<10)
 					{
 						strTo=strTo+"0"+String.valueOf(calTo.getPersianMonth());
+						EndMonth = "0"+String.valueOf(calTo.getPersianMonth());
 					}
 					else
 					{
 						strTo=strTo+String.valueOf(calTo.getPersianMonth());
+						EndMonth =String.valueOf(calTo.getPersianMonth());
 					}
 					if(calTo.getPersianDay()<10)
 					{
 						strTo=strTo+"0"+String.valueOf(calTo.getPersianDay());
+						EndDay = "0"+String.valueOf(calTo.getPersianDay());
 					}
 					else
 					{
 						strTo=strTo+String.valueOf(calTo.getPersianDay());
+						EndDay=String.valueOf(calTo.getPersianDay());
 					}
 					//**********************************
-					String strNow=String.valueOf(calNow.getPersianYear());
+					strNow=String.valueOf(calNow.getPersianYear());
 					if(calNow.getPersianMonth()<10)
 					{
 						strNow=strNow+"0"+String.valueOf(calNow.getPersianMonth());
@@ -599,8 +627,39 @@ public class Service_Request_Edit extends AppCompatActivity {
 					{
 						strNow=strNow+String.valueOf(calNow.getPersianDay());
 					}
+
+					//**********************************
+					strFrom=String.valueOf(calFrom.getPersianYear());
+					StartYear = String.valueOf(calFrom.getPersianYear());
+					if(calFrom.getPersianMonth()<10)
+					{
+						strFrom=strFrom+"0"+String.valueOf(calFrom.getPersianMonth());
+						StartMonth = "0"+String.valueOf(calFrom.getPersianMonth());
+					}
+					else
+					{
+						strFrom=strFrom+String.valueOf(calFrom.getPersianMonth());
+						StartMonth=String.valueOf(calFrom.getPersianMonth());
+					}
+					if(calFrom.getPersianDay()<10)
+					{
+						strFrom=strFrom+"0"+String.valueOf(calFrom.getPersianDay());
+						StartDay="0"+String.valueOf(calFrom.getPersianDay());
+					}
+					else
+					{
+						strFrom=strFrom+String.valueOf(calFrom.getPersianDay());
+						StartDay=String.valueOf(calFrom.getPersianDay());
+					}
+
 					int temp=strTo.compareTo(strNow);
-					if(temp<0)
+
+					int tempFrom=strFrom.compareTo(strNow);
+					if(tempFrom<0)
+					{
+						ErrorStr += "تاریخ شروع نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
+					}
+					else if(temp<0)
 					{
 						ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
 					}
@@ -661,6 +720,10 @@ public class Service_Request_Edit extends AppCompatActivity {
 						PeriodicServices = "4";
 					}
 				}
+				else
+				{
+					PeriodicServices = "1";
+				}
 				//***************************************************************
 				try {
 					EducationGrade = spGraid.getSelectedItem().toString();
@@ -676,23 +739,33 @@ public class Service_Request_Edit extends AppCompatActivity {
 					EducationTitle = "0";
 				}
 				//**************************************************************
-				if (spGenderStudent.getSelectedItem().toString().compareTo("زن") == 0) {
-					StudentGender = "1";
-				} else if(spGenderStudent.getSelectedItem().toString().compareTo(" ") == 0){
+				if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
+					if (spGenderStudent.getSelectedItem().toString().compareTo("خانم") == 0) {
+						StudentGender = "1";
+					} else if (spGenderStudent.getSelectedItem().toString().compareTo("آقا") == 0) {
+						StudentGender = "0";
+					} else {
+						StudentGender = "2";
+					}
+				}
+				else
+				{
 					StudentGender = "0";
 				}
-				else {
-					StudentGender = "2";
-				}
 				//***************************************************************
-				if (spGenderTeacher.getSelectedItem().toString().compareTo("زن") == 0) {
-					TeacherGender = "1";
-				} else if (spGenderTeacher.getSelectedItem().toString().compareTo("مرد") == 0) {
-					TeacherGender = "2";
-				} else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
-					TeacherGender = "3";
+				if(LinearGenderStudentAndTeacher.getVisibility()== View.VISIBLE) {
+					if (spGenderTeacher.getSelectedItem().toString().compareTo("خانم") == 0) {
+						TeacherGender = "1";
+					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("آقا") == 0) {
+						TeacherGender = "2";
+					} else if (spGenderTeacher.getSelectedItem().toString().compareTo("فرقی ندارد") == 0) {
+						TeacherGender = "3";
+					} else {
+						TeacherGender = "0";
+					}
 				}
-				else {
+				else
+				{
 					TeacherGender = "0";
 				}
 				//***************************************************************
@@ -718,6 +791,10 @@ public class Service_Request_Edit extends AppCompatActivity {
 						CarWashType = "2";
 					}
 				}
+				else
+				{
+					CarWashType = "0";
+				}
 				//***************************************************************
 				if(LinearCarWash.getVisibility()==View.VISIBLE) {
 					if (spTypeCar.getSelectedItem().toString().compareTo("سواری") == 0) {
@@ -730,11 +807,21 @@ public class Service_Request_Edit extends AppCompatActivity {
 						CarType = "2";
 					}
 				}
+				else
+				{
+					CarType = "0";
+				}
 				//***************************************************************
 
 
 				try {
-					Language = String.valueOf(spLanguage.getSelectedItemId());
+					if (LinerLayoutLanguege.getVisibility() == View.VISIBLE) {
+						Language = String.valueOf(spLanguage.getSelectedItemId());
+					} else
+					{
+						Language = "0";
+					}
+
 				} catch (Exception ex) {
 					Language = "0";
 				}
@@ -749,14 +836,46 @@ public class Service_Request_Edit extends AppCompatActivity {
 						ErrorStr += "تعداد همیار را مشخص نمایید" + "\n";
 					}
 				}
+
 				if (ErrorStr.length() == 0) {
 					{
-						SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request_Edit.this,
-								karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
-								StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
-								AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
-								FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
-						syncInsertUserServices.AsyncExecute();
+						String SpStartTime[]=etFromTime.getText().toString().split(":");
+						StartHour=SpStartTime[0];
+						StartMinute=SpStartTime[1];
+						String FullStartTime = StartHour+StartMinute;
+						String FinalStartFullDate = strFrom+StartHour+StartMinute;
+						String FinalNowFullDate  = strNow + calNow.getTime().getHours()+calNow.getTime().getMinutes();
+						String SpEndTime[]=etToTime.getText().toString().split(":");
+						EndHour=SpEndTime[0];
+						EndMinute=SpEndTime[1];
+						String FullEndTime = EndHour+EndMinute;
+
+						int TempDate = strFrom.compareTo(strTo);
+						int TempTime = FullEndTime.compareTo(FullStartTime);
+						int TempStartDate = FinalStartFullDate.compareTo(FinalNowFullDate);
+						if(TempStartDate > 0) {
+							boolean Flag = false;
+							if(TempDate==0 & TempTime < 0)
+							{
+								Flag = true;
+							}
+							if(Flag==false) {
+								SyncUpdateUserServices syncInsertUserServices = new SyncUpdateUserServices(Service_Request_Edit.this,
+										karbarCode, CodeOrderService,DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
+										StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
+										AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
+										FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
+								syncInsertUserServices.AsyncExecute();
+							}
+							else
+							{
+								Toast.makeText(Service_Request_Edit.this, "ساعت پایان نباید کوچکتر از ساعت شروع باشد", Toast.LENGTH_SHORT).show();
+							}
+						}
+						else
+						{
+							Toast.makeText(Service_Request_Edit.this, "تاریخ و ساعت شروع نباید کوچکتر از زمان جاری باشد", Toast.LENGTH_SHORT).show();
+						}
 					}
 
 				} else {
@@ -989,164 +1108,170 @@ public class Service_Request_Edit extends AppCompatActivity {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {
-					Calendar mcurrentTime = Calendar.getInstance();
-					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-					int minute = mcurrentTime.get(Calendar.MINUTE);
-
-					TimePickerDialog mTimePicker;
-					mTimePicker = new TimePickerDialog(Service_Request_Edit.this, new TimePickerDialog.OnTimeSetListener() {
-						@Override
-						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-							String AM_PM;
-							if (selectedHour >= 0 && selectedHour < 12) {
-								AM_PM = "AM";
-							} else {
-								AM_PM = "PM";
-							}
-							if(selectedHour<10)
-							{
-								StartHour = "0"+String.valueOf(selectedHour);
-							}
-							else
-							{
-								StartHour = String.valueOf(selectedHour);
-							}
-							if(selectedMinute<10)
-							{
-								StartMinute = "0"+String.valueOf(selectedMinute);
-							}
-							else
-							{
-								StartMinute = String.valueOf(selectedMinute);
-							}
-							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
-						}
-					}, hour, minute, true);
-					mTimePicker.setTitle("Select Time");
-					mTimePicker.show();
+//					Calendar mcurrentTime = Calendar.getInstance();
+//					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//					int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//					TimePickerDialog mTimePicker;
+//					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//						@Override
+//						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//							String AM_PM;
+//							if (selectedHour >= 0 && selectedHour < 12) {
+//								AM_PM = "AM";
+//							} else {
+//								AM_PM = "PM";
+//							}
+//							if(selectedHour<10)
+//							{
+//								StartHour = "0"+String.valueOf(selectedHour);
+//							}
+//							else
+//							{
+//								StartHour = String.valueOf(selectedHour);
+//							}
+//							if(selectedMinute<10)
+//							{
+//								StartMinute = "0"+String.valueOf(selectedMinute);
+//							}
+//							else
+//							{
+//								StartMinute = String.valueOf(selectedMinute);
+//							}
+//							etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
+//						}
+//					}, hour, minute, true);
+//					mTimePicker.setTitle("Select Time");
+//					mTimePicker.show();
+					//***********
+					GetTime(etFromTime);
 				}
 			}
 		});
 		etFromTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Calendar mcurrentTime = Calendar.getInstance();
-				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-				int minute = mcurrentTime.get(Calendar.MINUTE);
+//				Calendar mcurrentTime = Calendar.getInstance();
+//				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//				int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//				TimePickerDialog mTimePicker;
+//				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//					@Override
+//					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//						String AM_PM;
+//						if (selectedHour >=0 && selectedHour < 12){
+//							AM_PM = "AM";
+//						} else {
+//							AM_PM = "PM";
+//						}
+//						if(selectedHour<10)
+//						{
+//							StartHour = "0"+String.valueOf(selectedHour);
+//						}
+//						else
+//						{
+//							StartHour = String.valueOf(selectedHour);
+//						}
+//						if(selectedMinute<10)
+//						{
+//							StartMinute = "0"+String.valueOf(selectedMinute);
+//						}
+//						else
+//						{
+//							StartMinute = String.valueOf(selectedMinute);
+//						}
+//						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
+//					}
+//				}, hour, minute, true);
+//				mTimePicker.setTitle("Select Time");
+//				mTimePicker.show();
 
-				TimePickerDialog mTimePicker;
-				mTimePicker = new TimePickerDialog(Service_Request_Edit.this, new TimePickerDialog.OnTimeSetListener() {
-					@Override
-					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-						String AM_PM;
-						if (selectedHour >=0 && selectedHour < 12){
-							AM_PM = "AM";
-						} else {
-							AM_PM = "PM";
-						}
-						if(selectedHour<10)
-						{
-							StartHour = "0"+String.valueOf(selectedHour);
-						}
-						else
-						{
-							StartHour = String.valueOf(selectedHour);
-						}
-						if(selectedMinute<10)
-						{
-							StartMinute = "0"+String.valueOf(selectedMinute);
-						}
-						else
-						{
-							StartMinute = String.valueOf(selectedMinute);
-						}
-						etFromTime.setText(PersianDigitConverter.PerisanNumber(StartHour + ":" + StartMinute));
-					}
-				}, hour, minute, true);
-				mTimePicker.setTitle("Select Time");
-				mTimePicker.show();
+				GetTime(etFromTime);
 			}
 		});
 		etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {
-					Calendar mcurrentTime = Calendar.getInstance();
-					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-					int minute = mcurrentTime.get(Calendar.MINUTE);
-
-					TimePickerDialog mTimePicker;
-					mTimePicker = new TimePickerDialog(Service_Request_Edit.this, new TimePickerDialog.OnTimeSetListener() {
-						@Override
-						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-							String AM_PM;
-							if (selectedHour >= 0 && selectedHour < 12) {
-								AM_PM = "AM";
-							} else {
-								AM_PM = "PM";
-							}
-							if(selectedHour<10)
-							{
-								EndHour = "0"+String.valueOf(selectedHour);
-							}
-							else
-							{
-								EndHour = String.valueOf(selectedHour);
-							}
-							if(selectedMinute<10)
-							{
-								EndMinute = "0"+String.valueOf(selectedMinute);
-							}
-							else
-							{
-								EndMinute = String.valueOf(selectedMinute);
-							}
-							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
-						}
-					}, hour, minute, true);
-					mTimePicker.setTitle("Select Time");
-					mTimePicker.show();
+//					Calendar mcurrentTime = Calendar.getInstance();
+//					final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//					int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//					TimePickerDialog mTimePicker;
+//					mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//						@Override
+//						public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//							String AM_PM;
+//							if (selectedHour >= 0 && selectedHour < 12) {
+//								AM_PM = "AM";
+//							} else {
+//								AM_PM = "PM";
+//							}
+//							if(selectedHour<10)
+//							{
+//								EndHour = "0"+String.valueOf(selectedHour);
+//							}
+//							else
+//							{
+//								EndHour = String.valueOf(selectedHour);
+//							}
+//							if(selectedMinute<10)
+//							{
+//								EndMinute = "0"+String.valueOf(selectedMinute);
+//							}
+//							else
+//							{
+//								EndMinute = String.valueOf(selectedMinute);
+//							}
+//							etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
+//						}
+//					}, hour, minute, true);
+//					mTimePicker.setTitle("Select Time");
+//					mTimePicker.show();
+					GetTime(etToTime);
 				}
 			}
 		});
 		etToTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Calendar mcurrentTime = Calendar.getInstance();
-				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-				int minute = mcurrentTime.get(Calendar.MINUTE);
-
-				TimePickerDialog mTimePicker;
-				mTimePicker = new TimePickerDialog(Service_Request_Edit.this, new TimePickerDialog.OnTimeSetListener() {
-					@Override
-					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-						String AM_PM;
-						if (selectedHour >=0 && selectedHour < 12){
-							AM_PM = "AM";
-						} else {
-							AM_PM = "PM";
-						}
-						if(selectedHour<10)
-						{
-							EndHour = "0"+String.valueOf(selectedHour);
-						}
-						else
-						{
-							EndHour = String.valueOf(selectedHour);
-						}
-						if(selectedMinute<10)
-						{
-							EndMinute = "0"+String.valueOf(selectedMinute);
-						}
-						else
-						{
-							EndMinute = String.valueOf(selectedMinute);
-						}
-						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
-					}
-				}, hour, minute, true);
-				mTimePicker.setTitle("Select Time");
-				mTimePicker.show();
+//				Calendar mcurrentTime = Calendar.getInstance();
+//				final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//				int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//				TimePickerDialog mTimePicker;
+//				mTimePicker = new TimePickerDialog(Service_Request.this, new TimePickerDialog.OnTimeSetListener() {
+//					@Override
+//					public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//						String AM_PM;
+//						if (selectedHour >=0 && selectedHour < 12){
+//							AM_PM = "AM";
+//						} else {
+//							AM_PM = "PM";
+//						}
+//						if(selectedHour<10)
+//						{
+//							EndHour = "0"+String.valueOf(selectedHour);
+//						}
+//						else
+//						{
+//							EndHour = String.valueOf(selectedHour);
+//						}
+//						if(selectedMinute<10)
+//						{
+//							EndMinute = "0"+String.valueOf(selectedMinute);
+//						}
+//						else
+//						{
+//							EndMinute = String.valueOf(selectedMinute);
+//						}
+//						etToTime.setText(PersianDigitConverter.PerisanNumber(EndHour + ":" + EndMinute));
+//					}
+//				}, hour, minute, true);
+//				mTimePicker.setTitle("Select Time");
+//				mTimePicker.show();
+				GetTime(etToTime);
 			}
 		});
 	}
@@ -1690,5 +1815,36 @@ public class Service_Request_Edit extends AppCompatActivity {
 			Toast.makeText(Service_Request_Edit.this, "سرویس پیدا نشد! ", Toast.LENGTH_LONG).show();
 		}
 		db.close();
+	}
+	public void GetTime(final EditText editText)
+	{
+		Calendar now = Calendar.getInstance();
+//		MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this, new MyTimePickerDialog.OnTimeSetListener() {
+//
+//			@Override
+//			public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
+//				// TODO Auto-generated method stub
+//				/*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
+//						":" + String.format("%02d", minute) +
+//						":" + String.format("%02d", seconds));	*/
+////				db=dbh.getWritableDatabase();
+////				String query="UPDATE  DateTB SET Time = '" +String.valueOf(hourOfDay)+":"+String.valueOf(minute)+"'";
+////				db.execSQL(query);
+//
+//				editText.setText(hourOfDay + ":" + minute);
+//			}
+//		}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
+//		mTimePicker.setTitle("انتخاب زمان");
+//		mTimePicker.setButton(BUTTON_POSITIVE,"تایید",mTimePicker);
+//		mTimePicker.setButton(BUTTON_NEGATIVE,"انصراف",mTimePicker);
+//		mTimePicker.show();
+		Alert_Clock alert_clock=new Alert_Clock(Service_Request_Edit.this, new Alert_Clock.OnTimeSetListener() {
+			@Override
+			public void onTimeSet(String hourOfDay, String minute) {
+				editText.setText(hourOfDay + ":" + minute);
+			}
+		}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+		alert_clock.show();
+
 	}
 }

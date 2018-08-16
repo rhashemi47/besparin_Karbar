@@ -37,6 +37,7 @@
                 android:textColor="#000" />
 
             <ImageView
+                android:id="@+id/BesparinaLogo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="left"

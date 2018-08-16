@@ -28,11 +28,13 @@
             android:layout_gravity="right"
             android:gravity="right">
             <ImageView
+                android:id="@+id/BesparinaLogo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/logo_toolbar"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
                 tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -72,11 +74,11 @@
                 android:id="@+id/etSearch"
                 android:layout_weight="1"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginBottom="5dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:paddingEnd="10dp"
                 android:paddingStart="15dp"
                 android:hint="@string/Search"
@@ -91,11 +93,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
             <GridView
                 android:id="@+id/GridViewServices"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="410dp"
+                android:layout_marginTop="40dp"
                 android:numColumns="3">
             </GridView>
             <ListView

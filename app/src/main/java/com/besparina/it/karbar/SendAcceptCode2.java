@@ -3,7 +3,6 @@ package com.besparina.it.karbar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -18,7 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncGettUserCreditHistory {
+public class SendAcceptCode2 {
 
 	//Primary Variable
 	DatabaseHelper dbh;
@@ -26,15 +25,13 @@ public class SyncGettUserCreditHistory {
 	PublicVariable PV;
     InternetConnection IC;
 	private Activity activity;
-	private String pkarbarCode;
-	private String Flag;
+	private String phonenumber;
 	private String WsResponse;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncGettUserCreditHistory(Activity activity, String pkarbarCode,String Flag) {
+	public SendAcceptCode2(Activity activity, String phonenumber) {
 		this.activity = activity;
-		this.pkarbarCode=pkarbarCode;
-		this.Flag=Flag;
+		this.phonenumber = phonenumber;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -56,7 +53,9 @@ public class SyncGettUserCreditHistory {
    		} catch (SQLException sqle) {
 
    			throw sqle;
-   		}   		
+   		}
+   		
+   		
 	}
 	
 	public void AsyncExecute()
@@ -65,11 +64,12 @@ public class SyncGettUserCreditHistory {
 		{
 			try
 			{
+								
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			}	
 			 catch (Exception e) {
-
+				//Toast.makeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
 	            e.printStackTrace();
 			 }
 		}
@@ -94,7 +94,7 @@ public class SyncGettUserCreditHistory {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GettUserCreditHistory");
+        		CallWsMethod("SendAcceptCode");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -112,18 +112,12 @@ public class SyncGettUserCreditHistory {
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	//Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
-					//LoadActivity(MainActivity.class,"karbarCode",karbarCode,"updateflag","1");
+	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
-				else if(WsResponse.toString().compareTo("2") == 0)
-				{
-					Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
-				}
-				else
-				{
-					InsertDataFromWsToDb();
-				}
-
+	            else
+	            {
+					InsertDataFromWsToDb(WsResponse);
+	            }
         	}
         	else
         	{
@@ -153,20 +147,18 @@ public class SyncGettUserCreditHistory {
         
     }
 
-
-	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
-	    PropertyInfo pkarbarCodePI = new PropertyInfo();
+	    PropertyInfo UserPI = new PropertyInfo();
 	    //Set Name
-		pkarbarCodePI.setName("pUserCode");
+	    UserPI.setName("PhoneNumber");
 	    //Set Value
-		pkarbarCodePI.setValue(this.pkarbarCode);
+	    UserPI.setValue(this.phonenumber);
 	    //Set dataType
-		pkarbarCodePI.setType(String.class);
+	    UserPI.setType(String.class);
 	    //Add the property to request object
-	    request.addProperty(pkarbarCodePI);
+	    request.addProperty(UserPI);	    
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -188,46 +180,21 @@ public class SyncGettUserCreditHistory {
 	    	e.printStackTrace();
 	    }
 	}
+	
+	
+	public void InsertDataFromWsToDb(String AllRecord)
+    {		
+       //LoadActivity(Accept_code.class, "phonenumber", phonenumber,"check_load",check_load);
+    }
+	
 
-	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
-	{
-		Intent intent = new Intent(activity,Cls);
-		intent.putExtra(VariableName, VariableValue);
-
-		activity.startActivity(intent);
-	}
-
-	public void InsertDataFromWsToDb()
-    {
-		if(WsResponse.toString().compareTo("3") == 0)
-		{
-			LoadActivity(Credit.class, "karbarCode", this.pkarbarCode);
-		}
-		else {
-			String[] res;
-			String[] value;
-			res = WsResponse.split("@@");
-			String query = null;
-			db = dbh.getWritableDatabase();
-			db.execSQL("DELETE FROM credits");
-			for (int i = 0; i < res.length; i++) {
-				value = res[i].split("##");
-				query = "INSERT INTO credits (Code,TransactionType,Price,TransactionDate,PaymentMethod,DocNumber,Description,InsertDate)" +
-						" VALUES('" + value[0] +
-						"','" + value[1] +
-						"','" + value[2] +
-						"','" + value[3] +
-						"','" + value[4] +
-						"','" + value[5] +
-						"','" + value[6] +
-						"','" + value[7] +
-						"')";
-				db.execSQL(query);
-			}
-			db.close();
-			SyncGetUserCredit syncGetUserCredit = new SyncGetUserCredit(this.activity, pkarbarCode, this.Flag);
-			syncGetUserCredit.AsyncExecute();
-		}
-	}
-
+//	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+//	{
+//		Intent intent = new Intent(activity,Cls);
+//		intent.putExtra(VariableName, VariableValue);
+//		intent.putExtra(VariableName2, VariableValue2);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//		activity.startActivity(intent);
+//	}
+	
 }

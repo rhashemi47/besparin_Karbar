@@ -96,6 +96,7 @@ public class Login extends Activity {
 						db = dbh.getWritableDatabase();
 						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
 						db.execSQL(query);
+						db.close();
 						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "1");
 						sendCode.AsyncExecute();
 					}
@@ -108,7 +109,6 @@ public class Login extends Activity {
 				{
 					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
 				}
-				db.close();
 			}
 		});
     }

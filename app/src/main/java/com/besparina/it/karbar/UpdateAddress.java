@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -114,6 +115,14 @@ public class UpdateAddress extends AppCompatActivity {
 
             throw sqle;
         }
+
+        ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+        imgview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(MainMenu.class,"","");
+            }
+        });
 
         //Fill Spinner State
         db=dbh.getReadableDatabase();

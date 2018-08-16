@@ -134,7 +134,7 @@ public class Accept_code extends Activity {
 					String Mobile;
 					Mobile=coursors.getString(coursors.getColumnIndex("Mobile"));
 					acceptcode.setText("");
-					SendAcceptCode sendCode=new SendAcceptCode(Accept_code.this,Mobile,check_load);
+					SendAcceptCode2 sendCode=new SendAcceptCode2(Accept_code.this,Mobile);
 					sendCode.AsyncExecute();
 				}
 

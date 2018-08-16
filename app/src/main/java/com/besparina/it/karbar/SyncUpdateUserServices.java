@@ -207,7 +207,61 @@ public class SyncUpdateUserServices {
     }
 	
 	public void CallWsMethod(String METHOD_NAME) {
-	    //Create request
+		try {
+			if (this.CarType.length() < 0 || this.CarType.compareTo("")==0) {
+				this.CarType = "0";
+			}
+		}
+		catch (Exception e)
+		{
+			this.CarType = "0";
+		}
+		try {
+			if (this.CarWashType.length() < 0 || this.CarWashType.compareTo("")==0) {
+				this.CarWashType = "0";
+			}
+		}
+		catch (Exception e)
+		{
+			this.CarWashType = "0";
+		}
+		try {
+			if (this.PeriodicServices.length() < 0 || this.PeriodicServices.compareTo("")==0) {
+				this.PeriodicServices = "0";
+			}
+		}
+		catch (Exception e)
+		{
+			this.PeriodicServices = "0";
+		}
+		try {
+			if (this.MaleCount.length() < 0 || this.MaleCount.compareTo("")==0) {
+				this.MaleCount = "0";
+			}
+		}
+		catch (Exception e)
+		{
+			this.MaleCount = "0";
+		}
+		try {
+			if (this.FemaleCount.length() < 0 || this.FemaleCount.compareTo("")==0) {
+				this.FemaleCount = "0";
+			}
+		}
+		catch (Exception e)
+		{
+			this.FemaleCount = "0";
+		}
+		try {
+			if (this.HamyarCount.length() < 0 || this.HamyarCount.compareTo("")==0) {
+				this.HamyarCount = "0";
+			}
+		}
+		catch (Exception e)
+		{
+			this.HamyarCount = "0";
+		}
+		//Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
 		PropertyInfo pUserCodePI = new PropertyInfo();
 		//Set Name
