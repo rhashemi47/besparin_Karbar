@@ -20,15 +20,15 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Help"
+            app:title="@string/GiftBank"
             app:titleTextColor="@color/md_black_1000"
-            app:titleTextAppearance="@style/TextAppearance.Medium"
+            app:titleTextAppearance="@style/TextAppearance.Small"
             android:layout_gravity="right"
             android:gravity="right">
             <ImageView
                 android:id="@+id/BesparinaLogo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/logo_toolbar"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
@@ -41,61 +41,60 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="90dp"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_layout_text_message">
-
+            android:background="@drawable/rounded_layout_list_body">
         </LinearLayout>
 
     </LinearLayout>
     <!--<FrameLayout-->
         <!--android:id="@+id/frame"-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
+        <!--android:layout_height="wrap_content"/>-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/Order"
+            android:textSize="10sp"
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/jobs"
+            android:drawableTop="@drawable/jobs_small"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/AcceptOrder"
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/dutys"
+            android:textSize="10sp"
+            android:drawableTop="@drawable/dutys_small"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/Credits"
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/credits"
+            android:textSize="10sp"
+            android:drawableTop="@drawable/credits_small"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnServiceEmergency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/emergencyService"
+            android:textSize="10sp"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#93050a"
-            android:drawableTop="@drawable/emergency"
+            android:drawableTop="@drawable/emergency_small"
             android:layout_weight="1">
         </Button>
     </LinearLayout>

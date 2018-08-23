@@ -102,7 +102,7 @@ public class SyncGetFaktorUserDetailes {
 					//Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainActivity.class,"karbarCode",karbarCode,"updateflag","1");
 				} else if (WsResponse.toString().compareTo("-1") == 0) {
-					Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
+					//Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
 
 				} else {
 					InsertDataFromWsToDb();

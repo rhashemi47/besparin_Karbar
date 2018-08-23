@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Help"
+            app:title="@string/History"
             app:titleTextColor="@color/md_black_1000"
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
@@ -41,22 +41,28 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_below="@+id/appbar"
         android:orientation="vertical">
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvHistory"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_layout_text_message">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="18dp"
+            android:textColor="#000000"/>
 
-        </LinearLayout>
+        <ListView
+            android:id="@+id/lstHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="55dp">
 
+        </ListView>
     </LinearLayout>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -35,8 +35,8 @@
             <!--android:src="@drawable/logouserlogingif" />-->
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImageView"
-                android:layout_width="100dp"
-                android:layout_height="150dp" />
+                android:layout_width="30dp"
+                android:layout_height="35dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,16 +48,16 @@
             <EditText
                 android:id="@+id/etPhoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_edittext_login"
-                android:ems="2"
                 android:hint="شماره موبایل خورد را وارد نمایید"
                 android:inputType="phone"
                 android:layoutDirection="rtl"
                 android:padding="10dp"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="10sp"
                 android:textStyle="normal" />
         </LinearLayout>
 
@@ -71,32 +71,33 @@
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/rounded_button_signin"
-                android:drawableStart="@drawable/login"
-
-                android:paddingLeft="100dp"
-                android:paddingRight="100dp"
+                android:layout_marginTop="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="@string/SignUpOrLogin"
-                android:textSize="20sp" />
+                android:textSize="12sp"
+                android:drawableRight="@drawable/login_small" />
 
             <Button
                 android:id="@+id/btnEnter"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:background="@drawable/rounded_button_login"
-                android:drawableStart="@drawable/signin"
+                android:drawableStart="@drawable/signin_small"
                 android:gravity="center"
-                android:paddingLeft="110dp"
-                android:paddingRight="110dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="@string/LoginGuest"
-                android:textSize="20sp" />
+                android:textSize="12sp"
+                android:drawableLeft="@drawable/signin" />
 
         </LinearLayout>
     </LinearLayout>

@@ -24,6 +24,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/Register"
+            app:titleTextAppearance="@style/TextAppearance.Small"
             app:titleTextColor="#000000"/>
     </android.support.design.widget.AppBarLayout>
     <ScrollView
@@ -43,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/firstname"
+                    android:textSize="10sp"
                     android:textColor="#000000" />
                 <EditText
                     android:id="@+id/etFname"
@@ -50,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:textColor="#000000"
+                    android:textSize="10sp"
                     android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
@@ -61,6 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/lastname"
+                    android:textSize="10sp"
                     android:textColor="#000000"/>
                 <EditText
                     android:id="@+id/etLname"
@@ -68,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:textColor="#000000"
+                    android:textSize="10sp"
                     android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
@@ -79,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/CodeMoaref"
+                    android:textSize="10sp"
                     android:textColor="#000000" />
                 <EditText
                     android:id="@+id/etReagentCodeInsertInfo"
@@ -86,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:text=""
+                    android:textSize="10sp"
                     android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
@@ -97,11 +104,11 @@
                 <Button
                     android:id="@+id/btnSendInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="@string/Save"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginRight="70dp"
-                    android:drawableLeft="@drawable/save"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:drawableLeft="@drawable/save_small"
                     android:textColor="#000000"/>
             </LinearLayout>
         </LinearLayout>
