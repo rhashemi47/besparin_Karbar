@@ -1,10 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/menu_body"
     android:layoutDirection="rtl">
     <android.support.design.widget.AppBarLayout
@@ -21,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Yourcommitment"
+            app:title="@string/Messages"
             app:titleTextColor="@color/md_black_1000"
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
@@ -37,27 +35,42 @@
                 tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-<ScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
+        android:layout_below="@+id/appbar"
         android:verticalScrollbarPosition="right">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/rounded_layout_list_body">
-    <TextView
-        android:id="@+id/tvTextOurcommitment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextYourCommitment"
-        android:lineSpacingExtra="4dp"
-        android:textSize="18dp"
-        android:textColor="#000000"/>
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_layout_text_message">
+            <TextView
+                android:id="@+id/tvContentMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_marginTop="20dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="5"
+                android:layout_gravity="left">
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/InsertDate"
+                    android:background="@drawable/rounded_button_select"
+                    android:text="@string/Delete"
+                    android:textColor="#000000"
+                    />
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"

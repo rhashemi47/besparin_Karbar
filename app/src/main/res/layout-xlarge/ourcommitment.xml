@@ -21,7 +21,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Yourcommitment"
+            app:title="@string/Ourcommitment"
             app:titleTextColor="@color/md_black_1000"
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
@@ -37,27 +37,30 @@
                 tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-<ScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="20dp"
         android:verticalScrollbarPosition="right">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/rounded_layout_list_body">
-    <TextView
-        android:id="@+id/tvTextOurcommitment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextYourCommitment"
-        android:lineSpacingExtra="4dp"
-        android:textSize="18dp"
-        android:textColor="#000000"/>
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/rounded_layout_list_body">
+            <TextView
+                android:id="@+id/tvTextOurcommitment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/TextOurCommitment"
+                android:lineSpacingExtra="4dp"
+                android:textSize="26sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"

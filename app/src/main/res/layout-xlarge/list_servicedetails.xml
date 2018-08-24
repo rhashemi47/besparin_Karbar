@@ -1,10 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/menu_body"
     android:layoutDirection="rtl">
     <android.support.design.widget.AppBarLayout
@@ -21,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Yourcommitment"
+            app:title="@string/service"
             app:titleTextColor="@color/md_black_1000"
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
@@ -37,28 +35,19 @@
                 tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-<ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        android:verticalScrollbarPosition="right">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/rounded_layout_list_body">
-    <TextView
-        android:id="@+id/tvTextOurcommitment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextYourCommitment"
-        android:lineSpacingExtra="4dp"
-        android:textSize="18dp"
-        android:textColor="#000000"/>
+        android:layout_marginTop="70dp">
+        <ListView
+            android:id="@+id/listViewServiceDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
     </LinearLayout>
-    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

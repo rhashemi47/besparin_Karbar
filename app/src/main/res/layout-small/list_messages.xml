@@ -1,10 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/menu_body"
     android:layoutDirection="rtl">
     <android.support.design.widget.AppBarLayout
@@ -21,15 +19,15 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Yourcommitment"
+            app:title="@string/ListMessagesRecive"
             app:titleTextColor="@color/md_black_1000"
-            app:titleTextAppearance="@style/TextAppearance.Medium"
+            app:titleTextAppearance="@style/TextAppearance.Small"
             android:layout_gravity="right"
             android:gravity="right">
             <ImageView
                 android:id="@+id/BesparinaLogo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/logo_toolbar"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
@@ -37,67 +35,75 @@
                 tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-<ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        android:verticalScrollbarPosition="right">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/rounded_layout_list_body">
-    <TextView
-        android:id="@+id/tvTextOurcommitment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextYourCommitment"
-        android:lineSpacingExtra="4dp"
-        android:textSize="18dp"
-        android:textColor="#000000"/>
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvNotMessage"
+            android:textSize="10sp"
+            android:text="@string/NotMessage"
+            android:textColor="#000000"/>
+        <ListView
+            android:id="@+id/listViewMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rounded_listview_message">
+        </ListView>
     </LinearLayout>
-    </ScrollView>
+    <!--<FrameLayout-->
+        <!--android:id="@+id/frame"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/Order"
+            android:textSize="10sp"
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/jobs"
+            android:drawableTop="@drawable/jobs_small"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/AcceptOrder"
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/dutys"
+            android:textSize="10sp"
+            android:drawableTop="@drawable/dutys_small"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/Credits"
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/credits"
+            android:textSize="10sp"
+            android:drawableTop="@drawable/credits_small"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnServiceEmergency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/emergencyService"
+            android:textSize="10sp"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#93050a"
-            android:drawableTop="@drawable/emergency"
+            android:drawableTop="@drawable/emergency_small"
             android:layout_weight="1">
         </Button>
     </LinearLayout>

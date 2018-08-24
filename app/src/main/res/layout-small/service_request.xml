@@ -1,0 +1,902 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/menu_body"
+    android:focusableInTouchMode="true"
+    android:layoutDirection="rtl">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:background="@drawable/background_actionbar"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/service_request"
+            app:titleTextColor="@color/md_black_1000"
+            app:titleTextAppearance="@style/TextAppearance.Small"
+            android:layout_gravity="right"
+            android:gravity="right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTitleService"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/BesparinaLogo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/logo_toolbar"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                tools:ignore="RtlHardcoded" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:verticalScrollbarPosition="right"
+        android:layout_marginBottom="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/LinearDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/calender_small" />
+
+                        <TextView
+                            android:id="@+id/tvTitleFromDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/FromDate"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleToDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/ToDate"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etFromDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:gravity="center"
+                            android:textColor="#213494" />
+
+                        <EditText
+                            android:id="@+id/etToDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:gravity="center"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/LinearFromTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/clock_small" />
+
+                        <TextView
+                            android:id="@+id/tvTitleFromTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/FromTime"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleToTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/ToTime"
+                            android:textColor="#213494" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearToTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etFromTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:gravity="center"
+                            android:textColor="#000000" />
+
+                        <EditText
+                            android:id="@+id/etToTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:gravity="center"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearTypePeriodService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/period_service" />
+
+                        <TextView
+                            android:id="@+id/tvTitleTypePeriodService"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/ServicePeriod"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/status"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spTypePeriodService"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg"/>
+
+                        <Spinner
+                            android:id="@+id/spStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearStatusCountHamyar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/LinearStatusCountWoman"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/man" />
+
+                        <TextView
+                            android:id="@+id/tvTitleCountMan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/CountMan"
+                            android:textColor="#213494"
+                            android:textAlignment="gravity"/>
+
+                        <TextView
+                            android:id="@+id/tvTitleCountWoman"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/CountWoman"
+                            android:textColor="#213494"
+                            android:textAlignment="gravity"/>
+
+                        <TextView
+                            android:id="@+id/tvTitleCountDoesnotmatter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/Doesnotmatter"
+                            android:textColor="#213494"
+                            android:textAlignment="gravity"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearCountMan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/etCountMan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:inputType="phone"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textAlignment="gravity"/>
+                        <EditText
+                            android:id="@+id/etCountWoman"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:inputType="phone"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textAlignment="gravity"/>
+                        <EditText
+                            android:id="@+id/etDoesnotmatter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:inputType="phone"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textAlignment="gravity"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/LinearLearning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/book" />
+
+                        <TextView
+                            android:id="@+id/tvTitleLearning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:text="@string/TitleLearning"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/etTitleLearning"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_edittext_2"
+                            android:textColor="#000000"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/LinearGraid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/telescop" />
+
+                        <TextView
+                            android:id="@+id/tvGraid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/Graid"
+                            android:textSize="10sp"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvFieldEducation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/FieldEducation"
+                            android:textSize="10sp"
+                            android:textColor="#213494" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearFieldEducation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spGraid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Spinner
+                            android:id="@+id/spFieldEducation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearFieldArt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/colorboom" />
+
+                        <TextView
+                            android:id="@+id/tvFieldArt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/FieldArt"
+                            android:textSize="10sp"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spFieldArt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearFieldArtOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleFieldArtOther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Other"
+                        android:textSize="10sp"
+                        android:textColor="#213494"/>
+
+                    <EditText
+                        android:id="@+id/etFieldArtOther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="10sp"
+                        android:background="@drawable/rounded_edittext_2"
+                        android:textColor="#213494" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearGenderStudentAndTeacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/man" />
+
+                        <TextView
+                            android:id="@+id/tvTitleGenderStudent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/GenderStudent"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleGenderTeacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/GenderTeacher"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spGenderStudent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Spinner
+                            android:id="@+id/spGenderTeacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearCarWash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/repair" />
+
+                        <TextView
+                            android:id="@+id/tvTitleTypeService"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/TypeService"
+                            android:textColor="#213494" />
+
+                        <TextView
+                            android:id="@+id/tvTitleTypeCar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/TypeCar"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spTypeService"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Spinner
+                            android:id="@+id/spTypeCar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinerLayoutLanguege"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/book" />
+
+                        <TextView
+                            android:id="@+id/tvLanguage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:text="@string/Language"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LinearLanguage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spLanguage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Description"
+                        android:textSize="10sp"
+                        android:textColor="#213494" />
+
+                    <EditText
+                        android:id="@+id/etDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_edittext_2"
+                        android:inputType="textMultiLine"
+                        android:textSize="10sp"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearAddres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/address" />
+
+                        <TextView
+                            android:id="@+id/tvTitleAddres"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/Addres"
+                            android:textSize="10sp"
+                            android:textColor="#213494" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="10sp"
+                            android:background="@drawable/spinner_bg" />
+
+                        <Button
+                            android:id="@+id/btnAddAdres"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:textSize="10sp"
+                            android:background="@drawable/rounded_button_signin"
+                            android:text="+" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/LinearEtAddres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/etAddres"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_edittext_2"
+                        android:inputType="textMultiLine"
+                        android:textSize="10sp"
+                        android:textColor="#000000" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_margin="5dp">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/btnSave"
+                    android:text="@string/Save"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:paddingRight="10dp"
+                    android:textSize="10sp"
+                    android:background="@drawable/rounded_button_signin"
+                    android:drawableRight="@drawable/save_small"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:id="@+id/btnCansel"
+                    android:text="@string/Cansel"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="10sp"
+                    android:background="@drawable/rounded_button_transparent"
+                    android:drawableRight="@drawable/cansel_small"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:id="@+id/btnOrderBottom"
+            android:background="@drawable/rounded_button_bottom"
+            android:textColor="#052d93"
+            android:drawableTop="@drawable/jobs_small"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnAcceptOrderBottom"
+            android:background="@drawable/rounded_button_bottom"
+            android:textColor="#052d93"
+            android:textSize="10sp"
+            android:drawableTop="@drawable/dutys_small"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btncrediteBottom"
+            android:background="@drawable/rounded_button_bottom"
+            android:textColor="#052d93"
+            android:textSize="10sp"
+            android:drawableTop="@drawable/credits_small"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btnServiceEmergency"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:background="@drawable/rounded_button_bottom"
+            android:textColor="#93050a"
+            android:drawableTop="@drawable/emergency_small"
+            android:layout_weight="1">
+        </Button>
+    </LinearLayout>
+</RelativeLayout>
