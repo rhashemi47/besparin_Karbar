@@ -81,13 +81,13 @@ public class SyncReadMessage {
 				task.execute();
 			}	
 			 catch (Exception e) {
-				//Toast.makeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
+				//akeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -121,11 +121,11 @@ public class SyncReadMessage {
         		res=WsResponse.split("##");
 	            if(res[0].toString().compareTo("ER") == 0)
 	            {
-	            	//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
+	            	//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
 	            else if(res[0].toString().compareTo("0") == 0)
 	            {
-	            	//Toast.makeText(this.activity.getApplicationContext(), "خطایی رخ داده است!", Toast.LENGTH_LONG).show();
+	            	//akeText(this.activity.getApplicationContext(), "خطایی رخ داده است!", Toast.LENGTH_LONG).show();
 	            }
 	            else if(res[0].toString().compareTo("1") == 0)
 	            {
@@ -133,7 +133,7 @@ public class SyncReadMessage {
 	            }
 	            else if(res[0].toString().compareTo("2") == 0)
 	            {
-	            	//Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
+	            	//akeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
 	            }
 	         
 	            else
@@ -143,7 +143,7 @@ public class SyncReadMessage {
         	}
         	else
         	{
-        		//Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
+        		//akeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
         	}
             try
             {

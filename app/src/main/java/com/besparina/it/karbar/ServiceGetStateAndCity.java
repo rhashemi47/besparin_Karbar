@@ -32,7 +32,7 @@ public class ServiceGetStateAndCity extends Service {
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-//        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+//        akeText(this, "Service Started", Toast.LENGTH_LONG).show();
         continue_or_stop=true;
         if(createthread) {
             mHandler = new Handler();
@@ -65,7 +65,7 @@ public class ServiceGetStateAndCity extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+       // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         continue_or_stop=false;
     }
 }

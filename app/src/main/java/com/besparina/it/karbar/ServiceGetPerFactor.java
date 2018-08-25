@@ -30,7 +30,6 @@ public class ServiceGetPerFactor extends Service {
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-//        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         continue_or_stop=true;
         if(createthread) {
             mHandler = new Handler();

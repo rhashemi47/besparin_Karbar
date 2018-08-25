@@ -25,14 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical">
-            <!--<ImageView-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:id="@+id/imgLogo"/>-->
-            <!--<pl.droidsonroids.gif.GifImageView-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:src="@drawable/logouserlogingif" />-->
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImageView"
                 android:layout_width="100dp"
@@ -77,10 +69,11 @@
                 android:background="@drawable/rounded_button_signin"
                 android:drawableStart="@drawable/login"
 
-                android:paddingLeft="100dp"
-                android:paddingRight="100dp"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
                 android:text="@string/SignUpOrLogin"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/login" />
 
             <Button
                 android:id="@+id/btnEnter"
@@ -93,10 +86,11 @@
                 android:background="@drawable/rounded_button_login"
                 android:drawableStart="@drawable/signin"
                 android:gravity="center"
-                android:paddingLeft="110dp"
-                android:paddingRight="110dp"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
                 android:text="@string/LoginGuest"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/signin" />
 
         </LinearLayout>
     </LinearLayout>

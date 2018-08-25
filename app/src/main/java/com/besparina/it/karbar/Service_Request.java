@@ -1355,9 +1355,7 @@ public class Service_Request extends AppCompatActivity {
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
 		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            LoadActivity2(List_ServiceDerails.class,
-                    "karbarCode", karbarCode,
-                    "codeService",DetailCode);
+			LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
 		}
 
 		return super.onKeyDown( keyCode, event );

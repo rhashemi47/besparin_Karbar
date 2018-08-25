@@ -85,7 +85,10 @@
                 android:drawableLeft="@drawable/search"
                 android:drawableEnd="@drawable/search"
                 android:drawablePadding="10dp"
-                android:background="@drawable/rounded_edittext_search"/>
+                android:background="@drawable/rounded_edittext_search"
+                android:paddingRight="10dp"
+                android:paddingLeft="15dp"
+                android:drawableRight="@drawable/search" />
 
         </LinearLayout>
         <LinearLayout
@@ -93,13 +96,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
             <GridView
                 android:id="@+id/GridViewServices"
                 android:layout_width="match_parent"
-                android:layout_height="410dp"
-                android:layout_marginTop="40dp"
+                android:layout_height="245dp"
+                android:layout_marginBottom="10dp"
                 android:numColumns="3">
             </GridView>
             <ListView
