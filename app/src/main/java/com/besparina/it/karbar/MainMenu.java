@@ -2,6 +2,7 @@ package com.besparina.it.karbar;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 
 import android.support.v4.app.ActivityCompat;
@@ -51,6 +53,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -62,7 +65,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainMenu extends AppCompatActivity {
     private String karbarCode;
-
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    Bitmap imageBitmap = null;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private Drawer drawer = null;
@@ -328,11 +332,11 @@ public class MainMenu extends AppCompatActivity {
         Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
+                "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc", null);
         if (cursor2.getCount() > 0) {
             btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
         }
-        cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+        cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) desc", null);
         if (cursor2.getCount() > 0) {
             btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
         }
@@ -362,7 +366,7 @@ public class MainMenu extends AppCompatActivity {
                 QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
-                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
+                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc";
                 LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
             }
         });
@@ -373,7 +377,7 @@ public class MainMenu extends AppCompatActivity {
                 QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
-                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) desc";
                 LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
             }
         });
@@ -410,7 +414,16 @@ public class MainMenu extends AppCompatActivity {
             }
         });
         //****************************************************************************************
-        CreateMenu(toolbar);
+        if(imageBitmap!=null)
+        {
+            CreateMenu(toolbar,imageBitmap);
+        }
+        else
+        {
+            CreateMenu(toolbar,null);
+        }
+//        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+
         //***************************************************************************************************************************
     }
 
@@ -511,10 +524,15 @@ public class MainMenu extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void CreateMenu(Toolbar toolbar) {
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+    private void CreateMenu(Toolbar toolbar,Bitmap bmp) {
+
         String name = "";
         String family = "";
+        boolean isPicNull=false;
+        if(bmp==null)
+        {
+            isPicNull=true;
+        }
         db = dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
         if (coursors.getCount() > 0) {
@@ -549,13 +567,17 @@ public class MainMenu extends AppCompatActivity {
             }
             try
             {
-                if(coursors.getString(coursors.getColumnIndex("Pic")).compareTo("null")!=0){
-                    bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+                if(isPicNull) {
+                    if (coursors.getString(coursors.getColumnIndex("Pic")).compareTo("null") != 0) {
+                        bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+                    } else {
+                        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+                    }
                 }
-                else
-                {
-                    bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
-                }
+//                else
+//                {
+//                    bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+//                }
 
             }
             catch (Exception ex){
@@ -582,10 +604,11 @@ public class MainMenu extends AppCompatActivity {
 //                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 //                    @Override
 //                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+//                        take_photo();
 //                        return false;
 //                    }
 //                })
-                .build();
+                .withProfileImagesClickable(true).build();
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
@@ -716,45 +739,39 @@ public class MainMenu extends AppCompatActivity {
                                 db.close();
                                 break;
                             case 7:
-//                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
-                                // set the message to display
-                                alertbox.setMessage("قوانین و مقررات");
-
-                                // set a negative/no button and create a listener
-                                alertbox.setPositiveButton("تعهدات ما", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        db = dbh.getReadableDatabase();
-                                        Cursor c = db.rawQuery("SELECT * FROM login", null);
-                                        if (c.getCount() > 0) {
-                                            c.moveToNext();
-
-                                            LoadActivity(OurCommitment.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                        }
-                                        db.close();
-                                        arg0.dismiss();
+                                final Dialog dialog = new Dialog(MainMenu.this);
+                                dialog.setContentView(R.layout.custome_dialog_role);
+                                Button btnOurCommitment= dialog.findViewById(R.id.btnOurCommitment);
+                                Button btnYourcommitmentt= dialog.findViewById(R.id.btnYourcommitmentt);
+                                Button btnRoleBesparina= dialog.findViewById(R.id.btnRoleBesparina);
+                                btnOurCommitment.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent urlCall = new Intent(Intent.ACTION_VIEW);
+                                        urlCall.setData(Uri.parse(PublicVariable.site));
+                                        startActivity(urlCall);
+                                        dialog.dismiss();
                                     }
                                 });
-
-                                // set a positive/yes button and create a listener
-                                alertbox.setNegativeButton("تعهدات شما", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-                                        db = dbh.getReadableDatabase();
-                                        Cursor c = db.rawQuery("SELECT * FROM login", null);
-                                        if (c.getCount() > 0) {
-                                            c.moveToNext();
-
-                                            LoadActivity(YourCommitment.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                        }
-                                        db.close();
-                                        arg0.dismiss();
-
+                                btnYourcommitmentt.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent urlCall = new Intent(Intent.ACTION_VIEW);
+                                        urlCall.setData(Uri.parse(PublicVariable.site));
+                                        startActivity(urlCall);
+                                        dialog.dismiss();
                                     }
                                 });
-                                alertbox.show();
+                                btnRoleBesparina.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent urlCall = new Intent(Intent.ACTION_VIEW);
+                                        urlCall.setData(Uri.parse(PublicVariable.site));
+                                        startActivity(urlCall);
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog.show();
                                 break;
                             case 8:
                                 db = dbh.getReadableDatabase();
@@ -883,25 +900,27 @@ public class MainMenu extends AppCompatActivity {
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted
-                    db = dbh.getReadableDatabase();
-                    Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
-                    if (cursorPhone.getCount() > 0) {
-                        cursorPhone.moveToNext();
-                        dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+        if(grantResults.length>0) {
+            switch (requestCode) {
+                case REQUEST_CODE_ASK_PERMISSIONS:
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // Permission Granted
+                        db = dbh.getReadableDatabase();
+                        Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+                        if (cursorPhone.getCount() > 0) {
+                            cursorPhone.moveToNext();
+                            dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                        }
+                        db.close();
+                    } else {
+                        // Permission Denied
+                        Toast.makeText(MainMenu.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+                                .show();
                     }
-                    db.close();
-                } else {
-                    // Permission Denied
-                    Toast.makeText(MainMenu.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
-                            .show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                    break;
+                default:
+                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
     }
     void sharecode(String shareStr)
@@ -915,63 +934,32 @@ public class MainMenu extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//
-//            Intent startMain = new Intent(Intent.ACTION_MAIN);
-//
-//
-//            startMain.addCategory(Intent.CATEGORY_HOME);
-//
-////                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//
-//            startActivity(startMain);
-//
-//            finish();
-//            super.onBackPressed();
-//            return;
-//        }
-//        drawer.closeDrawer();
-//        this.doubleBackToExitPressedOnce = true;
-//
-////        Snackbar.make(findViewById(R.id.background_place_holder_image_view), "Please click BACK again to exit", Snackbar.LENGTH_SHORT).show();
-//        Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce=false;
-//            }
-//        }, 2000);
         if (drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-
         }
-        else {
+        else
+        {
+            if (doubleBackToExitPressedOnce) {
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
 
-//            Intent startMain = new Intent(Intent.ACTION_MAIN);
-//
-//            startMain.addCategory(Intent.CATEGORY_HOME);
-//
-//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//
-//            startActivity(startMain);
-//
-//            finish();
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
 
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            startMain.addCategory(Intent.CATEGORY_HOME);
+                startActivity(startMain);
 
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-            startActivity(startMain);
-
-            finish();
-            super.onBackPressed();
-            return;
+                finish();
+                super.onBackPressed();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
     public void Check_Login(String karbarCode)
@@ -1018,4 +1006,5 @@ public class MainMenu extends AppCompatActivity {
         startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
         startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
     }
+
 }

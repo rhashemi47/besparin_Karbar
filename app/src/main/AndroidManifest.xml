@@ -14,7 +14,7 @@
             android:name="com.besparina.it.karbar.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" >
+            android:noHistory="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -94,6 +94,9 @@
             android:name="com.besparina.it.karbar.ShowFactor"
             android:noHistory="false"/>
         <activity
+            android:name="com.besparina.it.karbar.RoleBesparina"
+            android:noHistory="false"/>
+        <activity
             android:name="com.besparina.it.karbar.Credit_History"
             android:noHistory="true"/>
         <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved">
@@ -149,4 +152,7 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 </manifest>

@@ -284,7 +284,7 @@ public class Map extends AppCompatActivity {
         //*************************************************************************************************
         //Fill Spinner State
         db = dbh.getReadableDatabase();
-        Cursor cursors = db.rawQuery("SELECT * FROM State ", null);
+        final Cursor cursors = db.rawQuery("SELECT * FROM State ", null);
         String str;
         for (int i = 0; i < cursors.getCount(); i++) {
             cursors.moveToNext();
@@ -392,11 +392,32 @@ public class Map extends AppCompatActivity {
                 {
                     String latStr=Double.toString(lat);
                     String lonStr=Double.toString(lang);
-
-                    SyncAddress syncAddress=new SyncAddress(Map.this,karbarCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,email,latStr,lonStr);//todo send Area
-                    syncAddress.AsyncExecute();
+                    db=dbh.getReadableDatabase();
+                    Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='"+StrnameAddress+"'",null);
+                    if(cursor.getCount()>0) {
+                        Toast.makeText(Map.this,"نام تکراری است",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        SyncAddress syncAddress = new SyncAddress(Map.this, karbarCode, IsDefault, StrnameAddress, CodeState, CodeCity, StrAddAddres, email, latStr, lonStr);//todo send Area
+                        syncAddress.AsyncExecute();
+                    }
+                    if(!cursor.isClosed())
+                    {
+                        cursor.close();
+                    }
                 }
-                db.close();
+                else
+                {
+                    Toast.makeText(Map.this,StrError,Toast.LENGTH_LONG).show();
+                }
+                if(db.isOpen()) {
+                    db.close();
+                }
+                if(!cursors.isClosed())
+                {
+                    cursors.close();
+                }
             }
         });
 

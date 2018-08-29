@@ -213,5 +213,6 @@
     <string name="SelectTime">انتخاب زمان</string>
     <string name="SignUpOrLogin">ثبت نام / ورود</string>
     <string name="LoginGuest">ورود مهمان</string>
+    <string name="RoleBesparina">قوانین بسپارینا</string>
 
 </resources>

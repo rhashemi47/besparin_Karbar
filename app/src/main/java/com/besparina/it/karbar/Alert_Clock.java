@@ -17,7 +17,6 @@ public class Alert_Clock extends Dialog implements android.view.View.OnClickList
 
 
     public Activity activity;
-    public Dialog d;
     public Button yes, no;
     public NumberPicker pHoure, pMinute;
     private final Alert_Clock.OnTimeSetListener mCallback;
@@ -42,7 +41,6 @@ public class Alert_Clock extends Dialog implements android.view.View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.clock_custome);
         yes = (Button) findViewById(R.id.btnAccept);
         no = (Button) findViewById(R.id.btnCansel);
@@ -52,7 +50,7 @@ public class Alert_Clock extends Dialog implements android.view.View.OnClickList
         pHoure.setMaxValue(23);
         pHoure.setWrapSelectorWheel(true);
         pMinute.setMinValue(0);
-        pMinute.setMaxValue(59);
+        pMinute.setMaxValue(55);
         pMinute.setWrapSelectorWheel(true);
         pHoure.setValue(this.value_Hour);
         pMinute.setValue(this.value_Minute);

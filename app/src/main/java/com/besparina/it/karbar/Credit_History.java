@@ -101,7 +101,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	try
 	{
 		db=dbh.getReadableDatabase();
-		Cursor coursors = db.rawQuery("SELECT * FROM credits", null);
+		Cursor coursors = db.rawQuery("SELECT * FROM credits ORDER BY CAST(Code AS int) desc", null);
 		String Content="";
 		for (int i=0;i<coursors.getCount();i++) {
 			coursors.moveToNext();
@@ -137,11 +137,11 @@ protected void onCreate(Bundle savedInstanceState) {
 	Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 			"LEFT JOIN " +
 			"Servicesdetails ON " +
-			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
+			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc", null);
 	if (cursor2.getCount() > 0) {
 		btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 	}
-	cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+	cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) desc ", null);
 	if (cursor2.getCount() > 0) {
 		btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 	}
@@ -170,7 +170,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 					"LEFT JOIN " +
 					"Servicesdetails ON " +
-					"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
+					"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc";
 			LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 		}
 	});
@@ -181,7 +181,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 					"LEFT JOIN " +
 					"Servicesdetails ON " +
-					"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+					"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) desc";
 			LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 		}
 	});

@@ -100,7 +100,7 @@
             <GridView
                 android:id="@+id/GridViewServices"
                 android:layout_width="match_parent"
-                android:layout_height="245dp"
+                android:layout_height="310dp"
                 android:layout_marginBottom="10dp"
                 android:numColumns="3">
             </GridView>
@@ -111,28 +111,6 @@
             </ListView>
         </LinearLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_below="@+id/LinearServic"-->
-    <!--android:layout_margin="10dp">-->
-    <!--<Button-->
-    <!--android:id="@+id/btnServiceEmergency"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/emergencyService"-->
-    <!--android:background="@drawable/rounded_layout_job_title"-->
-    <!--android:drawableRight="@drawable/emerjency"-->
-    <!--android:layout_marginLeft="100dp"-->
-    <!--android:layout_marginRight="100dp"/>-->
-    <!--</LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

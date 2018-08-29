@@ -1,6 +1,5 @@
 	package com.besparina.it.karbar;
 
-    import android.*;
     import android.app.Activity;
     import android.content.Context;
     import android.content.Intent;
@@ -8,33 +7,26 @@
     import android.database.Cursor;
     import android.database.SQLException;
     import android.database.sqlite.SQLiteDatabase;
-    import android.graphics.Typeface;
     import android.net.Uri;
     import android.os.Bundle;
-    import android.support.annotation.NonNull;
-
     import android.support.v4.app.ActivityCompat;
     import android.view.KeyEvent;
-    import android.view.MenuItem;
     import android.view.View;
     import android.widget.Button;
     import android.widget.ImageView;
-    import android.widget.TextView;
     import android.widget.Toast;
-
     import java.io.IOException;
-
     import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-    public class OurCommitment extends Activity {
+    public class RoleBesparina extends Activity {
         private String karbarCode;
         final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-        private Button btnOrder;
-        private Button btnAcceptOrder;
-        private Button btncredite;	private Button btnServiceEmergency;
-        private TextView txtContent;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
+        private Button btnOrder;
+        private Button btnAcceptOrder;
+        private Button btncredite;
+        private Button btnServiceEmergency;
         @Override
         protected void attachBaseContext(Context newBase) {
             super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -42,7 +34,7 @@
         @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ourcommitment);
+        setContentView(R.layout.role_besparina);
             btnOrder=(Button)findViewById(R.id.btnOrderBottom);
             btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
             btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
@@ -78,6 +70,7 @@
 
                     karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
                 }
+                db.close();
             }
 
             ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -87,13 +80,6 @@
                     LoadActivity(MainMenu.class,"","");
                 }
             });
-
-            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-            txtContent=(TextView)findViewById(R.id.tvTextOurcommitment);
-            txtContent.setTypeface(FontMitra);
-            String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
-            db.execSQL(Query);
             db=dbh.getReadableDatabase();
             Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                     "LEFT JOIN " +
@@ -110,19 +96,19 @@
             if (cursor2.getCount() > 0) {
                 cursor2.moveToNext();
                 try {
-			String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
-			if(splitStr[1].compareTo("00")==0)
-			{
-				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
-			}
-			else
-			{
-				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
-			}
+                    String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
+                    if(splitStr[1].compareTo("00")==0)
+                    {
+                        btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
+                    }
+                    else
+                    {
+                        btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
+                    }
 
-		} catch (Exception ex) {
-			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
-		}
+                } catch (Exception ex) {
+                    btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
+                }
             }
             db.close();
             btnOrder.setOnClickListener(new View.OnClickListener() {
@@ -158,15 +144,15 @@
                 @Override
                 public void onClick(View v) {
 
-                    if (ActivityCompat.checkSelfPermission(OurCommitment.this,
+                    if (ActivityCompat.checkSelfPermission(RoleBesparina.this,
                             android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        if(ActivityCompat.shouldShowRequestPermissionRationale(OurCommitment.this, android.Manifest.permission.CALL_PHONE))
+                        if(ActivityCompat.shouldShowRequestPermissionRationale(RoleBesparina.this, android.Manifest.permission.CALL_PHONE))
                         {
-                            ActivityCompat.requestPermissions(OurCommitment.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+                            ActivityCompat.requestPermissions(RoleBesparina.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
                         }
                         else
                         {
-                            ActivityCompat.requestPermissions(OurCommitment.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+                            ActivityCompat.requestPermissions(RoleBesparina.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
                         }
 
                     }
@@ -183,7 +169,7 @@
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            OurCommitment.this.LoadActivity(MainMenu.class, "karbarCode", karbarCode);
+            RoleBesparina.this.LoadActivity(MainMenu.class, "karbarCode", karbarCode);
         }
 
         return super.onKeyDown( keyCode, event );
@@ -194,13 +180,14 @@
             intent.putExtra(VariableName, VariableValue);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            OurCommitment.this.startActivity(intent);
+            RoleBesparina.this.startActivity(intent);
         }
         public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue
                 , String VariableName2, String VariableValue2) {
             Intent intent = new Intent(getApplicationContext(), Cls);
             intent.putExtra(VariableName, VariableValue);
             intent.putExtra(VariableName2, VariableValue2);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             this.startActivity(intent);
         }

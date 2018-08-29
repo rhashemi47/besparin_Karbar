@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -193,14 +194,25 @@ public class UpdateAddress extends AppCompatActivity {
                 }
                 if(StrError.length()==0 || StrError.compareTo("")==0)
                 {
-                    String latStr=Double.toString(lat);
-                    String lonStr=Double.toString(lon);
-
-                    SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(UpdateAddress.this,karbarCode,AddressCode,IsDefault,StrnameAddress,CodeState,CodeCity,StrAddAddres,"",latStr,lonStr,status,"1");
-                    syncUpdateAddress.AsyncExecute();
+                    db=dbh.getReadableDatabase();
+                    Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='"+StrnameAddress+"' AND Code<>'"+AddressCode+"'",null);
+                    if(cursor.getCount()>0) {
+                        Toast.makeText(UpdateAddress.this,"نام تکراری است",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        String latStr = Double.toString(lat);
+                        String lonStr = Double.toString(lon);
+                        SyncUpdateAddress syncUpdateAddress = new SyncUpdateAddress(UpdateAddress.this, karbarCode, AddressCode, IsDefault, StrnameAddress, CodeState, CodeCity, StrAddAddres, "", latStr, lonStr, status, "1");
+                        syncUpdateAddress.AsyncExecute();
+                    }
+                    if(!cursor.isClosed()){
+                        cursor.close();
+                    }
                 }
-
-                db.close();
+                if(db.isOpen()) {
+                    db.close();
+                }
             }
         });
         //*************************************************************************************************
@@ -208,7 +220,6 @@ public class UpdateAddress extends AppCompatActivity {
         Cursor coursors = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Code='"+AddressCode+"'",null);
         if(coursors.getCount()>0)
         {
-
             coursors.moveToNext();
             NameAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Name"))));
             AddAddres.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("AddressText"))));

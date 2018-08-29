@@ -1,40 +1,47 @@
 package com.besparina.it.karbar;
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
+import android.telephony.SmsManager;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Contact extends Activity {
 	private String karbarCode;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+	final private int REQUEST_CODE_ASK_PERMISSIONS_SendSMS = 124;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
+	private EditText etSendMessage;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
 	private Button btncredite;
 	private Button btnServiceEmergency;
 	private Button btnCallSupporter;
+	private Button btnSendMessage;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -48,6 +55,8 @@ public class Contact extends Activity {
 		btncredite=(Button)findViewById(R.id.btncrediteBottom);
 		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 		btnCallSupporter=(Button)findViewById(R.id.btnCallSupporter);
+		btnSendMessage=(Button)findViewById(R.id.btnSendMessage);
+		etSendMessage=(EditText) findViewById(R.id.etSendMessage);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
 
@@ -97,11 +106,11 @@ public class Contact extends Activity {
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
 				"Servicesdetails ON " +
-				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc", null);
 		if (cursor2.getCount() > 0) {
 			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
-		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) desc", null);
 		if (cursor2.getCount() > 0) {
 			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
@@ -130,7 +139,7 @@ public class Contact extends Activity {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc";
 				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -141,7 +150,7 @@ public class Contact extends Activity {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) desc";
 				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -189,7 +198,24 @@ public class Contact extends Activity {
 				db.close();
 			}
 		});
+		btnSendMessage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				db = dbh.getReadableDatabase();
+				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+				if (cursorPhone.getCount() > 0) {
+					cursorPhone.moveToNext();
+					String MessageStr="کد کاربر: "+karbarCode+"\n"+etSendMessage.getText().toString();
+					SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+//					SendMessage(MessageStr,"09155210697");
+				}
+				db.close();
+			}
+		});
 	}
+
+
+
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
 	    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
@@ -243,8 +269,96 @@ public class Contact extends Activity {
 							.show();
 				}
 				break;
+			case REQUEST_CODE_ASK_PERMISSIONS_SendSMS:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// Permission Granted
+					db = dbh.getReadableDatabase();
+					Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+					if (cursorPhone.getCount() > 0) {
+						cursorPhone.moveToNext();
+						String MessageStr="کد کاربر: "+karbarCode+"\n"+etSendMessage.getText().toString();
+						SendMessage(MessageStr,cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+//						SendMessage(MessageStr,"09155210697");
+					}
+					db.close();
+				}
+				else
+				{
+					Toast.makeText(Contact.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+							.show();
+				}
+				break;
 			default:
 				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
+	}
+	public void SendMessage(String message ,String phoneNumber) {
+		SmsManager smsManager = SmsManager.getDefault();
+		String SENT = "SMS_SENT";
+		String DELIVERED = "SMS_DELIVERED";
+
+		SmsManager sms = SmsManager.getDefault();
+		ArrayList<String> parts = sms.divideMessage(message);
+		int messageCount = parts.size();
+
+		ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+		ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+
+		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+		for (int j = 0; j < messageCount; j++) {
+			sentIntents.add(sentPI);
+			deliveryIntents.add(deliveredPI);
+		}
+
+		// ---when the SMS has been sent---
+		registerReceiver(new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				switch (getResultCode()) {
+					case Activity.RESULT_OK:
+
+						Toast.makeText(getBaseContext(), "پیام ارسال شد",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+						Toast.makeText(getBaseContext(), "ارسال پیام با خطا مواجه شد",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_NO_SERVICE:
+						Toast.makeText(getBaseContext(), "سرویس ارسال پیامک در دسترس نیست",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_NULL_PDU:
+						Toast.makeText(getBaseContext(), "خظایی رخ داده است",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_RADIO_OFF:
+						Toast.makeText(getBaseContext(), "آنتن ضعیف است",
+								Toast.LENGTH_SHORT).show();
+						break;
+				}
+			}
+		}, new IntentFilter(SENT));
+
+		// ---when the SMS has been delivered---
+		registerReceiver(new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				switch (getResultCode()) {
+
+					case Activity.RESULT_OK:
+						Toast.makeText(getBaseContext(), "پیام تحویل شد",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case Activity.RESULT_CANCELED:
+						Toast.makeText(getBaseContext(), "پیام تحویل نشد",
+								Toast.LENGTH_SHORT).show();
+						break;
+				}
+			}
+		}, new IntentFilter(DELIVERED));
+		smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+           /* sms.sendMultipartTextMessage(phoneNumber, null, parts, sentIntents, deliveryIntents); */
 	}
 }

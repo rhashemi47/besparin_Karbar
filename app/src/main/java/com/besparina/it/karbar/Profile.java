@@ -1,6 +1,7 @@
 package com.besparina.it.karbar;
 
 import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +14,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -30,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikepenz.iconics.view.IconicsButton;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
@@ -44,6 +49,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Profile extends Activity {
 	private String karbarCode;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+	static final int REQUEST_IMAGE_CAPTURE = 1;
+	Bitmap imageBitmap = null;
+	private ImageView btnAddPic;
 	private Button btnSaveProfile;
 	private Button btnAddAdres;
 	private Button btnEditAdres;
@@ -81,7 +89,7 @@ public class Profile extends Activity {
 		tvPhoneNumber=(TextView) findViewById(R.id.tvNumberPhone);
 		tvUserName=(TextView) findViewById(R.id.tvUserName);
 		tvUserFName=(TextView) findViewById(R.id.tvUserFName);
-//		tvCodeMoaref=(TextView) findViewById(R.id.tvCodeMoaref);
+		btnAddPic=(ImageView) findViewById(R.id.btnAddPic);
 		tvUserCode=(TextView) findViewById(R.id.tvUserCode);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
@@ -147,6 +155,13 @@ public class Profile extends Activity {
 		tvProfileRegentCode.setTypeface(FontMitra);
 		tvProfileRegentCode.setTextSize(18);
 //		tvCodeMoaref.setTypeface(FontMitra);
+		//******************************************
+		btnAddPic.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				take_photo();
+			}
+		});
 		//******************************************
 //		tvCodeMoaref.setTextSize(18);
 		db=dbh.getReadableDatabase();
@@ -282,11 +297,11 @@ public class Profile extends Activity {
 		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 				"LEFT JOIN " +
 				"Servicesdetails ON " +
-				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
+				"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc", null);
 		if (cursor2.getCount() > 0) {
 			btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
-		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+		cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) desc", null);
 		if (cursor2.getCount() > 0) {
 			btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
 		}
@@ -316,7 +331,7 @@ public class Profile extends Activity {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc";
 				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -327,7 +342,7 @@ public class Profile extends Activity {
 				QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
-						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) desc";
 				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
@@ -368,13 +383,36 @@ public class Profile extends Activity {
 	public void insertKarbar() {
 		db=dbh.getReadableDatabase();
 		String errorStr="";
-		if(yearStr.compareTo("")==0 || monStr.compareTo("")==0 || dayStr.compareTo("")==0){
-			errorStr="لطفا تاریخ تولد را وارد نمایید\n";
-		}
+
+			if (yearStr.compareTo("") == 0 || monStr.compareTo("") == 0 || dayStr.compareTo("") == 0) {
+				try
+				{
+					String splitDate[]=brithday.getText().toString().split("/");
+					yearStr=splitDate[0];
+					monStr=splitDate[1];
+					dayStr=splitDate[2];
+				}
+				catch (Exception ex) {
+					errorStr = "لطفا تاریخ تولد را وارد نمایید\n";
+				}
+			}
 		if(errorStr.compareTo("")==0)
 		{
 			UpdateProfile updateProfile = new UpdateProfile(Profile.this, karbarCode, yearStr, monStr, dayStr,ReagentCode);
 			updateProfile.AsyncExecute();
+			db=dbh.getReadableDatabase();
+			Cursor cursor=db.rawQuery("SELECT * FROM TempPic",null);
+			if(cursor.getCount()>0){
+				cursor.moveToNext();
+				SyncSetPicProfile syncSetPicProfile=new SyncSetPicProfile(Profile.this,
+						karbarCode,cursor.getString(cursor.getColumnIndex("Pic")));
+				syncSetPicProfile.AsyncExecute();
+			}
+			if(db.isOpen()) {
+				db.close();
+			}
+			if (!(cursor.isClosed()))
+				cursor.close();
 		}
 		else
 		{
@@ -450,8 +488,46 @@ public class Profile extends Activity {
 							.show();
 				}
 				break;
+			case  REQUEST_IMAGE_CAPTURE:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// Permission Granted
+					take_photo();
+				} else {
+					// Permission Denied
+					Toast.makeText(Profile.this, "جهت تغییر عکس پروفایل باید به برنامه اجازه دسترسی به دوربین را بدهید.", Toast.LENGTH_LONG)
+							.show();
+				}
 			default:
 				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+	}
+	public void take_photo()
+	{
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+			if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+				ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},REQUEST_IMAGE_CAPTURE);
+				return;
+			}
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, "data");
+			startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+			Bundle extras = data.getExtras();
+			if (extras != null) {
+				imageBitmap = (Bitmap) extras.get("data");
+				Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+					imgUser.setImageBitmap(imageBitmap);
+					String base64Str=ImageConvertor.BitmapToBase64(imageBitmap);
+					String Query="INSERT INTO TempPic (Pic) VALUES('"+base64Str+"')";
+					db=dbh.getWritableDatabase();
+					db.execSQL(Query);
+				}
+			}
 		}
 	}
 }

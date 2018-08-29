@@ -110,7 +110,7 @@
                  coursors = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
-                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
+                        "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' ORDER BY CAST(OrdersService.Code AS int) desc", null);
             }
             else {
                  coursors = db.rawQuery(QueryCustom, null);
@@ -205,11 +205,11 @@
             Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc", null);
+                    "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc", null);
             if (cursor2.getCount() > 0) {
                 btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
             }
-            cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13)", null);
+            cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) desc", null);
             if (cursor2.getCount() > 0) {
                 btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
             }
@@ -239,7 +239,7 @@
                     QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                             "LEFT JOIN " +
                             "Servicesdetails ON " +
-                            "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' order by OrdersService.Code desc";
+                            "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc";
                     LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
                 }
             });
@@ -250,7 +250,7 @@
                     QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                             "LEFT JOIN " +
                             "Servicesdetails ON " +
-                            "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13)";
+                            "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) desc";
                     LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
                 }
             });
@@ -287,6 +287,7 @@
                 }
             });
     }
+
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
