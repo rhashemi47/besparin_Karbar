@@ -54,7 +54,8 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnYesFactor=(Button)findViewById(R.id.btnYesFactor);
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-		btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+		btncredite=(Button)findViewById(R.id.btncrediteBottom);
+		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -198,11 +199,11 @@ protected void onCreate(Bundle savedInstanceState) {
 		@Override
 		public void onClick(View v) {
 			if(TypeFactor==1) {
-				SyncAcceptPreInvoiceByUsers syncAcceptPreInvoiceByUsers = new SyncAcceptPreInvoiceByUsers(ShowFactor.this, "0", headFactor);
+				SyncAcceptPreInvoiceByUsers syncAcceptPreInvoiceByUsers = new SyncAcceptPreInvoiceByUsers(ShowFactor.this, "0", headFactor,OrderCode);
 				syncAcceptPreInvoiceByUsers.AsyncExecute();
 			}
 			else {
-				SyncAcceptInvoiceByUsers syncAcceptInvoiceByUsers = new SyncAcceptInvoiceByUsers(ShowFactor.this, "0", headFactor);
+				SyncAcceptInvoiceByUsers syncAcceptInvoiceByUsers = new SyncAcceptInvoiceByUsers(ShowFactor.this, "0", headFactor,OrderCode);
 				syncAcceptInvoiceByUsers.AsyncExecute();
 			}
 		}
@@ -212,11 +213,11 @@ protected void onCreate(Bundle savedInstanceState) {
 		@Override
 		public void onClick(View view) {
 			if(TypeFactor==1) {
-				SyncAcceptPreInvoiceByUsers syncAcceptPreInvoiceByUsers = new SyncAcceptPreInvoiceByUsers(ShowFactor.this, "1", headFactor);
+				SyncAcceptPreInvoiceByUsers syncAcceptPreInvoiceByUsers = new SyncAcceptPreInvoiceByUsers(ShowFactor.this, "1", headFactor,OrderCode);
 				syncAcceptPreInvoiceByUsers.AsyncExecute();
 			}
 			else {
-				SyncAcceptInvoiceByUsers syncAcceptInvoiceByUsers = new SyncAcceptInvoiceByUsers(ShowFactor.this, "1", headFactor);
+				SyncAcceptInvoiceByUsers syncAcceptInvoiceByUsers = new SyncAcceptInvoiceByUsers(ShowFactor.this, "1", headFactor,OrderCode);
 				syncAcceptInvoiceByUsers.AsyncExecute();
 			}
 		}

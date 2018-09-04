@@ -2,6 +2,7 @@ package com.besparina.it.karbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,9 +33,12 @@ public class SyncAcceptInvoiceByUsers {
 	private String WsResponse;
 	private String pAcceptPreInvoiceByUsersCode;
 	private boolean CuShowDialog=true;
+	private String OrderCode;
+
 	//Contractor
-	public SyncAcceptInvoiceByUsers(Activity activity, String Accpept, String pAcceptPreInvoiceByUsersCode) {
+	public SyncAcceptInvoiceByUsers(Activity activity, String Accpept, String pAcceptPreInvoiceByUsersCode, String OrderCode) {
 		this.activity = activity;
+		this.OrderCode = OrderCode;
 
 		this.pAcceptPreInvoiceByUsersCode=pAcceptPreInvoiceByUsersCode;
 		this.Accpept=Accpept;
@@ -216,6 +220,13 @@ public class SyncAcceptInvoiceByUsers {
 		{
 			Toast.makeText(this.activity.getApplicationContext(), "فاکتور رد شد.", Toast.LENGTH_SHORT).show();
 		}
+		LoadActivity(Service_Request_Saved.class,"codeService",OrderCode);
 		db.close();
     }
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+	{
+		Intent intent = new Intent(activity.getApplicationContext(),Cls);
+		intent.putExtra(VariableName, VariableValue);
+		activity.startActivity(intent);
+	}
 }

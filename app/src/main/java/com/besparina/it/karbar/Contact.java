@@ -293,72 +293,84 @@ public class Contact extends Activity {
 		}
 	}
 	public void SendMessage(String message ,String phoneNumber) {
-		SmsManager smsManager = SmsManager.getDefault();
-		String SENT = "SMS_SENT";
-		String DELIVERED = "SMS_DELIVERED";
+		if (ActivityCompat.checkSelfPermission(Contact.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+			// TODO: Consider calling
+			//    ActivityCompat#requestPermissions
+			// here to request the missing permissions, and then overriding
+			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			//                                          int[] grantResults)
+			// to handle the case where the user grants the permission. See the documentation
+			// for ActivityCompat#requestPermissions for more details.
+			Toast.makeText(Contact.this,"اجازه دسترسی به ارسال پیام داده نشده است",Toast.LENGTH_LONG).show();
+			return;
+		} else {
+			SmsManager smsManager = SmsManager.getDefault();
+			String SENT = "SMS_SENT";
+			String DELIVERED = "SMS_DELIVERED";
 
-		SmsManager sms = SmsManager.getDefault();
-		ArrayList<String> parts = sms.divideMessage(message);
-		int messageCount = parts.size();
+			SmsManager sms = SmsManager.getDefault();
+			ArrayList<String> parts = sms.divideMessage(message);
+			int messageCount = parts.size();
 
-		ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
-		ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+			ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+			ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
 
-		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
-		for (int j = 0; j < messageCount; j++) {
-			sentIntents.add(sentPI);
-			deliveryIntents.add(deliveredPI);
-		}
-
-		// ---when the SMS has been sent---
-		registerReceiver(new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				switch (getResultCode()) {
-					case Activity.RESULT_OK:
-
-						Toast.makeText(getBaseContext(), "پیام ارسال شد",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-						Toast.makeText(getBaseContext(), "ارسال پیام با خطا مواجه شد",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case SmsManager.RESULT_ERROR_NO_SERVICE:
-						Toast.makeText(getBaseContext(), "سرویس ارسال پیامک در دسترس نیست",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case SmsManager.RESULT_ERROR_NULL_PDU:
-						Toast.makeText(getBaseContext(), "خظایی رخ داده است",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case SmsManager.RESULT_ERROR_RADIO_OFF:
-						Toast.makeText(getBaseContext(), "آنتن ضعیف است",
-								Toast.LENGTH_SHORT).show();
-						break;
-				}
+			PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+			PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+			for (int j = 0; j < messageCount; j++) {
+				sentIntents.add(sentPI);
+				deliveryIntents.add(deliveredPI);
 			}
-		}, new IntentFilter(SENT));
 
-		// ---when the SMS has been delivered---
-		registerReceiver(new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				switch (getResultCode()) {
+			// ---when the SMS has been sent---
+			registerReceiver(new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context arg0, Intent arg1) {
+					switch (getResultCode()) {
+						case Activity.RESULT_OK:
 
-					case Activity.RESULT_OK:
-						Toast.makeText(getBaseContext(), "پیام تحویل شد",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case Activity.RESULT_CANCELED:
-						Toast.makeText(getBaseContext(), "پیام تحویل نشد",
-								Toast.LENGTH_SHORT).show();
-						break;
+							Toast.makeText(getBaseContext(), "پیام ارسال شد",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+							Toast.makeText(getBaseContext(), "ارسال پیام با خطا مواجه شد",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_NO_SERVICE:
+							Toast.makeText(getBaseContext(), "سرویس ارسال پیامک در دسترس نیست",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_NULL_PDU:
+							Toast.makeText(getBaseContext(), "خظایی رخ داده است",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_RADIO_OFF:
+							Toast.makeText(getBaseContext(), "آنتن ضعیف است",
+									Toast.LENGTH_SHORT).show();
+							break;
+					}
 				}
-			}
-		}, new IntentFilter(DELIVERED));
-		smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+			}, new IntentFilter(SENT));
+
+			// ---when the SMS has been delivered---
+			registerReceiver(new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context arg0, Intent arg1) {
+					switch (getResultCode()) {
+
+						case Activity.RESULT_OK:
+							Toast.makeText(getBaseContext(), "پیام تحویل شد",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case Activity.RESULT_CANCELED:
+							Toast.makeText(getBaseContext(), "پیام تحویل نشد",
+									Toast.LENGTH_SHORT).show();
+							break;
+					}
+				}
+			}, new IntentFilter(DELIVERED));
+			smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
            /* sms.sendMultipartTextMessage(phoneNumber, null, parts, sentIntents, deliveryIntents); */
+		}
 	}
 }

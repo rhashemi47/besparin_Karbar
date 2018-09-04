@@ -79,7 +79,8 @@ public class SyncGetFactorUsersHead {
 
 		public AsyncCallWS(Context activity) {
 			this.activity = activity;
-			this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
+			this.dialog = new ProgressDialog(activity);
+			this.dialog.setCanceledOnTouchOutside(false);
 		}
 
 		@Override
@@ -180,14 +181,13 @@ public class SyncGetFactorUsersHead {
 	public void InsertDataFromWsToDb() {
 		String[] res;
 		String[] value;
-		boolean isFirst=IsFristInsert();
 		res = WsResponse.split("@@");
 		for (int i = 0; i < res.length; i++) {
 			value=res[i].split("##");
 			boolean check=checkCode(value[0]);
 			if(check) {
 				db = dbh.getWritableDatabase();
-				db.execSQL("DELETE FROM BsFaktorUsersHead WHERE Code='" + value[0] + "'");
+				db.execSQL("DELETE FROM BsFaktorUsersHead WHERE UserServiceCode='" + value[2] + "'");
 				String query="INSERT INTO BsFaktorUsersHead (" +
 						"Code," +
 						"karbarCode," +
@@ -216,6 +216,7 @@ public class SyncGetFactorUsersHead {
 						"')";
 				db.execSQL(query);
 				db.close();
+
 			}
 			else
 			{
@@ -247,9 +248,7 @@ public class SyncGetFactorUsersHead {
 						"','" + value[11] +
 						"')";
 				db.execSQL(query);
-				if(!isFirst) {
-					runNotification("بسپارینا", value[2], i, value[0], Service_Request_Saved.class);
-				}
+				runNotification("بسپارینا",i, value[2], Service_Request_Saved.class);
 				db.close();
 			}
 		}
@@ -270,51 +269,10 @@ public class SyncGetFactorUsersHead {
 			return false;
 		}
 	}
-	public void runNotification(String title,String UserServiceCode,int id,String OrderCode,Class<?> Cls)
+	public void runNotification(String title,int id,String OrderCode,Class<?> Cls)
 	{
-		db=dbh.getReadableDatabase();
-		String query = "SELECT * FROM BsFaktorUsersHead WHERE Code='"+UserServiceCode+"'";
-		Cursor cursor= db.rawQuery(query,null);
-		if(cursor.getCount()>0)
-		{
+
 			NotificationClass notifi=new NotificationClass();
-			notifi.Notificationm(this.activity,title,"پیش فاکتور اعلام شده برای "+getDetailname(cursor.getString(cursor.getColumnIndex("ServiceDetaileCode"))),OrderCode,id,Cls);
-		}
-		db.close();
-
-	}
-	public boolean IsFristInsert()
-	{
-		db=dbh.getReadableDatabase();
-		String query = "SELECT * FROM BsFaktorUsersHead";
-		Cursor cursor= db.rawQuery(query,null);
-		if(cursor.getCount()>0)
-		{
-			db.close();
-			return false;
-		}
-		else
-		{
-			db.close();
-			return true;
-		}
-
-	}
-	public String getDetailname(String detailCode)
-	{
-		db = dbh.getReadableDatabase();
-		String query = "SELECT * FROM Servicesdetails  WHERE code=" + detailCode;
-		Cursor coursors = db.rawQuery(query, null);
-		if (coursors.getCount() > 0)
-		{
-			coursors.moveToNext();
-			db.close();
-			return coursors.getString(coursors.getColumnIndex("name"));
-		}
-		else
-		{
-			db.close();
-			return "";
-		}
+			notifi.Notificationm(this.activity,title,"پیش فاکتور/فاکتور اعلام شده برای سرویس "+OrderCode,OrderCode,id,Cls);
 	}
 }

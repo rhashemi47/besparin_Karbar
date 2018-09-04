@@ -149,6 +149,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 	private String CarWashType;
 	private String CarType;
 	private String CodeOrderService;
+	private String OrderCode;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -337,6 +338,14 @@ public class Service_Request_Edit extends AppCompatActivity {
 		}
 		try
 		{
+			OrderCode = getIntent().getStringExtra("OrderCode").toString();
+		}
+		catch (Exception ex)
+		{
+			OrderCode="0";
+		}
+		try
+		{
 			CodeOrderService = getIntent().getStringExtra("CodeOrderService").toString();
 		}
 		catch (Exception ex)
@@ -402,7 +411,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 		btnAddAdres.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LoadActivity2(Map.class,"karbarCode", karbarCode,"DetailCode",DetailCode);
+				LoadActivity3(Map.class,"karbarCode", karbarCode,"DetailCode",DetailCode);
 			}
 		});
 		btnOrder.setOnClickListener(new View.OnClickListener() {
@@ -413,7 +422,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
 						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) desc";
-				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
+				LoadActivity3(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
 		btnAcceptOrder.setOnClickListener(new View.OnClickListener() {
@@ -424,7 +433,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 						"LEFT JOIN " +
 						"Servicesdetails ON " +
 						"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) desc";
-				LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
+				LoadActivity3(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
 			}
 		});
 		btncredite.setOnClickListener(new View.OnClickListener() {
@@ -887,7 +896,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 		btnCansel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
+				LoadActivity3(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
 			}
 		});
 		spFieldArt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1278,7 +1287,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
 		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-			LoadActivity2(List_ServiceDerails.class, "karbarCode", karbarCode,"codeService",CodeService);
+			LoadActivity2(Service_Request_Saved.class, "karbarCode", karbarCode,"codeService",CodeService,"OrderCode",OrderCode);
 		}
 
 		return super.onKeyDown( keyCode, event );
@@ -1289,7 +1298,15 @@ public class Service_Request_Edit extends AppCompatActivity {
 		intent.putExtra(VariableName, VariableValue);
 		Service_Request_Edit.this.startActivity(intent);
 	}
-	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+	{
+		Intent intent = new Intent(getApplicationContext(),Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName2, VariableValue2);
+		intent.putExtra(VariableName3, VariableValue3);
+		startActivity(intent);
+	}
+	public void LoadActivity3(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);

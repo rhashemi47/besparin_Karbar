@@ -76,10 +76,11 @@ public class ServiceGetServiceVisit extends Service {
                                     coursors = db.rawQuery("SELECT ifnull(MAX(CAST (Code AS INT)),0)as Code FROM visit",null);
                                     for(int i=0;i<coursors.getCount();i++){
                                         coursors.moveToNext();
-
                                         LastVersion=coursors.getString(coursors.getColumnIndex("Code"));
                                     }
-                                    db.close();
+                                    if(db.isOpen()) {
+                                        db.close();
+                                    }
                                     SyncGetUserServiceVisit syncGetUserServiceVisit=new SyncGetUserServiceVisit(getApplicationContext(),karbarCode,LastVersion);
                                     syncGetUserServiceVisit.AsyncExecute();
                                 }

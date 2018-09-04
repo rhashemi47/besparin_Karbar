@@ -460,7 +460,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				{
 					LoadActivity2(Service_Request_Edit.class,"karbarCode",karbarCode,
 							"DetailCode",cursor.getString(cursor.getColumnIndex("ServiceDetaileCode")),
-							"CodeOrderService",cursor.getString(cursor.getColumnIndex("Code")));
+							"CodeOrderService",cursor.getString(cursor.getColumnIndex("Code")),"OrderCode",OrderCode);
 				}
 				else
 				{
@@ -542,12 +542,14 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 	}
 	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue,
 							  String VariableName2, String VariableValue2,
-							  String VariableName3, String VariableValue3)
+							  String VariableName3, String VariableValue3,
+							  String VariableName4, String VariableValue4)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
 		intent.putExtra(VariableName3, VariableValue3);
+		intent.putExtra(VariableName4, VariableValue4);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		this.startActivity(intent);
 	}
