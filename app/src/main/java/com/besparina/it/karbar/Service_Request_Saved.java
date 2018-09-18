@@ -115,6 +115,7 @@ public class Service_Request_Saved extends AppCompatActivity {
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 	}
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Override
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -276,6 +277,40 @@ protected void onCreate(Bundle savedInstanceState) {
 	btncredite.setTypeface(FontMitra);
 	//**************************************************************************
 		prepareData();
+	//**************************************************************************
+		db=dbh.getReadableDatabase();
+		final Cursor coursors = db.rawQuery("SELECT * FROM OrdersService A WHERE A.Status='1' AND A.Code='"+OrderCode+"' AND " +
+				"A.Code IN (SELECT BsUserServiceCode FROM StartDateService WHERE UserCode='0')",null);
+		if(coursors.getCount()>0){
+			coursors.moveToNext();
+			AlertDialog.Builder alertbox = new AlertDialog.Builder(Service_Request_Saved.this);
+			//set view
+			// set the message to display
+                alertbox.setMessage("آیا همیار شروع به کار کرده است؟");
+
+                // set a negative/no button and create a listener
+                alertbox.setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        arg0.dismiss();
+                    }
+                });
+
+                // set a positive/yes button and create a listener
+
+                alertbox.setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        //Declare Object From Get Internet Connection Status For Check Internet Status
+						SyncAcceptServiceStartDate acceptServiceStartDate=new SyncAcceptServiceStartDate(Service_Request_Saved.this,karbarCode,coursors.getString(coursors.getColumnIndex("Code")));
+						acceptServiceStartDate.AsyncExecute();
+                        arg0.dismiss();
+
+                    }
+                });
+                alertbox.show();
+		}
+		db.close();
 	//**************************************************************************
 
 		db=dbh.getReadableDatabase();
