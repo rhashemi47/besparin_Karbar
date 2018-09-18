@@ -2,6 +2,8 @@ package com.besparina.it.karbar;
 
 import android.*;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,12 +18,14 @@ import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,6 +53,11 @@ public class About extends AppCompatActivity {
 	private GoogleMap map;
 	private Typeface FontMitra;
 	private LatLng point;
+	private ImageView imgEmail;
+	private ImageView imgWathsUp;
+	private ImageView imgInstagram;
+	private ImageView imgSkyp;
+	private ImageView imgTelegram;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -97,6 +106,11 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 
 	ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
+	imgEmail=(ImageView) findViewById(R.id.imgEmail);
+	imgWathsUp=(ImageView) findViewById(R.id.imgWathsUp);
+	imgInstagram=(ImageView) findViewById(R.id.imgInstagram);
+	imgSkyp=(ImageView) findViewById(R.id.imgSkyp);
+	imgTelegram=(ImageView) findViewById(R.id.imgTelegram);
 	imgview.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -202,6 +216,59 @@ protected void onCreate(Bundle savedInstanceState) {
 			map.getUiSettings().setZoomControlsEnabled(true);
 		}
 	});
+	imgEmail.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			imgEmail.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(Intent.ACTION_SEND);
+					intent.setType("plain/text");
+					intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "info@besparin.ir" });
+					intent.putExtra(Intent.EXTRA_SUBJECT, "");
+					intent.putExtra(Intent.EXTRA_TEXT, "");
+					startActivity(Intent.createChooser(intent, ""));
+				}
+			});
+		}
+	});
+	imgInstagram.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			openWebPage("https://www.instagram.com/besparina");
+		}
+	});
+	imgSkyp.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			try {
+				//Intent sky = new Intent("android.intent.action.CALL_PRIVILEGED");
+				//the above line tries to create an intent for which the skype app doesn't supply public api
+
+				Intent sky = new Intent("android.intent.action.VIEW");
+				sky.setData(Uri.parse("skype:" + "besparina.official"));
+				startActivity(sky);
+			} catch (ActivityNotFoundException e) {
+				Log.e("SKYPE CALL", "Skype failed", e);
+			}
+		}
+	});
+	imgTelegram.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			openWebPage("https://telegram.me/besparina");
+		}
+	});
+	imgWathsUp.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			//openWebPage("09335678976");
+			Intent sendIntent = new Intent("android.intent.action.MAIN");
+			sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+			sendIntent.putExtra("jid", "09335678976" + "@s.whatsapp.net");
+			startActivity(sendIntent);
+		}
+	});
 }
 @Override
 public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -243,5 +310,12 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 
 
 		startActivity(callIntent);
+	}
+	public void openWebPage(String url) {
+		Uri webpage = Uri.parse(url);
+		Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+		if (intent.resolveActivity(getPackageManager()) != null) {
+			startActivity(intent);
+		}
 	}
 }
