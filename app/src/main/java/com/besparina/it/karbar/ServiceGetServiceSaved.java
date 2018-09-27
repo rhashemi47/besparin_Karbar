@@ -43,6 +43,7 @@ public class ServiceGetServiceSaved extends Service {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    if(PublicVariable.theard_GetServiceSaved)
                                     dbh=new DatabaseHelper(getApplicationContext());
                                     try {
 

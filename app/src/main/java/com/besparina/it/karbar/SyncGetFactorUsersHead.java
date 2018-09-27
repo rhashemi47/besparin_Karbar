@@ -36,7 +36,7 @@ public class SyncGetFactorUsersHead {
 		this.karbarCode = karbarCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-
+		PublicVariable.theard_GetPerFactor=false;
 		dbh = new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -252,6 +252,8 @@ public class SyncGetFactorUsersHead {
 				db.close();
 			}
 		}
+		SyncGetFaktorUserDetailes syncGetFaktorUserDetailes = new SyncGetFaktorUserDetailes(activity, this.karbarCode);
+		syncGetFaktorUserDetailes.AsyncExecute();
 	}
 	public boolean checkCode(String codeStr)
 	{

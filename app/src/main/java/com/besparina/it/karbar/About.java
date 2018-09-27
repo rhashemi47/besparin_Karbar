@@ -118,7 +118,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	});
 
-	FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+	FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvTextAbout);
 	txtContent.setTypeface(FontMitra);
 	db=dbh.getReadableDatabase();

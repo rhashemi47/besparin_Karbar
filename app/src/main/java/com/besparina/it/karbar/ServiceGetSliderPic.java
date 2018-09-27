@@ -38,66 +38,66 @@ public class ServiceGetSliderPic extends Service {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
-                    while (continue_or_stop) {
-                        dbh=new DatabaseHelper(getApplicationContext());
-                        try {
+                    if (PublicVariable.theard_GetSliderPic) {
+                        while (continue_or_stop) {
+                            dbh = new DatabaseHelper(getApplicationContext());
+                            try {
 
-                            dbh.createDataBase();
+                                dbh.createDataBase();
 
-                        } catch (IOException ioe) {
+                            } catch (IOException ioe) {
 
-                            throw new Error("Unable to create database");
+                                throw new Error("Unable to create database");
 
-                        }
+                            }
 
-                        try {
+                            try {
 
-                            dbh.openDataBase();
+                                dbh.openDataBase();
 
-                        } catch (SQLException sqle) {
+                            } catch (SQLException sqle) {
 
-                            throw sqle;
-                        }
-                        try {
-                            mHandler.post(new Runnable() {
+                                throw sqle;
+                            }
+                            try {
+                                mHandler.post(new Runnable() {
 
-                                @Override
-                                public void run() {
+                                    @Override
+                                    public void run() {
 
 
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-                                        karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
+                                        }
+                                        if (karbarCode.compareTo("0") != 0) {
+
+                                            SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), karbarCode);
+                                            syncSliderPic.AsyncExecute();
+                                        }
+                                        db.close();
+
+
                                     }
-                                    if(karbarCode.compareTo("0")!=0) {
+                                });
+                                db = dbh.getReadableDatabase();
+                                Cursor cursor = db.rawQuery("SELECT * FROM Slider", null);
 
-                                        SyncSliderPic syncSliderPic=new SyncSliderPic(getApplicationContext(),karbarCode);
-                                        syncSliderPic.AsyncExecute();
-                                    }
-                                    db.close();
-
+                                if (cursor.getCount() > 0) {
+                                    Thread.sleep(43200000); // every 12 hour
+                                } else {
+                                    Thread.sleep(6000); // every 6 Second
                                 }
-                            });
-                            db=dbh.getReadableDatabase();
-                            Cursor cursor = db.rawQuery("SELECT * FROM Slider",null);
 
-                            if(cursor.getCount()>0) {
-                                Thread.sleep(43200000); // every 12 hour
-                            }
-                            else {
-                                Thread.sleep(6000); // every 12 hour
+                                db.close();
+                            } catch (Exception e) {
+                                String error = "";
+                                error = e.getMessage().toString();
                             }
 
-                            db.close();
                         }
-                        catch (Exception e) {
-                            String error="";
-                            error=e.getMessage().toString();
-                        }
-
                     }
                 }
             }).start();

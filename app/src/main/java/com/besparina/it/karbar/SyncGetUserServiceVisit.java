@@ -39,7 +39,7 @@ public class SyncGetUserServiceVisit {
 		this.LastServiceVisitCode=LastServiceVisitCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-		
+		PublicVariable.theard_GetServiceVisit=false;
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -108,6 +108,7 @@ public class SyncGetUserServiceVisit {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+				PublicVariable.theard_GetServiceVisit=true;
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
 	            	//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();

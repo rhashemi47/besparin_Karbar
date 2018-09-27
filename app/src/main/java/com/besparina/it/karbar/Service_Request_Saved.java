@@ -173,7 +173,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		txtLanguage=(TextView)findViewById(R.id.txtLanguage);
 		txtStatus=(TextView)findViewById(R.id.txtStatus);
 		//*********************************************************************
-		FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+		FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 		//*********************************************************************
 		tvCodeRequset.setTypeface(FontMitra);
 		txtTitleOrder.setTypeface(FontMitra);

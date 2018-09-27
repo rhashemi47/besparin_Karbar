@@ -39,7 +39,7 @@ public class SyncGetUserServices {
 		this.activity = activity;
 		this.pUserCode = pUserCode;
 		this.LastUserServiceCode = LastUserServiceCode;
-
+		PublicVariable.theard_GetServiceSaved=false;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 
@@ -102,6 +102,7 @@ public class SyncGetUserServices {
 		@Override
 		protected void onPostExecute(String result) {
 			if (result == null) {
+				PublicVariable.theard_GetServiceSaved=true;
 				if (WsResponse.toString().compareTo("ER") == 0) {
 					//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 				}

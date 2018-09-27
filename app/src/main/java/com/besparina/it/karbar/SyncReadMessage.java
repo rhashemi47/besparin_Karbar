@@ -45,7 +45,7 @@ public class SyncReadMessage {
 		this.Month=Month;
 		this.Day=Day;
 		this.messagecode=messagecode;
-
+		PublicVariable.theard_ReadMessage=false;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -118,6 +118,7 @@ public class SyncReadMessage {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+				PublicVariable.theard_ReadMessage=true;
         		res=WsResponse.split("##");
 	            if(res[0].toString().compareTo("ER") == 0)
 	            {

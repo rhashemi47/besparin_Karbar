@@ -42,47 +42,46 @@ public class ServiceGetServiceVisit extends Service {
                     while (continue_or_stop) {
                         try {
                             mHandler.post(new Runnable() {
-
-                                public String LastHamyarUserServiceCode;
-
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_GetServiceVisit) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
+                                        }
+
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+
+                                            karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
+                                        }
+                                        coursors = db.rawQuery("SELECT ifnull(MAX(CAST (Code AS INT)),0)as Code FROM visit", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            LastVersion = coursors.getString(coursors.getColumnIndex("Code"));
+                                        }
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                        SyncGetUserServiceVisit syncGetUserServiceVisit = new SyncGetUserServiceVisit(getApplicationContext(), karbarCode, LastVersion);
+                                        syncGetUserServiceVisit.AsyncExecute();
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-
-                                        karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
-                                    }
-                                    coursors = db.rawQuery("SELECT ifnull(MAX(CAST (Code AS INT)),0)as Code FROM visit",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-                                        LastVersion=coursors.getString(coursors.getColumnIndex("Code"));
-                                    }
-                                    if(db.isOpen()) {
-                                        db.close();
-                                    }
-                                    SyncGetUserServiceVisit syncGetUserServiceVisit=new SyncGetUserServiceVisit(getApplicationContext(),karbarCode,LastVersion);
-                                    syncGetUserServiceVisit.AsyncExecute();
                                 }
                             });
                             Thread.sleep(6000); // every 6 seconds

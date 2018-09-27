@@ -32,7 +32,7 @@ public class SyncGetUserServiceStartDate {
 	public SyncGetUserServiceStartDate(Context activity, String pUserServiceCode) {
 		this.activity = activity;
 		this.pUserServiceCode = pUserServiceCode;
-
+		PublicVariable.theard_GetUserServiceStartDate=false;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 
@@ -95,6 +95,7 @@ public class SyncGetUserServiceStartDate {
 		@Override
 		protected void onPostExecute(String result) {
 			if (result == null) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 				if (WsResponse.toString().compareTo("ER") == 0) {
 					//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 				}

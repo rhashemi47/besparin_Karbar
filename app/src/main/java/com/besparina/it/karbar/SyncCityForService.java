@@ -104,6 +104,7 @@ public class SyncCityForService {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+				PublicVariable.theard_GetStateAndCity=true;
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
 	            	//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();

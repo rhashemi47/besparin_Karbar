@@ -87,7 +87,7 @@ public class AdapterUpdateAddress extends BaseAdapter {
         LayoutInflater inflater = activity.getLayoutInflater();
         HashMap<String, String> map = list.get(position);
         if (convertView == null) {
-            Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
+            Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/IRANSans.ttf");
             convertView = inflater.inflate(R.layout.list_item_address, null);
             holder = new ViewHolder();
             holder.txtNameAddress = (TextView) convertView.findViewById(R.id.txtNameAddress);

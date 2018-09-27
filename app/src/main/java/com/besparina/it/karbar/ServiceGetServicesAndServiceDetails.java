@@ -39,35 +39,37 @@ public class ServiceGetServicesAndServiceDetails extends Service {
                     // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
+                                mHandler.post(new Runnable() {
 
-                            mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (PublicVariable.theard_GetServicesAndServiceDetails) {
+                                            dbh = new DatabaseHelper(getApplicationContext());
+                                            try {
 
-                                @Override
-                                public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                                dbh.createDataBase();
 
-                                        dbh.createDataBase();
+                                            } catch (IOException ioe) {
 
-                                    } catch (IOException ioe) {
+                                                throw new Error("Unable to create database");
 
-                                        throw new Error("Unable to create database");
+                                            }
 
+                                            try {
+
+                                                dbh.openDataBase();
+
+                                            } catch (SQLException sqle) {
+
+                                                throw sqle;
+                                            }
+
+                                            SyncServicesForService syncServicesForService = new SyncServicesForService(getApplicationContext());
+                                            syncServicesForService.AsyncExecute();
+
+                                        }
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-
-                                    SyncServicesForService syncServicesForService=new SyncServicesForService(getApplicationContext());
-                                    syncServicesForService.AsyncExecute();
-                                }
-                            });
+                                });
                             Thread.sleep(43200000); // every 12 hour
                         } catch (Exception e) {
                             // TODO: handle exception

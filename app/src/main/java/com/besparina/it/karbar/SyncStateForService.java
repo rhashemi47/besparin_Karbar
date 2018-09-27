@@ -32,7 +32,7 @@ public class SyncStateForService {
 	//Contractor
 	public SyncStateForService(Context activity) {
 		this.activity = activity;
-
+		PublicVariable.theard_GetStateAndCity=false;
 		this.pUserCode=pUserCode;
 		this.LastServiceVisitCode=LastServiceVisitCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
@@ -198,6 +198,9 @@ public class SyncStateForService {
 			db.execSQL(query);
 		}
 		db.close();
+
+		SyncCityForService syncCityForService = new SyncCityForService(this.activity);
+		syncCityForService.AsyncExecute();
     }
 	
 }

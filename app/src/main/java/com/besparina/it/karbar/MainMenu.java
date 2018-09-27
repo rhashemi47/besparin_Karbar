@@ -149,7 +149,7 @@ public class MainMenu extends AppCompatActivity {
             WsDownLoadUpdate wsDownLoadUpdate=new WsDownLoadUpdate(MainMenu.this,AppVersion, PublicVariable.LinkFileTextCheckVersion,PublicVariable.DownloadAppUpdateLinkAPK);
             wsDownLoadUpdate.AsyncExecute();
         }
-        faceh = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+        faceh = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
         btnOrder = (Button) findViewById(R.id.btnOrderBottom);
         btnAcceptOrder = (Button) findViewById(R.id.btnAcceptOrderBottom);
         btncredite = (Button) findViewById(R.id.btncrediteBottom);

@@ -92,7 +92,7 @@
                 }
             });
 
-            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
             tvHistory=(TextView)findViewById(R.id.tvHistory);
             tvHistory.setTypeface(FontMitra);
             tvHistory.setTextSize(24);

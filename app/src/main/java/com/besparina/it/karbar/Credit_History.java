@@ -94,7 +94,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	});
 
 	lstHistoryCredit=(ListView) findViewById(R.id.lstHistoryCredit);
-	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
 	txtContent.setTypeface(FontMitra);
 

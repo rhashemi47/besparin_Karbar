@@ -34,7 +34,7 @@ public class SyncSliderPic {
 		this.karbarCode=karbarCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-		
+		PublicVariable.theard_GetSliderPic=false;
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -103,6 +103,7 @@ public class SyncSliderPic {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+				PublicVariable.theard_GetSliderPic=true;
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
 	            	//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();

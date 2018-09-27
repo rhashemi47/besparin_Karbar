@@ -45,10 +45,10 @@ public class ServiceGetStateAndCity extends Service {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                   SyncStateForService syncStateForService=new SyncStateForService(getApplicationContext());
-                                   syncStateForService.AsyncExecute();
-                                   SyncCityForService syncCityForService=new SyncCityForService(getApplicationContext());
-                                   syncCityForService.AsyncExecute();
+                                    if (PublicVariable.theard_GetStateAndCity) {
+                                        SyncStateForService syncStateForService = new SyncStateForService(getApplicationContext());
+                                        syncStateForService.AsyncExecute();
+                                    }
                                 }
                             });
                             Thread.sleep(60000); // every 60 seconds

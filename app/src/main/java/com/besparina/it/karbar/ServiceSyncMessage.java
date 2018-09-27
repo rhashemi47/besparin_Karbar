@@ -11,6 +11,9 @@ import android.os.IBinder;
 import com.besparina.it.karbar.Date.ChangeDate;
 
 import java.io.IOException;
+import java.util.concurrent.Delayed;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Created by hashemi on 02/18/2018.
@@ -42,63 +45,70 @@ public class ServiceSyncMessage extends Service {
                     // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
-                            Thread.sleep(60000); // every 60 seconds
+                            sleep(60000); // every 60 seconds
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_Message) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
+                                        }
+
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+
+                                            karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
+                                        }
+                                        db.close();
+                                        db = dbh.getReadableDatabase();
+                                        Cursor cursor = db.rawQuery("SELECT * FROM messages WHERE IsSend='0' AND IsReade='1'", null);
+                                        for (int i = 0; i < cursor.getCount(); i++) {
+                                            cursor.moveToNext();
+                                            String DateSp[] = ChangeDate.getCurrentDate().split("/");
+                                            String Year = DateSp[0];
+                                            String Month = DateSp[1];
+                                            String Day = DateSp[2];
+                                            String code = cursor.getString(cursor.getColumnIndex("Code"));
+                                            while(PublicVariable.theard_ReadMessage) {
+                                                SyncReadMessage readMessage = new SyncReadMessage(getApplicationContext(), karbarCode, code, Year, Month, Day);
+                                                readMessage.AsyncExecute();
+                                                try {
+                                                    sleep(6000);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                        String LastMessageCode = "0";
+                                        db.close();
+                                        db = dbh.getReadableDatabase();
+                                        cursor = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
+                                        if (cursor.getCount() > 0) {
+                                            cursor.moveToNext();
+                                            LastMessageCode = cursor.getString(cursor.getColumnIndex("code"));
+                                        }
+                                        db.close();
+                                        SyncMessage syncMessage = new SyncMessage(getApplicationContext(), karbarCode, LastMessageCode);
+                                        syncMessage.AsyncExecute();
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-
-                                        karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
-                                    }
-                                    db.close();
-                                    db=dbh.getReadableDatabase();
-                                    Cursor cursor = db.rawQuery("SELECT * FROM messages WHERE IsSend='0' AND IsReade='1'", null);
-                                    for(int i=0;i<cursor.getCount();i++)
-                                    {
-                                        cursor.moveToNext();
-                                        String DateSp[]= ChangeDate.getCurrentDate().split("/");
-                                        String Year=DateSp[0];
-                                        String Month=DateSp[1];
-                                        String Day=DateSp[2];
-                                        String code=cursor.getString(cursor.getColumnIndex("Code"));
-                                        SyncReadMessage readMessage=new SyncReadMessage(getApplicationContext(),karbarCode,code,  Year,  Month,  Day);
-                                        readMessage.AsyncExecute();
-                                    }
-                                    String LastMessageCode = "0";
-                                    db.close();
-                                    db=dbh.getReadableDatabase();
-                                    cursor = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
-                                    if(cursor.getCount()>0)
-                                    {
-                                        cursor.moveToNext();
-                                        LastMessageCode=cursor.getString(cursor.getColumnIndex("code"));
-                                    }
-                                    db.close();
-                                    SyncMessage syncMessage=new SyncMessage(getApplicationContext(), karbarCode,LastMessageCode);
-                                    syncMessage.AsyncExecute();
                                 }
                             });
                         } catch (Exception e) {

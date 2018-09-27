@@ -43,37 +43,37 @@ public class ServiceGetPerFactor extends Service {
 
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_GetPerFactor) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
+                                        }
+
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM OrdersService WHERE  Status in (1,2,6,7,12,13)", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+
+                                            Code = coursors.getString(coursors.getColumnIndex("Code"));
+                                        }
+                                        db.close();
+                                        SyncGetFactorUsersHead syncGetFactorUsersHead = new SyncGetFactorUsersHead(getApplicationContext(), Code);
+                                        syncGetFactorUsersHead.AsyncExecute();
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM OrdersService WHERE  Status in (1,2,6,7,12,13)",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-
-                                        Code=coursors.getString(coursors.getColumnIndex("Code"));
-                                    }
-                                    db.close();
-                                    SyncGetFactorUsersHead syncGetFactorUsersHead=new SyncGetFactorUsersHead(getApplicationContext(),Code);
-                                    syncGetFactorUsersHead.AsyncExecute();
-                                    SyncGetFaktorUserDetailes syncGetFaktorUserDetailes=new SyncGetFaktorUserDetailes(getApplicationContext(),Code);
-                                    syncGetFaktorUserDetailes.AsyncExecute();
                                 }
                             });
                             Thread.sleep(6000); // every 60 seconds

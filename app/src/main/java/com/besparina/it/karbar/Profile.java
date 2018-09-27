@@ -138,7 +138,7 @@ public class Profile extends Activity {
 
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
 		tvPhoneNumber.setText(PersianDigitConverter.PerisanNumber(phonenumber));
-		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 		tvPhoneNumber.setTextSize(18);
 		tvPhoneNumber.setTypeface(FontMitra);
 		tvPhoneNumber.setTextSize(18);
