@@ -68,12 +68,11 @@ public class ServiceGetUserServiceStartDate extends Service {
                                                 "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
                                             coursors.moveToNext();
-
                                             pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
+                                            SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
+                                            syncGetUserServiceStartDate.AsyncExecute();
                                         }
                                         db.close();
-                                        SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
-                                        syncGetUserServiceStartDate.AsyncExecute();
                                     }
                                 }
                             });

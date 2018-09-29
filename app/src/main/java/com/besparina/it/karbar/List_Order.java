@@ -187,6 +187,7 @@
                     map.put( "AddressOrder" ,coursors_address.getString(coursors_address.getColumnIndex("AddressText")));
                     map.put( "EmergencyOrder" ,((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 0 ? "عادی" : "فوری")));
                     map.put( "StatusOrder" ,StrStatus);
+                    map.put( "QueryCustom" ,QueryCustom);
                     valuse.add(map);
                 }
                 else

@@ -110,6 +110,7 @@ public class Service_Request_Saved extends AppCompatActivity {
 	private ListView lvHamyar;
 	private String swStyle="1";
 	private CharSequence ContentText="";
+	private String QueryCustom;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -244,6 +245,14 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	try
 	{
+		QueryCustom = getIntent().getStringExtra("QueryCustom").toString();
+	}
+	catch (Exception ex)
+	{
+		QueryCustom="";
+	}
+	try
+	{
 		karbarCode = getIntent().getStringExtra("karbarCode").toString();
 	}
 	catch (Exception e) {
@@ -302,8 +311,14 @@ protected void onCreate(Bundle savedInstanceState) {
                     // do something when the button is clicked
                     public void onClick(DialogInterface arg0, int arg1) {
                         //Declare Object From Get Internet Connection Status For Check Internet Status
-						SyncAcceptServiceStartDate acceptServiceStartDate=new SyncAcceptServiceStartDate(Service_Request_Saved.this,karbarCode,coursors.getString(coursors.getColumnIndex("Code")));
-						acceptServiceStartDate.AsyncExecute();
+						db=dbh.getReadableDatabase();
+						String Query="SELECT Code FROM StartDateService WHERE BsUserServiceCode='"+OrderCode+"'";
+						Cursor c = db.rawQuery(Query,null);
+						if(c.getCount()>0) {
+							c.moveToNext();
+							SyncAcceptServiceStartDate acceptServiceStartDate = new SyncAcceptServiceStartDate(Service_Request_Saved.this, karbarCode, c.getString(c.getColumnIndex("Code")));
+							acceptServiceStartDate.AsyncExecute();
+						}
                         arg0.dismiss();
 
                     }
@@ -563,7 +578,7 @@ protected void onCreate(Bundle savedInstanceState) {
 @Override
 public boolean onKeyDown( int keyCode, KeyEvent event )  {
     if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-    	LoadActivity(List_Order.class, "karbarCode", karbarCode);
+    	LoadActivity3(List_Order.class, "karbarCode", karbarCode,"QueryCustom",QueryCustom);
     }
 
     return super.onKeyDown( keyCode, event );

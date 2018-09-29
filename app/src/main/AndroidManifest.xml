@@ -123,6 +123,9 @@
         <service android:name="com.besparina.it.karbar.ServiceGetStateAndCity">
 
         </service>
+        <service android:name="com.besparina.it.karbar.ServiceGetUserServiceStartDate">
+
+        </service>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />

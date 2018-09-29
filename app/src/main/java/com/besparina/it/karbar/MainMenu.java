@@ -477,6 +477,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
                 stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
                 stopService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
+                stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM address");
                 db.execSQL("DELETE FROM AmountCredit");
@@ -1005,6 +1006,7 @@ public class MainMenu extends AppCompatActivity {
         startService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
         startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
         startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
+        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
     }
 
 }

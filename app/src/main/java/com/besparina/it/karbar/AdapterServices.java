@@ -24,6 +24,7 @@ public class AdapterServices extends BaseAdapter {
     private Activity activity;
 
     private String karbarCode;
+    private String QueryCustom;
 
     public AdapterServices(Activity activity, ArrayList<HashMap<String, String>> list, String karbarCode) {
         super();
@@ -104,6 +105,7 @@ public class AdapterServices extends BaseAdapter {
         String AddressOrder = map.get("AddressOrder");
         String EmergencyOrder = map.get("EmergencyOrder");
         String StatusOrder = map.get("StatusOrder");
+        QueryCustom = map.get("QueryCustom");
         holder.txtTitleOrder .setText(PersianDigitConverter.PerisanNumber(TitleOrder));
         holder.txtNumberOrder .setText(PersianDigitConverter.PerisanNumber(NumberOrder));
         holder.txtDate .setText(PersianDigitConverter.PerisanNumber(DateOrder));
@@ -134,6 +136,7 @@ public class AdapterServices extends BaseAdapter {
 
             intent.putExtra("karbarCode",karbarCode);
             intent.putExtra("OrderCode",OrderCode);
+            intent.putExtra("QueryCustom",QueryCustom);
             activity.startActivity(intent);
         }
     };

@@ -85,7 +85,7 @@ public class SyncGetUserServiceStartDate {
 		protected String doInBackground(String... params) {
 			String result = null;
 			try {
-				CallWsMethod("GetUserService");
+				CallWsMethod("GetUserServiceStartDate");
 			} catch (Exception e) {
 				result = e.getMessage().toString();
 			}
@@ -176,22 +176,18 @@ public class SyncGetUserServiceStartDate {
 		db = dbh.getWritableDatabase();
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
-			String query = "INSERT INTO OrdersService (" +
+			String query = "INSERT INTO StartDateService (" +
 							"Code," +
 							"BsUserServiceCode," +
 							"HamyarCode," +
-							"StartDate," +
-							"UserCode," +
-							"UserConfirmDate) VALUES('" +
+							"StartDate) VALUES('" +
 							value[0] + "','" +
 							value[1] + "','" +
 							value[2] + "','" +
-							value[3] + "','" +
-							value[4] + "','" +
-							value[5] + "')";
+							value[3] + "')";
 					db.execSQL(query);
 					String message="برای سرویس به شماره: " + value[1] +"اعلام شروع به کار شده است";
-						runNotification("بسپارینا", "سرویس به شماره ", i, value[1], Service_Request_Saved.class, value[32]);
+						runNotification("بسپارینا", message, i, value[1], Service_Request_Saved.class, "2");
 		}
 		db.close();
 	}
