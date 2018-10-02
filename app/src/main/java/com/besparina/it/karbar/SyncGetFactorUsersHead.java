@@ -96,6 +96,7 @@ public class SyncGetFactorUsersHead {
 
 		@Override
 		protected void onPostExecute(String result) {
+			PublicVariable.theard_GetPerFactor=true;
 			if (result == null) {
 				if (WsResponse.toString().compareTo("ER") == 0) {
 

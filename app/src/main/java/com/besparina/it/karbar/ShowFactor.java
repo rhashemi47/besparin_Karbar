@@ -36,6 +36,7 @@ public class ShowFactor extends AppCompatActivity {
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private TextView ContentShowFactor;
+	private TextView Question;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
 	private Button btncredite;	private Button btnServiceEmergency;
@@ -50,6 +51,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.show_factor);
 	ContentShowFactor=(TextView)findViewById(R.id.ContentShowFactor);
+		Question=(TextView)findViewById(R.id.Question);
 	btnNoFactor=(Button)findViewById(R.id.btnNoFactor);
 	btnYesFactor=(Button)findViewById(R.id.btnYesFactor);
 		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
@@ -252,7 +254,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		String ContentStr="";
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 		db = dbh.getReadableDatabase();
-		String query="SELECT * FROM BsFaktorUsersHead WHERE Status='1' AND UserServiceCode="+OrderCode;
+		String query="SELECT * FROM BsFaktorUsersHead WHERE Status='1' AND UserServiceCode="+OrderCode +" ORDER BY CAST(Code AS INTEGER) DESC";
 		Cursor cursor = db.rawQuery(query,null);
 		if(cursor.getCount()>0) {
 			double Total=0;
@@ -262,9 +264,11 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			if (cursor.getString(cursor.getColumnIndex("Type")).compareTo("1") == 0) {
 				ContentStr += "وضعیت: "+"پیش فاکتور" + "\n";
 				TypeFactor=1;
+				Question.setText("آیا پیش فاکتور مورد تایید است؟");
 			} else {
 				ContentStr += "وضعیت: "+"فاکتور نهایی" + "\n";
 				TypeFactor=0;
+				Question.setText("آیا فاکتور مورد تایید است؟");
 			}
 			ContentStr += "تاریخ: " + cursor.getString(cursor.getColumnIndex("FaktorDate")) + "\n";
 			String query2="SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode="+cursor.getString(cursor.getColumnIndex("Code"));

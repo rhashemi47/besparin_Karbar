@@ -9,7 +9,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 
 import java.io.IOException;
 
@@ -48,13 +48,14 @@ public class NotificationClass {
              db.close();
             long[] v = {500,1000};
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+            NotificationCompat.Builder mBuilder =new NotificationCompat.Builder(context,String.valueOf(notificationID));
             mBuilder.setSmallIcon(R.drawable.logo);
             mBuilder.setContentTitle(Title);
             mBuilder.setContentText(Detils);
             mBuilder.setVibrate(v);
             mBuilder.setSound(uri);
-            mBuilder.setAutoCancel(true);
+            mBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+             mBuilder.setAutoCancel(true);
             Intent intent = new Intent(context, Cls);
             intent.putExtra("karbarCode", karbarCode);
             intent.putExtra("OrderCode", OrderCode);
