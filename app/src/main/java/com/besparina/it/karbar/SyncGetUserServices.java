@@ -49,7 +49,7 @@ public class SyncGetUserServices {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetServiceSaved=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -59,7 +59,7 @@ public class SyncGetUserServices {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetServiceSaved=true;
 			throw sqle;
 		}
 	}
@@ -70,11 +70,11 @@ public class SyncGetUserServices {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
-				//akeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
+				PublicVariable.theard_GetServiceSaved=true;
 				e.printStackTrace();
 			}
 		} else {
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetServiceSaved=true;
 		}
 	}
 
@@ -94,6 +94,7 @@ public class SyncGetUserServices {
 			try {
 				CallWsMethod("GetUserService");
 			} catch (Exception e) {
+				PublicVariable.theard_GetServiceSaved=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -124,6 +125,7 @@ public class SyncGetUserServices {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_GetServiceSaved=true;
 			}
 		}
 
@@ -276,7 +278,7 @@ public class SyncGetUserServices {
 			}
 			catch (Exception ex)
 			{
-
+				PublicVariable.theard_GetServiceSaved=true;
 			}
 		}
 

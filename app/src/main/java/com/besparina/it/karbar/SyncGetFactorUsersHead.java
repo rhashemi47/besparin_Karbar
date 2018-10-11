@@ -43,7 +43,7 @@ public class SyncGetFactorUsersHead {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetPerFactor=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -53,7 +53,7 @@ public class SyncGetFactorUsersHead {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetPerFactor=true;
 			throw sqle;
 		}
 	}
@@ -65,10 +65,11 @@ public class SyncGetFactorUsersHead {
 				task.execute();
 			} catch (Exception e) {
 
+				PublicVariable.theard_GetPerFactor=true;
 				e.printStackTrace();
 			}
 		} else {
-
+			PublicVariable.theard_GetPerFactor=true;
 		}
 	}
 
@@ -89,6 +90,7 @@ public class SyncGetFactorUsersHead {
 			try {
 				CallWsMethod("GetFaktorUsersHead");
 			} catch (Exception e) {
+				PublicVariable.theard_GetPerFactor=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -116,6 +118,7 @@ public class SyncGetFactorUsersHead {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_GetPerFactor=true;
 			}
 		}
 
@@ -249,7 +252,6 @@ public class SyncGetFactorUsersHead {
 						"','" + value[11] +
 						"')";
 				db.execSQL(query);
-				runNotification("بسپارینا",i, value[2], Service_Request_Saved.class);
 				db.close();
 			}
 		}
@@ -271,11 +273,5 @@ public class SyncGetFactorUsersHead {
 			db.close();
 			return false;
 		}
-	}
-	public void runNotification(String title,int id,String OrderCode,Class<?> Cls)
-	{
-
-			NotificationClass notifi=new NotificationClass();
-			notifi.Notificationm(this.activity,title,"پیش فاکتور/فاکتور اعلام شده برای سرویس "+OrderCode,OrderCode,id,Cls);
 	}
 }

@@ -7,12 +7,19 @@
     android:background="@drawable/backgroundlogin"
     android:layoutDirection="rtl"
     tools:context=".Login">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:keepScreenOn="true"
+        android:layout_marginBottom="180dp">
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,8 +84,8 @@
                 android:background="@drawable/rounded_button_signin"
                 android:drawableStart="@drawable/login"
 
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
                 android:text="@string/SignUpOrLogin"
                 android:textSize="20sp" />
 
@@ -93,12 +100,12 @@
                 android:background="@drawable/rounded_button_login"
                 android:drawableStart="@drawable/signin"
                 android:gravity="center"
-                android:paddingLeft="100dp"
-                android:paddingRight="100dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
                 android:text="@string/LoginGuest"
                 android:textSize="20sp" />
 
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

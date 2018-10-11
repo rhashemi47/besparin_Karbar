@@ -46,7 +46,7 @@ public class SyncGetUserServiceVisit {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetServiceVisit=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -56,7 +56,7 @@ public class SyncGetUserServiceVisit {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetServiceVisit=true;
    			throw sqle;
    		}   		
 	}
@@ -71,13 +71,13 @@ public class SyncGetUserServiceVisit {
 				task.execute();
 			}	
 			 catch (Exception e) {
-
+				 PublicVariable.theard_GetServiceVisit=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetServiceVisit=true;
 		}
 	}
 	
@@ -99,6 +99,7 @@ public class SyncGetUserServiceVisit {
         		CallWsMethod("GetUserServiceVisit");
         	}
 	    	catch (Exception e) {
+        		PublicVariable.theard_GetServiceVisit=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -136,7 +137,9 @@ public class SyncGetUserServiceVisit {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_GetServiceVisit=true;
+			}
         }
  
         @Override
@@ -224,7 +227,7 @@ public class SyncGetUserServiceVisit {
 					runNotification("بسپارینا",  i, value[1], Service_Request_Saved.class);
 				}
 			} catch (Exception ex) {
-
+				PublicVariable.theard_GetServiceVisit=true;
 			}
 		}
 

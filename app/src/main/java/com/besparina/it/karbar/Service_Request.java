@@ -1129,8 +1129,8 @@ public class Service_Request extends AppCompatActivity {
 					picker.setTodayButton("امروز");
 					picker.setTodayButtonVisible(true);
 					//  picker.setInitDate(initDate);
-					picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-					picker.setMinYear(1396);
+//					picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+					picker.setMinYear(PersianDatePickerDialog.THIS_YEAR);
 					picker.setActionTextColor(Color.GRAY);
 					//picker.setTypeFace(FontMitra);
 					picker.setListener(new Listener() {
@@ -1179,8 +1179,8 @@ public class Service_Request extends AppCompatActivity {
 				picker.setTodayButton("امروز");
 				picker.setTodayButtonVisible(true);
 				//  picker.setInitDate(initDate);
-				picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-				picker.setMinYear(1300);
+//				picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+				picker.setMinYear(PersianDatePickerDialog.THIS_YEAR);
 				picker.setActionTextColor(Color.GRAY);
 				//picker.setTypeFace(FontMitra);
 				picker.setListener(new Listener() {
@@ -1228,8 +1228,7 @@ public class Service_Request extends AppCompatActivity {
 					picker.setTodayButton("امروز");
 					picker.setTodayButtonVisible(true);
 					//  picker.setInitDate(initDate);
-					picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-					picker.setMinYear(1300);
+					picker.setMinYear(PersianDatePickerDialog.THIS_YEAR);
 					picker.setActionTextColor(Color.GRAY);
 					//picker.setTypeFace(FontMitra);
 					picker.setListener(new Listener() {
@@ -1278,8 +1277,8 @@ public class Service_Request extends AppCompatActivity {
 				picker.setTodayButton("امروز");
 				picker.setTodayButtonVisible(true);
 				//  picker.setInitDate(initDate);
-				picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-				picker.setMinYear(1300);
+//				picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+				picker.setMinYear(PersianDatePickerDialog.THIS_YEAR);
 				picker.setActionTextColor(Color.GRAY);
 				//picker.setTypeFace(FontMitra);
 				picker.setListener(new Listener() {

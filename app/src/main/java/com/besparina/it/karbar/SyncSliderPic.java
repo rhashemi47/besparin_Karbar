@@ -41,7 +41,7 @@ public class SyncSliderPic {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetSliderPic=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -51,7 +51,7 @@ public class SyncSliderPic {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetSliderPic=true;
    			throw sqle;
    		}   		
 	}
@@ -66,13 +66,13 @@ public class SyncSliderPic {
 				task.execute();
 			}	
 			 catch (Exception e) {
-
+				 PublicVariable.theard_GetSliderPic=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetSliderPic=true;
 		}
 	}
 	
@@ -94,6 +94,7 @@ public class SyncSliderPic {
         		CallWsMethod("GetUserSlider");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_GetSliderPic=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -132,7 +133,9 @@ public class SyncSliderPic {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_GetSliderPic=true;
+			}
         }
  
         @Override

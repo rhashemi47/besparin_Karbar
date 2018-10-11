@@ -3,6 +3,7 @@ package com.besparina.it.karbar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -177,28 +178,104 @@ public class SyncGetFaktorUserDetailes {
 		String[] value;
 		res = WsResponse.split("@@");
 		db = dbh.getWritableDatabase();
+		SQLiteDatabase db2 = dbh.getReadableDatabase();
 		for (int i = 0; i < res.length; i++) {
-			value=res[i].split("##");
-			db.execSQL("DELETE FROM BsFaktorUserDetailes WHERE Code='" + value[0] + "'");
-			db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
-					"Code," +
-					"FaktorUsersHeadCode," +
-					"Title," +
-					"Unit," +
-					"PricePerUnit," +
-					"Amount," +
-					"TotalPrice," +
-					"InsertDate) VALUES('"+
-					value[0]+
-					"','"+value[1]+
-					"','"+value[2]+
-					"','"+value[3]+
-					"','"+value[4]+
-					"','"+value[5]+
-					"','"+value[6]+
-					"','"+value[7]+
-					"')");
+			value = res[i].split("##");
+			boolean check = checkCode(value[0]);
+			if (check) {
+				db.execSQL("DELETE FROM BsFaktorUserDetailes WHERE Code='" + value[0] + "'");
+				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
+						"Code," +
+						"FaktorUsersHeadCode," +
+						"Title," +
+						"Unit," +
+						"PricePerUnit," +
+						"Amount," +
+						"TotalPrice," +
+						"InsertDate) VALUES('" +
+						value[0] +
+						"','" + value[1] +
+						"','" + value[2] +
+						"','" + value[3] +
+						"','" + value[4] +
+						"','" + value[5] +
+						"','" + value[6] +
+						"','" + value[7] +
+						"')");
+			}
+			else
+			{
+				Cursor cursor=db2.rawQuery("SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode='"+value[1]+"'",null);
+				if(cursor.getCount()==0)
+				{
+					SQLiteDatabase db3 = dbh.getReadableDatabase();
+					String query = "SELECT * FROM BsFaktorUsersHead WHERE Code='"+value[1]+"'";
+					Cursor c= db3.rawQuery(query,null);
+					if(c.getCount()>0)
+					{
+						c.moveToNext();
+						runNotification("بسپارینا",i, c.getString(c.getColumnIndex("UserServiceCode")), ShowFactor.class);
+					}
+					if(db3.isOpen())
+					{
+						db3.close();
+					}
+					if(!c.isClosed())
+					{
+						c.close();
+					}
+				}
+				if(db2.isOpen())
+				{
+					db2.close();
+				}
+				if(!cursor.isClosed())
+				{
+					cursor.close();
+				}
+				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
+						"Code," +
+						"FaktorUsersHeadCode," +
+						"Title," +
+						"Unit," +
+						"PricePerUnit," +
+						"Amount," +
+						"TotalPrice," +
+						"InsertDate) VALUES('" +
+						value[0] +
+						"','" + value[1] +
+						"','" + value[2] +
+						"','" + value[3] +
+						"','" + value[4] +
+						"','" + value[5] +
+						"','" + value[6] +
+						"','" + value[7] +
+						"')");
+			}
 		}
-		db.close();
+		if(db.isOpen()) {
+			db.close();
+		}
+	}
+	public boolean checkCode(String codeStr)
+	{
+		db=dbh.getReadableDatabase();
+		String query = "SELECT * FROM BsFaktorUserDetailes WHERE Code='"+codeStr+"'";
+		Cursor cursor= db.rawQuery(query,null);
+		if(cursor.getCount()>0)
+		{
+			db.close();
+			return true;
+		}
+		else
+		{
+			db.close();
+			return false;
+		}
+	}
+	public void runNotification(String title,int id,String OrderCode,Class<?> Cls)
+	{
+		NotificationClass notifi=new NotificationClass();
+		notifi.Notificationm(this.activity,title,"پیش فاکتور/فاکتور اعلام شده برای سرویس "+OrderCode,OrderCode,id,Cls);
 	}
 }

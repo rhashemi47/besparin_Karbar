@@ -8,11 +8,18 @@
     android:layoutDirection="rtl"
     tools:context=".Login">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="75dp">
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +56,9 @@
                 android:id="@+id/etPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/rounded_edittext_login"
                 android:ems="2"
                 android:hint="شماره موبایل خورد را وارد نمایید"
@@ -77,8 +86,8 @@
                 android:background="@drawable/rounded_button_signin"
                 android:drawableStart="@drawable/login"
 
-                android:paddingLeft="300dp"
-                android:paddingRight="300dp"
+                android:paddingLeft="120dp"
+                android:paddingRight="120dp"
                 android:text="@string/SignUpOrLogin"
                 android:textSize="20sp"
                 android:drawableLeft="@drawable/login" />
@@ -94,13 +103,13 @@
                 android:background="@drawable/rounded_button_login"
                 android:drawableStart="@drawable/signin"
                 android:gravity="center"
-                android:paddingLeft="300dp"
-                android:paddingRight="300dp"
+                android:paddingLeft="120dp"
+                android:paddingRight="120dp"
                 android:text="@string/LoginGuest"
                 android:textSize="20sp"
                 android:drawableLeft="@drawable/signin" />
 
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

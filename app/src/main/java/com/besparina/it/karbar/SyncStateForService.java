@@ -44,7 +44,7 @@ public class SyncStateForService {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetStateAndCity=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -54,7 +54,7 @@ public class SyncStateForService {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetStateAndCity=true;
 			throw sqle;
 		}
 	}
@@ -69,13 +69,13 @@ public class SyncStateForService {
 				task.execute();
 			}
 			catch (Exception e) {
-
+				PublicVariable.theard_GetStateAndCity=true;
 				e.printStackTrace();
 			}
 		}
 		else
 		{
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetStateAndCity=true;
 		}
 	}
 
@@ -98,6 +98,7 @@ public class SyncStateForService {
         		CallWsMethod("GetState");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_GetStateAndCity=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -107,6 +108,7 @@ public class SyncStateForService {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+				PublicVariable.theard_GetStateAndCity=true;
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
 	            	//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
@@ -130,7 +132,9 @@ public class SyncStateForService {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_GetStateAndCity=true;
+			}
         }
  
         @Override

@@ -55,7 +55,7 @@ public class SyncReadMessage {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_ReadMessage=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -65,7 +65,7 @@ public class SyncReadMessage {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_ReadMessage=true;
    			throw sqle;
    		}
    		
@@ -81,13 +81,13 @@ public class SyncReadMessage {
 				task.execute();
 			}	
 			 catch (Exception e) {
-				//akeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
+				 PublicVariable.theard_ReadMessage=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_ReadMessage=true;
 		}
 	}
 	
@@ -109,6 +109,7 @@ public class SyncReadMessage {
         		CallWsMethod("UpdateUserMessageIsRead");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_ReadMessage=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -152,7 +153,9 @@ public class SyncReadMessage {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_ReadMessage=true;
+			}
         }
  
         @Override

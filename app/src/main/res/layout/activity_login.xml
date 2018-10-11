@@ -7,11 +7,18 @@
     tools:context=".Login"
     android:orientation="vertical"
     android:layoutDirection="rtl">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="75dp">
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,7 +79,7 @@
                 android:textSize="20sp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
-                />
+                android:drawableLeft="@drawable/login" />
             <Button
                 android:id="@+id/btnEnter"
                 android:layout_width="match_parent"
@@ -87,9 +94,10 @@
                 android:paddingLeft="110dp"
                 android:paddingRight="110dp"
                 android:layout_gravity="center"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:drawableLeft="@drawable/signin" />
 
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

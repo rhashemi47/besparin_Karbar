@@ -47,7 +47,7 @@ public class SyncMessage {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_Message=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -57,7 +57,7 @@ public class SyncMessage {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_Message=true;
    			throw sqle;
    		}   		
 	}
@@ -72,13 +72,13 @@ public class SyncMessage {
 				task.execute();
 			}	
 			 catch (Exception e) {
-
+				 PublicVariable.theard_Message=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_Message=true;
 		}
 	}
 	
@@ -100,6 +100,7 @@ public class SyncMessage {
         		CallWsMethod("GetUserMessages");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_Message=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -138,7 +139,9 @@ public class SyncMessage {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_Message=true;
+			}
         }
  
         @Override

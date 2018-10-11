@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout2"
@@ -7,92 +7,93 @@
     android:background="@drawable/backgroundlogin"
     android:layoutDirection="rtl"
     tools:context=".Login">
-
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/LinerLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-            <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/gifImageView"
-                android:layout_width="100dp"
-                android:layout_height="150dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/etPhoneNumber"
+        android:layout_marginBottom="320dp"
+        android:layout_alignParentBottom="true">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:background="@drawable/rounded_edittext_login"
-                android:ems="2"
-                android:hint="شماره موبایل خورد را وارد نمایید"
-                android:inputType="phone"
-                android:layoutDirection="rtl"
-                android:padding="10dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-        </LinearLayout>
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/LinerLogo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/gifImageView"
+                        android:layout_width="100dp"
+                        android:layout_height="150dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/rounded_button_signin"
-                android:drawableStart="@drawable/login"
+                    <EditText
+                        android:id="@+id/etPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/rounded_edittext_login"
+                        android:ems="2"
+                        android:hint="شماره موبایل خورد را وارد نمایید"
+                        android:inputType="phone"
+                        android:layoutDirection="rtl"
+                        android:padding="10dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
-                android:text="@string/SignUpOrLogin"
-                android:textSize="20sp"
-                android:drawableLeft="@drawable/login" />
+                    <Button
+                        android:id="@+id/btnSignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/rounded_button_signin"
+                        android:drawableLeft="@drawable/login"
 
-            <Button
-                android:id="@+id/btnEnter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_button_login"
-                android:drawableStart="@drawable/signin"
-                android:gravity="center"
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
-                android:text="@string/LoginGuest"
-                android:textSize="20sp"
-                android:drawableLeft="@drawable/signin" />
+                        android:drawableStart="@drawable/login"
+                        android:paddingLeft="70dp"
+                        android:paddingRight="70dp"
+                        android:text="@string/SignUpOrLogin"
+                        android:textSize="20sp" />
 
-        </LinearLayout>
+                    <Button
+                        android:id="@+id/btnEnter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_button_login"
+                        android:drawableLeft="@drawable/signin"
+                        android:drawableStart="@drawable/signin"
+                        android:gravity="center"
+                        android:paddingLeft="70dp"
+                        android:paddingRight="70dp"
+                        android:text="@string/LoginGuest"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+            </LinearLayout>
     </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

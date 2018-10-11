@@ -44,7 +44,7 @@ public class SyncServicesForService {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetServicesAndServiceDetails=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -54,7 +54,7 @@ public class SyncServicesForService {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetServicesAndServiceDetails=true;
    			throw sqle;
    		}   		
 	}
@@ -69,13 +69,13 @@ public class SyncServicesForService {
 				task.execute();
 			}	
 			 catch (Exception e) {
-				//akeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
+				 PublicVariable.theard_GetServicesAndServiceDetails=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetServicesAndServiceDetails=true;
 		}
 	}
 	
@@ -98,6 +98,7 @@ public class SyncServicesForService {
         		CallWsMethod("GetServices");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_GetServicesAndServiceDetails=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -131,7 +132,9 @@ public class SyncServicesForService {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_GetServicesAndServiceDetails=true;
+			}
         }
  
         @Override
