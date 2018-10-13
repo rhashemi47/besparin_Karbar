@@ -120,6 +120,7 @@
                             android:layout_marginLeft="2dp"
                             android:layout_weight="1"
                             android:textSize="10sp"
+                            android:longClickable="false"
                             android:background="@drawable/rounded_edittext_2"
                             android:gravity="center"
                             android:textColor="#213494" />
@@ -132,6 +133,7 @@
                             android:layout_marginRight="2dp"
                             android:layout_weight="1"
                             android:textSize="10sp"
+                            android:longClickable="false"
                             android:background="@drawable/rounded_edittext_2"
                             android:gravity="center"
                             android:textColor="#213494" />
@@ -199,6 +201,7 @@
                             android:layout_marginLeft="2dp"
                             android:layout_weight="1"
                             android:textSize="10sp"
+                            android:longClickable="false"
                             android:background="@drawable/rounded_edittext_2"
                             android:gravity="center"
                             android:textColor="#000000" />
@@ -211,6 +214,7 @@
                             android:layout_marginRight="2dp"
                             android:layout_weight="1"
                             android:textSize="10sp"
+                            android:longClickable="false"
                             android:background="@drawable/rounded_edittext_2"
                             android:gravity="center"
                             android:textColor="#000000" />
