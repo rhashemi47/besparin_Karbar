@@ -1,17 +1,17 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/backgroundlogin"
-    android:layoutDirection="rtl"
-    tools:context=".Login">
-
+    tools:context=".Login"
+    android:orientation="vertical"
+    android:layoutDirection="rtl">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
         android:layout_marginBottom="75dp">
     <LinearLayout
@@ -86,8 +86,8 @@
                 android:background="@drawable/rounded_button_signin"
                 android:drawableStart="@drawable/login"
 
-                android:paddingLeft="120dp"
-                android:paddingRight="120dp"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
                 android:text="@string/SignUpOrLogin"
                 android:textSize="20sp"
                 android:drawableLeft="@drawable/login" />
@@ -103,8 +103,8 @@
                 android:background="@drawable/rounded_button_login"
                 android:drawableStart="@drawable/signin"
                 android:gravity="center"
-                android:paddingLeft="120dp"
-                android:paddingRight="120dp"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
                 android:text="@string/LoginGuest"
                 android:textSize="20sp"
                 android:drawableLeft="@drawable/signin" />
@@ -112,4 +112,4 @@
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
