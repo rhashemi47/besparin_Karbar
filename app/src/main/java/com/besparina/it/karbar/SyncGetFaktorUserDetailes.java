@@ -183,6 +183,9 @@ public class SyncGetFaktorUserDetailes {
 			value = res[i].split("##");
 			boolean check = checkCode(value[0]);
 			if (check) {
+				if(!db.isOpen()){
+					db=dbh.getWritableDatabase();
+				}
 				db.execSQL("DELETE FROM BsFaktorUserDetailes WHERE Code='" + value[0] + "'");
 				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
 						"Code," +
@@ -205,6 +208,9 @@ public class SyncGetFaktorUserDetailes {
 			}
 			else
 			{
+				if(!db2.isOpen()){
+					db2=dbh.getReadableDatabase();
+				}
 				Cursor cursor=db2.rawQuery("SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode='"+value[1]+"'",null);
 				if(cursor.getCount()==0)
 				{
@@ -225,13 +231,8 @@ public class SyncGetFaktorUserDetailes {
 						c.close();
 					}
 				}
-				if(db2.isOpen())
-				{
-					db2.close();
-				}
-				if(!cursor.isClosed())
-				{
-					cursor.close();
+				if(!db.isOpen()){
+					db=dbh.getWritableDatabase();
 				}
 				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
 						"Code," +
@@ -252,6 +253,12 @@ public class SyncGetFaktorUserDetailes {
 						"','" + value[7] +
 						"')");
 			}
+
+		}
+
+		if(db2.isOpen())
+		{
+			db2.close();
 		}
 		if(db.isOpen()) {
 			db.close();
