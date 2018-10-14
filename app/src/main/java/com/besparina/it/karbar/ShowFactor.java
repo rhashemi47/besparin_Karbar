@@ -270,6 +270,11 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				TypeFactor=0;
 				Question.setText("آیا فاکتور مورد تایید است؟");
 			}
+			if(cursor.getString(cursor.getColumnIndex("AcceptInvoiceByUsers")).compareTo("-1")!=0)
+			{
+				btnNoFactor.setVisibility(View.GONE);
+				btnYesFactor.setVisibility(View.GONE);
+			}
 			ContentStr += "تاریخ: " + cursor.getString(cursor.getColumnIndex("FaktorDate")) + "\n";
 			String query2="SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode="+cursor.getString(cursor.getColumnIndex("Code"));
 			Cursor cursor2 = db.rawQuery(query2,null);

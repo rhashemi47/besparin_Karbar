@@ -848,13 +848,13 @@ public class Service_Request_Edit extends AppCompatActivity {
 
 				if (ErrorStr.length() == 0) {
 					{
-						String SpStartTime[]=etFromTime.getText().toString().split(":");
+						String SpStartTime[]=PersianDigitConverter.EnglishNumber(etFromTime.getText().toString()).split(":");
 						StartHour=SpStartTime[0];
 						StartMinute=SpStartTime[1];
 						String FullStartTime = StartHour+StartMinute;
 						String FinalStartFullDate = strFrom+StartHour+StartMinute;
 						String FinalNowFullDate  = strNow + calNow.getTime().getHours()+calNow.getTime().getMinutes();
-						String SpEndTime[]=etToTime.getText().toString().split(":");
+						String SpEndTime[]=PersianDigitConverter.EnglishNumber(etToTime.getText().toString()).split(":");
 						EndHour=SpEndTime[0];
 						EndMinute=SpEndTime[1];
 						String FullEndTime = EndHour+EndMinute;
@@ -870,7 +870,9 @@ public class Service_Request_Edit extends AppCompatActivity {
 							}
 							if(Flag==false) {
 								SyncUpdateUserServices syncInsertUserServices = new SyncUpdateUserServices(Service_Request_Edit.this,
-										karbarCode, CodeOrderService,DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
+										karbarCode, CodeOrderService,DetailCode, PersianDigitConverter.EnglishNumber(MaleCount),
+										PersianDigitConverter.EnglishNumber(FemaleCount),
+										PersianDigitConverter.EnglishNumber(HamyarCount), StartYear, StartMonth,
 										StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
 										AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
 										FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);

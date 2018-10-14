@@ -1074,7 +1074,9 @@ public class Service_Request extends AppCompatActivity {
 							}
 							if(Flag==false) {
 								SyncInsertUserServices syncInsertUserServices = new SyncInsertUserServices(Service_Request.this,
-										karbarCode, DetailCode, MaleCount, FemaleCount, HamyarCount, StartYear, StartMonth,
+										karbarCode, DetailCode,PersianDigitConverter.EnglishNumber(MaleCount)
+										, PersianDigitConverter.EnglishNumber(FemaleCount)
+										, PersianDigitConverter.EnglishNumber(HamyarCount), StartYear, StartMonth,
 										StartDay, StartHour, StartMinute, EndYear, EndMonth, EndDay, EndHour, EndMinute,
 										AddressCode, Description, IsEmergency, PeriodicServices, EducationGrade,
 										FieldOfStudy, StudentGender, TeacherGender, EducationTitle, ArtField, CarWashType, CarType, Language);
