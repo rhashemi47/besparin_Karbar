@@ -221,8 +221,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnSaveLocation"
             android:text="@string/SaveLocation"
-            android:paddingLeft="150dp"
-            android:paddingRight="150dp"
+            android:paddingLeft="90dp"
+            android:paddingRight="90dp"
             android:background="@drawable/rounded_button_save_map"
             android:drawableRight="@drawable/save"
             android:layout_margin="10dp"/>

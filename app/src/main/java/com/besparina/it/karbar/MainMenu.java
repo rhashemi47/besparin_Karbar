@@ -902,7 +902,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if(grantResults.length>0) {
-            switch (requestCode) {
+               switch (requestCode) {
                 case REQUEST_CODE_ASK_PERMISSIONS:
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         // Permission Granted

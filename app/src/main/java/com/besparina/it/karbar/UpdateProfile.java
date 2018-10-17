@@ -238,7 +238,21 @@ public class UpdateProfile {
     {
 		db=dbh.getWritableDatabase();
 		db.execSQL("UPDATE Profile SET BthDate='"+Year+"/"+Month+"/"+Day+"'");
-		db.close();
 		Toast.makeText(this.activity, "ثبت شد", Toast.LENGTH_SHORT).show();
+		db=dbh.getReadableDatabase();
+		Cursor c = db.rawQuery("SELECT * FROM login", null);
+		if (c.getCount() > 0) {
+			c.moveToNext();
+			SyncProfile profile = new SyncProfile(activity, c.getString(c.getColumnIndex("karbarCode")), c.getString(c.getColumnIndex("AcceptCode")));
+			profile.AsyncExecute();
+		}
+		if(!c.isClosed())
+		{
+			c.close();
+		}
+		if(db.isOpen())
+		{
+			db.close();
+		}
     }
 }

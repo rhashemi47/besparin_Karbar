@@ -214,5 +214,7 @@
     <string name="SignUpOrLogin">ثبت نام / ورود</string>
     <string name="LoginGuest">ورود مهمان</string>
     <string name="RoleBesparina">قوانین بسپارینا</string>
+    <string name="default_notification_channel_id">Besparina02</string>
+    <string name="default_notification_channel_title">بسپارینا همیار</string>
 
 </resources>

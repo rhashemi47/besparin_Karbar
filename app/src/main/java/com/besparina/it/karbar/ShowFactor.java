@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +46,7 @@ public class ShowFactor extends AppCompatActivity {
 	private Button btncredite;	private Button btnServiceEmergency;
 	private int TypeFactor=0;
 	private String headFactor="0";
+	private LinearLayout LinearMainForm;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -58,6 +63,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
 		btncredite=(Button)findViewById(R.id.btncrediteBottom);
 		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+		LinearMainForm=(LinearLayout) findViewById(R.id.LinearMainForm);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -251,6 +257,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 	}
 	public void prepareData()
 	{
+//
 		String ContentStr="";
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 		db = dbh.getReadableDatabase();
@@ -276,10 +283,11 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				btnYesFactor.setVisibility(View.GONE);
 			}
 			ContentStr += "تاریخ: " + cursor.getString(cursor.getColumnIndex("FaktorDate")) + "\n";
-			String query2="SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode="+cursor.getString(cursor.getColumnIndex("Code"));
+			String query2="SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode='"+headFactor+"'";
 			Cursor cursor2 = db.rawQuery(query2,null);
 			DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
 			double Amount,PricePerUnit,TotalPrice;
+//			View[] view = new View[cursor2.getCount()];
 			for (int i = 0; i < cursor2.getCount(); i++) {
 				cursor2.moveToNext();
 				ContentStr += "شرح کالا/خدمات: " + cursor2.getString(cursor2.getColumnIndex("Title")) + "\n";
@@ -297,6 +305,12 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				{
 
 				}
+//				view[i]=new View(this);
+//				LinearLayout.LayoutParams lpView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1); // --> horizontal
+//				view[i].setLayoutParams(lpView);
+//				view[i].setId(i);
+//				view[i].setBackgroundColor(Color.DKGRAY);
+//				LinearMainForm.addView(view[i]);
 				ContentStr += "----------------" + "\n";
 				Total+=Double.parseDouble(cursor2.getString(cursor2.getColumnIndex("TotalPrice")));
 			}
@@ -322,25 +336,27 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 	}
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		switch (requestCode) {
-			case REQUEST_CODE_ASK_PERMISSIONS:
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// Permission Granted
-					db = dbh.getReadableDatabase();
-					Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
-					if (cursorPhone.getCount() > 0) {
-						cursorPhone.moveToNext();
-						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+		if (grantResults.length > 0) {
+			switch (requestCode) {
+				case REQUEST_CODE_ASK_PERMISSIONS:
+					if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+						// Permission Granted
+						db = dbh.getReadableDatabase();
+						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+						if (cursorPhone.getCount() > 0) {
+							cursorPhone.moveToNext();
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+						}
+						db.close();
+					} else {
+						// Permission Denied
+						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+								.show();
 					}
-					db.close();
-				} else {
-					// Permission Denied
-					Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
-							.show();
-				}
-				break;
-			default:
-				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+					break;
+				default:
+					super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+			}
 		}
 	}
 }

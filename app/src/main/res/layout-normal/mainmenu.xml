@@ -96,12 +96,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
             <GridView
                 android:id="@+id/GridViewServices"
                 android:layout_width="match_parent"
-                android:layout_height="310dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:numColumns="3">
             </GridView>
             <ListView
@@ -122,6 +123,7 @@
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
+            android:textSize="12sp"
             android:drawableTop="@drawable/jobs"
             android:layout_weight="1"/>
         <Button
@@ -131,6 +133,7 @@
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
+            android:textSize="12sp"
             android:drawableTop="@drawable/dutys"
             android:layout_weight="1"/>
         <Button
@@ -140,12 +143,14 @@
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
+            android:textSize="12sp"
             android:drawableTop="@drawable/credits"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnServiceEmergency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:textSize="12sp"
             android:text="@string/emergencyService"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#93050a"

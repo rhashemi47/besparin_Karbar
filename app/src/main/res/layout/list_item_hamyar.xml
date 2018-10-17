@@ -39,19 +39,19 @@
             android:text="@string/CallHamyar"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingRight="90dp"
-            android:paddingLeft="90dp"
+            android:paddingRight="60dp"
+            android:paddingLeft="60dp"
             android:drawableRight="@drawable/phone"
             android:background="@drawable/rounded_button_signin"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/btnLocationHamyar"
-            android:text="@string/LocationHamyar"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:background="@drawable/rounded_button_transparent"/>
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:id="@+id/btnLocationHamyar"-->
+            <!--android:text="@string/LocationHamyar"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:background="@drawable/rounded_button_transparent"/>-->
     </LinearLayout>
 </LinearLayout>

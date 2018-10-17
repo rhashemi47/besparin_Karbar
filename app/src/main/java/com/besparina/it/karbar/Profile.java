@@ -56,7 +56,7 @@ public class Profile extends Activity {
 	private Button btnAddAdres;
 	private Button btnEditAdres;
 	private String phonenumber;
-	private String ReagentCode="";
+	private String ReagentCode="0";
 	private TextView tvProfileRegentCode;
 	private TextView tvUserName;
 	private TextView tvUserFName;
@@ -71,7 +71,10 @@ public class Profile extends Activity {
 	private ImageView imgUser;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;	private Button btnServiceEmergency;
+	private Button btncredite;
+	private Button btnServiceEmergency;
+	private boolean CheckInputRegentCode=true;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -181,6 +184,17 @@ public class Profile extends Activity {
 
 			}
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+			try{
+				if (coursors.getString(coursors.getColumnIndex("ReagentName")).length() > 0) {
+					tvProfileRegentCode.setText(coursors.getString(coursors.getColumnIndex("ReagentName")));
+					tvProfileRegentCode.setEnabled(false);
+					CheckInputRegentCode=false;
+				}
+			}
+			catch (Exception e)
+			{
+
+			}
 		}
 
 		imgUser.setImageBitmap(bmp);
@@ -205,9 +219,17 @@ public class Profile extends Activity {
 				InternetConnection ic=new InternetConnection(getApplicationContext());
 				if(ic.isConnectingToInternet())
 				{
-					if(ReagentCode.length()>0 && ReagentCode.length()<=5)
+					if(CheckInputRegentCode)
 					{
-						Toast.makeText(getApplicationContext(), "کد معرف به درستی وارد نشده!", Toast.LENGTH_LONG).show();
+						ReagentCode=tvProfileRegentCode.getText().toString();
+						if(ReagentCode.length()>0 && ReagentCode.length()<=5)
+						{
+							Toast.makeText(getApplicationContext(), "کد معرف به درستی وارد نشده!", Toast.LENGTH_LONG).show();
+						}
+						else
+						{
+							insertKarbar();
+						}
 					}
 					else
 					{
@@ -471,34 +493,36 @@ public class Profile extends Activity {
 	}
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		switch (requestCode) {
-			case REQUEST_CODE_ASK_PERMISSIONS:
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// Permission Granted
-					db = dbh.getReadableDatabase();
-					Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
-					if (cursorPhone.getCount() > 0) {
-						cursorPhone.moveToNext();
-						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+		if (grantResults.length > 0) {
+			switch (requestCode) {
+				case REQUEST_CODE_ASK_PERMISSIONS:
+					if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+						// Permission Granted
+						db = dbh.getReadableDatabase();
+						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+						if (cursorPhone.getCount() > 0) {
+							cursorPhone.moveToNext();
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+						}
+						db.close();
+					} else {
+						// Permission Denied
+						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+								.show();
 					}
-					db.close();
-				} else {
-					// Permission Denied
-					Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
-							.show();
-				}
-				break;
-			case  REQUEST_IMAGE_CAPTURE:
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// Permission Granted
-					take_photo();
-				} else {
-					// Permission Denied
-					Toast.makeText(Profile.this, "جهت تغییر عکس پروفایل باید به برنامه اجازه دسترسی به دوربین را بدهید.", Toast.LENGTH_LONG)
-							.show();
-				}
-			default:
-				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+					break;
+				case REQUEST_IMAGE_CAPTURE:
+					if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+						// Permission Granted
+						take_photo();
+					} else {
+						// Permission Denied
+						Toast.makeText(Profile.this, "جهت تغییر عکس پروفایل باید به برنامه اجازه دسترسی به دوربین را بدهید.", Toast.LENGTH_LONG)
+								.show();
+					}
+				default:
+					super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+			}
 		}
 	}
 	public void take_photo()

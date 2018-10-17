@@ -1732,25 +1732,27 @@ public class Service_Request extends AppCompatActivity {
 	}
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		switch (requestCode) {
-			case REQUEST_CODE_ASK_PERMISSIONS:
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// Permission Granted
-					db = dbh.getReadableDatabase();
-					Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
-					if (cursorPhone.getCount() > 0) {
-						cursorPhone.moveToNext();
-						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+		if (grantResults.length > 0) {
+			switch (requestCode) {
+				case REQUEST_CODE_ASK_PERMISSIONS:
+					if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+						// Permission Granted
+						db = dbh.getReadableDatabase();
+						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+						if (cursorPhone.getCount() > 0) {
+							cursorPhone.moveToNext();
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+						}
+						db.close();
+					} else {
+						// Permission Denied
+						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+								.show();
 					}
-					db.close();
-				} else {
-					// Permission Denied
-					Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
-							.show();
-				}
-				break;
-			default:
-				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+					break;
+				default:
+					super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+			}
 		}
 	}
 	public void GetTime(final EditText editText, final String value_Hour, final String value_Min)

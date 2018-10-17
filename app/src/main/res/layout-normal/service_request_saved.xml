@@ -553,8 +553,8 @@
                     android:drawableRight="@drawable/factor"
                     android:background="@drawable/rounded_button_profile"
                     android:layout_marginTop="5dp"
-                    android:paddingLeft="110dp"
-                    android:paddingRight="110dp"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"/>
             </LinearLayout>
@@ -634,8 +634,8 @@
                     android:text="@string/Cansel"
                     android:drawableRight="@drawable/cansel"
                     android:background="@drawable/rounded_button_transparent"
-                    android:paddingLeft="130dp"
-                    android:paddingRight="130dp"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"/>
             </LinearLayout>

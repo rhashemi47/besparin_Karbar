@@ -70,8 +70,8 @@
                         android:drawableLeft="@drawable/login"
 
                         android:drawableStart="@drawable/login"
-                        android:paddingLeft="70dp"
-                        android:paddingRight="70dp"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
                         android:text="@string/SignUpOrLogin"
                         android:textSize="20sp" />
 
@@ -87,8 +87,8 @@
                         android:drawableLeft="@drawable/signin"
                         android:drawableStart="@drawable/signin"
                         android:gravity="center"
-                        android:paddingLeft="70dp"
-                        android:paddingRight="70dp"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
                         android:text="@string/LoginGuest"
                         android:textSize="20sp" />
 

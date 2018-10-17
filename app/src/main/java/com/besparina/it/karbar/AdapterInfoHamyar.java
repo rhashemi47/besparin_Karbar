@@ -73,10 +73,10 @@ public class AdapterInfoHamyar extends BaseAdapter {
             holder.imgHamyar = (ImageView)convertView.findViewById(R.id.imgHamyar);
             holder.btnMobileHamyar=(Button)convertView.findViewById(R.id.btnMobileHamyar);
             holder.btnMobileHamyar.setTypeface(faceh);
-            holder.btnMobileHamyar.setTextSize(18);
+//            holder.btnMobileHamyar.setTextSize(18);
             holder.txtValues = (TextView) convertView.findViewById(R.id.txtContentHamyar);
             holder.txtValues.setTypeface(faceh);
-            holder.txtValues.setTextSize(18);
+//            holder.txtValues.setTextSize(18);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

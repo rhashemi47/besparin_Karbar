@@ -659,7 +659,7 @@ public class Map extends AppCompatActivity {
                 }
                 db.close();
                 map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 17));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 
 
                 map.getUiSettings().setZoomControlsEnabled(true);

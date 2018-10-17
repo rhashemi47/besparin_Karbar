@@ -216,13 +216,17 @@ public class SyncProfile {
 					"Name," +
 					"Fam," +
 					"karbarCodeForReagent," +
-					"Status )" +
+					"Status," +
+					"ReagentName," +
+					"BthDate )" +
 					"VALUES" +
 					"('"+value[0]+
 					"','"+value[1]+
 					"','"+value[2]+
 					"','"+value[3]+
 					"','"+value[4]+
+					"','"+" معرف "+value[5]+
+					"','"+value[6].replace("@@","")+
 					"')";
 			db.execSQL(query);
 		db.close();
