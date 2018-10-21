@@ -182,7 +182,7 @@
     <string name="SaveChange">ثبت تغییرات</string>
     <string name="nameLocation">نام محل</string>
     <string name="LocationHamyar">موقعیت همیار</string>
-    <string name="CaseForCansel">به چه دلیل می خواهید سرویس را لغو کنید:</string>
+    <string name="CaseForCansel">دلیل لغو سرویس:</string>
     <string name="Do_not_go_all_the_way">کار نیمه تمام تحویل داده شده</string>
     <string name="Refused_hamyar">همیار در محل حاضر نشد</string>
     <string name="disagreement_Hamyar">با همیار به تفاهم نرسیدیم</string>

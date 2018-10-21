@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:id="@+id/LinerQustionCansel">
         <TextView
             android:id="@+id/tvTextCanselQuastion"
@@ -24,55 +23,89 @@
             android:text="@string/CaseForCansel"
             android:lineSpacingExtra="4dp"
             android:textSize="18sp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LinerQustionCansel"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Do_not_go_all_the_way"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Refused_hamyar"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disagreement_Hamyar"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/The_cost_of_service_is_high"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LinerQustionCansel"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_layout_text_message"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <CheckBox
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Do_not_go_all_the_way"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Refused_hamyar"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/disagreement_Hamyar"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/The_cost_of_service_is_high"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Other_reasons"/>
-                <EditText
-                    android:id="@+id/etCansel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/rounded_edittext2"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top|right"
-                    android:textAlignment="gravity"
-                    android:textSize="18sp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    tools:ignore="RtlHardcoded"
-                    android:textColor="#000000" />
-            </LinearLayout>
+                android:text="@string/Other_reasons"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="50dp">
+            <EditText
+                android:id="@+id/etCansel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/rounded_edittext2"
+                android:inputType="text|textMultiLine"
+                android:gravity="top|right"
+                android:textAlignment="gravity"
+                android:textSize="18sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="10dp"
+                tools:ignore="RtlHardcoded"
+                android:textColor="#000000" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_textview_cansel">
+            <TextView
+                android:id="@+id/btnAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:paddingRight="30dp"
+                android:text="@string/Accept"
+                android:textColor="#000000"
+                android:background="@drawable/rounded_textview_cansel"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/btnCansel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:paddingLeft="30dp"
+                android:text="@string/Cansel"
+                android:textColor="#000000"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
