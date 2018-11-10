@@ -256,7 +256,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	imgTelegram.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			openWebPage("https://telegram.me/besparina");
+			openWebPage("https://telegram.me/besparina_co");
 		}
 	});
 	imgWathsUp.setOnClickListener(new View.OnClickListener() {

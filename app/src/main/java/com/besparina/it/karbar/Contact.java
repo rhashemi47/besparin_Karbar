@@ -193,7 +193,7 @@ public class Contact extends Activity {
 				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
-					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
 				}
 				db.close();
 			}
@@ -261,7 +261,7 @@ public class Contact extends Activity {
 						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 						if (cursorPhone.getCount() > 0) {
 							cursorPhone.moveToNext();
-							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
 						}
 						db.close();
 					} else {
@@ -278,8 +278,7 @@ public class Contact extends Activity {
 						if (cursorPhone.getCount() > 0) {
 							cursorPhone.moveToNext();
 							String MessageStr = "کد کاربر: " + karbarCode + "\n" + etSendMessage.getText().toString();
-							SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
-//						SendMessage(MessageStr,"09155210697");
+							SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
 						}
 						db.close();
 					} else {

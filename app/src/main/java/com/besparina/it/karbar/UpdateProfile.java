@@ -30,18 +30,20 @@ public class UpdateProfile {
 	private String Month;
 	private String Year;
 	private String Day;
+	private String Email;
 	private String WsResponse;
 	private String ReagentCode;
 	private boolean CuShowDialog=true;
 	private String[] res;
 	//Contractor
-	public UpdateProfile(Activity activity, String UserCode, String Year, String Month, String Day, String ReagentCode) {
+	public UpdateProfile(Activity activity, String UserCode, String Year, String Month, String Day, String ReagentCode, String Email) {
 		this.activity = activity;
 		this.UserCode=UserCode;
 		this.Year=Year;
 		this.Month=Month;
 		this.ReagentCode=ReagentCode;
 		this.Day=Day;
+		this.Email=Email;
 
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();

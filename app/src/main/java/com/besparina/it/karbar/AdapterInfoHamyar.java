@@ -57,7 +57,7 @@ public class AdapterInfoHamyar extends BaseAdapter {
     private class ViewHolder {
         TextView txtValues;
         ImageView imgHamyar;
-        Button btnMobileHamyar;
+//        Button btnMobileHamyar;
     }
 
     // @Override
@@ -71,8 +71,8 @@ public class AdapterInfoHamyar extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_item_hamyar, null);
             holder = new ViewHolder();
             holder.imgHamyar = (ImageView)convertView.findViewById(R.id.imgHamyar);
-            holder.btnMobileHamyar=(Button)convertView.findViewById(R.id.btnMobileHamyar);
-            holder.btnMobileHamyar.setTypeface(faceh);
+//            holder.btnMobileHamyar=(Button)convertView.findViewById(R.id.btnMobileHamyar);
+//            holder.btnMobileHamyar.setTypeface(faceh);
 //            holder.btnMobileHamyar.setTextSize(18);
             holder.txtValues = (TextView) convertView.findViewById(R.id.txtContentHamyar);
             holder.txtValues.setTypeface(faceh);
@@ -83,7 +83,7 @@ public class AdapterInfoHamyar extends BaseAdapter {
         }
         String Content = map.get("Content");
         String imgHamyar = map.get("imgHamyar");
-        String Mobile = map.get("Mobile");
+//        String Mobile = map.get("Mobile");
         String Visit = map.get("Visit");
         if(Visit.compareTo("")!=0)
         {
@@ -101,8 +101,8 @@ public class AdapterInfoHamyar extends BaseAdapter {
         {
             holder.imgHamyar.setImageBitmap(convertToBitmap(imgHamyar));
         }
-        holder.btnMobileHamyar.setTag(Mobile);
-        holder.btnMobileHamyar.setOnClickListener(ButtonItemOnClick);
+//        holder.btnMobileHamyar.setTag(Mobile);
+//        holder.btnMobileHamyar.setOnClickListener(ButtonItemOnClick);
         return convertView;
     }
     public Bitmap convertToBitmap(String base){

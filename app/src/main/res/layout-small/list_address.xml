@@ -50,46 +50,8 @@
         android:background="#fff">
     </ListView>
     </LinearLayout>
-    <LinearLayout
+    <include layout="@layout/bottom_button"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="10sp"
-            android:id="@+id/btnOrderBottom"
-            android:background="@drawable/rounded_button_bottom"
-            android:textColor="#052d93"
-            android:drawableTop="@drawable/jobs_small"
-            android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnAcceptOrderBottom"
-            android:background="@drawable/rounded_button_bottom"
-            android:textColor="#052d93"
-            android:textSize="10sp"
-            android:drawableTop="@drawable/dutys_small"
-            android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btncrediteBottom"
-            android:background="@drawable/rounded_button_bottom"
-            android:textColor="#052d93"
-            android:textSize="10sp"
-            android:drawableTop="@drawable/credits_small"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/btnServiceEmergency"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="10sp"
-            android:background="@drawable/rounded_button_bottom"
-            android:textColor="#93050a"
-            android:drawableTop="@drawable/emergency_small"
-            android:layout_weight="1">
-        </Button>
-    </LinearLayout>
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -64,6 +64,7 @@ public class Profile extends Activity {
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private EditText brithday;
+	private EditText etEmail;
 	private String yearStr="";
 	private String monStr="";
 	private String dayStr="";
@@ -88,6 +89,7 @@ public class Profile extends Activity {
 		btncredite=(Button)findViewById(R.id.btncrediteBottom);            btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
 		imgUser=(ImageView)findViewById(R.id.imgUser);
 		brithday=(EditText)findViewById(R.id.etBrithday);
+		etEmail=(EditText)findViewById(R.id.etEmail);
 		tvProfileRegentCode=(TextView)findViewById(R.id.etReagentCodeProfile);
 		tvPhoneNumber=(TextView) findViewById(R.id.tvNumberPhone);
 		tvUserName=(TextView) findViewById(R.id.tvUserName);
@@ -153,6 +155,8 @@ public class Profile extends Activity {
 		tvUserFName.setTextSize(18);
 		brithday.setTypeface(FontMitra);
 		brithday.setTextSize(18);
+		etEmail.setTypeface(FontMitra);
+		etEmail.setTextSize(18);
 		tvPhoneNumber.setTypeface(FontMitra);
 		tvPhoneNumber.setTextSize(18);
 		tvProfileRegentCode.setTypeface(FontMitra);
@@ -420,7 +424,13 @@ public class Profile extends Activity {
 			}
 		if(errorStr.compareTo("")==0)
 		{
-			UpdateProfile updateProfile = new UpdateProfile(Profile.this, karbarCode, yearStr, monStr, dayStr,ReagentCode);
+			UpdateProfile updateProfile = new UpdateProfile(Profile.this,
+					karbarCode,
+					yearStr,
+					monStr,
+					dayStr,
+					ReagentCode,
+					etEmail.getText().toString());
 			updateProfile.AsyncExecute();
 			db=dbh.getReadableDatabase();
 			Cursor cursor=db.rawQuery("SELECT * FROM TempPic",null);

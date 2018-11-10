@@ -569,7 +569,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 			if (cursorPhone.getCount() > 0) {
 				cursorPhone.moveToNext();
-				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
 			}
 			db.close();
 		}
@@ -1051,7 +1051,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					getHamyar.moveToNext();
 					map.put("imgHamyar", getHamyar.getString(getHamyar.getColumnIndex("img")));
 					map.put("Content", getHamyar.getString(getHamyar.getColumnIndex("Fname")) + " " +
-							getHamyar.getString(getHamyar.getColumnIndex("Lname")));
+							getHamyar.getString(getHamyar.getColumnIndex("Lname"))+ " - "+infoCursor.getString(infoCursor.getColumnIndex("CodeHamyarInfo")));
 					map.put("Mobile", getHamyar.getString(getHamyar.getColumnIndex("Mobile")));
 					if(cursorVisit.getCount()>0)
 					{

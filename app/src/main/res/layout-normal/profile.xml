@@ -155,6 +155,30 @@
                 android:padding="5dp"
                 android:drawableRight="@drawable/calendar2"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+            <!--<TextView-->
+                <!--android:id="@+id/TextViewAge"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/brithday"-->
+                <!--android:textColor="#000000"/>-->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/rounded_edittext_2"
+                android:hint="@string/Email"
+                android:textColor="#000000"
+                android:padding="5dp"
+                android:drawableRight="@drawable/email"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -30,19 +30,19 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layoutDirection="ltr">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/btnMobileHamyar"
-            android:text="@string/CallHamyar"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingRight="60dp"
-            android:paddingLeft="60dp"
-            android:drawableRight="@drawable/phone"
-            android:background="@drawable/rounded_button_signin"/>
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:id="@+id/btnMobileHamyar"-->
+            <!--android:text="@string/CallHamyar"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingRight="60dp"-->
+            <!--android:paddingLeft="60dp"-->
+            <!--android:drawableRight="@drawable/phone"-->
+            <!--android:background="@drawable/rounded_button_signin"/>-->
         <!--<Button-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->

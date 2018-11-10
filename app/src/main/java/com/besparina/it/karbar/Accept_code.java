@@ -70,8 +70,7 @@ public class Accept_code extends Activity {
 				{
 					//do nothing
 				}
-				else
-				{
+				else{
 					ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.READ_SMS},GET_MY_PERMISSION);
 				}
 			}
