@@ -218,7 +218,8 @@ public class SyncProfile {
 					"karbarCodeForReagent," +
 					"Status," +
 					"ReagentName," +
-					"BthDate )" +
+					"BthDate," +
+					"Email )" +
 					"VALUES" +
 					"('"+value[0]+
 					"','"+value[1]+
@@ -227,6 +228,7 @@ public class SyncProfile {
 					"','"+value[4]+
 					"','"+" معرف "+value[5]+
 					"','"+value[6].replace("@@","")+
+					"','"+value[7].replace("@@","")+
 					"')";
 			db.execSQL(query);
 		db.close();

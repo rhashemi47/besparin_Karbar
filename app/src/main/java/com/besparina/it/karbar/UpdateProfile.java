@@ -212,6 +212,16 @@ public class UpdateProfile {
 		ReagentCodePI.setType(String.class);
 	    //Add the property to request object
 	    request.addProperty(ReagentCodePI);
+	    //*********
+	    PropertyInfo EmailPI = new PropertyInfo();
+	    //Set Name
+		EmailPI.setName("Email");
+	    //Set Value
+		EmailPI.setValue(this.Email);
+	    //Set dataType
+		EmailPI.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(EmailPI);
 	    
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -239,7 +249,7 @@ public class UpdateProfile {
 	public void InsertDataFromWsToDb()
     {
 		db=dbh.getWritableDatabase();
-		db.execSQL("UPDATE Profile SET BthDate='"+Year+"/"+Month+"/"+Day+"'");
+		db.execSQL("UPDATE Profile SET BthDate='"+Year+"/"+Month+"/"+Day+"' , Email='"+this.Email+"'");
 		Toast.makeText(this.activity, "ثبت شد", Toast.LENGTH_SHORT).show();
 		db=dbh.getReadableDatabase();
 		Cursor c = db.rawQuery("SELECT * FROM login", null);
