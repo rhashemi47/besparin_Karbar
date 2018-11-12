@@ -38,7 +38,7 @@ public class SyncGetUserServiceStartDate {
 
 		dbh = new DatabaseHelper(this.activity.getApplicationContext());
 		try {
-
+			dbh.close();
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
