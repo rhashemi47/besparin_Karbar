@@ -749,7 +749,7 @@ public class MainMenu extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         Intent urlCall = new Intent(Intent.ACTION_VIEW);
-                                        urlCall.setData(Uri.parse(PublicVariable.site));
+                                        urlCall.setData(Uri.parse("http://besparina.ir/?page_id=164"));
                                         startActivity(urlCall);
                                         dialog.dismiss();
                                     }
@@ -758,7 +758,7 @@ public class MainMenu extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         Intent urlCall = new Intent(Intent.ACTION_VIEW);
-                                        urlCall.setData(Uri.parse(PublicVariable.site));
+                                        urlCall.setData(Uri.parse("http://besparina.ir/?page_id=174"));
                                         startActivity(urlCall);
                                         dialog.dismiss();
                                     }
@@ -767,7 +767,7 @@ public class MainMenu extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         Intent urlCall = new Intent(Intent.ACTION_VIEW);
-                                        urlCall.setData(Uri.parse(PublicVariable.site));
+                                        urlCall.setData(Uri.parse("http://besparina.ir/?page_id=186"));
                                         startActivity(urlCall);
                                         dialog.dismiss();
                                     }
@@ -775,27 +775,22 @@ public class MainMenu extends AppCompatActivity {
                                 dialog.show();
                                 break;
                             case 8:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login", null);
-                                if (c.getCount() > 0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(About.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                }
-                                db.close();
-                                break;
-//                            case 10:
-//
 //                                db = dbh.getReadableDatabase();
 //                                c = db.rawQuery("SELECT * FROM login", null);
 //                                if (c.getCount() > 0) {
 //                                    c.moveToNext();
 //
-//                                    LoadActivity(Help.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
+//                                    LoadActivity(About.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
 //                                }
-//                                break;
+//                                db.close();
+                                Intent urlCall1 = new Intent(Intent.ACTION_VIEW);
+                                urlCall1.setData(Uri.parse("http://besparina.ir/?page_id=199"));
+                                startActivity(urlCall1);
+                                break;
                             case 9:
-//                                //todo HELP
+                                Intent urlCall2 = new Intent(Intent.ACTION_VIEW);
+                                urlCall2.setData(Uri.parse("http://besparina.ir/?page_id=399&preview=true"));
+                                startActivity(urlCall2);
                                 break;
                             case 10:
 //                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();

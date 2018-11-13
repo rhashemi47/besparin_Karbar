@@ -35,18 +35,26 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/chb1"
+            android:textSize="18sp"
             android:text="@string/Do_not_go_all_the_way"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/chb2"
+            android:textSize="18sp"
             android:text="@string/Refused_hamyar"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/chb3"
+            android:textSize="18sp"
             android:text="@string/disagreement_Hamyar"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/chb4"
+            android:textSize="18sp"
             android:text="@string/The_cost_of_service_is_high"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,12 +63,15 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/chb5"
+                android:textSize="18sp"
                 android:text="@string/Other_reasons"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:layout_marginBottom="50dp">
             <EditText
                 android:id="@+id/etCansel"

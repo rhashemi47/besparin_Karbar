@@ -417,39 +417,60 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnCansel.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			LayoutInflater li = LayoutInflater.from(Service_Request_Saved.this);
-			View promptsView = li.inflate(R.layout.cansel, null);
-			AlertDialog.Builder alertbox = new AlertDialog.Builder(Service_Request_Saved.this);
-			//set view
-			alertbox.setView(promptsView);
-			final EditText descriptionCansel = (EditText) promptsView.findViewById(R.id.etCansel);
-			alertbox
-					.setCancelable(true)
-					.setPositiveButton("بله",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,int id) {
-									// get user input and set it to result
-									// edit text
-
-									SyncCanselServices syncCanselServices=new SyncCanselServices(Service_Request_Saved.this,
-											karbarCode,
-											OrderCode,
-											descriptionCansel.getText().toString());
-									syncCanselServices.AsyncExecute();
-								}
-							})
-					.setNegativeButton("خیر",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,int id) {
-									dialog.cancel();
-								}
-							});
-
-			// create alert dialog
-			AlertDialog alertDialog = alertbox.create();
-
-			// show it
-			alertDialog.show();
+//			LayoutInflater li = LayoutInflater.from(Service_Request_Saved.this);
+//			View promptsView = li.inflate(R.layout.cansel, null);
+//
+//			final AlertDialog.Builder alertbox = new AlertDialog.Builder(Service_Request_Saved.this);
+//			//set view
+//			alertbox.setView(promptsView);
+//			final EditText descriptionCansel = (EditText) promptsView.findViewById(R.id.etCansel);
+//			 Button btnAccept  = (Button) promptsView.findViewById(R.id.btnAccept);
+//			 Button btnCansel  = (Button) promptsView.findViewById(R.id.btnCansel);
+//			alertbox.setCancelable(true);
+//
+////					.setPositiveButton("بله",
+////							new DialogInterface.OnClickListener() {
+////								public void onClick(DialogInterface dialog,int id) {
+////									// get user input and set it to result
+////									// edit text
+////
+////									SyncCanselServices syncCanselServices=new SyncCanselServices(Service_Request_Saved.this,
+////											karbarCode,
+////											OrderCode,
+////											descriptionCansel.getText().toString());
+////									syncCanselServices.AsyncExecute();
+////								}
+////							})
+////					.setNegativeButton("خیر",
+////							new DialogInterface.OnClickListener() {
+////								public void onClick(DialogInterface dialog,int id) {
+////									dialog.cancel();
+////								}
+////							});
+//
+//			// create alert dialog
+//			final AlertDialog alertDialog = alertbox.create();
+//
+//			// show it
+//			btnAccept.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View view) {
+//					SyncCanselServices syncCanselServices=new SyncCanselServices(Service_Request_Saved.this,
+//							karbarCode,
+//							OrderCode,
+//							descriptionCansel.getText().toString());
+//					syncCanselServices.AsyncExecute();
+//				}
+//			});
+//			btnCansel.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View view) {
+//					alertDialog.dismiss();
+//				}
+//			});
+//			alertDialog.show();
+			Alert_Cansel alert_cansel=new Alert_Cansel(Service_Request_Saved.this,karbarCode,OrderCode);
+			alert_cansel.show();
 		}
 	});
 	//**************************************************************************
