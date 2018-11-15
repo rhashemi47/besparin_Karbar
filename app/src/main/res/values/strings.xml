@@ -216,5 +216,13 @@
     <string name="RoleBesparina">قوانین بسپارینا</string>
     <string name="default_notification_channel_id">Besparina02</string>
     <string name="default_notification_channel_title">بسپارینا همیار</string>
+    <string name="OrderCode">شماره درخواست:</string>
+    <string name="OrderDate">تاریخ:</string>
+    <string name="DescriptionOfGoodsORservices">شرح کالا/خدمات:</string>
+    <string name="ValueOrUnit">مقدار/واحد/فی:</string>
+    <string name="Sum">جمع:</string>
+    <string name="TotalAll">جمع کل:</string>
+    <string name="CatchNaghd">پرداخت نقدی</string>
+    <string name="CatchSharj">پرداخت از شارژ</string>
 
 </resources>

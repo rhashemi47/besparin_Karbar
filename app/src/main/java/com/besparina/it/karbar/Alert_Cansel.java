@@ -77,7 +77,7 @@ public class Alert_Cansel extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        boolean NoError=true;
         switch (v.getId()) {
             case R.id.btnAccept:
                 String description="";
@@ -133,11 +133,12 @@ public class Alert_Cansel extends Dialog implements View.OnClickListener {
                     }
                     else
                     {
+                        NoError=false;
                         Toast.makeText(this.activity,"فیلد توضیحات خالی است",Toast.LENGTH_LONG).show();
                     }
 
                 }
-                if(description.length()>0) {
+                if(description.length()>0 && NoError) {
                     SyncCanselServices syncCanselServices = new SyncCanselServices(this.activity,
                             karbarCode,
                             OrderCode,

@@ -21,12 +21,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.ToLongBiFunction;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -39,14 +42,24 @@ public class ShowFactor extends AppCompatActivity {
 	private Button btnYesFactor;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-	private TextView ContentShowFactor;
 	private TextView Question;
+	private TextView tvTotal;
 	private Button btnOrder;
 	private Button btnAcceptOrder;
-	private Button btncredite;	private Button btnServiceEmergency;
+	private Button btncredite;
+	private Button btnServiceEmergency;
 	private int TypeFactor=0;
 	private String headFactor="0";
-	private LinearLayout LinearMainForm;
+	private ListView lstFactor;
+	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
+	private TextView tvDescription;
+	private TextView tvOrderDate;
+	private TextView tvOrderCode;
+	private Button btnCatchNaghd;
+	private Button btnCatchSharj;
+
+	private double Total=0;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -55,15 +68,20 @@ public class ShowFactor extends AppCompatActivity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.show_factor);
-	ContentShowFactor=(TextView)findViewById(R.id.ContentShowFactor);
-		Question=(TextView)findViewById(R.id.Question);
+	Question=(TextView)findViewById(R.id.Question);
+	tvTotal=(TextView)findViewById(R.id.tvTotal);
+	tvDescription=(TextView)findViewById(R.id.tvDescription);
+		tvOrderDate=(TextView)findViewById(R.id.tvOrderDate);
+		tvOrderCode=(TextView)findViewById(R.id.tvOrderCode);
 	btnNoFactor=(Button)findViewById(R.id.btnNoFactor);
 	btnYesFactor=(Button)findViewById(R.id.btnYesFactor);
-		btnOrder=(Button)findViewById(R.id.btnOrderBottom);
-		btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
-		btncredite=(Button)findViewById(R.id.btncrediteBottom);
-		btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
-		LinearMainForm=(LinearLayout) findViewById(R.id.LinearMainForm);
+	btnOrder=(Button)findViewById(R.id.btnOrderBottom);
+	btnAcceptOrder=(Button)findViewById(R.id.btnAcceptOrderBottom);
+	btncredite=(Button)findViewById(R.id.btncrediteBottom);
+	btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+		btnCatchNaghd=(Button)findViewById(R.id.btnCatchNaghd);
+		btnCatchSharj=(Button)findViewById(R.id.btnCatchSharj);
+	lstFactor=(ListView) findViewById(R.id.lstFactor);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -230,6 +248,22 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		}
 	});
+	//**************************************************************************
+		btnCatchNaghd.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			SyncServicePayment syncServicePayment=new SyncServicePayment(ShowFactor.this,karbarCode,OrderCode,String.valueOf(Total));
+			syncServicePayment.AsyncExecute();
+		}
+	});
+	//**************************************************************************
+		btnCatchSharj.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			SyncServicePayment syncServicePayment=new SyncServicePayment(ShowFactor.this,karbarCode,OrderCode,String.valueOf(Total));
+			syncServicePayment.AsyncExecute();
+		}
+	});
 }
 @Override
 public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -258,31 +292,32 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 	public void prepareData()
 	{
 //
-		String ContentStr="";
+//		String ContentStr="";
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 		db = dbh.getReadableDatabase();
 		String query="SELECT * FROM BsFaktorUsersHead WHERE Status='1' AND UserServiceCode="+OrderCode +" ORDER BY CAST(Code AS INTEGER) DESC";
 		Cursor cursor = db.rawQuery(query,null);
 		if(cursor.getCount()>0) {
-			double Total=0;
 			cursor.moveToNext();
 			headFactor=cursor.getString(cursor.getColumnIndex("Code"));
-			ContentStr += "شماره درخواست: " + OrderCode + "\n";
+//			ContentStr += "شماره درخواست: " + OrderCode + "\n";
 			if (cursor.getString(cursor.getColumnIndex("Type")).compareTo("1") == 0) {
-				ContentStr += "وضعیت: "+"پیش فاکتور" + "\n";
+//				ContentStr += "وضعیت: "+"پیش فاکتور" + "\n";
 				TypeFactor=1;
 				Question.setText("آیا پیش فاکتور مورد تایید است؟");
 			} else {
-				ContentStr += "وضعیت: "+"فاکتور نهایی" + "\n";
+//				ContentStr += "وضعیت: "+"فاکتور نهایی" + "\n";
 				TypeFactor=0;
 				Question.setText("آیا فاکتور مورد تایید است؟");
 			}
 			if(cursor.getString(cursor.getColumnIndex("AcceptInvoiceByUsers")).compareTo("-1")!=0)
 			{
-				btnNoFactor.setVisibility(View.GONE);
+				btnCatchSharj.setVisibility(View.VISIBLE);
+				btnCatchNaghd.setVisibility(View.VISIBLE);
 				btnYesFactor.setVisibility(View.GONE);
 			}
-			ContentStr += "تاریخ: " + cursor.getString(cursor.getColumnIndex("FaktorDate")) + "\n";
+			tvOrderDate.setText(cursor.getString(cursor.getColumnIndex("FaktorDate")));
+			tvOrderCode.setText(OrderCode);
 			String query2="SELECT * FROM BsFaktorUserDetailes WHERE FaktorUsersHeadCode='"+headFactor+"'";
 			Cursor cursor2 = db.rawQuery(query2,null);
 			DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
@@ -290,38 +325,29 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 //			View[] view = new View[cursor2.getCount()];
 			for (int i = 0; i < cursor2.getCount(); i++) {
 				cursor2.moveToNext();
-				ContentStr += "شرح کالا/خدمات: " + cursor2.getString(cursor2.getColumnIndex("Title")) + "\n";
-				ContentStr += "واحد: " + cursor2.getString(cursor2.getColumnIndex("Unit")) + "\n";
 				try
 				{
 					Amount = df.parse(cursor2.getString(cursor2.getColumnIndex("Amount")).toString().replace(".00","")).longValue();
-					ContentStr += "مقدار: " + df.format(Amount) + "\n";
 					PricePerUnit = df.parse(cursor2.getString(cursor2.getColumnIndex("PricePerUnit")).toString().replace(".00","")).longValue();
-					ContentStr += "قیمت هر واحد: " + df.format(PricePerUnit) + "\n";
 					TotalPrice = df.parse(cursor2.getString(cursor2.getColumnIndex("TotalPrice")).toString().replace(".00","")).longValue();
-					ContentStr += "جمع: " + df.format(TotalPrice) + "\n";
+					HashMap<String, String> map = new HashMap<String, String>();
+					map.put("services",cursor2.getString(cursor2.getColumnIndex("Title")));
+					map.put("ValueOrUnit",df.format(Amount)+"\\"+cursor2.getString(cursor2.getColumnIndex("Unit"))+"\\"+df.format(PricePerUnit));
+					map.put("Sum",df.format(TotalPrice));
+					valuse.add(map);
 				}
 				catch (Exception ex)
 				{
 
 				}
-//				view[i]=new View(this);
-//				LinearLayout.LayoutParams lpView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1); // --> horizontal
-//				view[i].setLayoutParams(lpView);
-//				view[i].setId(i);
-//				view[i].setBackgroundColor(Color.DKGRAY);
-//				LinearMainForm.addView(view[i]);
-				ContentStr += "----------------" + "\n";
 				Total+=Double.parseDouble(cursor2.getString(cursor2.getColumnIndex("TotalPrice")));
 			}
+			AdapterFactor adapterFactor=new AdapterFactor(ShowFactor.this,valuse,karbarCode);
+			lstFactor.setAdapter(adapterFactor);
 
-			ContentStr += "توضیحات: " + cursor.getString(cursor.getColumnIndex("Description")) + "\n";
-
-			ContentStr += "جمع کل فاکتور: " + df.format(Total) + "\n";
+			tvTotal.setText((PersianDigitConverter.PerisanNumber(df.format(Total))));
+			tvDescription.setText(cursor.getString(cursor.getColumnIndex("Description")));
 			db.close();
-			ContentShowFactor.setTypeface(FontMitra);
-
-			ContentShowFactor.setText((PersianDigitConverter.PerisanNumber(ContentStr)));
 		}
 	}
 	public void dialContactPhone(String phoneNumber) {

@@ -26,13 +26,13 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/showfactor"
             app:titleTextColor="@color/md_black_1000"
-            app:titleTextAppearance="@style/TextAppearance.Small"
+            app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
             android:gravity="right">
             <ImageView
                 android:id="@+id/BesparinaLogo"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/logo_toolbar"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
@@ -40,119 +40,229 @@
                 tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-
-    <ScrollView
-        android:id="@+id/ScrollLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@+id/appbar"
-        android:verticalScrollbarPosition="right"
-        android:layout_marginBottom="25dp">
+        android:id="@+id/LinearHead"
+        android:background="#2f8733">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp"
+                android:text="@string/OrderCode"/>
+            <TextView
+                android:id="@+id/tvOrderCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:lineSpacingExtra="4dp"
+                android:textSize="16sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp"
+                android:text="@string/OrderDate"/>
+            <TextView
+                android:id="@+id/tvOrderDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:lineSpacingExtra="4dp"
+                android:textSize="16sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LinearHead"
+        android:layout_marginBottom="190dp"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:id="@+id/LinearMainForm">
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_layout_text_message"
-                android:orientation="vertical"
-                android:id="@+id/LinearMainForm">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/LinearAddres">
-                    <TextView
-                        android:id="@+id/ContentShowFactor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:lineSpacingExtra="4dp"
-                        android:textColor="#000000"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/Question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:lineSpacingExtra="4dp"
-                    android:textSize="10sp"
-                    android:text="@string/QuestionFactor"
-                    android:textColor="#000000"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnYesFactor"
-                    android:textSize="10sp"
-                    android:text="@string/Yes"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnNoFactor"
-                    android:textSize="10sp"
-                    android:text="@string/No"/>
-            </LinearLayout>
+                android:id="@+id/lstFactor"
+                android:layout_marginBottom="20dp"
+                android:dividerHeight="5dp"/>
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="170dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16sp"
+            android:text="@string/Description"
+            android:textColor="#000000"/>
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:textColor="#000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#97e28787"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16sp"
+            android:text="@string/TotalAll"
+            android:textColor="#000000"/>
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:textColor="#000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="120dp">
+        <TextView
+            android:id="@+id/Question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16sp"
+            android:text="@string/QuestionFactor"
+            android:textColor="#000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnYesFactor"
+            android:textSize="16sp"
+            android:text="@string/Yes"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCatchNaghd"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:text="@string/CatchNaghd"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCatchSharj"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:text="@string/CatchSharj"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNoFactor"
+            android:textSize="16sp"
+            android:text="@string/No"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="10sp"
+            android:text="@string/Order"
             android:id="@+id/btnOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:drawableTop="@drawable/jobs_small"
+            android:drawableTop="@drawable/jobs"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="@string/AcceptOrder"
             android:id="@+id/btnAcceptOrderBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:textSize="10sp"
-            android:drawableTop="@drawable/dutys_small"
+            android:drawableTop="@drawable/dutys"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="@string/Credits"
             android:id="@+id/btncrediteBottom"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#052d93"
-            android:textSize="10sp"
-            android:drawableTop="@drawable/credits_small"
+            android:drawableTop="@drawable/credits"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnServiceEmergency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="10sp"
+            android:text="@string/emergencyService"
             android:background="@drawable/rounded_button_bottom"
             android:textColor="#93050a"
-            android:drawableTop="@drawable/emergency_small"
+            android:drawableTop="@drawable/emergency"
             android:layout_weight="1">
         </Button>
     </LinearLayout>
