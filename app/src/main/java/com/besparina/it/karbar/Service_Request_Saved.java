@@ -478,7 +478,8 @@ protected void onCreate(Bundle savedInstanceState) {
 		@Override
 		public void onClick(View view) {
 			db = dbh.getReadableDatabase();
-			String query="SELECT * FROM BsFaktorUsersHead WHERE  Status='1' AND BsFaktorUsersHead.UserServiceCode="+OrderCode;
+//			String query="SELECT * FROM BsFaktorUsersHead WHERE  Status='1' AND BsFaktorUsersHead.UserServiceCode="+OrderCode;
+			String query="SELECT * FROM BsFaktorUsersHead WHERE  BsFaktorUsersHead.UserServiceCode="+OrderCode;
 			Cursor cursor = db.rawQuery(query,null);
 			if(cursor.getCount()>0) {
 				LoadActivity(ShowFactor.class, "OrderCode", OrderCode);
