@@ -228,7 +228,7 @@ public class SyncJobs {
 		String[] value;
 		String query=null;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			query="INSERT INTO BsUserServices (Code," +
@@ -273,6 +273,7 @@ public class SyncJobs {
 					"')";
 			db.execSQL(query);
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncServices syncservices=new SyncServices(this.activity,this.guid,this.hamyarcode,"1");
 		syncservices.AsyncExecute();
     }

@@ -129,7 +129,7 @@ public class Save_Per_Factor extends Activity {
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
@@ -147,9 +147,10 @@ public class Save_Per_Factor extends Activity {
         {
             //todo
         }
-        db = dbh.getWritableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
         String query="DELETE FROM HmFactorTools_List";
         db.execSQL(query);
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         FillSpinnerStep();
         FillSpinnerTools();
         ShowOrHidde();
@@ -318,8 +319,9 @@ public class Save_Per_Factor extends Activity {
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
             String query="DELETE FROM HmFactorTools_List";
-            db=dbh.getWritableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             db.execSQL(query);
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             Save_Per_Factor.this.LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab);
         }
 
@@ -431,8 +433,9 @@ public class Save_Per_Factor extends Activity {
                 } else {
                     String query="INSERT INTO HmFactorTools_List (Code,ToolName,BrandName,Price,Amount,ServiceDetaileCode) VALUES('" +mapTool.get(SPTitleTools.getSelectedItem().toString())+"','"+ TitleTool + "','" + BrandName
                             + "','" + Price + "','" + Amont + "','" +ServiceDetaileCode+"')";
-                    db = dbh.getWritableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                     db.execSQL(query);
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     if (ListTools.getCount() > 0) {
                         adapterList.add(temp);
                         ListTools.setAdapter(adapterList);
@@ -465,10 +468,11 @@ void removeItemFromList(final int position) {
         public void onClick(DialogInterface arg0, int arg1) {
             //Declare Object From Get Internet Connection Status For Check Internet Status
             String[] STR=listItems.get(position).toString().split("-");
-            db = dbh.getWritableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             String query="DELETE FROM HmFactorTools WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
                     " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+STR[3]+"'";
            db.execSQL(query);
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             listItems.remove(deletePosition);
             adapterList.notifyDataSetChanged();
             Toast.makeText(Save_Per_Factor.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();

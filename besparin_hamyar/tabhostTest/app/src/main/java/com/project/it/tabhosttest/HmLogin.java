@@ -227,7 +227,7 @@ public class HmLogin {
 	public void setlogin() 
 	{
 	    String LastHamyarUserServiceCode=null;
-		db = dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursors = db.rawQuery("SELECT * FROM login", null);
 		if(cursors.getCount()>0)
 		{
@@ -235,16 +235,19 @@ public class HmLogin {
 			String Result=cursors.getString(cursors.getColumnIndex("islogin"));
 			if(Result.compareTo("0")==0)
 			{
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE login SET islogin = '1'");
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 		else
 		{
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			db.execSQL("DELETE FROM login");
 			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+res[1].toString()+"','"+res[2].toString()+"','1')";
 			db.execSQL(query);
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
         cursors = db.rawQuery("SELECT ifnull(MAX(code),0)as code FROM BsUserServices", null);
         if(cursors.getCount()>0)
@@ -258,6 +261,7 @@ public class HmLogin {
             cursors.moveToNext();
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[2].toString(), res[1].toString(),LastMessageCode,LastHamyarUserServiceCode);
 		syncMessage.AsyncExecute();
 

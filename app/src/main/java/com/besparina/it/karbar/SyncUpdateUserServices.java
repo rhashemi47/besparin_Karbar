@@ -579,7 +579,7 @@ public class SyncUpdateUserServices {
 	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM OrdersService WHERE Code='" + UserServices + "'");
 		db.execSQL("INSERT INTO OrdersService ("+
 				"Code,"+
@@ -669,7 +669,7 @@ public class SyncUpdateUserServices {
 //					"CarType='"+CarType+"',"+
 //					"Language='"+Language+"'," +
 //					"Status='0' WHERE Code='"+UserServices+"'");
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity, "سرویس ویرایش شد.", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class, "karbarCode", pUserCode);
     }

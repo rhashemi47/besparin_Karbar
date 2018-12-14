@@ -248,10 +248,10 @@ public class UpdateProfile {
 	
 	public void InsertDataFromWsToDb()
     {
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("UPDATE Profile SET BthDate='"+Year+"/"+Month+"/"+Day+"' , Email='"+this.Email+"'");
 		Toast.makeText(this.activity, "ثبت شد", Toast.LENGTH_SHORT).show();
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor c = db.rawQuery("SELECT * FROM login", null);
 		if (c.getCount() > 0) {
 			c.moveToNext();
@@ -264,7 +264,7 @@ public class UpdateProfile {
 		}
 		if(db.isOpen())
 		{
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
     }
 }

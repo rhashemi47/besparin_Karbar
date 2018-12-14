@@ -87,7 +87,7 @@ public class ViewJob extends Activity{
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         if(tab.compareTo("1")==0)
         {
             String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
@@ -330,9 +330,10 @@ public class ViewJob extends Activity{
                         new DatePickerDialog.OnDateSetListener() {
                              @Override
                              public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                        db=dbh.getWritableDatabase();
+                                        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                                 String query="UPDATE  DateTB SET Date = '" +String.valueOf(year)+"/"+String.valueOf(monthOfYear)+"/"+String.valueOf(dayOfMonth)+"'";
                                  db.execSQL(query);
+                                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 GetTime();
                              }
                          }, now.getPersianYear(),
@@ -416,10 +417,11 @@ public class ViewJob extends Activity{
                 } else {
                     AM_PM = "PM";
                 }
-                 db=dbh.getWritableDatabase();
+                 try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
                 db.execSQL(query);
-                db=dbh.getReadableDatabase();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 query="SELECT * FROM DateTB";
                 Cursor c=db.rawQuery(query,null);
                 if(c.getCount()>0)
@@ -430,6 +432,7 @@ public class ViewJob extends Activity{
                     SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], TimeTB[0], TimeTB[1]);
                     syncVisitJob.AsyncExecute();
                 }
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
         }, hour, minute, false);
         mTimePicker.setTitle("Select Time");

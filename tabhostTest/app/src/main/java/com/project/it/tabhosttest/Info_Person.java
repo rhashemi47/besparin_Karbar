@@ -118,7 +118,7 @@ public class Info_Person extends Activity {
 		}
 	});	
 		//get List Edication for spinner		
-		db=dbh.getReadableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursors = db.rawQuery("SELECT * FROM education ",null);
 		String str;
 		for(int i=0;i<cursors.getCount();i++){
@@ -126,6 +126,7 @@ public class Info_Person extends Activity {
 			str=cursors.getString(cursors.getColumnIndex("title"));
 		    labels.add(str);
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
@@ -195,7 +196,7 @@ public class Info_Person extends Activity {
         });
 	}
 public void insertHamyar() {
-	db=dbh.getReadableDatabase();			
+	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM exprtise ",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
@@ -205,6 +206,7 @@ public void insertHamyar() {
 				exExpertiseString+="##";
 			}
 		}
+	try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		String queryEducation="SELECT * FROM education WHERE title='"+((Spinner)spEducation).getSelectedItem().toString()+"'";
 		coursors = db.rawQuery(queryEducation,null);
 			coursors.moveToNext();
@@ -219,7 +221,7 @@ public void insertHamyar() {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-        db=dbh.getReadableDatabase();			
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor headers = db.rawQuery("SELECT * FROM services ",null);
 		//String head;
 		for(int i=0;i<headers.getCount();i++){
@@ -236,6 +238,7 @@ public void insertHamyar() {
 				childDetails.add(childs.getString(childs.getColumnIndex("name")));			}
 			listDataChild.put(listDataHeader.get(i), childDetails);
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         // Adding child data
 //        listDataHeader.add("نظافت و خدمات منزل");
 // Adding child data

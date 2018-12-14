@@ -208,7 +208,7 @@ public class SyncProfile {
     {
 		String[] value;
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM Profile");
 			value=WsResponse.split("##");
 			query="INSERT INTO Profile " +
@@ -231,7 +231,7 @@ public class SyncProfile {
 					"','"+value[7].replace("@@","")+
 					"')";
 			db.execSQL(query);
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncGettUserCreditHistory syncGettUserCreditHistory =new SyncGettUserCreditHistory(this.activity,karbarCode,"0");
 		syncGettUserCreditHistory.AsyncExecute();
 		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,karbarCode,acceptcode);

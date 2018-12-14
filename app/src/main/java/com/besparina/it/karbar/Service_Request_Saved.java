@@ -263,7 +263,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -287,7 +287,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	//**************************************************************************
 		prepareData();
 	//**************************************************************************
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		final Cursor coursors = db.rawQuery("SELECT * FROM OrdersService A WHERE A.Status='1' AND A.Code='"+OrderCode+"' AND " +
 				"A.Code IN (SELECT BsUserServiceCode FROM StartDateService WHERE UserCode='0')",null);
 		if(coursors.getCount()>0){
@@ -311,7 +311,7 @@ protected void onCreate(Bundle savedInstanceState) {
                     // do something when the button is clicked
                     public void onClick(DialogInterface arg0, int arg1) {
                         //Declare Object From Get Internet Connection Status For Check Internet Status
-						db=dbh.getReadableDatabase();
+						try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 						String Query="SELECT Code FROM StartDateService WHERE BsUserServiceCode='"+OrderCode+"'";
 						Cursor c = db.rawQuery(Query,null);
 						if(c.getCount()>0) {
@@ -325,10 +325,10 @@ protected void onCreate(Bundle savedInstanceState) {
                 });
                 alertbox.show();
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	//**************************************************************************
 
-//		db=dbh.getReadableDatabase();
+//		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //				"LEFT JOIN " +
 //				"Servicesdetails ON " +
@@ -358,7 +358,7 @@ protected void onCreate(Bundle savedInstanceState) {
 //				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 //			}
 //		}
-//		db.close();
+//		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		btnOrder.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -410,7 +410,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 	//***************************************************************************************
@@ -487,7 +487,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			else {
 				Toast.makeText(Service_Request_Saved.this,"در حال حاضر برای این سرویس فاکتوری اعلام نشده", Toast.LENGTH_SHORT).show();
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnRefreshOrder.setOnClickListener(new View.OnClickListener() {
@@ -512,7 +512,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					syncDarkhasteMojadad.AsyncExecute();
 				}
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnEditOrder.setOnClickListener(new View.OnClickListener() {
@@ -539,7 +539,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					Toast.makeText(Service_Request_Saved.this, "این سرویس توسط همیار انتخاب شده است.", Toast.LENGTH_LONG).show();
 				}
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnCallHamyar.setOnClickListener(new View.OnClickListener() {
@@ -569,7 +569,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			{
 				Toast.makeText(Service_Request_Saved.this,"سرویس شما توسط هیچ همیاری انتخاب نشده است",Toast.LENGTH_LONG).show();
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnCallSupporter.setOnClickListener(new View.OnClickListener() {
@@ -593,7 +593,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				cursorPhone.moveToNext();
 				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 }
@@ -976,7 +976,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			}
 			try
 			{
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				query="SELECT OrdersService.*,address.* FROM OrdersService " +
 						"LEFT JOIN " +
 						"address ON " +
@@ -1093,13 +1093,13 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			AdapterInfoHamyar dataAdapter=new AdapterInfoHamyar(Service_Request_Saved.this,valuse);
 			lvHamyar.setAdapter(dataAdapter);
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2)).getMapAsync(new OnMapReadyCallback() {
 			@Override
 
 			public void onMapReady(GoogleMap googleMap) {
 				map = googleMap;
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				String query="SELECT OrdersService.*,address.* FROM OrdersService " +
 						"LEFT JOIN " +
 						"address ON " +
@@ -1125,7 +1125,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				else {
 					point = new LatLng(0, 0);
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 				map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
 				map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12));
 				map.getUiSettings().setZoomControlsEnabled(true);
@@ -1156,7 +1156,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						db.close();
+						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

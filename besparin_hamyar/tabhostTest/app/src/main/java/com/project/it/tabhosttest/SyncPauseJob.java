@@ -231,7 +231,7 @@ public class SyncPauseJob {
 	public void InsertDataFromWsToDb()
     {
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="UPDATE  BsHamyarSelectServices" +
 				" SET  Status='2' " +
 				"WHERE Code='"+UserServiceCode+"'";

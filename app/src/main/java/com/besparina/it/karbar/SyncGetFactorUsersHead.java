@@ -190,7 +190,7 @@ public class SyncGetFactorUsersHead {
 			value=res[i].split("##");
 			boolean check=checkCode(value[0]);
 			if(check) {
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("DELETE FROM BsFaktorUsersHead WHERE UserServiceCode='" + value[2] + "'");
 				String query="INSERT INTO BsFaktorUsersHead (" +
 						"Code," +
@@ -219,12 +219,12 @@ public class SyncGetFactorUsersHead {
 						"','" + value[11] +
 						"')";
 				db.execSQL(query);
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
 			}
 			else
 			{
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				String query="INSERT INTO BsFaktorUsersHead (" +
 						"Code," +
 						"karbarCode," +
@@ -252,7 +252,7 @@ public class SyncGetFactorUsersHead {
 						"','" + value[11] +
 						"')";
 				db.execSQL(query);
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		}
 		SyncGetFaktorUserDetailes syncGetFaktorUserDetailes = new SyncGetFaktorUserDetailes(activity, this.karbarCode);
@@ -260,17 +260,17 @@ public class SyncGetFactorUsersHead {
 	}
 	public boolean checkCode(String codeStr)
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM BsFaktorUsersHead WHERE Code='"+codeStr+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 		else
 		{
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 	}

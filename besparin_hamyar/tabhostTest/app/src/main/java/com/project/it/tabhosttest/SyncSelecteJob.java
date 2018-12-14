@@ -244,7 +244,7 @@ public class SyncSelecteJob {
     {
 		String query=null;
 		Cursor coursors;
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		query = "SELECT * FROM BsUserServices WHERE code='" + UserServiceCode+"'";
 		coursors = db.rawQuery(query,null);
 		if(coursors.getCount()>0)
@@ -289,10 +289,11 @@ public class SyncSelecteJob {
 					"','"+coursors.getString(coursors.getColumnIndex("InsertDate"))+
 					"','0','1')";//status 1 is select- 2 is pause - 3 is resume - 4 is cansel - 5 is visit - 6 is perfactor
 
-			db=dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			db.execSQL(query);
 			query = "DELETE  FROM BsUserServices WHERE id=" + coursors.getString(coursors.getColumnIndex("Code"));
 			db.execSQL(query);
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	}
 }

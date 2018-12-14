@@ -292,14 +292,14 @@ public class SyncGetFactorUsersHeadCode {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="INSERT INTO  HeadFactor (Code,UserServiceCode,Date,Description) VALUES ('"
 				+WsResponse+"','"
 				+UserServiceCode+"','"
 				+Year+"/"+Month+"/"+Day+"','"
 				+Description+"')";
 		db.execSQL(query);
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		query="SELECT *  FROM HmFactorService WHERE Code='"+StepCode+"'";
 		Cursor c= db.rawQuery(query,null);
 		if(c.getCount()>0) {
@@ -313,7 +313,7 @@ public class SyncGetFactorUsersHeadCode {
 					c.getString(c.getColumnIndex("PricePerUnit")),Amount);
 			syncInsertFaktorUserDetailes.AsyncExecute();
 			if(IsTools) {
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				query = "SELECT *  FROM HmFactorTools_List";
 				Cursor cDetail = db.rawQuery(query, null);
 				for(int i=0;i<cDetail.getCount();i++)

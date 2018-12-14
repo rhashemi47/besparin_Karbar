@@ -208,7 +208,7 @@ public class SyncGetUserServiceVisit {
 		String[] value;
 		boolean isFirst=IsFristInsert();
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			try
@@ -223,6 +223,7 @@ public class SyncGetUserServiceVisit {
 						value[5] +
 						"')";
 				db.execSQL(query);
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 				if (!isFirst) {
 					runNotification("بسپارینا",  i, value[1], Service_Request_Saved.class);
 				}
@@ -231,7 +232,7 @@ public class SyncGetUserServiceVisit {
 			}
 		}
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{
@@ -248,15 +249,17 @@ public class SyncGetUserServiceVisit {
 	}
 	public boolean IsFristInsert()
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM visit";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 		else
 		{
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 	}

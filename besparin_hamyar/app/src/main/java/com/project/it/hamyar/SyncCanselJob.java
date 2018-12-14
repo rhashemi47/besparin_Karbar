@@ -243,11 +243,12 @@ public class SyncCanselJob {
     {
 
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="UPDATE  BsHamyarSelectServices" +
 				" SET IsDelete='1' , Status='4' ,Description='" +Description+
 				"' WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity, "سرویس لغو شد", Toast.LENGTH_LONG).show();
 		LoadActivity(MainActivity.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 

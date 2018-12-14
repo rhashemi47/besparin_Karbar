@@ -90,18 +90,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	if (((RadioButton) v).isChecked())
 	{
 
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+((RadioButton) v).getTag().toString()+"'", null);
-		db=dbh.getWritableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		coursors.moveToNext();
 		db.execSQL("INSERT INTO HmFactorService (code) VALUES('"+coursors.getString(coursors.getColumnIndex("code")) +"')");
 	}
 	else
 	{
 		//Toast.makeText(_context,"Unchecked)", Toast.LENGTH_LONG).show();
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors=db.rawQuery("SELECT * FROM exprtise WHERE name='"+((RadioButton) v).getTag().toString()+"'", null);
-		db=dbh.getWritableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		coursors.moveToNext();
 		db.execSQL("DELETE FROM HmFactorService WHERE code='"+coursors.getString(coursors.getColumnIndex("code")) +"')");
 	}

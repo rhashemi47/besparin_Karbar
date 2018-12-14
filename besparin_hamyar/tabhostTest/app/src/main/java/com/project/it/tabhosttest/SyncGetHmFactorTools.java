@@ -213,7 +213,7 @@ public class SyncGetHmFactorTools {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM HmFactorTools");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -229,6 +229,7 @@ public class SyncGetHmFactorTools {
 					+value[7]+"','1')";
 			db.execSQL(query);
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity, "ثبت نهایی انجام شد", Toast.LENGTH_LONG).show();
     }
 }

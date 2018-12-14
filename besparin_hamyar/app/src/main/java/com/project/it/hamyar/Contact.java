@@ -56,7 +56,7 @@ public class Contact extends Activity {
 			}
 		}
 		String Query="UPDATE UpdateApp SET Status='1'";
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL(Query);
 		BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 

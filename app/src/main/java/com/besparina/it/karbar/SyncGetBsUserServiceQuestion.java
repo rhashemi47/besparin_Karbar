@@ -185,12 +185,12 @@ public class SyncGetBsUserServiceQuestion {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			db.execSQL("");//todo
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	
 }

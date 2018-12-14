@@ -275,7 +275,7 @@ public class SyncInsertFaktorUserDetailes {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="INSERT INTO  InsertFaktorUserDetailes (FaktorUsersHeadCode,Type,ObjectCode,PricePerUnit,Amount) VALUES ('"
 				+FaktorUsersHeadCode+"','"
 				+Type+"','"
@@ -283,6 +283,7 @@ public class SyncInsertFaktorUserDetailes {
 				+PricePerUnit+"','"
 				+Amount+"')";
 		db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
 	}
 }

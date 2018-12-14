@@ -105,7 +105,7 @@ public class SyncGetSelectJobs {
 				} else if (WsResponse.toString().compareTo("0") == 0) {
 					//Toast.makeText(this.activity.getApplicationContext(), "سرویسی اعلام نشده", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainActivity.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
-					db=dbh.getReadableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 					Cursor cursors = db.rawQuery("SELECT ifnull(MAX(code),0)as code FROM BsUserServices", null);
 					String LastHamyarUserServiceCode = null;
 					if(cursors.getCount()>0)
@@ -217,7 +217,7 @@ public class SyncGetSelectJobs {
 		String query = null;
 		String LastHamyarUserServiceCode = null;
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			query = "INSERT INTO BsHamyarSelectServices (Code," +
@@ -284,6 +284,7 @@ public class SyncGetSelectJobs {
 					"','" + value[30] +
 					"','0','1')";
 			db.execSQL(query);
+
 		}
 		Cursor cursors = db.rawQuery("SELECT ifnull(MAX(code),0)as code FROM BsUserServices", null);
 		if(cursors.getCount()>0)
@@ -291,6 +292,7 @@ public class SyncGetSelectJobs {
 			cursors.moveToNext();
 			LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncJobs jobs=new SyncJobs(this.activity, guid,hamyarcode,LastHamyarUserServiceCode);
 		jobs.AsyncExecute();
 	}

@@ -277,9 +277,10 @@ public class SyncGetFactorUsersHeadCode {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="INSERT INTO  SendFinalFactor (FaktorUsersHeadCode) VALUES ('"+WsResponse+"')";
 		db.execSQL(query);
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 
 	}
 }

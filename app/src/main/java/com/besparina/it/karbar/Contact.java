@@ -60,9 +60,7 @@ public class Contact extends Activity {
 		etSendMessage=(EditText) findViewById(R.id.etSendMessage);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
-
 			dbh.createDataBase();
-
 		} catch (IOException ioe) {
 
 			throw new Error("Unable to create database");
@@ -101,9 +99,9 @@ public class Contact extends Activity {
 		});
 
 		String Query="UPDATE UpdateApp SET Status='1'";
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL(Query);
-//		db=dbh.getReadableDatabase();
+//		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //				"LEFT JOIN " +
 //				"Servicesdetails ON " +
@@ -184,7 +182,7 @@ public class Contact extends Activity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 		btnCallSupporter.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +194,7 @@ public class Contact extends Activity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 		btnSendMessage.setOnClickListener(new View.OnClickListener() {
@@ -210,7 +208,7 @@ public class Contact extends Activity {
 					SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 //					SendMessage(MessageStr,"09155210697");
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 	}
@@ -264,7 +262,7 @@ public class Contact extends Activity {
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 						}
-						db.close();
+						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(Contact.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -281,7 +279,7 @@ public class Contact extends Activity {
 							String MessageStr = "کد کاربر: " + karbarCode + "\n" + etSendMessage.getText().toString();
 							SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
 						}
-						db.close();
+						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					} else {
 						Toast.makeText(Contact.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
 								.show();

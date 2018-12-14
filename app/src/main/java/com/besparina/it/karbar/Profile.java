@@ -123,14 +123,14 @@ public class Profile extends Activity {
 		}
 		catch (Exception e)
 		{
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 			Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 			for(int i=0;i<coursors.getCount();i++){
 				coursors.moveToNext();
 				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 				phonenumber=coursors.getString(coursors.getColumnIndex("Phone"));
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -171,7 +171,7 @@ public class Profile extends Activity {
 		});
 		//******************************************
 //		tvCodeMoaref.setTextSize(18);
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
@@ -244,7 +244,7 @@ public class Profile extends Activity {
 				{
 					Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 
@@ -319,7 +319,7 @@ public class Profile extends Activity {
 				}
 			}
 		});
-//		db=dbh.getReadableDatabase();
+//		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //				"LEFT JOIN " +
 //				"Servicesdetails ON " +
@@ -349,7 +349,7 @@ public class Profile extends Activity {
 //				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 //			}
 //		}
-//		db.close();
+//		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		btnOrder.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -401,13 +401,13 @@ public class Profile extends Activity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 	}
 
 	public void insertKarbar() {
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String errorStr="";
 
 			if (yearStr.compareTo("") == 0 || monStr.compareTo("") == 0 || dayStr.compareTo("") == 0) {
@@ -432,7 +432,7 @@ public class Profile extends Activity {
 					ReagentCode,
 					etEmail.getText().toString());
 			updateProfile.AsyncExecute();
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 			Cursor cursor=db.rawQuery("SELECT * FROM TempPic",null);
 			if(cursor.getCount()>0){
 				cursor.moveToNext();
@@ -441,7 +441,7 @@ public class Profile extends Activity {
 				syncSetPicProfile.AsyncExecute();
 			}
 			if(db.isOpen()) {
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 			if (!(cursor.isClosed()))
 				cursor.close();
@@ -450,7 +450,7 @@ public class Profile extends Activity {
 		{
 			Toast.makeText(Profile.this, errorStr, Toast.LENGTH_SHORT).show();
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -514,7 +514,7 @@ public class Profile extends Activity {
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						db.close();
+						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -558,7 +558,7 @@ public class Profile extends Activity {
 					imgUser.setImageBitmap(imageBitmap);
 					String base64Str=ImageConvertor.BitmapToBase64(imageBitmap);
 					String Query="INSERT INTO TempPic (Pic) VALUES('"+base64Str+"')";
-					db=dbh.getWritableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 					db.execSQL(Query);
 				}
 			}

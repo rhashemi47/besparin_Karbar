@@ -207,8 +207,9 @@ public class SyncGetUserServiceHamyarPic {
 		}
 
 
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 }
 

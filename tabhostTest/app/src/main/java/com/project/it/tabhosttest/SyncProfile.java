@@ -215,7 +215,7 @@ public class SyncProfile {
     {
 		String[] value;
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM Profile");
 			value=WsResponse.split("##");
 			query="INSERT INTO Profile " +
@@ -253,6 +253,7 @@ public class SyncProfile {
 					"','"+value[14]+
 					"','"+value[15]+"')";
 			db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","0");
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)

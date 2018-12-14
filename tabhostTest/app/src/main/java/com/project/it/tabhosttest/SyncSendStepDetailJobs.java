@@ -258,7 +258,7 @@ public class SyncSendStepDetailJobs {
 	public void InsertDataFromWsToDb(String AllRecord)
     {	
 //		String query;
-//		db=dbh.getWritableDatabase();
+//		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 //		query="UPDATE HmFactorService SET IsSend='1'";
 //		db.execSQL(query);
 		SyncGetHmFactorTools getHmFactorServicetools=new SyncGetHmFactorTools(activity,guid,hamyarcode);

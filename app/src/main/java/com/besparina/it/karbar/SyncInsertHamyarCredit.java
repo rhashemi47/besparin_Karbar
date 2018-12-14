@@ -171,7 +171,7 @@ public class SyncInsertHamyarCredit {
 			cursors.moveToNext();
 			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	
 	public void CallWsMethod(String METHOD_NAME) {

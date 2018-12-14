@@ -216,7 +216,7 @@ public class SyncNewJob {
         String[] value;
         String query=null;
         res=WsResponse.split("@@");
-        db=dbh.getWritableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
         for(int i=0;i<res.length;i++){
             value=res[i].split("##");
             query="INSERT INTO BsUserServices (" +
@@ -263,6 +263,7 @@ public class SyncNewJob {
             db.execSQL(query);
             runNotification("بسپارینا",value[15],1,MainActivity.class);
         }
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 
     public void runNotification(String title,String detail,int id,Class<?> Cls)

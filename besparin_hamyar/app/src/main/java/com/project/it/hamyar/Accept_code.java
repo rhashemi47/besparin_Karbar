@@ -110,7 +110,7 @@ public class Accept_code extends Activity {
 			@Override
 			public void onClick(View v) {
 				String query=null;
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				query="SELECT * FROM Profile";
 				Cursor coursors = db.rawQuery(query,null);
 				if(coursors.getCount()>0)
@@ -178,8 +178,9 @@ public void onPause() {
 	{
 		phonenumber = getIntent().getStringExtra("phonenumber").toString();
 		String query="UPDATE login SET Phone ='"+phonenumber+"', AcceptCode='"+acceptcode.getText().toString()+"'";
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString());
 		hm.AsyncExecute();
 	}

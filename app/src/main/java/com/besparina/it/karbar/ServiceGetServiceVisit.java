@@ -78,7 +78,7 @@ public class ServiceGetServiceVisit extends Service {
                                                 LastVersion = coursors.getString(coursors.getColumnIndex("Code"));
                                             }
                                             if (db.isOpen()) {
-                                                db.close();
+                                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                             }
                                             SyncGetUserServiceVisit syncGetUserServiceVisit = new SyncGetUserServiceVisit(getApplicationContext(), karbarCode, LastVersion);
                                             syncGetUserServiceVisit.AsyncExecute();
@@ -121,20 +121,20 @@ public class ServiceGetServiceVisit extends Service {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

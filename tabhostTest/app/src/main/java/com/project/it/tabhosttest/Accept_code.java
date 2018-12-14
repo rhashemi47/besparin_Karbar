@@ -81,7 +81,7 @@ public class Accept_code extends Activity {
 			@Override
 			public void onClick(View v) {
 				String query=null;
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				query="SELECT * FROM Profile";
 				Cursor coursors = db.rawQuery(query,null);
 				if(coursors.getCount()>0)
@@ -92,7 +92,7 @@ public class Accept_code extends Activity {
 					SendAcceptCode sendCode=new SendAcceptCode(Accept_code.this,Mobile,0);
 					sendCode.AsyncExecute();
 				}
-
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 	}

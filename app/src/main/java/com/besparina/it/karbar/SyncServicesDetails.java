@@ -192,7 +192,7 @@ public class SyncServicesDetails {
 		String[] value;
 		String phonenumber;
 		res=WsResponse.split(Pattern.quote("[Besparina@@]"));
-		db=dbh.getWritableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM servicesdetails");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split(Pattern.quote("[Besparina##]"));
@@ -219,7 +219,7 @@ public class SyncServicesDetails {
 			syncGettUserCreditHistory.AsyncExecute();
 			LoadActivity(MainMenu.class,"karbarCode",this.acceptcode);
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	
 

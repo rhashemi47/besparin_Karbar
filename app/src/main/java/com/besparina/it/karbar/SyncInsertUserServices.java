@@ -572,7 +572,7 @@ public class SyncInsertUserServices {
 	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("INSERT INTO OrdersService ("+
 					"Code,"+
 					"pUserCode,"+
@@ -633,7 +633,7 @@ public class SyncInsertUserServices {
 							CarWashType+"','"+
 							CarType+"','"+
 							Language+"','0')");
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity, "درخواست ثبت شد.", Toast.LENGTH_LONG).show();
 		activity.finish();
 		LoadActivity(MainMenu.class, "karbarCode", pUserCode);

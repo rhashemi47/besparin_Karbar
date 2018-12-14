@@ -177,14 +177,15 @@ public class SyncGetUserServiceHamyar {
 		for (int i = 0; i < res.length; i++)
 		{
 			value = res[i].split(Pattern.quote("[Besparina##]"));
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 			String query="SELECT * FROM InfoHamyar WHERE Code='"+value[0]+"'";
 			Cursor cursor=db.rawQuery(query,null);
 			if(cursor.getCount()==0) {
 				SyncGetUserServiceHamyarPic syncGetUserServiceHamyarPic=new SyncGetUserServiceHamyarPic(activity,value[0],value[1],value[2],value[3]);
 				syncGetUserServiceHamyarPic.AsyncExecute();
 			}
-			db=dbh.getWritableDatabase();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			query = "INSERT INTO Hamyar (" +
 					"CodeHamyarInfo," +
 					"CodeOrder" +
@@ -192,7 +193,7 @@ public class SyncGetUserServiceHamyar {
 					value[0] + "','" +
 					UserServiceCode + "')";
 			db.execSQL(query);
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	}
 }

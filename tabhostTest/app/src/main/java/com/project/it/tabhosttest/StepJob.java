@@ -180,8 +180,9 @@
                         String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
                         String query="INSERT INTO HmFactorService (ServiceName,PricePerUnit,Unit,ServiceDetaileCode) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
                                 + "','" + Unit_value.get(UnitStr) + "','" +StrDetail[0] +"')";
-                        db = dbh.getWritableDatabase();
+                        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                         db.execSQL(query);
+                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                         if (lvStepJob.getCount() > 0) {
                             adapterList.add(temp);
                             lvStepJob.setAdapter(adapterList);
@@ -194,7 +195,7 @@
                     }
                 }
             } else {
-                db = dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 String query="SELECT HmFactorService.*,Servicesdetails.name FROM HmFactorService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
@@ -219,6 +220,7 @@
                         lvStepJob.setAdapter(adapterList);
                     }
                 }
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
 }
 
@@ -227,8 +229,9 @@
         public boolean onKeyDown(int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                 String query="DELETE FROM HmFactorService WHERE IsSend='0' AND Status='0'";
-                db=dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 db.execSQL(query);
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 StepJob.this.LoadActivity(MainActivity.class, "guid", guid, "hamyarcode", hamyarcode);
             }
             return super.onKeyDown(keyCode, event);

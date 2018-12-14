@@ -78,7 +78,7 @@ public class ServiceGetSliderPic extends Service {
                                                 SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), karbarCode);
                                                 syncSliderPic.AsyncExecute();
                                             }
-                                            db.close();
+                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
 
                                         }
@@ -92,7 +92,7 @@ public class ServiceGetSliderPic extends Service {
                                         Thread.sleep(6000); // every 6 Second
                                     }
 
-                                    db.close();
+                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 } catch (Exception e) {
                                     String error = "";
                                     error = e.getMessage().toString();
@@ -131,20 +131,20 @@ public class ServiceGetSliderPic extends Service {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

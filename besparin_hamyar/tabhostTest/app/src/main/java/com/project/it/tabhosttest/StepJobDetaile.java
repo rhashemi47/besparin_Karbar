@@ -87,7 +87,7 @@
                 }
             }
             addItemFromList(true);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM services", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
@@ -161,8 +161,9 @@
                         String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
                         query="INSERT INTO HmFactorTools (ToolName,Price,ServiceDetaileCode,BrandName) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
                                 + "','" +StrDetail[0] +"','" +EtBrandStr+"')";
-                        db = dbh.getWritableDatabase();
+                        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                         db.execSQL(query);
+                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                         if (lvStepJob.getCount() > 0) {
                             adapterList.add(temp);
                             lvStepJob.setAdapter(adapterList);
@@ -175,7 +176,7 @@
                     }
                 }
             } else {
-                db = dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 String query="SELECT HmFactorTools.*,Servicesdetails.name FROM HmFactorTools " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
@@ -200,6 +201,8 @@
                         lvStepJob.setAdapter(adapterList);
                     }
                 }
+
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
         }
 
@@ -208,8 +211,9 @@
         public boolean onKeyDown(int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                 String query="DELETE FROM HmFactorTools WHERE IsSend='0' AND Status='0'";
-                db=dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 db.execSQL(query);
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 this.LoadActivity(MainActivity.class, "guid", guid, "hamyarcode", hamyarcode);
             }
             return super.onKeyDown(keyCode, event);

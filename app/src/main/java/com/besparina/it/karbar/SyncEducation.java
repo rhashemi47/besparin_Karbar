@@ -157,7 +157,7 @@ public class SyncEducation {
 			cursors.moveToNext();
 			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	
 	public void CallWsMethod(String METHOD_NAME) {
@@ -200,13 +200,13 @@ public class SyncEducation {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM education");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");			
 			db.execSQL("INSERT INTO education (key,title) VALUES('"+value[0] +"','"+value[1]+"')");		
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	
 

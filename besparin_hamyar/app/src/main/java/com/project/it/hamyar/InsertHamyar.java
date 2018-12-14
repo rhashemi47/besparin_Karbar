@@ -297,7 +297,7 @@ public class InsertHamyar {
     {
     	String notext="ثبت نشده";
     	String brith=BthYear+"/"+BthMonth+"/"+BthDay;
-		db=dbh.getWritableDatabase();	
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM login");
 		db.execSQL("INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+hamyarcode+"','"+guid+"','1')");
 		db.execSQL("INSERT INTO Profile " +

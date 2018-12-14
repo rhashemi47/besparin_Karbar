@@ -162,7 +162,7 @@ public class SyncGettHamyarCreditHistory {
 			cursors.moveToNext();
 			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	
 	public void CallWsMethod(String METHOD_NAME) {
@@ -206,7 +206,7 @@ public class SyncGettHamyarCreditHistory {
 		String[] value;
 		res=WsResponse.split("@@");
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM credits");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -222,7 +222,7 @@ public class SyncGettHamyarCreditHistory {
 					"')";
 			db.execSQL(query);
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 
 	}

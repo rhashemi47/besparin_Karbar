@@ -175,7 +175,7 @@ public class SyncGetUserServiceStartDate {
 		String[] res;
 		String[] value;
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			String query = "INSERT INTO StartDateService (" +
@@ -191,7 +191,7 @@ public class SyncGetUserServiceStartDate {
 					String message="برای سرویس به شماره: " + value[1] +"اعلام شروع به کار شده است";
 						runNotification("بسپارینا", message, i, value[1], Service_Request_Saved.class, "2");
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	public void runNotification(String title,String detail,int id,String OrderCode,Class<?> Cls,String status)
 	{

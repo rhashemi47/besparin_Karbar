@@ -51,15 +51,16 @@
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
@@ -78,6 +79,7 @@
                 map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
                 valuse.add(map);
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             AdapterVisit dataAdapter=new AdapterVisit(List_Visits.this,valuse,guid,hamyarcode);
             lvVisit.setAdapter(dataAdapter);
         }

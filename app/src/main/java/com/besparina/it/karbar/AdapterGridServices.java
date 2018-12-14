@@ -102,7 +102,7 @@ public class AdapterGridServices extends BaseAdapter {
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor cursor = db.rawQuery("SELECT * FROM services WHERE code='"+code+"'",null);
         if(cursor.getCount()>0)
         {
@@ -120,6 +120,7 @@ public class AdapterGridServices extends BaseAdapter {
         {
             holder.imgValues.setImageResource(R.drawable.job);
         }
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         holder.txtValues.setOnClickListener(TextViewItemOnclick);
         holder.imgValues.setOnClickListener(ImageViewItemOnclick);
 

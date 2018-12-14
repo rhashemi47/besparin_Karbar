@@ -76,7 +76,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	catch (Exception e)
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
@@ -100,7 +100,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 	try
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM credits ORDER BY CAST(Code AS int) ", null);
 		String Content="";
 		for (int i=0;i<coursors.getCount();i++) {
@@ -133,7 +133,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		txtContent.setVisibility(View.VISIBLE);
 	}
 
-//	db=dbh.getReadableDatabase();
+//	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //	Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //			"LEFT JOIN " +
 //			"Servicesdetails ON " +
@@ -214,7 +214,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				cursorPhone.moveToNext();
 				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 }
@@ -265,7 +265,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						db.close();
+						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

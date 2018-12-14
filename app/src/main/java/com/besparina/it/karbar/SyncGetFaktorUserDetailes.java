@@ -177,14 +177,14 @@ public class SyncGetFaktorUserDetailes {
 		String[] res;
 		String[] value;
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		SQLiteDatabase db2 = dbh.getReadableDatabase();
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			boolean check = checkCode(value[0]);
 			if (check) {
 				if(!db.isOpen()){
-					db=dbh.getWritableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				}
 				db.execSQL("DELETE FROM BsFaktorUserDetailes WHERE Code='" + value[0] + "'");
 				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
@@ -232,7 +232,7 @@ public class SyncGetFaktorUserDetailes {
 					}
 				}
 				if(!db.isOpen()){
-					db=dbh.getWritableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				}
 				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
 						"Code," +
@@ -261,13 +261,13 @@ public class SyncGetFaktorUserDetailes {
 			db2.close();
 		}
 		if(db.isOpen()) {
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	}
 	public boolean checkCode(String codeStr)
 	{
 		if(!db.isOpen()){
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		}
 		String query = "SELECT * FROM BsFaktorUserDetailes WHERE Code='"+codeStr+"'";
 		Cursor cursor= db.rawQuery(query,null);
@@ -275,7 +275,7 @@ public class SyncGetFaktorUserDetailes {
 		{
 
 			if(db.isOpen()) {
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 			return true;
 		}
@@ -283,7 +283,7 @@ public class SyncGetFaktorUserDetailes {
 		{
 
 			if(db.isOpen()) {
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 			return false;
 		}

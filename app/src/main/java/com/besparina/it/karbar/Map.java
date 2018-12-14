@@ -291,7 +291,7 @@ public class Map extends AppCompatActivity {
             str = cursors.getString(cursors.getColumnIndex("Name"));
             labels_State.add(str);
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_State);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(dataAdapter);
@@ -306,7 +306,7 @@ public class Map extends AppCompatActivity {
                     String Code = coursors.getString(coursors.getColumnIndex("Code"));
                     FillSpinnerChild(Code);
                 }
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -350,7 +350,7 @@ public class Map extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String CodeState,CodeCity;
-                db=dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 String StrnameAddress=NameAddres.getText().toString().trim();
                 String StrAddAddres=AddAddres.getText().toString().trim();
                 String StrError="";
@@ -392,7 +392,7 @@ public class Map extends AppCompatActivity {
                 {
                     String latStr=Double.toString(lat);
                     String lonStr=Double.toString(lang);
-                    db=dbh.getReadableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                     Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='"+StrnameAddress+"'",null);
                     if(cursor.getCount()>0) {
                         Toast.makeText(Map.this,"نام تکراری است",Toast.LENGTH_LONG).show();
@@ -412,7 +412,7 @@ public class Map extends AppCompatActivity {
                     Toast.makeText(Map.this,StrError,Toast.LENGTH_LONG).show();
                 }
                 if(db.isOpen()) {
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 }
                 if(!cursors.isClosed())
                 {
@@ -527,7 +527,7 @@ public class Map extends AppCompatActivity {
                 labels_City.add(coursors.getString(coursors.getColumnIndex("Name")));
             }
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_City);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(dataAdapter);
@@ -657,7 +657,7 @@ public class Map extends AppCompatActivity {
                         point = new LatLng(lat, lang);
                     }
                 }
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 

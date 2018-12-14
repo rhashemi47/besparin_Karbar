@@ -75,14 +75,14 @@
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
 
                 karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
             }
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
 
             ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -93,7 +93,7 @@
                 }
             });
 
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM address WHERE Status='1'",null);
         if(coursors.getCount()>0)
         {
@@ -109,9 +109,9 @@
             AdapterUpdateAddress dataAdapter=new AdapterUpdateAddress(List_Address.this,valuse,karbarCode);
             lvAddress.setAdapter(dataAdapter);
         }
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         //**************************************************************************************************************
-//            db=dbh.getReadableDatabase();
+//            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //            Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //                    "LEFT JOIN " +
 //                    "Servicesdetails ON " +
@@ -141,7 +141,7 @@
 //			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 //		}
 //            }
-//            db.close();
+//            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             btnOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -193,7 +193,7 @@
                         cursorPhone.moveToNext();
                         dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                     }
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 }
             });
     }
@@ -244,7 +244,7 @@
                                 cursorPhone.moveToNext();
                                 dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                             }
-                            db.close();
+                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                         } else {
                             // Permission Denied
                             Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

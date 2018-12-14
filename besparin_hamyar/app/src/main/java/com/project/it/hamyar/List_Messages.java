@@ -58,7 +58,7 @@
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
@@ -66,7 +66,7 @@
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsDelete='0'",null);
         if(coursors.getCount()>0)
         {
@@ -87,7 +87,7 @@
             lvMessage.setAdapter(dataAdapter);
         }
             String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             db.execSQL(Query);
             BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 

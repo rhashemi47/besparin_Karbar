@@ -184,13 +184,13 @@ public class MainMenu extends AppCompatActivity {
         if (coursors.getCount() > 0) {
             countMessage = String.valueOf(coursors.getCount());
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         db = dbh.getReadableDatabase();
         final Cursor cursor = db.rawQuery("SELECT * FROM OrdersService WHERE Status ='1'", null);
         if (cursor.getCount() > 0) {
             countOrder = String.valueOf(cursor.getCount());
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         try {
             karbarCode = getIntent().getStringExtra("karbarCode");
             Check_Login(karbarCode);
@@ -214,7 +214,7 @@ public class MainMenu extends AppCompatActivity {
                 map.put("Code", cursor1.getString(cursor1.getColumnIndex("code")));
                 valuse.add(map);
             }
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             AdapterGridServices adapterGridServices = new AdapterGridServices(MainMenu.this, valuse, karbarCode);
             GridViewServices.setAdapter(adapterGridServices);
         }
@@ -243,7 +243,7 @@ public class MainMenu extends AppCompatActivity {
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
                         valuse.add(map);
                     }
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     AdapterGridServices adapterGridServices = new AdapterGridServices(MainMenu.this, valuse, karbarCode);
                     GridViewServices.setAdapter(adapterGridServices);
                 } else {
@@ -260,7 +260,7 @@ public class MainMenu extends AppCompatActivity {
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
                         valuse.add(map);
                     }
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     AdapterServiceDetails adapterServiceDetails = new AdapterServiceDetails(MainMenu.this, valuse, karbarCode);
                     lstSearchDetailService.setAdapter(adapterServiceDetails);
                 }
@@ -290,7 +290,7 @@ public class MainMenu extends AppCompatActivity {
                 bpm[j] = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
                 link[j] = coursors.getString(coursors.getColumnIndex("Link"));
             }
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             int i = 0;
             while (i < bpm.length) {
                 imageView = new ImageView(getApplicationContext());
@@ -359,7 +359,7 @@ public class MainMenu extends AppCompatActivity {
 //                btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 //            }
 //        }
-//        db.close();
+//        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -411,7 +411,7 @@ public class MainMenu extends AppCompatActivity {
                     cursorPhone.moveToNext();
                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                 }
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
         });
         //****************************************************************************************
@@ -479,7 +479,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
                 stopService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
                 stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-                db = dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 db.execSQL("DELETE FROM address");
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -506,7 +506,7 @@ public class MainMenu extends AppCompatActivity {
 //                db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 Intent startMain = new Intent(MainMenu.this, MainMenu.class);
 
 
@@ -591,7 +591,7 @@ public class MainMenu extends AppCompatActivity {
             name = "کاربر";
             family = "مهمان";
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         int drawerGravity = Gravity.END;
         Configuration config = getResources().getConfiguration();
         if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
@@ -665,7 +665,7 @@ public class MainMenu extends AppCompatActivity {
                                         LoadActivity(Profile.class, "karbarCode", karbarCode);
                                     }
                                 }
-                                db.close();
+                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
                             case 2:
                                 db = dbh.getReadableDatabase();
@@ -683,7 +683,7 @@ public class MainMenu extends AppCompatActivity {
                                             }
 
                                 }
-                                db.close();
+                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
                             case 3:
                                 db = dbh.getReadableDatabase();
@@ -693,7 +693,7 @@ public class MainMenu extends AppCompatActivity {
                                     sharecode(c.getString(c.getColumnIndex("karbarCodeForReagent")));
                                    // LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                db.close();
+                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
 //                            case 4:
 //                                db = dbh.getReadableDatabase();
@@ -703,7 +703,7 @@ public class MainMenu extends AppCompatActivity {
 //
 //                                    LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
 //                                }
-//                                db.close();
+//                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 //                                break;
                             case 4:
                                 db = dbh.getReadableDatabase();
@@ -718,7 +718,7 @@ public class MainMenu extends AppCompatActivity {
                                     LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
                                     //LoadActivity(History.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                db.close();
+                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
                             case 5:
                                 db = dbh.getReadableDatabase();
@@ -728,7 +728,7 @@ public class MainMenu extends AppCompatActivity {
 
                                     LoadActivity(List_Messages.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                db.close();
+                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
                             case 6:
                                 db = dbh.getReadableDatabase();
@@ -738,7 +738,7 @@ public class MainMenu extends AppCompatActivity {
 
                                     LoadActivity(Contact.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                db.close();
+                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
                             case 7:
                                 final Dialog dialog = new Dialog(MainMenu.this);
@@ -783,7 +783,7 @@ public class MainMenu extends AppCompatActivity {
 //
 //                                    LoadActivity(About.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
 //                                }
-//                                db.close();
+//                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 Intent urlCall1 = new Intent(Intent.ACTION_VIEW);
                                 urlCall1.setData(Uri.parse("http://besparina.ir/?page_id=199"));
                                 startActivity(urlCall1);
@@ -907,7 +907,7 @@ public class MainMenu extends AppCompatActivity {
                             cursorPhone.moveToNext();
                             dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                         }
-                        db.close();
+                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     } else {
                         // Permission Denied
                         Toast.makeText(MainMenu.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -989,7 +989,7 @@ public class MainMenu extends AppCompatActivity {
         {
             StartServiceApp();
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
     public void StartServiceApp()
     {

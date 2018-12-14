@@ -249,7 +249,7 @@ public class InsertKarbar {
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
     	String notext="";
-		db=dbh.getWritableDatabase();	
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM login");
 		db.execSQL("DELETE FROM Profile");
 		db.execSQL("INSERT INTO login (karbarCode,islogin,Phone,AcceptCode) VALUES('"+karbarCode+"','1','"+phonenumber+"','"+acceptcode+"')");
@@ -268,7 +268,7 @@ public class InsertKarbar {
 				"','"+notext+
 				"','"+notext+
 				"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"')");
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
 		LoadActivity(MainMenu.class, "karbarCode",karbarCode);
     }

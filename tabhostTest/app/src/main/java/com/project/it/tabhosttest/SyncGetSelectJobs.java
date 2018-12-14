@@ -208,7 +208,7 @@ public class SyncGetSelectJobs {
 		String query = null;
 		String LastHamyarUserServiceCode = null;
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			query = "INSERT INTO BsHamyarSelectServices (Code," +
@@ -253,12 +253,15 @@ public class SyncGetSelectJobs {
 					"','0','1')";
 			db.execSQL(query);
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursors = db.rawQuery("SELECT ifnull(MAX(code),0)as code FROM BsHamyarSelectServices", null);
 		if(cursors.getCount()>0)
 		{
 			cursors.moveToNext();
 			LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncJobs jobs=new SyncJobs(this.activity, guid,hamyarcode,LastHamyarUserServiceCode);
 		jobs.AsyncExecute();
 	}

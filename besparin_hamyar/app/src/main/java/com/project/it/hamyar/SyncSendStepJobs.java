@@ -258,7 +258,7 @@ public class SyncSendStepJobs {
 	public void InsertDataFromWsToDb(String AllRecord)
     {	
 //		String query;
-//		db=dbh.getWritableDatabase();
+//		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 //		query="UPDATE HmFactorService SET IsSend='1'";
 //		db.execSQL(query);
 		Toast.makeText(activity, "ثبت نهایی انجام شد", Toast.LENGTH_LONG).show();

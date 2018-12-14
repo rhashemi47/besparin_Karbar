@@ -87,7 +87,7 @@ public class ViewJob extends Activity{
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         if(tab.compareTo("1")==0)
         {
             String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
@@ -105,8 +105,10 @@ public class ViewJob extends Activity{
                         "آدرس: "+coursors.getString(coursors.getColumnIndex("AddressText"))+"\n"+
                         "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
         else {
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
@@ -123,6 +125,7 @@ public class ViewJob extends Activity{
                         "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
                 status=coursors.getString(coursors.getColumnIndex("Status"));
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
         if(tab.compareTo("0")==0)//status 0 is check-status 1 is select- 2 is pause - 3 is resume - 4 is cansel - 5 is visit - 6 is perfactor-7 is Final
         {
@@ -330,10 +333,11 @@ public class ViewJob extends Activity{
                         new DatePickerDialog.OnDateSetListener() {
                              @Override
                              public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                        db=dbh.getWritableDatabase();
+                                        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                                 String query="UPDATE  DateTB SET Date = '" +String.valueOf(year)+"/"+String.valueOf(monthOfYear)+"/"+String.valueOf(dayOfMonth)+"'";
                                  db.execSQL(query);
                                 GetTime();
+                                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                              }
                          }, now.getPersianYear(),
                         now.getPersianMonth(),
@@ -416,10 +420,11 @@ public class ViewJob extends Activity{
                 } else {
                     AM_PM = "PM";
                 }
-                 db=dbh.getWritableDatabase();
+                 try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
                 db.execSQL(query);
-                db=dbh.getReadableDatabase();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 query="SELECT * FROM DateTB";
                 Cursor c=db.rawQuery(query,null);
                 if(c.getCount()>0)
@@ -430,6 +435,7 @@ public class ViewJob extends Activity{
                     SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], TimeTB[0], TimeTB[1]);
                     syncVisitJob.AsyncExecute();
                 }
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
         }, hour, minute, false);
         mTimePicker.setTitle("Select Time");

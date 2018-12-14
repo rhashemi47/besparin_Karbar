@@ -90,7 +90,7 @@ public class CustomAdapter extends BaseAdapter {
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
         HashMap<String, String> map = list.get(position);
@@ -182,7 +182,7 @@ public class CustomAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         String name = map.get("name");
         String code = map.get("id");
 

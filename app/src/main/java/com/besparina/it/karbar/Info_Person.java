@@ -78,7 +78,7 @@ public class Info_Person extends Activity {
 			else {
 				phonenumber="0";
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}		
    		try
         {
@@ -113,7 +113,7 @@ public class Info_Person extends Activity {
 }
 
 		public void insertKarbar() {
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String errorStr="";
 		if(fname.getText().toString().compareTo("")==0){
 			errorStr+="لطفا نام خود راوارد نمایید\n";

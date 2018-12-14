@@ -126,7 +126,7 @@ public class UpdateAddress extends AppCompatActivity {
         });
 
         //Fill Spinner State
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor cursors = db.rawQuery("SELECT * FROM State ",null);
         String str;
         for(int i=0;i<cursors.getCount();i++){
@@ -134,7 +134,7 @@ public class UpdateAddress extends AppCompatActivity {
             str=cursors.getString(cursors.getColumnIndex("Name"));
             labels_State.add(str);
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels_State);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(dataAdapter);
@@ -149,7 +149,7 @@ public class UpdateAddress extends AppCompatActivity {
                     String Code=coursors.getString(coursors.getColumnIndex("Code"));
                     FillSpinnerChild(Code);
                 }
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -163,7 +163,7 @@ public class UpdateAddress extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String CodeState,CodeCity;
-                db=dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 String StrnameAddress=NameAddres.getText().toString().trim();
                 String StrAddAddres=AddAddres.getText().toString().trim();
                 String StrError="";
@@ -194,7 +194,7 @@ public class UpdateAddress extends AppCompatActivity {
                 }
                 if(StrError.length()==0 || StrError.compareTo("")==0)
                 {
-                    db=dbh.getReadableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                     Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='"+StrnameAddress+"' AND Code<>'"+AddressCode+"'",null);
                     if(cursor.getCount()>0) {
                         Toast.makeText(UpdateAddress.this,"نام تکراری است",Toast.LENGTH_LONG).show();
@@ -211,12 +211,12 @@ public class UpdateAddress extends AppCompatActivity {
                     }
                 }
                 if(db.isOpen()) {
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 }
             }
         });
         //*************************************************************************************************
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Code='"+AddressCode+"'",null);
         if(coursors.getCount()>0)
         {
@@ -253,7 +253,7 @@ public class UpdateAddress extends AppCompatActivity {
                 lon=0;
             }
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         //*************************************************************************************************
 //*************************************************************************************************
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
@@ -324,7 +324,7 @@ public class UpdateAddress extends AppCompatActivity {
                 labels_City.add(coursors.getString(coursors.getColumnIndex("Name")));
             }
         }
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_City);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(dataAdapter);

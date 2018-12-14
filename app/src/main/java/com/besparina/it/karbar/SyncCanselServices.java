@@ -214,9 +214,9 @@ public class SyncCanselServices {
 	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("UPDATE OrdersService SET Status='3' WHERE Code='"+UserServiceCode+"'");
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity, "سرویس لغو گردید", Toast.LENGTH_LONG).show();
 		LoadActivity(List_Order.class, "karbarCode", pUserCode);
     }

@@ -199,12 +199,13 @@ public class SyncUnit {
 		String[] value;
 		String query=null;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			query="INSERT INTO Unit (Code,Name) VALUES('"+value[0]+"','"+value[1]+"')";
 			db.execSQL(query);
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(this.activity,GUID,HamyarCode);
 		getHmFactorService.AsyncExecute();
     }

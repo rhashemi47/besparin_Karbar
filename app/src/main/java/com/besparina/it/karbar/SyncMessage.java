@@ -211,7 +211,7 @@ public class SyncMessage {
 		String query=null;
 		boolean isFirst=IsFristInsert();
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			query="INSERT INTO messages (Code," +
@@ -224,7 +224,7 @@ public class SyncMessage {
 					"','"+value[4]+
 					"','0')";
 			db.execSQL(query);
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			if(!isFirst && value[4].compareTo("0")==0) {
 				runNotification("بسپارینا", value[1], i, value[0], ShowMessage.class);
 			}
@@ -238,17 +238,17 @@ public class SyncMessage {
 	}
 	public boolean IsFristInsert()
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM messages";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 		else
 		{
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 	}

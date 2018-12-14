@@ -238,9 +238,9 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 					boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
 					getChecked[mChildPosition] = isChecked;
 					mChildCheckStates.put(mGroupPosition, getChecked);
-					db=dbh.getReadableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 					Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+buttonView.getTag().toString()+"'", null);
-					db=dbh.getWritableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 					coursors.moveToNext();
 					db.execSQL("INSERT INTO exprtise (code) VALUES('"+coursors.getString(coursors.getColumnIndex("code")) +"')");
 
@@ -249,9 +249,9 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 					boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
 					getChecked[mChildPosition] = isChecked;
 					mChildCheckStates.put(mGroupPosition, getChecked);
-					db=dbh.getReadableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 					Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+buttonView.getTag().toString()+"'", null);
-					db=dbh.getWritableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 					coursors.moveToNext();
 					db.execSQL("DELETE FROM exprtise WHERE code='"+coursors.getString(coursors.getColumnIndex("code")) +"'");
 				}

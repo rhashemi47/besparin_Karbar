@@ -97,12 +97,22 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	catch (Exception e)
 	{
+		try {
+			if (!db.isOpen()) {
+				db = dbh.getReadableDatabase();
+			}
+		}
+		catch (Exception ex)
+		{
+
+		}
 		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
 
 			karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 
 	ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -121,7 +131,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvTextAbout);
 	txtContent.setTypeface(FontMitra);
-//	db=dbh.getReadableDatabase();
+//	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //	Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //			"LEFT JOIN " +
 //			"Servicesdetails ON " +
@@ -202,7 +212,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				cursorPhone.moveToNext();
 				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 	});
 	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {

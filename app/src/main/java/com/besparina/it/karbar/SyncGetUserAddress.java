@@ -189,7 +189,7 @@ public class SyncGetUserAddress {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM address");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -218,7 +218,7 @@ public class SyncGetUserAddress {
 					"','"+value[10]+
 					"')");
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		if(this.Flag.compareTo("0")!=0) {
 			Toast.makeText(activity, "درخواست انجام شد.", Toast.LENGTH_LONG).show();
 			LoadActivity(List_Address.class,"karbarCode",pUserCode);

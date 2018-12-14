@@ -231,11 +231,12 @@ public class SyncFinalJob {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="UPDATE  BsHamyarSelectServices" +
 				" SET IsDelete='1',Status='7' " +
 				"WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		LoadActivity(MainActivity.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

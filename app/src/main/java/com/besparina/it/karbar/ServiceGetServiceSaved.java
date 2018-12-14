@@ -71,7 +71,7 @@ public class ServiceGetServiceSaved extends Service {
 
                                                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
                                             }
-                                            db.close();
+                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                             SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0");
                                             syncGetUserServices.AsyncExecute();
                                         }
@@ -115,20 +115,20 @@ public class ServiceGetServiceSaved extends Service {
                 if (Result.compareTo("0") == 0)
                 {
                     if(db.isOpen())
-                        db.close();
+                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     return false;
                 }
                 else
                 {
                     if(db.isOpen())
-                        db.close();
+                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     return true;
                 }
             }
             else
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
     }

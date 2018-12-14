@@ -191,21 +191,21 @@ public class SyncGetUserCredit {
 	}
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-    	db=dbh.getReadableDatabase();
+    	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
     	String Query="SELECT * FROM AmountCredit";
     	Cursor cursor=db.rawQuery(Query,null);
     	if(cursor.getCount()>0) {
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			String query = "UPDATE AmountCredit SET Amount='" + this.WsResponse + "'";
 			db.execSQL(query);
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 		else
 		{
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			String query = "INSERT INTO AmountCredit (Amount) VALUES('" + this.WsResponse + "')";
 			db.execSQL(query);
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 		if(this.Flag.compareTo("0")!=0) {
 			Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();

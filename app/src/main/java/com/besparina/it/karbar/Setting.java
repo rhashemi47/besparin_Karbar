@@ -58,7 +58,7 @@
                 }
             }
             String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             db.execSQL(Query);
 
             ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);

@@ -358,14 +358,14 @@ public class Service_Request_Edit extends AppCompatActivity {
 		}
 		catch (Exception e)
 		{
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 			Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 			for(int i=0;i<coursors.getCount();i++){
 				coursors.moveToNext();
 
 				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -377,7 +377,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 		});
 
 		//*********************************************************************
-//		db=dbh.getReadableDatabase();
+//		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //		Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //				"LEFT JOIN " +
 //				"Servicesdetails ON " +
@@ -407,7 +407,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 //				btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 //			}
 //		}
-//		db.close();
+//		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		btnAddAdres.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -465,7 +465,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 		});
 		//**************************************************************
@@ -475,7 +475,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 		spAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Name='"+spAddress.getItemAtPosition(position).toString()+"'",null);
 				if(cursor.getCount()>0)
 				{
@@ -484,7 +484,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
 
 				}
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
 
 			@Override
@@ -493,7 +493,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 			}
 		});
 
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM Servicesdetails WHERE code='"+DetailCode+"'",null);
 		if(coursors.getCount()>0){
 			coursors.moveToNext();
@@ -506,7 +506,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 			typeForm="0";
 			Toast.makeText(getBaseContext(), "نوع فرم ثبت نشده", Toast.LENGTH_LONG).show();
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		switch (typeForm)
 		{
 			case "0":
@@ -1581,7 +1581,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 	}
 	public void FillSpinner(String tableName,String ColumnName,Spinner spinner){
 		List<String> labels = new ArrayList<String>();
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query="SELECT * FROM " + tableName ;
 		Cursor cursors = db.rawQuery(query,null);
 		String str;
@@ -1590,7 +1590,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 			str=cursors.getString(cursors.getColumnIndex(ColumnName));
 			labels.add(str);
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels){
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View v = super.getView(position, convertView, parent);
@@ -1637,7 +1637,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						db.close();
+						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -1789,7 +1789,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 			spLanguage.setSelection(positionString);
 			//*****************************************************************************
 			//*********************Address**********************************************
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 			query="SELECT OrdersService.*,address.* FROM OrdersService " +
 					"LEFT JOIN " +
 					"address ON " +
@@ -1835,7 +1835,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 		{
 			Toast.makeText(Service_Request_Edit.this, "سرویس پیدا نشد! ", Toast.LENGTH_LONG).show();
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	public void GetTime(final EditText editText)
 	{
@@ -1848,7 +1848,7 @@ public class Service_Request_Edit extends AppCompatActivity {
 //				/*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
 //						":" + String.format("%02d", minute) +
 //						":" + String.format("%02d", seconds));	*/
-////				db=dbh.getWritableDatabase();
+////				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 ////				String query="UPDATE  DateTB SET Time = '" +String.valueOf(hourOfDay)+":"+String.valueOf(minute)+"'";
 ////				db.execSQL(query);
 //

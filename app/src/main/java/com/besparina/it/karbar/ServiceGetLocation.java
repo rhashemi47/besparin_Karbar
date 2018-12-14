@@ -83,11 +83,12 @@ public class ServiceGetLocation extends Service {
                                                     latitude = gps.getLatitude();
                                                     longitude = gps.getLongitude();
                                                     String query = "UPDATE Profile SET Lat='" + Double.toString(latitude) + "',Lon='" + Double.toString(longitude) + "'";
-                                                    db = dbh.getWritableDatabase();
+                                                    try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                                                     db.execSQL(query);
+                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
-                                            db.close();
+                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                         }
 
                                     }
@@ -126,20 +127,20 @@ public class ServiceGetLocation extends Service {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

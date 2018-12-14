@@ -235,16 +235,17 @@ public class HmLogin {
 			String Result=cursors.getString(cursors.getColumnIndex("islogin"));
 			if(Result.compareTo("0")==0)
 			{
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE login SET hamyarcode='"+res[1].toString()+"' , guid='"+res[2].toString()+"' , islogin = '1'");
 			}
 		}
 		else
 		{
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			db.execSQL("DELETE FROM login");
 			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+res[1].toString()+"','"+res[2].toString()+"','1')";
 			db.execSQL(query);
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
         cursors = db.rawQuery("SELECT ifnull(MAX(code),0)as code FROM BsUserServices", null);
         if(cursors.getCount()>0)

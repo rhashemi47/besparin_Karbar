@@ -195,16 +195,16 @@ public class SyncSetPicProfile {
 
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursor=db.rawQuery("SELECT * FROM TempPic",null);
 		if(cursor.getCount()>0){
 			cursor.moveToNext();
-			db=dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			db.execSQL("Update Profile SET Pic='"+cursor.getString(cursor.getColumnIndex("Pic"))+"'");
 		}
 		db.execSQL("DELETE FROM TempPic");
 		if(db.isOpen()) {
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
 		if (!(cursor.isClosed()))
 			cursor.close();

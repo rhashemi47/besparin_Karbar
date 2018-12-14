@@ -244,16 +244,17 @@ public class HmLogin {
 			String Result=cursors.getString(cursors.getColumnIndex("islogin"));
 			if(Result.compareTo("0")==0)
 			{
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE login SET karbarCode='"+res[0].toString()+"' , islogin = '1'");
 			}
 		}
 		else
 		{
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			db.execSQL("DELETE FROM login");
 			String query="INSERT INTO login (karbarCode,islogin) VALUES('"+res[0].toString()+"','1')";
 			db.execSQL(query);
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
         cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
         if(cursors.getCount()>0)
@@ -262,7 +263,7 @@ public class HmLogin {
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[0].toString(),LastMessageCode);
 		syncMessage.AsyncExecute();
 		SyncProfile syncProfile=new SyncProfile(this.activity, res[0].toString(),this.acceptcode);

@@ -56,15 +56,16 @@
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsDelete='0'",null);
         if(coursors.getCount()>0)
         {
@@ -81,6 +82,7 @@
                 map.put("IsReade",coursors.getString(coursors.getColumnIndex("IsReade")));
                 valuse.add(map);
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             AdapterMessage dataAdapter=new AdapterMessage(List_Messages.this,valuse);
             lvMessage.setAdapter(dataAdapter);
         }

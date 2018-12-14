@@ -208,10 +208,11 @@ public class SyncAcceptPreInvoiceByUsers {
     {
 		PersianCalendar cal=new PersianCalendar();
 		String DateNow=cal.getPersianLongDate();
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			String query="UPDATE BsFaktorUsersHead SET AcceptPreInvoiceByUsers='"+this.Accpept+
 					"', AcceptDatePreInvoide='"+DateNow+"' WHERE Code='"+this.pAcceptPreInvoiceByUsersCode+"'" ;
 			db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			if(this.Accpept.compareTo("1")==0)
 			{
 				Toast.makeText(this.activity.getApplicationContext(), "پیش فاکتور تایید شد.", Toast.LENGTH_SHORT).show();
@@ -221,7 +222,7 @@ public class SyncAcceptPreInvoiceByUsers {
 				Toast.makeText(this.activity.getApplicationContext(), "پیش فاکتور رد شد.", Toast.LENGTH_SHORT).show();
 			}
 		LoadActivity(Service_Request_Saved.class,"OrderCode",OrderCode);
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{

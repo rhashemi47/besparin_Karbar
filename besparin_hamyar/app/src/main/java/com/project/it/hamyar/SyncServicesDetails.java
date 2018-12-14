@@ -201,14 +201,14 @@ public class SyncServicesDetails {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM servicesdetails");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");			
 			db.execSQL("INSERT INTO servicesdetails (code,servicename,type,name) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"','"+value[3]+"')");		
 		}
 		String Query="UPDATE UpdateApp SET Status='0'";
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL(Query);
 		if(this.flag.compareTo("0")==0)
 		{

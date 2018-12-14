@@ -70,7 +70,7 @@ public class ShowMessage extends Activity{
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
@@ -81,7 +81,7 @@ public class ShowMessage extends Activity{
         String query=null;
         String[] DateSp=null;
         code=getIntent().getStringExtra("Code").toString();
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         query="SELECT * FROM messages WHERE Code='"+code+"'";
         Cursor cursor= db.rawQuery(query,null);
         if(cursor.getCount()>0) {
@@ -105,11 +105,12 @@ public class ShowMessage extends Activity{
                         " SET  IsDelete='1' " +
                         "WHERE Code='"+getIntent().getStringExtra("Code") + "'";
                 db.execSQL(query);
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 LoadActivity(MainActivity.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         String Query="UPDATE UpdateApp SET Status='1'";
-        db=dbh.getWritableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
         db.execSQL(Query);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 

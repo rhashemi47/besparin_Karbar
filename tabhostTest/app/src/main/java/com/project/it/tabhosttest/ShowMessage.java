@@ -69,24 +69,26 @@ public class ShowMessage extends Activity{
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
         String query=null;
         String[] DateSp=null;
         code=getIntent().getStringExtra("Code").toString();
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         query="SELECT * FROM messages WHERE Code='"+code+"'";
         Cursor cursor= db.rawQuery(query,null);
         if(cursor.getCount()>0) {
             cursor.moveToNext();
             Isread=cursor.getString(cursor.getColumnIndex("IsReade"));
         }
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         if(Isread.compareTo("0")==0)
         {
             DateSp= ChangeDate.getCurrentDate().split("/");
@@ -100,10 +102,12 @@ public class ShowMessage extends Activity{
             @Override
             public void onClick(View v) {
                 String query=null;
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 query="UPDATE  messages" +
                         " SET  IsDelete='1' " +
                         "WHERE Code='"+getIntent().getStringExtra("Code") + "'";
                 db.execSQL(query);
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 LoadActivity(MainActivity.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });

@@ -208,7 +208,7 @@ public class SyncGettUserCreditHistory {
 			String[] value;
 			res = WsResponse.split("@@");
 			String query = null;
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			db.execSQL("DELETE FROM credits");
 			for (int i = 0; i < res.length; i++) {
 				value = res[i].split("##");
@@ -224,7 +224,7 @@ public class SyncGettUserCreditHistory {
 						"')";
 				db.execSQL(query);
 			}
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			SyncGetUserCredit syncGetUserCredit = new SyncGetUserCredit(this.activity, pkarbarCode, this.Flag);
 			syncGetUserCredit.AsyncExecute();
 		}

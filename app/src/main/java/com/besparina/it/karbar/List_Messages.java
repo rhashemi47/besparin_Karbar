@@ -79,14 +79,14 @@
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
 
                 karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
             }
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
 
             ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -99,7 +99,7 @@
         //******************************************************************************
             Preparedata();
         //*****************************************************************************
-//            db=dbh.getReadableDatabase();
+//            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //            Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //                    "LEFT JOIN " +
 //                    "Servicesdetails ON " +
@@ -120,7 +120,7 @@
 //                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber("0"));
 //                }
 //            }
-//            db.close();
+//            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             btnOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -172,7 +172,7 @@
                         cursorPhone.moveToNext();
                         dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                     }
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 }
             });
     }
@@ -204,7 +204,7 @@
         {
             tvNotMessage.setVisibility(View.VISIBLE);
             lvMessage.setVisibility(View.GONE);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsDelete='0' ORDER BY CAST(Code AS int) ",null);
             if(coursors.getCount()>0)
             {
@@ -235,7 +235,7 @@
                 AdapterMessage dataAdapter=new AdapterMessage(List_Messages.this,valuse);
                 lvMessage.setAdapter(dataAdapter);
             }
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
         public void dialContactPhone(String phoneNumber) {
             //startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
@@ -260,7 +260,7 @@
                                 cursorPhone.moveToNext();
                                 dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                             }
-                            db.close();
+                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                         } else {
                             // Permission Denied
                             Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

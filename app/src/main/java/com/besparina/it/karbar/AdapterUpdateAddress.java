@@ -187,7 +187,7 @@ public class AdapterUpdateAddress extends BaseAdapter {
                 String DetailAddress;
                 String latStr;
                 String lonStr;
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 Cursor coursors = db.rawQuery("SELECT * FROM address WHERE Code='"+code+"'",null);
                 if(coursors.getCount()>0)
                 {
@@ -202,6 +202,7 @@ public class AdapterUpdateAddress extends BaseAdapter {
                     SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(activity,karbarCode,code,"0",name,codeState,CodeCity,StrAddAddres,DetailAddress,latStr,lonStr,"0","1");
                     syncUpdateAddress.AsyncExecute();
                 }
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 arg0.dismiss();
 
             }

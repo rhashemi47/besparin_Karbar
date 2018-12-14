@@ -289,11 +289,12 @@ public class SyncVisitJob {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="UPDATE  BsHamyarSelectServices" +
 				" SET  Status='5' ,VisitDate='"+this.Year+"/" +this.Mon+"/"+this.Day+
 				"' WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		LoadActivity(ViewJob.class,"guid", guid,"hamyarcode",hamyarcode,"tab","0","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

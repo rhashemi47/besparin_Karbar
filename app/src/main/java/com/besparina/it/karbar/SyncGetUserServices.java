@@ -195,7 +195,7 @@ public class SyncGetUserServices {
 		String[] TimeStart, TimeEnd;
 		boolean isFirst=IsFristInsert();
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			try {
@@ -282,20 +282,22 @@ public class SyncGetUserServices {
 			}
 		}
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 
 	public boolean checkStatus(String codeStr,String statusStr)
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM OrdersService WHERE Code='"+codeStr+"' AND Status='"+statusStr+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 		else
 		{
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 	}
@@ -367,15 +369,17 @@ public class SyncGetUserServices {
 	}
 	public boolean IsFristInsert()
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM OrdersService";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 		else
 		{
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 	}

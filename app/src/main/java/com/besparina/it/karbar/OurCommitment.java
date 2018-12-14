@@ -92,9 +92,9 @@
             txtContent=(TextView)findViewById(R.id.tvTextOurcommitment);
             txtContent.setTypeface(FontMitra);
             String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             db.execSQL(Query);
-//            db=dbh.getReadableDatabase();
+//            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //            Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
 //                    "LEFT JOIN " +
 //                    "Servicesdetails ON " +
@@ -124,7 +124,7 @@
 //			btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
 //		}
 //            }
-//            db.close();
+//            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             btnOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -176,7 +176,7 @@
                         cursorPhone.moveToNext();
                         dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                     }
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 }
             });
     }
@@ -227,7 +227,7 @@
                                 cursorPhone.moveToNext();
                                 dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                             }
-                            db.close();
+                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                         } else {
                             // Permission Denied
                             Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

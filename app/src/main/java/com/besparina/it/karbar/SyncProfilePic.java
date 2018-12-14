@@ -195,10 +195,10 @@ public class SyncProfilePic {
 	public void InsertDataFromWsToDb(String AllRecord)
     {
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		query="UPDATE Profile SET Pic='"+WsResponse+"'";
 		db.execSQL(query);
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		LoadActivity(MainMenu.class,"karbarCode",karbarCode,"acceptcode",acceptcode);
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName3, String VariableValue3)
