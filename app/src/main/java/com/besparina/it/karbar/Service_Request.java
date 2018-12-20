@@ -660,7 +660,7 @@ public class Service_Request extends AppCompatActivity {
 				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
-					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
 				db.close();
 			}
@@ -1741,7 +1741,7 @@ public class Service_Request extends AppCompatActivity {
 						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 						if (cursorPhone.getCount() > 0) {
 							cursorPhone.moveToNext();
-							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
 						db.close();
 					} else {
@@ -1946,7 +1946,13 @@ public class Service_Request extends AppCompatActivity {
             }
             spLanguage.setSelection(positionString);
             //*********************Address**********************************************
-                spAddress.setSelection(Integer.parseInt(AddressCode));
+		try {
+			spAddress.setSelection(Integer.parseInt(AddressCode));
+		}
+		catch (Exception ex)
+		{
+
+		}
             //*****************************************************************************
             if(CarWashType.compareTo("1")==0) {
                 spTypeService.setSelection(1);

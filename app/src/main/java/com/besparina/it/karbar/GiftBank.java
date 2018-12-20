@@ -166,7 +166,7 @@
                     Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
                     if (cursorPhone.getCount() > 0) {
                         cursorPhone.moveToNext();
-                        dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                        dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                     }
                     db.close();
                 }
@@ -215,7 +215,7 @@
                             Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
                             if (cursorPhone.getCount() > 0) {
                                 cursorPhone.moveToNext();
-                                dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                                dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                             }
                             db.close();
                         } else {

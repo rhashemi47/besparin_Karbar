@@ -42,6 +42,7 @@ public class Contact extends Activity {
 	private Button btnServiceEmergency;
 	private Button btnCallSupporter;
 	private Button btnSendMessage;
+	private int GET_MY_PERMISSION = 2;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -181,7 +182,7 @@ public class Contact extends Activity {
 				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
-					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
 				db.close();
 			}
@@ -193,7 +194,7 @@ public class Contact extends Activity {
 				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
-					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 				}
 				db.close();
 			}
@@ -261,7 +262,7 @@ public class Contact extends Activity {
 						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 						if (cursorPhone.getCount() > 0) {
 							cursorPhone.moveToNext();
-							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 						}
 						db.close();
 					} else {
@@ -300,7 +301,8 @@ public class Contact extends Activity {
 			//                                          int[] grantResults)
 			// to handle the case where the user grants the permission. See the documentation
 			// for ActivityCompat#requestPermissions for more details.
-			Toast.makeText(Contact.this,"اجازه دسترسی به ارسال پیام داده نشده است",Toast.LENGTH_LONG).show();
+//			Toast.makeText(Contact.this,"اجازه دسترسی به ارسال پیام داده نشده است",Toast.LENGTH_LONG).show();
+			ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.SEND_SMS},GET_MY_PERMISSION);
 			return;
 		} else {
 			SmsManager smsManager = SmsManager.getDefault();

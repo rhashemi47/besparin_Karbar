@@ -266,17 +266,25 @@ public class SyncGetFaktorUserDetailes {
 	}
 	public boolean checkCode(String codeStr)
 	{
-		db=dbh.getReadableDatabase();
+		if(!db.isOpen()){
+			db=dbh.getReadableDatabase();
+		}
 		String query = "SELECT * FROM BsFaktorUserDetailes WHERE Code='"+codeStr+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			db.close();
+
+			if(db.isOpen()) {
+				db.close();
+			}
 			return true;
 		}
 		else
 		{
-			db.close();
+
+			if(db.isOpen()) {
+				db.close();
+			}
 			return false;
 		}
 	}

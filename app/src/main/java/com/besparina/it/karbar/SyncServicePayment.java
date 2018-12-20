@@ -29,7 +29,7 @@ public class SyncServicePayment {
 	private String pUserCode;
 	private String WsResponse;
 	private String BsUserServiceCode;
-	private String Price;
+	private String Price[];
 	private boolean CuShowDialog=true;
 	//Contractor
 	public SyncServicePayment(Activity activity, String pUserCode, String BsUserServiceCode,String Price) {
@@ -37,7 +37,7 @@ public class SyncServicePayment {
 
 		this.pUserCode=pUserCode;
 		this.BsUserServiceCode=BsUserServiceCode;
-		this.Price=Price;
+		this.Price=Price.split("\\.");
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -193,7 +193,7 @@ public class SyncServicePayment {
 		//Set Name
 		PricePI.setName("Price");
 		//Set Value
-		PricePI.setValue(this.Price);
+		PricePI.setValue(this.Price[0]);
 		//Set dataType
 		PricePI.setType(String.class);
 		//Add the property to request object

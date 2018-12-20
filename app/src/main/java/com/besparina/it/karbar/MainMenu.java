@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 
+import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -94,6 +95,8 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(newBase);
+        MultiDex.install(this);
     }
     protected void onResume() {
 
@@ -408,7 +411,7 @@ public class MainMenu extends AppCompatActivity {
                 Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
                 if (cursorPhone.getCount() > 0) {
                     cursorPhone.moveToNext();
-                    dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                    dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                 }
                 db.close();
             }
@@ -904,7 +907,7 @@ public class MainMenu extends AppCompatActivity {
                         Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
                         if (cursorPhone.getCount() > 0) {
                             cursorPhone.moveToNext();
-                            dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+                            dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                         }
                         db.close();
                     } else {

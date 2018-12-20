@@ -408,7 +408,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
-					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
 				db.close();
 			}
@@ -562,7 +562,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			if (cursorPhone.getCount() > 0) {
 				cursorPhone.moveToNext();
 				try {
-					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
+					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 				}catch (Exception e){ Toast.makeText(Service_Request_Saved.this,"شماره تماس همیار شما ثبت نشده است",Toast.LENGTH_LONG).show(); }
 			}
 			else
@@ -591,7 +591,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 			if (cursorPhone.getCount() > 0) {
 				cursorPhone.moveToNext();
-				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
+				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 			}
 			db.close();
 		}
@@ -1154,7 +1154,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 						Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 						if (cursorPhone.getCount() > 0) {
 							cursorPhone.moveToNext();
-							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
 						db.close();
 					} else {
