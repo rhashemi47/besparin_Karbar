@@ -545,11 +545,6 @@ public class Map extends AppCompatActivity {
 
             Address address = list.get(0);
 
-
-            //Toast.makeText(getApplicationContext(), "CountryCode: " + address.getCountryCode() +
-//                    " ,AdminArea : " + address.getAdminArea() +
-//                    " ,CountryName : " + address.getCountryName() +
-//                    " ,SubLocality : " + address.getSubLocality()+address.getFeatureName(), Toast.LENGTH_SHORT).show();
             if(address.getSubLocality()!=null)
             {
                 return address.getSubLocality();
@@ -593,11 +588,7 @@ public class Map extends AppCompatActivity {
                 map.clear();
                 map.addMarker(new MarkerOptions().position(mlatLng).title("مکان من").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(mlatLng, 14));
-                //  Toast.makeText(getApplicationContext(), "Lat: " + address.getLatitude() +
-//                        "\n" +
-//                        "Long: " + address.getLongitude(), Toast.LENGTH_SHORT).show();
-
-            }
+              }
         } catch (IOException e) {
             e.printStackTrace();
         }

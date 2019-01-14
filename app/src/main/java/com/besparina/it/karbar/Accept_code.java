@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -36,7 +38,12 @@ public class Accept_code extends Activity {
 	Button btnRefreshAcceptcode;
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
+	private TextView tvTimer;
 	private IntentFilter intentFilter;
+	private Handler mHandler;
+	private boolean continue_or_stop = true;
+	private boolean createthread=true;
+	private int counter=59;
 	private BroadcastReceiver intentReciever=new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -107,9 +114,11 @@ public class Accept_code extends Activity {
 		acceptcode=(EditText)findViewById(R.id.etAcceptcode);
 		btnSendAcceptcode=(Button)findViewById(R.id.btnSendAcceptCode);
 		btnRefreshAcceptcode=(Button)findViewById(R.id.btnRefreshAcceptCode);
+		tvTimer=(TextView) findViewById(R.id.tvTimer);
 		//set font for element
 		acceptcode.setTypeface(FontMitra);
 		btnSendAcceptcode.setTypeface(FontMitra);
+		startCountAnimation();
 		btnSendAcceptcode.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -205,5 +214,41 @@ public class Accept_code extends Activity {
 
 		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load);
 		hm.AsyncExecute();
+	}
+	public void startCountAnimation() {
+		continue_or_stop=true;
+		if(createthread) {
+			mHandler = new Handler();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (continue_or_stop) {
+						try {
+							Thread.sleep(1000); // every 60 seconds
+							mHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									if(counter!=0)
+									{
+										counter-=1;
+										tvTimer.setText(String.valueOf(counter)+ " ثانیه");
+										btnRefreshAcceptcode.setVisibility(View.GONE);
+									}
+									else
+									{
+										continue_or_stop = false;
+										btnRefreshAcceptcode.setVisibility(View.VISIBLE);
+									}
+								}
+							});
+						} catch (Exception e) {
+						}
+					}
+				}
+			}).start();
+
+			createthread = false;
+
+		}
 	}
 }

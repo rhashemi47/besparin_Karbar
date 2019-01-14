@@ -1,7 +1,5 @@
 package com.besparina.it.karbar;
 
-import android.*;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,23 +9,16 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-//import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,9 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class About extends AppCompatActivity {
@@ -131,36 +120,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvTextAbout);
 	txtContent.setTypeface(FontMitra);
-//	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-//	Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-//			"LEFT JOIN " +
-//			"Servicesdetails ON " +
-//			"Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0' ORDER BY CAST(OrdersService.Code AS int) ", null);
-//	if (cursor2.getCount() > 0) {
-//		btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
-//	}
-//	cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) ", null);
-//	if (cursor2.getCount() > 0) {
-//		btnAcceptOrder.setText("پذیرفته شده ها(" + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
-//	}
-//	cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
-//	if (cursor2.getCount() > 0) {
-//		cursor2.moveToNext();
-//		try {
-//			String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
-//			if(splitStr[1].compareTo("00")==0)
-//			{
-//				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
-//			}
-//			else
-//			{
-//				btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
-//			}
-//
-//		} catch (Exception ex) {
-//			btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber("0")+")");
-//		}
-//	}
 	btnOrder.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -272,7 +231,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	imgWathsUp.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			//openWebPage("09335678976");
 			Intent sendIntent = new Intent("android.intent.action.MAIN");
 			sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
 			sendIntent.putExtra("jid", "09335678976" + "@s.whatsapp.net");
@@ -304,7 +262,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		this.startActivity(intent);
 	}
 	public void dialContactPhone(String phoneNumber) {
-		//startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
+
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
 		callIntent.setData(Uri.parse("tel:" + phoneNumber));
 		if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {

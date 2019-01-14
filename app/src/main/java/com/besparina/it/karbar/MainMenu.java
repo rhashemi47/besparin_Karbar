@@ -327,39 +327,6 @@ public class MainMenu extends AppCompatActivity {
         } else {
             viewFlipper.setVisibility(View.GONE);
         }
-
-//*******************************************************************************************************************
-//        db = dbh.getReadableDatabase();
-//        Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
-//                "LEFT JOIN " +
-//                "Servicesdetails ON " +
-//                "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) ", null);
-//        if (cursor2.getCount() > 0) {
-//            btnOrder.setText("درخواست ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
-//        }
-//        cursor2 = db.rawQuery("SELECT * FROM OrdersService WHERE Status in (1,2,6,7,12,13) ORDER BY CAST(Code AS int) ", null);
-//        if (cursor2.getCount() > 0) {
-//            btnAcceptOrder.setText("پذیرفته شده ها( " + PersianDigitConverter.PerisanNumber(String.valueOf(cursor2.getCount()))+")");
-//        }
-//        cursor2 = db.rawQuery("SELECT * FROM AmountCredit", null);
-//        if (cursor2.getCount() > 0) {
-//            cursor2.moveToNext();
-//            try {
-//                String splitStr[]=cursor2.getString(cursor2.getColumnIndex("Amount")).toString().split("\\.");
-//                if(splitStr[1].compareTo("00")==0)
-//                {
-//                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(splitStr[0])+")");
-//                }
-//                else
-//                {
-//                    btncredite.setText("اعتبار( " + PersianDigitConverter.PerisanNumber(cursor2.getString(cursor2.getColumnIndex("Amount")))+")");
-//                }
-//
-//            } catch (Exception ex) {
-//                btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
-//            }
-//        }
-//        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -423,7 +390,6 @@ public class MainMenu extends AppCompatActivity {
         {
             CreateMenu(toolbar,null);
         }
-//        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
 
         //***************************************************************************************************************************
     }
@@ -486,11 +452,9 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM Arts");
                 db.execSQL("DELETE FROM BsFaktorUserDetailes");
                 db.execSQL("DELETE FROM BsFaktorUsersHead");
-//                db.execSQL("DELETE FROM City");
                 db.execSQL("DELETE FROM credits");
                 db.execSQL("DELETE FROM DateTB");
                 db.execSQL("DELETE FROM FieldofEducation");
-//                db.execSQL("DELETE FROM Grade");
                 db.execSQL("DELETE FROM Hamyar");
                 db.execSQL("DELETE FROM InfoHamyar");
                 db.execSQL("DELETE FROM Language");
@@ -498,12 +462,8 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM messages");
                 db.execSQL("DELETE FROM OrdersService");
                 db.execSQL("DELETE FROM Profile");
-//                db.execSQL("DELETE FROM services");
-//                db.execSQL("DELETE FROM servicesdetails");
-//                db.execSQL("DELETE FROM Slider");
                 db.execSQL("DELETE FROM sqlite_sequence");
                 db.execSQL("DELETE FROM State");
-//                db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");
                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
@@ -511,8 +471,6 @@ public class MainMenu extends AppCompatActivity {
 
 
                 startMain.addCategory(Intent.CATEGORY_HOME);
-
-//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -576,10 +534,6 @@ public class MainMenu extends AppCompatActivity {
                         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
                     }
                 }
-//                else
-//                {
-//                    bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
-//                }
 
             }
             catch (Exception ex){
@@ -695,16 +649,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 break;
-//                            case 4:
-//                                db = dbh.getReadableDatabase();
-//                                c = db.rawQuery("SELECT * FROM login", null);
-//                                if (c.getCount() > 0) {
-//                                    c.moveToNext();
 //
-//                                    LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-//                                }
-//                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-//                                break;
                             case 4:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login", null);
@@ -776,14 +721,7 @@ public class MainMenu extends AppCompatActivity {
                                 dialog.show();
                                 break;
                             case 8:
-//                                db = dbh.getReadableDatabase();
-//                                c = db.rawQuery("SELECT * FROM login", null);
-//                                if (c.getCount() > 0) {
-//                                    c.moveToNext();
 //
-//                                    LoadActivity(About.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-//                                }
-//                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                 Intent urlCall1 = new Intent(Intent.ACTION_VIEW);
                                 urlCall1.setData(Uri.parse("http://besparina.ir/?page_id=199"));
                                 startActivity(urlCall1);
@@ -793,68 +731,15 @@ public class MainMenu extends AppCompatActivity {
                                 urlCall2.setData(Uri.parse("http://besparina.ir/?page_id=399&preview=true"));
                                 startActivity(urlCall2);
                                 break;
-                            case 10:
-//                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
+                            case 10://
                                 Logout();
                                 break;
-//                            case 14:
-//                                Toast.makeText(MainMenu.this, "تلگرام", Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case 15:
-//                                Toast.makeText(MainMenu.this, "اینستاگرام", Toast.LENGTH_SHORT).show();
-//                                break;
                         }
                         return true;
                     }
                 })
                 .build();
     }
-
-//    private void ExitApplication() {
-//        //Exit All Activity And Kill Application
-//        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-//        // set the message to display
-//        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
-//
-//        // set a negative/no button and create a listener
-//        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
-//            // do something when the button is clicked
-//            public void onClick(DialogInterface arg0, int arg1) {
-//                arg0.dismiss();
-//            }
-//        });
-//
-//        // set a positive/yes button and create a listener
-//        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
-//            // do something when the button is clicked
-//            public void onClick(DialogInterface arg0, int arg1) {
-//                //Declare Object From Get Internet Connection Status For Check Internet Status
-//                Intent startMain = new Intent(Intent.ACTION_MAIN);
-//
-//                startMain.addCategory(Intent.CATEGORY_HOME);
-//
-//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//                startActivity(startMain);
-//
-//                finish();
-//
-//                arg0.dismiss();
-//
-//            }
-//        });
-//
-//        alertbox.show();
-//    }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-//            //ExitApplication();
-//        }
-//
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue) {
         Intent intent = new Intent(getApplicationContext(), Cls);
@@ -1003,5 +888,4 @@ public class MainMenu extends AppCompatActivity {
         startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
         startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
     }
-
 }
