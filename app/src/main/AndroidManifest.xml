@@ -10,7 +10,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".FontMain">
+        android:name=".FontMain"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="com.besparina.it.karbar.MainMenu"
             android:label="@string/app_name"
