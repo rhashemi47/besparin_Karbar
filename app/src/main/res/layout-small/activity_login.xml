@@ -61,6 +61,7 @@
                 android:inputType="phone"
                 android:layoutDirection="rtl"
                 android:padding="10dp"
+                android:maxLength="11"
                 android:textAlignment="center"
                 android:textSize="10sp"
                 android:textStyle="normal" />

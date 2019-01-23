@@ -49,6 +49,7 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/rounded_edittext_login"
                 android:ems="2"
+                android:maxLength="11"
                 android:hint="شماره موبایل خورد را وارد نمایید"
                 android:inputType="phone"
                 android:layoutDirection="rtl"

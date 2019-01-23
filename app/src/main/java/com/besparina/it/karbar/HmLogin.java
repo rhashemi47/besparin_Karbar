@@ -256,6 +256,7 @@ public class HmLogin {
 			db.execSQL(query);
 			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
         if(cursors.getCount()>0)
         {

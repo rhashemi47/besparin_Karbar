@@ -749,6 +749,10 @@ public class Service_Request extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				String ErrorStr = "";
+				String[] SplitFromeDate;
+				String[] SplitToDate;
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calTo=null;
+				ir.hamsaa.persiandatepicker.util.PersianCalendar calFrom = null;
 				FemaleCount = PersianDigitConverter.EnglishNumber(etCountWoman.getText().toString());
 				HamyarCount = PersianDigitConverter.EnglishNumber(etDoesnotmatter.getText().toString());
 				MaleCount = PersianDigitConverter.EnglishNumber(etCountMan.getText().toString());
@@ -764,8 +768,24 @@ public class Service_Request extends AppCompatActivity {
 				if (etFromDate.length() == 0) {
 					ErrorStr += "تاریخ شروع را وارد نمایید" + "\n";
 				}
+				else
+				{
+					SplitFromeDate=etFromDate.getText().toString().split("/");
+					calFrom=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+					calFrom.setPersianDate(Integer.parseInt(SplitFromeDate[0])
+							,Integer.parseInt(SplitFromeDate[1])
+							,Integer.parseInt(SplitFromeDate[2]));
+				}
 				if (etToDate.length() == 0) {
 					ErrorStr += "تاریخ خاتمه را وارد نمایید" + "\n";
+				}
+				else
+				{
+					SplitToDate=etToDate.getText().toString().split("/");
+					calTo=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+					calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
+							,Integer.parseInt(SplitToDate[1])
+							,Integer.parseInt(SplitToDate[2]));
 				}
 				if (etFromTime.length() == 0) {
 					ErrorStr += "ساعت شروع را وارد نمایید" + "\n";
@@ -773,112 +793,72 @@ public class Service_Request extends AppCompatActivity {
 				if (etToTime.length() == 0) {
 					ErrorStr += "ساعت خاتمه را وارد نمایید" + "\n";
 				}
-				String SplitFromeDate[]=etFromDate.getText().toString().split("/");
-				ir.hamsaa.persiandatepicker.util.PersianCalendar calFrom=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-				calFrom.setPersianDate(Integer.parseInt(SplitFromeDate[0])
-						,Integer.parseInt(SplitFromeDate[1])
-								,Integer.parseInt(SplitFromeDate[2]));
-				//******************
-				String SplitToDate[]=etToDate.getText().toString().split("/");
-				ir.hamsaa.persiandatepicker.util.PersianCalendar calTo=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-				calTo.setPersianDate(Integer.parseInt(SplitToDate[0])
-						,Integer.parseInt(SplitToDate[1])
-								,Integer.parseInt(SplitToDate[2]));
-
-
 				ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
 				calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
 				String strNow = null;
 				String strFrom= null;
 				String strTo= null;
-				
-				int compateDate= calFrom.compareTo(calTo);
-				if (compateDate>0) {
-					ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
-				}
-				else
-				{
+				if(calFrom!=null && calTo!=null) {
+					int compateDate = calFrom.compareTo(calTo);
+					if (compateDate > 0) {
+						ErrorStr += "تاریخ شروع نمی تواند بزرگتر از تاریخ خاتمه باشد." + "\n";
+					} else {
 
-					 strTo=String.valueOf(calTo.getPersianYear());
-					if(calTo.getPersianMonth()<10)
-					{
-						strTo=strTo+"0"+String.valueOf(calTo.getPersianMonth());
-					}
-					else
-					{
-						strTo=strTo+String.valueOf(calTo.getPersianMonth());
-					}
-					if(calTo.getPersianDay()<10)
-					{
-						strTo=strTo+"0"+String.valueOf(calTo.getPersianDay());
-					}
-					else
-					{
-						strTo=strTo+String.valueOf(calTo.getPersianDay());
-					}
-					//**********************************
-					 strNow=String.valueOf(calNow.getPersianYear());
-					if(calNow.getPersianMonth()<10)
-					{
-						strNow=strNow+"0"+String.valueOf(calNow.getPersianMonth());
-					}
-					else
-					{
-						strNow=strNow+String.valueOf(calNow.getPersianMonth());
-					}
-					if(calNow.getPersianDay()<10)
-					{
-						strNow=strNow+"0"+String.valueOf(calNow.getPersianDay());
-					}
-					else
-					{
-						strNow=strNow+String.valueOf(calNow.getPersianDay());
-					}
-
-					//**********************************
-					 strFrom=String.valueOf(calFrom.getPersianYear());
-					if(calFrom.getPersianMonth()<10)
-					{
-						strFrom=strFrom+"0"+String.valueOf(calFrom.getPersianMonth());
-					}
-					else
-					{
-						strFrom=strFrom+String.valueOf(calFrom.getPersianMonth());
-					}
-					if(calFrom.getPersianDay()<10)
-					{
-						strFrom=strFrom+"0"+String.valueOf(calFrom.getPersianDay());
-					}
-					else
-					{
-						strFrom=strFrom+String.valueOf(calFrom.getPersianDay());
-					}
-
-					int temp=strTo.compareTo(strNow);
-
-					int tempFrom=strFrom.compareTo(strNow);
-					if(tempFrom<0)
-					{
-						ErrorStr += "تاریخ شروع نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
-					}
-					else if(temp<0)
-					{
-						ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
-					}
-					else if(temp==0)
-					{
-						Calendar mcurrentTime = Calendar.getInstance();
-						int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-						int minute = mcurrentTime.get(Calendar.MINUTE);
-						String Fhour=etFromTime.getText().toString().replace(":","");
-						String Thour=etToTime.getText().toString().replace(":","");
-						if(Fhour.compareTo(Thour)>0)
-						{
-							ErrorStr += "ساعت خاتمه نمی تواند کوچکتر از ساعت شروع باشد." + "\n";
+						strTo = String.valueOf(calTo.getPersianYear());
+						if (calTo.getPersianMonth() < 10) {
+							strTo = strTo + "0" + String.valueOf(calTo.getPersianMonth());
+						} else {
+							strTo = strTo + String.valueOf(calTo.getPersianMonth());
 						}
-						else if(Fhour.compareTo(Thour)==0)
-						{
-							ErrorStr += "ارائه سرویس در این تاریخ و ساعت مقدور نیست." + "\n";
+						if (calTo.getPersianDay() < 10) {
+							strTo = strTo + "0" + String.valueOf(calTo.getPersianDay());
+						} else {
+							strTo = strTo + String.valueOf(calTo.getPersianDay());
+						}
+						//**********************************
+						strNow = String.valueOf(calNow.getPersianYear());
+						if (calNow.getPersianMonth() < 10) {
+							strNow = strNow + "0" + String.valueOf(calNow.getPersianMonth());
+						} else {
+							strNow = strNow + String.valueOf(calNow.getPersianMonth());
+						}
+						if (calNow.getPersianDay() < 10) {
+							strNow = strNow + "0" + String.valueOf(calNow.getPersianDay());
+						} else {
+							strNow = strNow + String.valueOf(calNow.getPersianDay());
+						}
+
+						//**********************************
+						strFrom = String.valueOf(calFrom.getPersianYear());
+						if (calFrom.getPersianMonth() < 10) {
+							strFrom = strFrom + "0" + String.valueOf(calFrom.getPersianMonth());
+						} else {
+							strFrom = strFrom + String.valueOf(calFrom.getPersianMonth());
+						}
+						if (calFrom.getPersianDay() < 10) {
+							strFrom = strFrom + "0" + String.valueOf(calFrom.getPersianDay());
+						} else {
+							strFrom = strFrom + String.valueOf(calFrom.getPersianDay());
+						}
+
+						int temp = strTo.compareTo(strNow);
+
+						int tempFrom = strFrom.compareTo(strNow);
+						if (tempFrom < 0) {
+							ErrorStr += "تاریخ شروع نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
+						} else if (temp < 0) {
+							ErrorStr += "تاریخ خاتمه نمی تواند کوچکتر از تاریخ امروز باشد." + "\n";
+						} else if (temp == 0) {
+							Calendar mcurrentTime = Calendar.getInstance();
+							int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+							int minute = mcurrentTime.get(Calendar.MINUTE);
+							String Fhour = etFromTime.getText().toString().replace(":", "");
+							String Thour = etToTime.getText().toString().replace(":", "");
+							if (Fhour.compareTo(Thour) > 0) {
+								ErrorStr += "ساعت خاتمه نمی تواند کوچکتر از ساعت شروع باشد." + "\n";
+							} else if (Fhour.compareTo(Thour) == 0) {
+								ErrorStr += "ارائه سرویس در این تاریخ و ساعت مقدور نیست." + "\n";
+							}
 						}
 					}
 				}
