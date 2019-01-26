@@ -103,8 +103,10 @@ public class SyncGetFactorUsersHead {
 				if (WsResponse.toString().compareTo("ER") == 0) {
 
 				} else if (WsResponse.toString().compareTo("0") == 0) {
+					PublicVariable.theard_GetPerFactor=true;
 
 				} else if (WsResponse.toString().compareTo("-1") == 0) {
+					PublicVariable.theard_GetPerFactor=true;
 
 				} else {
 					InsertDataFromWsToDb();

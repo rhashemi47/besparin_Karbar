@@ -201,6 +201,7 @@ public class SyncGetUserServices {
 			try {
 				boolean check = checkStatus(value[0], value[32]);
 				if (!check) {
+					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 					db.execSQL("DELETE FROM OrdersService WHERE Code='" + value[0] + "'");
 					DateStart = value[7].split("/");
 					DateEnd = value[8].split("/");
@@ -268,6 +269,7 @@ public class SyncGetUserServices {
 							value[31] + "','" +
 							value[32] + "')";
 					db.execSQL(query);
+					try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 					SyncGetUserServiceHamyar syncGetUserServiceHamyar=new SyncGetUserServiceHamyar(activity.getApplicationContext(),value[0]);
 					syncGetUserServiceHamyar.AsyncExecute();
 					if (!isFirst) {

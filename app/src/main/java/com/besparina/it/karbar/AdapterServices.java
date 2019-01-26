@@ -106,7 +106,7 @@ public class AdapterServices extends BaseAdapter {
         String EmergencyOrder = map.get("EmergencyOrder");
         String StatusOrder = map.get("StatusOrder");
         QueryCustom = map.get("QueryCustom");
-        holder.txtTitleOrder .setText(PersianDigitConverter.PerisanNumber(TitleOrder));
+        holder.txtTitleOrder .setText(TitleOrder);
         holder.txtNumberOrder .setText(PersianDigitConverter.PerisanNumber(NumberOrder));
         holder.txtDate .setText(PersianDigitConverter.PerisanNumber(DateOrder));
         holder.txtTime .setText(PersianDigitConverter.PerisanNumber(TimeOrder));

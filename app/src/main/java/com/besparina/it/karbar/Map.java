@@ -14,6 +14,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -60,7 +61,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Map extends AppCompatActivity {
     private String karbarCode;
-    private String area="";
+    private String area = "";
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private Button btnSaveLocation;
@@ -79,32 +80,31 @@ public class Map extends AppCompatActivity {
     private List<String> labels_State = new ArrayList<String>();
     private List<String> labels_City = new ArrayList<String>();
     public Handler mHandler;
-    public boolean continue_or_stop=true;
+    public boolean continue_or_stop = true;
     private GPSTracker gps;
     //*************************************
-    private String MaleCount ;
-    private String FemaleCount ;
-    private String HamyarCount ;
-    private String StartYear ;
-    private String StartMonth ;
-    private String StartDay ;
-    private String StartHour ;
-    private String EndYear ;
-    private String EndHour ;
-    private String AddressCode ;
-    private String Description ;
-    private String EducationGrade ;
-    private String FieldOfStudy ;
-    private String EducationTitle ;
-    private String ArtField ;
-    private String Language ;
+    private String MaleCount;
+    private String FemaleCount;
+    private String HamyarCount;
+    private String StartYear;
+    private String StartHour;
+    private String EndYear;
+    private String EndHour;
+    private String AddressCode;
+    private String Description;
+    private String EducationGrade;
+    private String FieldOfStudy;
+    private String EducationTitle;
+    private String ArtField;
+    private String Language;
     private String StudentGender;
     private String IsEmergency;
     private String PeriodicServices;
     private String TeacherGender;
     private String CarWashType;
     private String CarType;
-
+    private AlertDialog.Builder alertDialog = null;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -149,11 +149,11 @@ public class Map extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                if(etArea.length()>0){
-                                    String AreaAddress=etArea.getText().toString().trim();
-                                    if(AreaAddress.length()>0){
+                                if (etArea.length() > 0) {
+                                    String AreaAddress = etArea.getText().toString().trim();
+                                    if (AreaAddress.length() > 0) {
                                         getLatLongLocation(AreaAddress);
-                                        area=getStringLocation();
+                                        area = getStringLocation();
                                     }
                                 }
                             }
@@ -164,6 +164,9 @@ public class Map extends AppCompatActivity {
                 }
             }
         }).start();
+
+//******************************************************************************
+        Run_thered();
 //******************************************************************************
         try {
             karbarCode = getIntent().getStringExtra("karbarCode").toString();
@@ -179,83 +182,103 @@ public class Map extends AppCompatActivity {
             DetailCode = getIntent().getStringExtra("DetailCode").toString();
         } catch (Exception e) {
             DetailCode = "";
-        }try {
+        }
+        try {
             MaleCount = getIntent().getStringExtra("MaleCount").toString();
         } catch (Exception e) {
             MaleCount = "";
-        }try {
+        }
+        try {
             FemaleCount = getIntent().getStringExtra("FemaleCount").toString();
         } catch (Exception e) {
             FemaleCount = "";
-        }try {
+        }
+        try {
             HamyarCount = getIntent().getStringExtra("HamyarCount").toString();
         } catch (Exception e) {
             HamyarCount = "";
-        }try {
+        }
+        try {
             StartYear = getIntent().getStringExtra("StartYear").toString();
         } catch (Exception e) {
             StartYear = "";
-        }try {
+        }
+        try {
             StartHour = getIntent().getStringExtra("StartHour").toString();
         } catch (Exception e) {
             StartHour = "";
-        }try {
+        }
+        try {
             EndYear = getIntent().getStringExtra("EndYear").toString();
         } catch (Exception e) {
             EndYear = "";
-        }try {
+        }
+        try {
             EndHour = getIntent().getStringExtra("EndHour").toString();
         } catch (Exception e) {
             EndHour = "";
-        }try {
+        }
+        try {
             AddressCode = getIntent().getStringExtra("AddressCode").toString();
         } catch (Exception e) {
             AddressCode = "";
-        }try {
+        }
+        try {
             Description = getIntent().getStringExtra("Description").toString();
         } catch (Exception e) {
             Description = "";
-        }try {
+        }
+        try {
             IsEmergency = getIntent().getStringExtra("IsEmergency").toString();
         } catch (Exception e) {
             IsEmergency = "";
-        }try {
+        }
+        try {
             PeriodicServices = getIntent().getStringExtra("PeriodicServices").toString();
         } catch (Exception e) {
             PeriodicServices = "";
-        }try {
+        }
+        try {
             EducationGrade = getIntent().getStringExtra("EducationGrade").toString();
         } catch (Exception e) {
             EducationGrade = "";
-        }try {
+        }
+        try {
             FieldOfStudy = getIntent().getStringExtra("FieldOfStudy").toString();
         } catch (Exception e) {
             FieldOfStudy = "";
-        }try {
+        }
+        try {
             StudentGender = getIntent().getStringExtra("StudentGender").toString();
         } catch (Exception e) {
             StudentGender = "";
-        }try {
+        }
+        try {
             TeacherGender = getIntent().getStringExtra("TeacherGender").toString();
         } catch (Exception e) {
             TeacherGender = "";
-        }try {
+        }
+        try {
             EducationTitle = getIntent().getStringExtra("EducationTitle").toString();
         } catch (Exception e) {
             EducationTitle = "";
-        }try {
+        }
+        try {
             ArtField = getIntent().getStringExtra("ArtField").toString();
         } catch (Exception e) {
             ArtField = "";
-        }try {
+        }
+        try {
             CarWashType = getIntent().getStringExtra("CarWashType").toString();
         } catch (Exception e) {
             CarWashType = "";
-        }try {
+        }
+        try {
             CarType = getIntent().getStringExtra("CarType").toString();
         } catch (Exception e) {
             CarType = "";
-        }try {
+        }
+        try {
             Language = getIntent().getStringExtra("Language").toString();
         } catch (Exception e) {
             Language = "";
@@ -291,7 +314,12 @@ public class Map extends AppCompatActivity {
             str = cursors.getString(cursors.getColumnIndex("Name"));
             labels_State.add(str);
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception ex) {
+        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_State);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(dataAdapter);
@@ -306,7 +334,12 @@ public class Map extends AppCompatActivity {
                     String Code = coursors.getString(coursors.getColumnIndex("Code"));
                     FillSpinnerChild(Code);
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {
+                    if (db.isOpen()) {
+                        db.close();
+                    }
+                } catch (Exception ex) {
+                }
             }
 
             @Override
@@ -336,86 +369,81 @@ public class Map extends AppCompatActivity {
         chbIsDefaultAddres.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    IsDefault="1";
-                }
-                else
-                {
-                    IsDefault="0";
+                if (isChecked) {
+                    IsDefault = "1";
+                } else {
+                    IsDefault = "0";
                 }
             }
         });
         btnSaveLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String CodeState,CodeCity;
-                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
-                String StrnameAddress=NameAddres.getText().toString().trim();
-                String StrAddAddres=AddAddres.getText().toString().trim();
-                String StrError="";
-                String email="";
-                if(StrAddAddres.length()==0 || StrAddAddres.compareTo("")==0)
-                {
-                    StrError="آدرس دقیق محل را وارد نمایید"+"\n";
+                String CodeState, CodeCity;
+                try {
+                    if (!db.isOpen()) {
+                        db = dbh.getWritableDatabase();
+                    }
+                } catch (Exception ex) {
+                    db = dbh.getWritableDatabase();
                 }
-                if(StrnameAddress.length()==0 || StrnameAddress.compareTo("")==0)
-                {
-                    StrError="نامی دلخواه برای آدرس محل وارد نمایید."+"\n";
+                String StrnameAddress = NameAddres.getText().toString().trim();
+                String StrAddAddres = AddAddres.getText().toString().trim();
+                String StrError = "";
+                String email = "";
+                if (StrAddAddres.length() == 0 || StrAddAddres.compareTo("") == 0) {
+                    StrError = "آدرس دقیق محل را وارد نمایید" + "\n";
+                }
+                if (StrnameAddress.length() == 0 || StrnameAddress.compareTo("") == 0) {
+                    StrError = "نامی دلخواه برای آدرس محل وارد نمایید." + "\n";
                 }
                 db = dbh.getReadableDatabase();
-                Cursor coursors = db.rawQuery("SELECT * FROM State WHERE Name='"+spState.getSelectedItem().toString()+"'", null);
+                Cursor coursors = db.rawQuery("SELECT * FROM State WHERE Name='" + spState.getSelectedItem().toString() + "'", null);
                 if (coursors.getCount() > 0) {
                     coursors.moveToNext();
                     CodeState = coursors.getString(coursors.getColumnIndex("Code"));
+                } else {
+                    CodeState = "";
                 }
-                else{
-                    CodeState="";
-                }
-                coursors = db.rawQuery("SELECT * FROM City WHERE Name='"+spCity.getSelectedItem().toString()+"'", null);
+                coursors = db.rawQuery("SELECT * FROM City WHERE Name='" + spCity.getSelectedItem().toString() + "'", null);
                 if (coursors.getCount() > 0) {
                     coursors.moveToNext();
                     CodeCity = coursors.getString(coursors.getColumnIndex("Code"));
+                } else {
+                    CodeCity = "";
                 }
-                else{
-                    CodeCity="";
-                }
-//                try
-//                {
-//                   email= etEmail.getText().toString();
-//                }
-//                catch (Exception e)
-//                {
-//                    email="";
-//                }
-                if(StrError.length()==0 || StrError.compareTo("")==0)
-                {
-                    String latStr=Double.toString(lat);
-                    String lonStr=Double.toString(lang);
-                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-                    Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='"+StrnameAddress+"'",null);
-                    if(cursor.getCount()>0) {
-                        Toast.makeText(Map.this,"نام تکراری است",Toast.LENGTH_LONG).show();
+                if (StrError.length() == 0 || StrError.compareTo("") == 0) {
+                    String latStr = Double.toString(lat);
+                    String lonStr = Double.toString(lang);
+                    try {
+                        if (!db.isOpen()) {
+                            db = dbh.getReadableDatabase();
+                        }
+                    } catch (Exception ex) {
+                        db = dbh.getReadableDatabase();
                     }
-                    else
-                    {
+                    Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='" + StrnameAddress + "'", null);
+                    if (cursor.getCount() > 0) {
+                        Toast.makeText(Map.this, "نام تکراری است", Toast.LENGTH_LONG).show();
+                    } else {
                         SyncAddress syncAddress = new SyncAddress(Map.this, karbarCode, IsDefault, StrnameAddress, CodeState, CodeCity, StrAddAddres, email, latStr, lonStr);//todo send Area
                         syncAddress.AsyncExecute();
                     }
-                    if(!cursor.isClosed())
-                    {
+                    if (!cursor.isClosed()) {
                         cursor.close();
                     }
+                } else {
+                    Toast.makeText(Map.this, StrError, Toast.LENGTH_LONG).show();
                 }
-                else
-                {
-                    Toast.makeText(Map.this,StrError,Toast.LENGTH_LONG).show();
+                if (db.isOpen()) {
+                    try {
+                        if (db.isOpen()) {
+                            db.close();
+                        }
+                    } catch (Exception ex) {
+                    }
                 }
-                if(db.isOpen()) {
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                }
-                if(!cursors.isClosed())
-                {
+                if (!cursors.isClosed()) {
                     cursors.close();
                 }
             }
@@ -426,23 +454,22 @@ public class Map extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            if(backToActivity.compareTo("Profile")==0){
-                continue_or_stop=false;
+            if (backToActivity.compareTo("Profile") == 0) {
+                continue_or_stop = false;
                 LoadActivity(Profile.class, "karbarCode", karbarCode);
-            }else
-            {
-                continue_or_stop=false;
+            } else {
+                continue_or_stop = false;
                 LoadActivity2(Service_Request.class,
                         "karbarCode", karbarCode,
-                        "DetailCode",DetailCode,
+                        "DetailCode", DetailCode,
                         "MaleCount", MaleCount,
                         "FemaleCount", FemaleCount,
                         "HamyarCount", HamyarCount,
                         "StartYear", StartYear,
                         "StartHour", StartHour,
                         "EndYear", EndYear,
-                        "EndHour", EndHour ,
-                        "AddressCode",AddressCode,
+                        "EndHour", EndHour,
+                        "AddressCode", AddressCode,
                         "Description", Description,
                         "IsEmergency", IsEmergency,
                         "PeriodicServices", PeriodicServices,
@@ -469,29 +496,30 @@ public class Map extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         this.startActivity(intent);
     }
+
     public void LoadActivity2(Class<?> Cls,
                               String VariableName, String VariableValue,
                               String VariableName2, String VariableValue2,
                               String VariableName3, String VariableValue3,
-                            String VariableName4, String VariableValue4,
-                            String VariableName5, String VariableValue5,
-                            String VariableName6, String VariableValue6,
-                            String VariableName7, String VariableValue7,
-                            String VariableName8, String VariableValue8,
-                            String VariableName9, String VariableValue9,
-                            String VariableName10, String VariableValue10,
-                            String VariableName11, String VariableValue11,
-                            String VariableName12, String VariableValue12,
-                            String VariableName13, String VariableValue13,
-                            String VariableName14, String VariableValue14,
-                            String VariableName15, String VariableValue15,
-                            String VariableName16, String VariableValue16,
-                            String VariableName17, String VariableValue17,
-                            String VariableName18, String VariableValue18,
-                            String VariableName19, String VariableValue19,
-                            String VariableName20, String VariableValue20,
-                            String VariableName21, String VariableValue21,
-                            String VariableName22, String VariableValue22) {
+                              String VariableName4, String VariableValue4,
+                              String VariableName5, String VariableValue5,
+                              String VariableName6, String VariableValue6,
+                              String VariableName7, String VariableValue7,
+                              String VariableName8, String VariableValue8,
+                              String VariableName9, String VariableValue9,
+                              String VariableName10, String VariableValue10,
+                              String VariableName11, String VariableValue11,
+                              String VariableName12, String VariableValue12,
+                              String VariableName13, String VariableValue13,
+                              String VariableName14, String VariableValue14,
+                              String VariableName15, String VariableValue15,
+                              String VariableName16, String VariableValue16,
+                              String VariableName17, String VariableValue17,
+                              String VariableName18, String VariableValue18,
+                              String VariableName19, String VariableValue19,
+                              String VariableName20, String VariableValue20,
+                              String VariableName21, String VariableValue21,
+                              String VariableName22, String VariableValue22) {
         Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
@@ -517,23 +545,29 @@ public class Map extends AppCompatActivity {
         intent.putExtra(VariableName22, VariableValue22);
         this.startActivity(intent);
     }
+
     private void FillSpinnerChild(String StateId) {
-        labels_City  = new ArrayList<String>();
+        labels_City = new ArrayList<String>();
         db = dbh.getReadableDatabase();
-        Cursor coursors = db.rawQuery("SELECT * FROM City WHERE ParentCode='"+StateId+"'", null);
+        Cursor coursors = db.rawQuery("SELECT * FROM City WHERE ParentCode='" + StateId + "'", null);
         if (coursors.getCount() > 0) {
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
                 labels_City.add(coursors.getString(coursors.getColumnIndex("Name")));
             }
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception ex) {
+        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_City);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(dataAdapter);
     }
-    private  String getStringLocation()
-    {
+
+    private String getStringLocation() {
         Locale locale = new Locale("fa");
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), locale);
@@ -545,25 +579,21 @@ public class Map extends AppCompatActivity {
 
             Address address = list.get(0);
 
-            if(address.getSubLocality()!=null)
-            {
+            if (address.getSubLocality() != null) {
                 return address.getSubLocality();
-            }
-            else {
+            } else {
                 return address.getThoroughfare();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
             return "";
-        }
-
-        catch (Exception e){
+        } catch (Exception e) {
             return "";
         }
     }
-    private  void getLatLongLocation(String addressStr)
-    {
+
+    private void getLatLongLocation(String addressStr) {
         Locale locale = new Locale("fa");
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), locale);
@@ -571,39 +601,41 @@ public class Map extends AppCompatActivity {
         List<Address> list;
 
         try {
-            String StateAndCity="";
-            StateAndCity=spState.getSelectedItem().toString()+","+spCity.getSelectedItem().toString();
-            list = geocoder.getFromLocationName(StateAndCity+","+addressStr,3);
+            String StateAndCity = "";
+            StateAndCity = spState.getSelectedItem().toString() + "," + spCity.getSelectedItem().toString();
+            list = geocoder.getFromLocationName(StateAndCity + "," + addressStr, 3);
 
             Address address = list.get(0);
 
             LatLng mlatLng;
-            double mlat,mlong;
-            mlat=address.getLatitude();
-            mlong=address.getLongitude();
-            if(mlat>0 && mlong>0) {
+            double mlat, mlong;
+            mlat = address.getLatitude();
+            mlong = address.getLongitude();
+            if (mlat > 0 && mlong > 0) {
                 mlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                lat=mlat;
-                lang=mlong;
+                lat = mlat;
+                lang = mlong;
                 map.clear();
                 map.addMarker(new MarkerOptions().position(mlatLng).title("مکان من").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(mlatLng, 14));
-              }
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
-    public  void setMap()
-    {
+
+    public void setMap() {
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
             @Override
 
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
-                if (ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
@@ -620,21 +652,20 @@ public class Map extends AppCompatActivity {
                         lat = gps.getLatitude();
                         lang = gps.getLongitude();
                         LatLng latLng;
-                        if(lat>0 && lang>0){
-                            latLng = new LatLng(lat,lang);
-                        }
-                        else {
-                            latLng = new LatLng(0,0);
+                        if (lat > 0 && lang > 0) {
+                            latLng = new LatLng(lat, lang);
+                        } else {
+                            latLng = new LatLng(36.287797041158946, 59.61570426821709);
                         }
                         map.clear();
                         map.addMarker(new MarkerOptions().position(latLng).title("مکان من").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                        area=getStringLocation();
+                        area = getStringLocation();
                         return false;
                     }
                 });
                 LatLng point;
-                lat=35.691063;
-                lang=51.407941;
+                lat = 36.287797041158946;
+                lang = 59.61570426821709;
                 point = new LatLng(lat, lang);
                 db = dbh.getReadableDatabase();
                 Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
@@ -644,11 +675,16 @@ public class Map extends AppCompatActivity {
                     String lonStr = coursors.getString(coursors.getColumnIndex("Lon"));
                     lat = Double.parseDouble(latStr);
                     lang = Double.parseDouble(lonStr);
-                    if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
+                    if (latStr.compareTo("0") != 0 && lonStr.compareTo("0") != 0) {
                         point = new LatLng(lat, lang);
                     }
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {
+                    if (db.isOpen()) {
+                        db.close();
+                    }
+                } catch (Exception ex) {
+                }
                 map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 
@@ -663,13 +699,110 @@ public class Map extends AppCompatActivity {
                         //  Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
                         map.clear();
                         map.addMarker(new MarkerOptions().position(latLng).title("محل سرویس دهی").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                        lat=latLng.latitude;
-                        lang=latLng.longitude;
-                        area=getStringLocation();
+                        lat = latLng.latitude;
+                        lang = latLng.longitude;
+                        area = getStringLocation();
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                try {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // Permission Granted
+//                        continue_or_stop = true;
+                    } else {
+                        // Permission Denied
+//                        continue_or_stop = true;
+                        Toast.makeText(Map.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                } catch (Exception ex) {
+
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+    private void Run_thered() {
+        mHandler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (continue_or_stop) {
+                    try {
+                        mHandler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                if (ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                        != PackageManager.PERMISSION_GRANTED &&
+                                        ActivityCompat.checkSelfPermission(Map.this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                                != PackageManager.PERMISSION_GRANTED) {
+//                                    continue_or_stop=false;
+                                    ActivityCompat.requestPermissions(Map.this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE_ASK_PERMISSIONS);
+
+//            return;
+                                }
+                                else {
+                                    Check_GPS();
+                                }
+                            }
+                        });
+
+                        Thread.sleep(1000); // every 5 seconds
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+            }
+        }).start();
+    }
+    private void Check_GPS() {
+        gps = new GPSTracker(Map.this);
+        if (gps.canGetLocation()) {
+            continue_or_stop=false;
+            setMap();
+        } else {
+            if (alertDialog == null) {
+                alertDialog = new AlertDialog.Builder(Map.this);
+
+                // Setting Dialog Title
+                alertDialog.setTitle("تنظیمات جی پی اس");
+
+                // Setting Dialog Message
+                alertDialog.setMessage("جی پی اس شما غیرفعال می باشد.لطفا جهت کار کرد صحیح نرم افزار آن را فعال نمایید");
+
+                // On pressing Settings button
+                alertDialog.setPositiveButton("فعال", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                        continue_or_stop = true;
+                        Run_thered();
+                    }
+                });
+
+                // on pressing cancel button
+                alertDialog.setNegativeButton("انصراف", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        continue_or_stop = true;
+                        Run_thered();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+            }
+        }
     }
 }
 

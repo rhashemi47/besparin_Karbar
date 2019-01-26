@@ -1038,7 +1038,23 @@ public class Service_Request extends AppCompatActivity {
 						StartMinute=SpStartTime[1];
 						String FullStartTime = StartHour+StartMinute;
 						String FinalStartFullDate = strFrom+StartHour+StartMinute;
-						String FinalNowFullDate  = strNow + calNow.getTime().getHours()+calNow.getTime().getMinutes();
+						String FinalNowFullDate  = strNow;
+						if(calNow.getTime().getHours()<10)
+						{
+							FinalNowFullDate=FinalNowFullDate+"0"+calNow.getTime().getHours();
+						}
+						else
+						{
+							FinalNowFullDate=FinalNowFullDate + calNow.getTime().getHours();
+						}
+						if(calNow.getTime().getMinutes()<10)
+						{
+							FinalNowFullDate=FinalNowFullDate+"0"+calNow.getTime().getMinutes();
+						}
+						else
+						{
+							FinalNowFullDate=FinalNowFullDate + calNow.getTime().getMinutes();
+						}
 						String SpEndTime[]=PersianDigitConverter.EnglishNumber(etToTime.getText().toString()).split(":");
 						EndHour=SpEndTime[0];
 						EndMinute=SpEndTime[1];

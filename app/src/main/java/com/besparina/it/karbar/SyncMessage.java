@@ -224,11 +224,12 @@ public class SyncMessage {
 					"','"+value[4]+
 					"','0')";
 			db.execSQL(query);
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+
 			if(!isFirst && value[4].compareTo("0")==0) {
 				runNotification("بسپارینا", value[1], i, value[0], ShowMessage.class);
 			}
 		}
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	public void runNotification(String title,String TitleMessage,int id,String MessageCode,Class<?> Cls)
 	{
