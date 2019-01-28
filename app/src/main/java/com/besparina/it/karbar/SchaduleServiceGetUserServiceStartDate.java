@@ -1,12 +1,16 @@
 package com.besparina.it.karbar;
 
 import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 
@@ -14,21 +18,18 @@ import java.io.IOException;
  * Created by hashemi on 02/18/2018.
  */
 
-public class ServiceGetServiceSaved extends Service {
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public class SchaduleServiceGetUserServiceStartDate extends JobService {
     Handler mHandler;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+//    boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
-    private String karbarCode;
+    private String pUserServiceCode;
+
 
     @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
+    public boolean onStartJob(JobParameters jobParameters) {
         // Let it continue running until it is stopped.
 //        akeText(this, "Service Started", Toast.LENGTH_LONG).show();
         dbh = new DatabaseHelper(getApplicationContext());
@@ -52,7 +53,7 @@ public class ServiceGetServiceSaved extends Service {
         }
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+//            if (createthread) {
                 mHandler = new Handler();
                 new Thread(new Runnable() {
                     @Override
@@ -63,44 +64,42 @@ public class ServiceGetServiceSaved extends Service {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (PublicVariable.theard_GetServiceSaved) {
+                                        if (PublicVariable.theard_GetUserServiceStartDate) {
                                             db = dbh.getReadableDatabase();
-                                            Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                            Cursor coursors = db.rawQuery("SELECT * FROM OrdersService A WHERE A.Status='1' AND " +
+                                                    "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
                                             for (int i = 0; i < coursors.getCount(); i++) {
                                                 coursors.moveToNext();
-
-                                                karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
+                                                pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
+                                                SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
+                                                syncGetUserServiceStartDate.AsyncExecute();
                                             }
                                             try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                                            SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0");
-                                            syncGetUserServices.AsyncExecute();
                                         }
                                     }
                                 });
-
-                                Thread.sleep(5000); // every 6 seconds
+                                Thread.sleep(6000); // every 6 seconds
                             } catch (Exception e) {
                                 // TODO: handle exception
                             }
                         }
-
                     }
                 }).start();
-                createthread = false;
-            }
+//                createthread = false;
+//            }
         }
-        return START_STICKY;
+        return false;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+    public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
+        return false;
     }
+
     public boolean Check_Login()
     {
-            Cursor cursor;
+        Cursor cursor;
         if(db==null)
         {
             db = dbh.getReadableDatabase();
@@ -108,28 +107,28 @@ public class ServiceGetServiceSaved extends Service {
         if(!db.isOpen()) {
             db = dbh.getReadableDatabase();
         }
-            cursor = db.rawQuery("SELECT * FROM login", null);
-            if (cursor.getCount() > 0) {
-                cursor.moveToNext();
-                String Result = cursor.getString(cursor.getColumnIndex("islogin"));
-                if (Result.compareTo("0") == 0)
-                {
-                    if(db.isOpen())
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                    return false;
-                }
-                else
-                {
-                    if(db.isOpen())
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                    return true;
-                }
-            }
-            else
+        cursor = db.rawQuery("SELECT * FROM login", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+            if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
                     try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
+            else
+            {
+                if(db.isOpen())
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                return true;
+            }
+        }
+        else
+        {
+            if(db.isOpen())
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            return false;
+        }
     }
 }

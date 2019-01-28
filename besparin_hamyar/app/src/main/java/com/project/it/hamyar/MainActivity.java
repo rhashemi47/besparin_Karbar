@@ -662,7 +662,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                this.startForegroundService(new Intent(this, ServiceGetNewJob.class));
+//            }
+//            else
+//            {
+//                startService(new Intent(this, ServiceGetNewJob.class));
+//            }
             ExitApplication();
         }
 
@@ -703,16 +709,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
 
         super.onStop();
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            this.startForegroundService(new Intent(this, ServiceGetNewJob.class));
+//        }
+//        else
+//        {
+//            startService(new Intent(this, ServiceGetNewJob.class));
+//        }
     }
     protected void onPause() {
 
         super.onPause();
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(new Intent(context, ServiceGetNewJob.class));
+//        }
+//        else
+//        {
+//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+//        }
     }
     protected void onDestroy() {
 
         super.onDestroy();
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(new Intent(context, ServiceGetNewJob.class));
+//        }
+//        else
+//        {
+//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+//        }
     }
 }

@@ -1,20 +1,27 @@
 package com.besparina.it.karbar;
 
 import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Created by hashemi on 02/18/2018.
  */
 
-public class ServiceGetServiceSaved extends Service {
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public class SchaduleServiceGetServiceSaved extends JobService {
     Handler mHandler;
     boolean continue_or_stop = true;
     boolean createthread=true;
@@ -23,12 +30,7 @@ public class ServiceGetServiceSaved extends Service {
     private String karbarCode;
 
     @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
+    public boolean onStartJob(JobParameters jobParameters) {
         // Let it continue running until it is stopped.
 //        akeText(this, "Service Started", Toast.LENGTH_LONG).show();
         dbh = new DatabaseHelper(getApplicationContext());
@@ -51,15 +53,14 @@ public class ServiceGetServiceSaved extends Service {
             throw sqle;
         }
         if(Check_Login()) {
-            continue_or_stop = true;
-            if (createthread) {
+            continue_or_stop=true;
                 mHandler = new Handler();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         while (continue_or_stop) {
                             try {
+                                sleep(6000); // every 6 seconds
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -71,32 +72,33 @@ public class ServiceGetServiceSaved extends Service {
 
                                                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            try {
+                                                if (db.isOpen()) {
+                                                    db.close();
+                                                }
+                                            } catch (Exception ex) {
+                                            }
                                             SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0");
                                             syncGetUserServices.AsyncExecute();
                                         }
                                     }
                                 });
 
-                                Thread.sleep(5000); // every 6 seconds
+//                                Thread.sleep(5000); // every 6 seconds
                             } catch (Exception e) {
                                 // TODO: handle exception
                             }
                         }
-
                     }
                 }).start();
-                createthread = false;
             }
-        }
-        return START_STICKY;
+        return false;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+    public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
+        return false;
     }
     public boolean Check_Login()
     {
@@ -132,4 +134,6 @@ public class ServiceGetServiceSaved extends Service {
                 return false;
             }
     }
+
+
 }
