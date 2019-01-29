@@ -78,7 +78,7 @@ public class SchaduleServiceGetServiceSaved extends JobService {
                                                 }
                                             } catch (Exception ex) {
                                             }
-                                            SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0");
+                                            SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0",dbh,db);
                                             syncGetUserServices.AsyncExecute();
                                         }
                                     }

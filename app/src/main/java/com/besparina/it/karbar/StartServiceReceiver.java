@@ -24,7 +24,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetLocation = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetLocation);
             builder_SchaduleServiceGetLocation.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetLocation.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetLocation.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetLocation.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetLocation.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetLocation.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
@@ -38,7 +38,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetServiceSaved = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetServiceSaved);
             builder_SchaduleServiceGetServiceSaved.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetServiceSaved.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetServiceSaved.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetServiceSaved.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetServiceSaved.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetServiceSaved.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetServiceSaved = null;
@@ -53,7 +53,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetPerFactor = new JobInfo.Builder(2, serviceComponent_SchaduleServiceGetPerFactor);
             builder_SchaduleServiceGetPerFactor.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetPerFactor.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetPerFactor.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetPerFactor.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetPerFactor.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetPerFactor.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetPerFactor = null;
@@ -68,7 +68,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetServicesAndServiceDetails = new JobInfo.Builder(3, serviceComponent_SchaduleServiceGetServicesAndServiceDetails);
             builder_SchaduleServiceGetServicesAndServiceDetails.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetServicesAndServiceDetails.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetServicesAndServiceDetails.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetServicesAndServiceDetails.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetServicesAndServiceDetails = null;
@@ -83,7 +83,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetServiceVisit = new JobInfo.Builder(4, serviceComponent_SchaduleServiceGetServiceVisit);
             builder_SchaduleServiceGetServiceVisit.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetServiceVisit.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetServiceVisit.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetServiceVisit.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetServiceVisit.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetServiceVisit.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetServiceVisit = null;
@@ -98,7 +98,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetSliderPic = new JobInfo.Builder(5, serviceComponent_SchaduleServiceGetSliderPic);
             builder_SchaduleServiceGetSliderPic.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetSliderPic.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetSliderPic.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetSliderPic.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetSliderPic.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetSliderPic.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
@@ -113,7 +113,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetStateAndCity = new JobInfo.Builder(6, serviceComponent_SchaduleServiceGetStateAndCity);
             builder_SchaduleServiceGetStateAndCity.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetStateAndCity.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetStateAndCity.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetStateAndCity.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetStateAndCity.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetStateAndCity.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetStateAndCity = null;
@@ -128,7 +128,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
             builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
@@ -143,7 +143,7 @@ public class StartServiceReceiver extends BroadcastReceiver {
             builder_SchaduleServiceSyncMessage = new JobInfo.Builder(7, serviceComponent_SchaduleServiceSyncMessage);
             builder_SchaduleServiceSyncMessage.setMinimumLatency(5 * 1000); // wait at least
             builder_SchaduleServiceSyncMessage.setOverrideDeadline(50 * 1000); // maximum delay
-            builder_SchaduleServiceSyncMessage.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+            builder_SchaduleServiceSyncMessage.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
             builder_SchaduleServiceSyncMessage.setRequiresDeviceIdle(false); // device should be idle
             builder_SchaduleServiceSyncMessage.setRequiresCharging(false); // we don't care if the device is charging or not
             JobScheduler jobScheduler_SchaduleServiceSyncMessage = null;
@@ -163,16 +163,17 @@ public class StartServiceReceiver extends BroadcastReceiver {
 //                context.startForegroundService(new Intent(context, ServiceGetServiceVisit.class));
 //                context.startForegroundService(new Intent(context, ServiceGetStateAndCity.class));
 //                context.startForegroundService(new Intent(context, ServiceGetUserServiceStartDate.class));
-//            } else {
-//                context.startService(new Intent(context, ServiceGetServiceSaved.class));
-//                context.startService(new Intent(context, ServiceGetLocation.class));
-//                context.startService(new Intent(context, ServiceGetSliderPic.class));
-//                context.startService(new Intent(context, ServiceSyncMessage.class));
-//                context.startService(new Intent(context, ServiceGetServicesAndServiceDetails.class));
-//                context.startService(new Intent(context, ServiceGetPerFactor.class));
-//                context.startService(new Intent(context, ServiceGetServiceVisit.class));
-//                context.startService(new Intent(context, ServiceGetStateAndCity.class));
-//                context.startService(new Intent(context, ServiceGetUserServiceStartDate.class));
-//            }
+//            } 
+        else {
+            context.startService(new Intent(context, ServiceGetServiceSaved.class));
+            context.startService(new Intent(context, ServiceGetLocation.class));
+            context.startService(new Intent(context, ServiceGetSliderPic.class));
+            context.startService(new Intent(context, ServiceSyncMessage.class));
+            context.startService(new Intent(context, ServiceGetServicesAndServiceDetails.class));
+            context.startService(new Intent(context, ServiceGetPerFactor.class));
+            context.startService(new Intent(context, ServiceGetServiceVisit.class));
+            context.startService(new Intent(context, ServiceGetStateAndCity.class));
+            context.startService(new Intent(context, ServiceGetUserServiceStartDate.class));
+        }
     }
 }

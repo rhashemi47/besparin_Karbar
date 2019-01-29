@@ -65,7 +65,7 @@ public class ServiceGetServicesAndServiceDetails extends Service {
                                     public void run() {
                                         if (PublicVariable.theard_GetServicesAndServiceDetails) {
 
-                                            SyncServicesForService syncServicesForService = new SyncServicesForService(getApplicationContext());
+                                            SyncServicesForService syncServicesForService = new SyncServicesForService(getApplicationContext(),dbh,db);
                                             syncServicesForService.AsyncExecute();
 
                                         }

@@ -30,33 +30,37 @@ public class SyncStateForService {
 	private String LastServiceVisitCode;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncStateForService(Context activity) {
+	public SyncStateForService(Context activity,
+							   DatabaseHelper dbh,
+							   SQLiteDatabase db) {
 		this.activity = activity;
 		PublicVariable.theard_GetStateAndCity=false;
 		this.pUserCode=pUserCode;
 		this.LastServiceVisitCode=LastServiceVisitCode;
+		this.dbh = dbh;
+		this.db = db;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-		} catch (IOException ioe) {
-			PublicVariable.theard_GetStateAndCity=true;
-			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			PublicVariable.theard_GetStateAndCity=true;
-			throw sqle;
-		}
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//		} catch (IOException ioe) {
+//			PublicVariable.theard_GetStateAndCity=true;
+//			throw new Error("Unable to create database");
+//
+//		}
+//
+//		try {
+//
+//			dbh.openDataBase();
+//
+//		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetStateAndCity=true;
+//			throw sqle;
+//		}
 	}
 
 	public void AsyncExecute()

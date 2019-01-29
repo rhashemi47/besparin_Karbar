@@ -29,31 +29,35 @@ public class SyncSliderPic {
 	private String WsResponse;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncSliderPic(Context activity, String karbarCode) {
+	public SyncSliderPic(Context activity, String karbarCode,
+						 DatabaseHelper dbh,
+						 SQLiteDatabase db) {
 		this.activity = activity;
 		this.karbarCode=karbarCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
+		this.dbh = dbh;
+		this.db = db;
 		PublicVariable.theard_GetSliderPic=false;
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_GetSliderPic=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_GetSliderPic=true;
-   			throw sqle;
-   		}   		
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_GetSliderPic=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetSliderPic=true;
+//   			throw sqle;
+//   		}
 	}
 	
 	public void AsyncExecute()

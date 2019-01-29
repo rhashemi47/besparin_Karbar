@@ -73,7 +73,7 @@ public class SchaduleServiceGetPerFactor extends JobService {
                                                 Code = coursors.getString(coursors.getColumnIndex("Code"));
                                             }
                                             try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                                            SyncGetFactorUsersHead syncGetFactorUsersHead = new SyncGetFactorUsersHead(getApplicationContext(), Code);
+                                            SyncGetFactorUsersHead syncGetFactorUsersHead = new SyncGetFactorUsersHead(getApplicationContext(), Code,dbh,db);
                                             syncGetFactorUsersHead.AsyncExecute();
                                         }
                                     }

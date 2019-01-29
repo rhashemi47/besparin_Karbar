@@ -66,7 +66,7 @@ public class SchaduleServiceGetServicesAndServiceDetails extends JobService {
                                     public void run() {
                                         if (PublicVariable.theard_GetServicesAndServiceDetails) {
 
-                                            SyncServicesForService syncServicesForService = new SyncServicesForService(getApplicationContext());
+                                            SyncServicesForService syncServicesForService = new SyncServicesForService(getApplicationContext(),dbh,db);
                                             syncServicesForService.AsyncExecute();
 
                                         }

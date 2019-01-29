@@ -119,6 +119,24 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name="com.besparina.it.karbar.SchaduleServiceGetUserServiceStartDate"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceGetLocation"
+         />
+        <service android:name="com.besparina.it.karbar.ServiceGetSliderPic"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceGetPerFactor"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceSyncMessage"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceGetServicesAndServiceDetails"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceGetServiceVisit"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceGetStateAndCity"
+             />
+        <service android:name="com.besparina.it.karbar.ServiceGetUserServiceStartDate"
+             />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />

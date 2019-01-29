@@ -81,7 +81,7 @@ public class SchaduleServiceGetServiceVisit extends JobService {
                                             if (db.isOpen()) {
                                                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                             }
-                                            SyncGetUserServiceVisit syncGetUserServiceVisit = new SyncGetUserServiceVisit(getApplicationContext(), karbarCode, LastVersion);
+                                            SyncGetUserServiceVisit syncGetUserServiceVisit = new SyncGetUserServiceVisit(getApplicationContext(), karbarCode, LastVersion,dbh,db);
                                             syncGetUserServiceVisit.AsyncExecute();
                                         }
                                     }

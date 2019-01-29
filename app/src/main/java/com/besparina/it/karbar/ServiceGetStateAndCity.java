@@ -66,7 +66,7 @@ public class ServiceGetStateAndCity extends Service {
                                     @Override
                                     public void run() {
                                         if (PublicVariable.theard_GetStateAndCity) {
-                                            SyncStateForService syncStateForService = new SyncStateForService(getApplicationContext());
+                                            SyncStateForService syncStateForService = new SyncStateForService(getApplicationContext(),dbh,db);
                                             syncStateForService.AsyncExecute();
                                         }
                                     }

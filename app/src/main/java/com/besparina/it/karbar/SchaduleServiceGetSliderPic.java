@@ -74,7 +74,7 @@ public class SchaduleServiceGetSliderPic extends JobService {
                                             }
                                             if (karbarCode.compareTo("0") != 0) {
 
-                                                SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), karbarCode);
+                                                SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), karbarCode,dbh,db);
                                                 syncSliderPic.AsyncExecute();
                                             }
                                             try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}

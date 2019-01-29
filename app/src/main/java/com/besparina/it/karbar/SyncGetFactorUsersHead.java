@@ -31,11 +31,15 @@ public class SyncGetFactorUsersHead {
 	private boolean CuShowDialog = false;
 
 	//Contractor
-	public SyncGetFactorUsersHead(Context activity,String karbarCode) {
+	public SyncGetFactorUsersHead(Context activity,String karbarCode,
+								  DatabaseHelper dbh,
+								  SQLiteDatabase db) {
 		this.activity = activity;
 		this.karbarCode = karbarCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
+		this.dbh = dbh;
+		this.db = db;
 		PublicVariable.theard_GetPerFactor=false;
 		dbh = new DatabaseHelper(this.activity.getApplicationContext());
 		try {

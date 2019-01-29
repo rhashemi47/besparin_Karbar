@@ -75,7 +75,7 @@ public class MainMenu extends AppCompatActivity {
     private SQLiteDatabase db;
     private Drawer drawer = null;
     private String countMessage;
-//    private android.support.v7.widget.GridLayout gridlayout;
+    //    private android.support.v7.widget.GridLayout gridlayout;
     private GridView GridViewServices;
     private boolean IsActive = true;
     private ArrayList<HashMap<String, String>> valuse;
@@ -93,27 +93,27 @@ public class MainMenu extends AppCompatActivity {
     private String countOrder;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private String AppVersion;
-    private  JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetServiceSaved = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetPerFactor = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetServicesAndServiceDetails = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetServiceVisit = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetStateAndCity = null;
-    private  JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
-    private  JobScheduler jobScheduler_SchaduleServiceSyncMessage = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetServiceSaved = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetPerFactor = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetServicesAndServiceDetails = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetServiceVisit = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetStateAndCity = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+    private JobScheduler jobScheduler_SchaduleServiceSyncMessage = null;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     protected void onResume() {
 
         super.onResume();
-        try
-        {
-            String status="0";
+        try {
+            String status = "0";
             db = dbh.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
             if (cursor.getCount() > 0) {
@@ -136,14 +136,13 @@ public class MainMenu extends AppCompatActivity {
             }
             karbarCode = getIntent().getStringExtra("karbarCode");
             Check_Login(karbarCode);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new Error("Error Opne Activity");
         }
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,16 +156,16 @@ public class MainMenu extends AppCompatActivity {
             e.printStackTrace();
         }
         String version = pInfo.versionName;
-        if(version.length()>0) {
+        if (version.length() > 0) {
             AppVersion = version;
-            WsDownLoadUpdate wsDownLoadUpdate=new WsDownLoadUpdate(MainMenu.this,AppVersion, PublicVariable.LinkFileTextCheckVersion,PublicVariable.DownloadAppUpdateLinkAPK);
+            WsDownLoadUpdate wsDownLoadUpdate = new WsDownLoadUpdate(MainMenu.this, AppVersion, PublicVariable.LinkFileTextCheckVersion, PublicVariable.DownloadAppUpdateLinkAPK);
             wsDownLoadUpdate.AsyncExecute();
         }
         faceh = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
         btnOrder = (Button) findViewById(R.id.btnOrderBottom);
         btnAcceptOrder = (Button) findViewById(R.id.btnAcceptOrderBottom);
         btncredite = (Button) findViewById(R.id.btncrediteBottom);
-        btnServiceEmergency=(Button)findViewById(R.id.btnServiceEmergency);
+        btnServiceEmergency = (Button) findViewById(R.id.btnServiceEmergency);
 
         etSearch = (EditText) findViewById(R.id.etSearch);
         lstSearchDetailService = (ListView) findViewById(R.id.lstSearchDetailService);
@@ -196,13 +195,23 @@ public class MainMenu extends AppCompatActivity {
         if (coursors.getCount() > 0) {
             countMessage = String.valueOf(coursors.getCount());
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception ex) {
+        }
         db = dbh.getReadableDatabase();
         final Cursor cursor = db.rawQuery("SELECT * FROM OrdersService WHERE Status ='1'", null);
         if (cursor.getCount() > 0) {
             countOrder = String.valueOf(cursor.getCount());
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception ex) {
+        }
         try {
             karbarCode = getIntent().getStringExtra("karbarCode");
             Check_Login(karbarCode);
@@ -226,7 +235,12 @@ public class MainMenu extends AppCompatActivity {
                 map.put("Code", cursor1.getString(cursor1.getColumnIndex("code")));
                 valuse.add(map);
             }
-            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {
+                if (db.isOpen()) {
+                    db.close();
+                }
+            } catch (Exception ex) {
+            }
             AdapterGridServices adapterGridServices = new AdapterGridServices(MainMenu.this, valuse, karbarCode);
             GridViewServices.setAdapter(adapterGridServices);
         }
@@ -255,7 +269,12 @@ public class MainMenu extends AppCompatActivity {
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
                         valuse.add(map);
                     }
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {
+                        if (db.isOpen()) {
+                            db.close();
+                        }
+                    } catch (Exception ex) {
+                    }
                     AdapterGridServices adapterGridServices = new AdapterGridServices(MainMenu.this, valuse, karbarCode);
                     GridViewServices.setAdapter(adapterGridServices);
                 } else {
@@ -272,7 +291,12 @@ public class MainMenu extends AppCompatActivity {
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
                         valuse.add(map);
                     }
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {
+                        if (db.isOpen()) {
+                            db.close();
+                        }
+                    } catch (Exception ex) {
+                    }
                     AdapterServiceDetails adapterServiceDetails = new AdapterServiceDetails(MainMenu.this, valuse, karbarCode);
                     lstSearchDetailService.setAdapter(adapterServiceDetails);
                 }
@@ -302,7 +326,12 @@ public class MainMenu extends AppCompatActivity {
                 bpm[j] = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
                 link[j] = coursors.getString(coursors.getColumnIndex("Link"));
             }
-            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {
+                if (db.isOpen()) {
+                    db.close();
+                }
+            } catch (Exception ex) {
+            }
             int i = 0;
             while (i < bpm.length) {
                 imageView = new ImageView(getApplicationContext());
@@ -343,7 +372,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String QueryCustom;
-                QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+                QueryCustom = "SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
                         "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status ='0'  ORDER BY CAST(OrdersService.Code AS int) ";
@@ -354,7 +383,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String QueryCustom;
-                QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+                QueryCustom = "SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
                         "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (1,2,5,6,7,12,13) ORDER BY CAST(OrdersService.Code AS int) ";
@@ -374,13 +403,10 @@ public class MainMenu extends AppCompatActivity {
 
                 if (ActivityCompat.checkSelfPermission(MainMenu.this,
                         android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainMenu.this, android.Manifest.permission.CALL_PHONE))
-                    {
-                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
-                    }
-                    else
-                    {
-                        ActivityCompat.requestPermissions(MainMenu.this,new String[]{android.Manifest.permission.CALL_PHONE},2);
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainMenu.this, android.Manifest.permission.CALL_PHONE)) {
+                        ActivityCompat.requestPermissions(MainMenu.this, new String[]{android.Manifest.permission.CALL_PHONE}, 2);
+                    } else {
+                        ActivityCompat.requestPermissions(MainMenu.this, new String[]{android.Manifest.permission.CALL_PHONE}, 2);
                     }
 
                 }
@@ -390,17 +416,19 @@ public class MainMenu extends AppCompatActivity {
                     cursorPhone.moveToNext();
                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {
+                    if (db.isOpen()) {
+                        db.close();
+                    }
+                } catch (Exception ex) {
+                }
             }
         });
         //****************************************************************************************
-        if(imageBitmap!=null)
-        {
-            CreateMenu(toolbar,imageBitmap);
-        }
-        else
-        {
-            CreateMenu(toolbar,null);
+        if (imageBitmap != null) {
+            CreateMenu(toolbar, imageBitmap);
+        } else {
+            CreateMenu(toolbar, null);
         }
 
         //***************************************************************************************************************************
@@ -448,26 +476,35 @@ public class MainMenu extends AppCompatActivity {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
-//                stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-//                stopService(new Intent(getBaseContext(), ServiceSyncMessage.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
-//                stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-
-                jobScheduler_SchaduleServiceGetLocation.cancelAll();
-                jobScheduler_SchaduleServiceGetServiceSaved.cancelAll();
-                jobScheduler_SchaduleServiceGetPerFactor.cancelAll();
-                jobScheduler_SchaduleServiceGetServicesAndServiceDetails.cancelAll();
-                jobScheduler_SchaduleServiceGetServiceVisit.cancelAll();
-                jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
-                jobScheduler_SchaduleServiceGetStateAndCity.cancelAll();
-                jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
-                jobScheduler_SchaduleServiceSyncMessage.cancelAll();
-                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+//
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    jobScheduler_SchaduleServiceGetLocation.cancelAll();
+                    jobScheduler_SchaduleServiceGetServiceSaved.cancelAll();
+                    jobScheduler_SchaduleServiceGetPerFactor.cancelAll();
+                    jobScheduler_SchaduleServiceGetServicesAndServiceDetails.cancelAll();
+                    jobScheduler_SchaduleServiceGetServiceVisit.cancelAll();
+                    jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
+                    jobScheduler_SchaduleServiceGetStateAndCity.cancelAll();
+                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
+                    jobScheduler_SchaduleServiceSyncMessage.cancelAll();
+                } else {
+                    stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+                    stopService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+                }
+                try {
+                    if (!db.isOpen()) {
+                        db = dbh.getWritableDatabase();
+                    }
+                } catch (Exception ex) {
+                    db = dbh.getWritableDatabase();
+                }
                 db.execSQL("DELETE FROM address");
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -488,7 +525,12 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM State");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.execSQL("DELETE FROM visit");
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {
+                    if (db.isOpen()) {
+                        db.close();
+                    }
+                } catch (Exception ex) {
+                }
                 Intent startMain = new Intent(MainMenu.this, MainMenu.class);
 
 
@@ -506,50 +548,40 @@ public class MainMenu extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void CreateMenu(Toolbar toolbar,Bitmap bmp) {
+    private void CreateMenu(Toolbar toolbar, Bitmap bmp) {
 
         String name = "";
         String family = "";
-        boolean isPicNull=false;
-        if(bmp==null)
-        {
-            isPicNull=true;
+        boolean isPicNull = false;
+        if (bmp == null) {
+            isPicNull = true;
         }
         db = dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
         if (coursors.getCount() > 0) {
             coursors.moveToNext();
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Name")).compareTo("null")!=0){
+            try {
+                if (coursors.getString(coursors.getColumnIndex("Name")).compareTo("null") != 0) {
                     name = coursors.getString(coursors.getColumnIndex("Name"));
-                }
-                else
-                {
+                } else {
                     name = "کاربر";
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 name = "کاربر";
             }
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null")!=0){
+            try {
+                if (coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null") != 0) {
                     family = coursors.getString(coursors.getColumnIndex("Fam"));
-                }
-                else
-                {
+                } else {
                     family = "مهمان";
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 family = "مهمان";
             }
-            try
-            {
-                if(isPicNull) {
+            try {
+                if (isPicNull) {
                     if (coursors.getString(coursors.getColumnIndex("Pic")).compareTo("null") != 0) {
                         bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
                     } else {
@@ -557,17 +589,19 @@ public class MainMenu extends AppCompatActivity {
                     }
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
             }
-        }
-        else
-        {
+        } else {
             name = "کاربر";
             family = "مهمان";
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception ex) {
+        }
         int drawerGravity = Gravity.END;
         Configuration config = getResources().getConfiguration();
         if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
@@ -604,15 +638,15 @@ public class MainMenu extends AppCompatActivity {
                         new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-        // new SecondaryDrawerItem().withName(R.string.Credits).withIcon(R.drawable.job).withBadge(countOrder).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
+                        // new SecondaryDrawerItem().withName(R.string.Credits).withIcon(R.drawable.job).withBadge(countOrder).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
 //                        new SecondaryDrawerItem().withName(R.string.GiftBank).withIcon(R.drawable.gift).withSelectable(false).withEnabled(IsActive),
-        // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
+                        // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
 //                        new SecondaryDrawerItem().withName(R.string.Yourcommitment).withIcon(R.drawable.yourcommitment).withSelectable(false),
 //                        new SecondaryDrawerItem().withName(R.string.Ourcommitment).withIcon(R.drawable.ourcommitment).withSelectable(false),
-        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
+                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
 
 
-        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
+                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
 
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
@@ -641,25 +675,33 @@ public class MainMenu extends AppCompatActivity {
                                         LoadActivity(Profile.class, "karbarCode", karbarCode);
                                     }
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {
+                                    if (db.isOpen()) {
+                                        db.close();
+                                    }
+                                } catch (Exception ex) {
+                                }
                                 break;
                             case 2:
                                 db = dbh.getReadableDatabase();
                                 Cursor c = db.rawQuery("SELECT * FROM login", null);
                                 if (c.getCount() > 0) {
                                     c.moveToNext();
-                                    Cursor creditCussor=db.rawQuery("SELECT * FROM credits",null);
-                                            if(creditCussor.getCount()>0) {
-                                                LoadActivity(Credit.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                            }
-                                            else
-                                            {
-                                                SyncGettUserCreditHistory syncGettUserCreditHistory =new SyncGettUserCreditHistory(MainMenu.this,c.getString(c.getColumnIndex("karbarCode")),"0");
-                                                syncGettUserCreditHistory.AsyncExecute();
-                                            }
+                                    Cursor creditCussor = db.rawQuery("SELECT * FROM credits", null);
+                                    if (creditCussor.getCount() > 0) {
+                                        LoadActivity(Credit.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
+                                    } else {
+                                        SyncGettUserCreditHistory syncGettUserCreditHistory = new SyncGettUserCreditHistory(MainMenu.this, c.getString(c.getColumnIndex("karbarCode")), "0");
+                                        syncGettUserCreditHistory.AsyncExecute();
+                                    }
 
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {
+                                    if (db.isOpen()) {
+                                        db.close();
+                                    }
+                                } catch (Exception ex) {
+                                }
                                 break;
                             case 3:
                                 db = dbh.getReadableDatabase();
@@ -667,9 +709,14 @@ public class MainMenu extends AppCompatActivity {
                                 if (c.getCount() > 0) {
                                     c.moveToNext();
                                     sharecode(c.getString(c.getColumnIndex("karbarCodeForReagent")));
-                                   // LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
+                                    // LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {
+                                    if (db.isOpen()) {
+                                        db.close();
+                                    }
+                                } catch (Exception ex) {
+                                }
                                 break;
 //
                             case 4:
@@ -678,14 +725,19 @@ public class MainMenu extends AppCompatActivity {
                                 if (c.getCount() > 0) {
                                     c.moveToNext();
                                     String QueryCustom;
-                                    QueryCustom="SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
+                                    QueryCustom = "SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                                             "LEFT JOIN " +
                                             "Servicesdetails ON " +
                                             "Servicesdetails.code=OrdersService.ServiceDetaileCode WHERE Status in (3,4,12,13) ORDER BY CAST(OrdersService.Code AS int) ";
                                     LoadActivity2(List_Order.class, "karbarCode", karbarCode, "QueryCustom", QueryCustom);
                                     //LoadActivity(History.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {
+                                    if (db.isOpen()) {
+                                        db.close();
+                                    }
+                                } catch (Exception ex) {
+                                }
                                 break;
                             case 5:
                                 db = dbh.getReadableDatabase();
@@ -695,7 +747,12 @@ public class MainMenu extends AppCompatActivity {
 
                                     LoadActivity(List_Messages.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {
+                                    if (db.isOpen()) {
+                                        db.close();
+                                    }
+                                } catch (Exception ex) {
+                                }
                                 break;
                             case 6:
                                 db = dbh.getReadableDatabase();
@@ -705,14 +762,19 @@ public class MainMenu extends AppCompatActivity {
 
                                     LoadActivity(Contact.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {
+                                    if (db.isOpen()) {
+                                        db.close();
+                                    }
+                                } catch (Exception ex) {
+                                }
                                 break;
                             case 7:
                                 final Dialog dialog = new Dialog(MainMenu.this);
                                 dialog.setContentView(R.layout.custome_dialog_role);
-                                Button btnOurCommitment= dialog.findViewById(R.id.btnOurCommitment);
-                                Button btnYourcommitmentt= dialog.findViewById(R.id.btnYourcommitmentt);
-                                Button btnRoleBesparina= dialog.findViewById(R.id.btnRoleBesparina);
+                                Button btnOurCommitment = dialog.findViewById(R.id.btnOurCommitment);
+                                Button btnYourcommitmentt = dialog.findViewById(R.id.btnYourcommitmentt);
+                                Button btnRoleBesparina = dialog.findViewById(R.id.btnRoleBesparina);
                                 btnOurCommitment.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -769,6 +831,7 @@ public class MainMenu extends AppCompatActivity {
 
         this.startActivity(intent);
     }
+
     public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue
             , String VariableName2, String VariableValue2) {
         Intent intent = new Intent(getApplicationContext(), Cls);
@@ -796,15 +859,16 @@ public class MainMenu extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},REQUEST_CODE_ASK_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_ASK_PERMISSIONS);
             return;
         }
         startActivity(callIntent);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if(grantResults.length>0) {
-               switch (requestCode) {
+        if (grantResults.length > 0) {
+            switch (requestCode) {
                 case REQUEST_CODE_ASK_PERMISSIONS:
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         // Permission Granted
@@ -814,7 +878,12 @@ public class MainMenu extends AppCompatActivity {
                             cursorPhone.moveToNext();
                             dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                         }
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                        try {
+                            if (db.isOpen()) {
+                                db.close();
+                            }
+                        } catch (Exception ex) {
+                        }
                     } else {
                         // Permission Denied
                         Toast.makeText(MainMenu.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -826,22 +895,21 @@ public class MainMenu extends AppCompatActivity {
             }
         }
     }
-    void sharecode(String shareStr)
-    {
+
+    void sharecode(String shareStr) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = "بسپارینا" + "\n"+"کد معرف: "+shareStr+"\n"+"آدرس سایت: " + PublicVariable.site;
+        String shareBody = "بسپارینا" + "\n" + "کد معرف: " + shareStr + "\n" + "آدرس سایت: " + PublicVariable.site;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));
     }
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-        }
-        else
-        {
+        } else {
             if (doubleBackToExitPressedOnce) {
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
 
@@ -860,13 +928,13 @@ public class MainMenu extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
     }
-    public void Check_Login(String karbarCode)
-    {
+
+    public void Check_Login(String karbarCode) {
         if (karbarCode == null) {
 
             Cursor cursor;
@@ -875,31 +943,29 @@ public class MainMenu extends AppCompatActivity {
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
                 String Result = cursor.getString(cursor.getColumnIndex("islogin"));
-                if (Result.compareTo("0") == 0)
-                {
+                if (Result.compareTo("0") == 0) {
                     LoadActivity(Login.class, "karbarCode", "0");
-                }
-                else
-                {
+                } else {
                     StartServiceApp();
                 }
-            }
-            else
-            {
+            } else {
                 LoadActivity(Login.class, "karbarCode", "0");
             }
         } else if (karbarCode.compareTo("0") == 0) {
             IsActive = false;
             StartServiceApp();
-        }
-        else
-        {
+        } else {
             StartServiceApp();
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception ex) {
+        }
     }
-    public void StartServiceApp()
-    {
+
+    public void StartServiceApp() {
 //        startService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
 //        startService(new Intent(getBaseContext(), ServiceGetLocation.class));
 //        startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
@@ -1074,6 +1140,16 @@ public class MainMenu extends AppCompatActivity {
                 jobScheduler_SchaduleServiceSyncMessage = getBaseContext().getSystemService(JobScheduler.class);
             }
             jobScheduler_SchaduleServiceSyncMessage.schedule(builder_SchaduleServiceSyncMessage.build());
+        } else {
+            this.startService(new Intent(this, ServiceGetServiceSaved.class));
+            this.startService(new Intent(this, ServiceGetLocation.class));
+            this.startService(new Intent(this, ServiceGetSliderPic.class));
+            this.startService(new Intent(this, ServiceSyncMessage.class));
+            this.startService(new Intent(this, ServiceGetServicesAndServiceDetails.class));
+            this.startService(new Intent(this, ServiceGetPerFactor.class));
+            this.startService(new Intent(this, ServiceGetServiceVisit.class));
+            this.startService(new Intent(this, ServiceGetStateAndCity.class));
+            this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
         }
     }
 }

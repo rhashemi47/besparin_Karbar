@@ -72,7 +72,7 @@ public class ServiceGetServiceSaved extends Service {
                                                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
                                             }
                                             try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                                            SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0");
+                                            SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0",dbh,db);
                                             syncGetUserServices.AsyncExecute();
                                         }
                                     }

@@ -70,7 +70,7 @@ public class ServiceGetUserServiceStartDate extends Service {
                                             for (int i = 0; i < coursors.getCount(); i++) {
                                                 coursors.moveToNext();
                                                 pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
-                                                SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
+                                                SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode,dbh,db);
                                                 syncGetUserServiceStartDate.AsyncExecute();
                                             }
                                             try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}

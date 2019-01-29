@@ -89,7 +89,7 @@ public class ServiceSyncMessage extends Service {
                                                 String Day = DateSp[2];
                                                 String code = cursor.getString(cursor.getColumnIndex("Code"));
                                                 while (PublicVariable.theard_ReadMessage) {
-                                                    SyncReadMessage readMessage = new SyncReadMessage(getApplicationContext(), karbarCode, code, Year, Month, Day);
+                                                    SyncReadMessage readMessage = new SyncReadMessage(getApplicationContext(), karbarCode, code, Year, Month, Day,dbh,db);
                                                     readMessage.AsyncExecute();
                                                     try {
                                                         sleep(6000);

@@ -35,13 +35,17 @@ public class SyncGetUserServices {
 	private boolean CuShowDialog = false;
 
 	//Contractor
-	public SyncGetUserServices(Context activity, String pUserCode, String LastUserServiceCode) {
+	public SyncGetUserServices(Context activity, String pUserCode, String LastUserServiceCode,
+							   DatabaseHelper dbh,
+							   SQLiteDatabase db) {
 		this.activity = activity;
 		this.pUserCode = pUserCode;
 		this.LastUserServiceCode = LastUserServiceCode;
 		PublicVariable.theard_GetServiceSaved=false;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
+		this.dbh = dbh;
+		this.db = db;
 
 		dbh = new DatabaseHelper(this.activity.getApplicationContext());
 		try {

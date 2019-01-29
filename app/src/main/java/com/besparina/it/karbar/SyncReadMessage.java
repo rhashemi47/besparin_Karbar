@@ -37,7 +37,9 @@ public class SyncReadMessage {
 	private boolean CuShowDialog=false;
 	private String[] res;
 	//Contractor
-	public SyncReadMessage(Context activity, String karbarCode,String messagecode, String Year, String Month, String Day) {
+	public SyncReadMessage(Context activity, String karbarCode,String messagecode, String Year, String Month, String Day,
+						   DatabaseHelper dbh,
+						   SQLiteDatabase db) {
 		this.activity = activity;
 
 		this.karbarCode = karbarCode;
@@ -45,29 +47,31 @@ public class SyncReadMessage {
 		this.Month=Month;
 		this.Day=Day;
 		this.messagecode=messagecode;
+		this.dbh = dbh;
+		this.db = db;
 		PublicVariable.theard_ReadMessage=false;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_ReadMessage=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_ReadMessage=true;
-   			throw sqle;
-   		}
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_ReadMessage=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_ReadMessage=true;
+//   			throw sqle;
+//   		}
    		
 	}
 	

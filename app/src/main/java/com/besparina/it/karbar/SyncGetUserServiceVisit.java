@@ -32,33 +32,37 @@ public class SyncGetUserServiceVisit {
 	private String LastServiceVisitCode;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncGetUserServiceVisit(Context activity, String pUserCode, String LastServiceVisitCode) {
+	public SyncGetUserServiceVisit(Context activity, String pUserCode, String LastServiceVisitCode,
+								   DatabaseHelper dbh,
+								   SQLiteDatabase db) {
 		this.activity = activity;
 
 		this.pUserCode=pUserCode;
 		this.LastServiceVisitCode=LastServiceVisitCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
+		this.dbh = dbh;
+		this.db = db;
 		PublicVariable.theard_GetServiceVisit=false;
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_GetServiceVisit=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_GetServiceVisit=true;
-   			throw sqle;
-   		}   		
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_GetServiceVisit=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetServiceVisit=true;
+//   			throw sqle;
+//   		}
 	}
 	
 	public void AsyncExecute()

@@ -32,11 +32,15 @@ public class SyncServicesForService {
 	//private String acceptcode;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncServicesForService(Context activity) {
+	public SyncServicesForService(Context activity,
+								  DatabaseHelper dbh,
+								  SQLiteDatabase db) {
 		this.activity = activity;
 		this.flag = flag;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
+		this.dbh = dbh;
+		this.db = db;
 		PublicVariable.theard_GetServicesAndServiceDetails=false;
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
