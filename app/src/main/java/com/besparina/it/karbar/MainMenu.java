@@ -966,15 +966,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void StartServiceApp() {
-//        startService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
-//        startService(new Intent(getBaseContext(), ServiceGetLocation.class));
-//        startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-//        startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
-//        startService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
-//        startService(new Intent(getBaseContext(), ServiceGetPerFactor.class));
-//        startService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
-//        startService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
-//        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            this.startForegroundService(new Intent(this, ServiceGetServiceSaved.class));
 //            this.startForegroundService(new Intent(this, ServiceGetLocation.class));
@@ -986,6 +977,161 @@ public class MainMenu extends AppCompatActivity {
 //            this.startForegroundService(new Intent(this, ServiceGetStateAndCity.class));
 //            this.startForegroundService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //        } else {
+            this.startService(new Intent(this, ServiceGetServiceSaved.class));
+            this.startService(new Intent(this, ServiceGetLocation.class));
+            this.startService(new Intent(this, ServiceGetSliderPic.class));
+            this.startService(new Intent(this, ServiceSyncMessage.class));
+            this.startService(new Intent(this, ServiceGetServicesAndServiceDetails.class));
+            this.startService(new Intent(this, ServiceGetPerFactor.class));
+            this.startService(new Intent(this, ServiceGetServiceVisit.class));
+            this.startService(new Intent(this, ServiceGetStateAndCity.class));
+            this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
+//        }
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+////
+//            //*****************************************ServiceGetLocation******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetLocation = new ComponentName(getBaseContext(), SchaduleServiceGetLocation.class);
+//            JobInfo.Builder builder_SchaduleServiceGetLocation = null;
+//            builder_SchaduleServiceGetLocation = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetLocation);
+//            builder_SchaduleServiceGetLocation.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetLocation.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetLocation.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetLocation.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetLocation.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetLocation.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetLocation = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetLocation.schedule(builder_SchaduleServiceGetLocation.build());
+//            //*****************************************ServiceGetServiceSaved******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetServiceSaved = new ComponentName(getBaseContext(), SchaduleServiceGetServiceSaved.class);
+//            JobInfo.Builder builder_SchaduleServiceGetServiceSaved = null;
+//            builder_SchaduleServiceGetServiceSaved = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetServiceSaved);
+//            builder_SchaduleServiceGetServiceSaved.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetServiceSaved.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetServiceSaved.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetServiceSaved.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetServiceSaved.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetServiceSaved.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetServiceSaved = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetServiceSaved.schedule(builder_SchaduleServiceGetServiceSaved.build());
+//
+//            //*****************************************SchaduleServiceGetPerFactor************************************************
+//            ComponentName serviceComponent_SchaduleServiceGetPerFactor = new ComponentName(getBaseContext(), SchaduleServiceGetPerFactor.class);
+//            JobInfo.Builder builder_SchaduleServiceGetPerFactor = null;
+//            builder_SchaduleServiceGetPerFactor = new JobInfo.Builder(2, serviceComponent_SchaduleServiceGetPerFactor);
+//            builder_SchaduleServiceGetPerFactor.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetPerFactor.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetPerFactor.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetPerFactor.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetPerFactor.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetPerFactor.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetPerFactor = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetPerFactor.schedule(builder_SchaduleServiceGetPerFactor.build());
+//
+//            //*****************************************SchaduleServiceGetServicesAndServiceDetails******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetServicesAndServiceDetails = new ComponentName(getBaseContext(), SchaduleServiceGetServicesAndServiceDetails.class);
+//            JobInfo.Builder builder_SchaduleServiceGetServicesAndServiceDetails = null;
+//            builder_SchaduleServiceGetServicesAndServiceDetails = new JobInfo.Builder(3, serviceComponent_SchaduleServiceGetServicesAndServiceDetails);
+//            builder_SchaduleServiceGetServicesAndServiceDetails.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetServicesAndServiceDetails.setOverrideDeadline(10000); // maximum delay
+//            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetServicesAndServiceDetails.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetServicesAndServiceDetails = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetServicesAndServiceDetails.schedule(builder_SchaduleServiceGetServicesAndServiceDetails.build());
+//
+//            //*****************************************SchaduleServiceGetServiceVisit******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetServiceVisit = new ComponentName(getBaseContext(), SchaduleServiceGetServiceVisit.class);
+//            JobInfo.Builder builder_SchaduleServiceGetServiceVisit = null;
+//            builder_SchaduleServiceGetServiceVisit = new JobInfo.Builder(4, serviceComponent_SchaduleServiceGetServiceVisit);
+//            builder_SchaduleServiceGetServiceVisit.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetServiceVisit.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetServiceVisit.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetServiceVisit.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetServiceVisit.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetServiceVisit.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetServiceVisit = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetServiceVisit.schedule(builder_SchaduleServiceGetServiceVisit.build());
+//
+//            //*****************************************SchaduleServiceGetSliderPic******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetSliderPic = new ComponentName(getBaseContext(), SchaduleServiceGetSliderPic.class);
+//            JobInfo.Builder builder_SchaduleServiceGetSliderPic = null;
+//            builder_SchaduleServiceGetSliderPic = new JobInfo.Builder(5, serviceComponent_SchaduleServiceGetSliderPic);
+//            builder_SchaduleServiceGetSliderPic.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetSliderPic.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetSliderPic.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetSliderPic.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetSliderPic.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetSliderPic.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetSliderPic = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetSliderPic.schedule(builder_SchaduleServiceGetSliderPic.build());
+//
+//            //*****************************************SchaduleServiceGetStateAndCity******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetStateAndCity = new ComponentName(getBaseContext(), SchaduleServiceGetStateAndCity.class);
+//            JobInfo.Builder builder_SchaduleServiceGetStateAndCity = null;
+//            builder_SchaduleServiceGetStateAndCity = new JobInfo.Builder(6, serviceComponent_SchaduleServiceGetStateAndCity);
+//            builder_SchaduleServiceGetStateAndCity.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetStateAndCity.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetStateAndCity.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetStateAndCity.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetStateAndCity.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetStateAndCity.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetStateAndCity = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetStateAndCity.schedule(builder_SchaduleServiceGetStateAndCity.build());
+//
+//            //*****************************************SchaduleServiceGetStateAndCity******************************************
+//            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getBaseContext(), SchaduleServiceGetUserServiceStartDate.class);
+//            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+//            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+//            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceGetUserServiceStartDate.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceGetUserServiceStartDate = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+//
+//            //*****************************************SchaduleServiceSyncMessage******************************************
+//            ComponentName serviceComponent_SchaduleServiceSyncMessage = new ComponentName(getBaseContext(), SchaduleServiceSyncMessage.class);
+//            JobInfo.Builder builder_SchaduleServiceSyncMessage = null;
+//            builder_SchaduleServiceSyncMessage = new JobInfo.Builder(8, serviceComponent_SchaduleServiceSyncMessage);
+//            builder_SchaduleServiceSyncMessage.setMinimumLatency(0); // wait at least
+////            builder_SchaduleServiceSyncMessage.setOverrideDeadline(1000); // maximum delay
+//            builder_SchaduleServiceSyncMessage.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+//            builder_SchaduleServiceSyncMessage.setRequiresDeviceIdle(false); // device should be idle
+//            builder_SchaduleServiceSyncMessage.setRequiresCharging(false); // we don't care if the device is charging or not
+////            builder_SchaduleServiceSyncMessage.setPeriodic(5000);
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                jobScheduler_SchaduleServiceSyncMessage = getBaseContext().getSystemService(JobScheduler.class);
+//            }
+//            jobScheduler_SchaduleServiceSyncMessage.schedule(builder_SchaduleServiceSyncMessage.build());
+//        } else {
 //            this.startService(new Intent(this, ServiceGetServiceSaved.class));
 //            this.startService(new Intent(this, ServiceGetLocation.class));
 //            this.startService(new Intent(this, ServiceGetSliderPic.class));
@@ -996,160 +1142,5 @@ public class MainMenu extends AppCompatActivity {
 //            this.startService(new Intent(this, ServiceGetStateAndCity.class));
 //            this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//
-            //*****************************************ServiceGetLocation******************************************
-            ComponentName serviceComponent_SchaduleServiceGetLocation = new ComponentName(getBaseContext(), SchaduleServiceGetLocation.class);
-            JobInfo.Builder builder_SchaduleServiceGetLocation = null;
-            builder_SchaduleServiceGetLocation = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetLocation);
-            builder_SchaduleServiceGetLocation.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetLocation.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetLocation.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetLocation.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetLocation.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetLocation.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetLocation = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetLocation.schedule(builder_SchaduleServiceGetLocation.build());
-            //*****************************************ServiceGetServiceSaved******************************************
-            ComponentName serviceComponent_SchaduleServiceGetServiceSaved = new ComponentName(getBaseContext(), SchaduleServiceGetServiceSaved.class);
-            JobInfo.Builder builder_SchaduleServiceGetServiceSaved = null;
-            builder_SchaduleServiceGetServiceSaved = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetServiceSaved);
-            builder_SchaduleServiceGetServiceSaved.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetServiceSaved.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetServiceSaved.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetServiceSaved.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetServiceSaved.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetServiceSaved.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetServiceSaved = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetServiceSaved.schedule(builder_SchaduleServiceGetServiceSaved.build());
-
-            //*****************************************SchaduleServiceGetPerFactor************************************************
-            ComponentName serviceComponent_SchaduleServiceGetPerFactor = new ComponentName(getBaseContext(), SchaduleServiceGetPerFactor.class);
-            JobInfo.Builder builder_SchaduleServiceGetPerFactor = null;
-            builder_SchaduleServiceGetPerFactor = new JobInfo.Builder(2, serviceComponent_SchaduleServiceGetPerFactor);
-            builder_SchaduleServiceGetPerFactor.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetPerFactor.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetPerFactor.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetPerFactor.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetPerFactor.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetPerFactor.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetPerFactor = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetPerFactor.schedule(builder_SchaduleServiceGetPerFactor.build());
-
-            //*****************************************SchaduleServiceGetServicesAndServiceDetails******************************************
-            ComponentName serviceComponent_SchaduleServiceGetServicesAndServiceDetails = new ComponentName(getBaseContext(), SchaduleServiceGetServicesAndServiceDetails.class);
-            JobInfo.Builder builder_SchaduleServiceGetServicesAndServiceDetails = null;
-            builder_SchaduleServiceGetServicesAndServiceDetails = new JobInfo.Builder(3, serviceComponent_SchaduleServiceGetServicesAndServiceDetails);
-            builder_SchaduleServiceGetServicesAndServiceDetails.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetServicesAndServiceDetails.setOverrideDeadline(10000); // maximum delay
-            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetServicesAndServiceDetails.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetServicesAndServiceDetails.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetServicesAndServiceDetails = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetServicesAndServiceDetails.schedule(builder_SchaduleServiceGetServicesAndServiceDetails.build());
-
-            //*****************************************SchaduleServiceGetServiceVisit******************************************
-            ComponentName serviceComponent_SchaduleServiceGetServiceVisit = new ComponentName(getBaseContext(), SchaduleServiceGetServiceVisit.class);
-            JobInfo.Builder builder_SchaduleServiceGetServiceVisit = null;
-            builder_SchaduleServiceGetServiceVisit = new JobInfo.Builder(4, serviceComponent_SchaduleServiceGetServiceVisit);
-            builder_SchaduleServiceGetServiceVisit.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetServiceVisit.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetServiceVisit.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetServiceVisit.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetServiceVisit.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetServiceVisit.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetServiceVisit = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetServiceVisit.schedule(builder_SchaduleServiceGetServiceVisit.build());
-
-            //*****************************************SchaduleServiceGetSliderPic******************************************
-            ComponentName serviceComponent_SchaduleServiceGetSliderPic = new ComponentName(getBaseContext(), SchaduleServiceGetSliderPic.class);
-            JobInfo.Builder builder_SchaduleServiceGetSliderPic = null;
-            builder_SchaduleServiceGetSliderPic = new JobInfo.Builder(5, serviceComponent_SchaduleServiceGetSliderPic);
-            builder_SchaduleServiceGetSliderPic.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetSliderPic.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetSliderPic.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetSliderPic.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetSliderPic.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetSliderPic.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetSliderPic = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetSliderPic.schedule(builder_SchaduleServiceGetSliderPic.build());
-
-            //*****************************************SchaduleServiceGetStateAndCity******************************************
-            ComponentName serviceComponent_SchaduleServiceGetStateAndCity = new ComponentName(getBaseContext(), SchaduleServiceGetStateAndCity.class);
-            JobInfo.Builder builder_SchaduleServiceGetStateAndCity = null;
-            builder_SchaduleServiceGetStateAndCity = new JobInfo.Builder(6, serviceComponent_SchaduleServiceGetStateAndCity);
-            builder_SchaduleServiceGetStateAndCity.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetStateAndCity.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetStateAndCity.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetStateAndCity.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetStateAndCity.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetStateAndCity.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetStateAndCity = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetStateAndCity.schedule(builder_SchaduleServiceGetStateAndCity.build());
-
-            //*****************************************SchaduleServiceGetStateAndCity******************************************
-            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getBaseContext(), SchaduleServiceGetUserServiceStartDate.class);
-            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
-            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
-            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceGetUserServiceStartDate.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceGetUserServiceStartDate = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
-
-            //*****************************************SchaduleServiceSyncMessage******************************************
-            ComponentName serviceComponent_SchaduleServiceSyncMessage = new ComponentName(getBaseContext(), SchaduleServiceSyncMessage.class);
-            JobInfo.Builder builder_SchaduleServiceSyncMessage = null;
-            builder_SchaduleServiceSyncMessage = new JobInfo.Builder(8, serviceComponent_SchaduleServiceSyncMessage);
-            builder_SchaduleServiceSyncMessage.setMinimumLatency(0); // wait at least
-//            builder_SchaduleServiceSyncMessage.setOverrideDeadline(1000); // maximum delay
-            builder_SchaduleServiceSyncMessage.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
-            builder_SchaduleServiceSyncMessage.setRequiresDeviceIdle(false); // device should be idle
-            builder_SchaduleServiceSyncMessage.setRequiresCharging(false); // we don't care if the device is charging or not
-//            builder_SchaduleServiceSyncMessage.setPeriodic(5000);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                jobScheduler_SchaduleServiceSyncMessage = getBaseContext().getSystemService(JobScheduler.class);
-            }
-            jobScheduler_SchaduleServiceSyncMessage.schedule(builder_SchaduleServiceSyncMessage.build());
-        } else {
-            this.startService(new Intent(this, ServiceGetServiceSaved.class));
-            this.startService(new Intent(this, ServiceGetLocation.class));
-            this.startService(new Intent(this, ServiceGetSliderPic.class));
-            this.startService(new Intent(this, ServiceSyncMessage.class));
-            this.startService(new Intent(this, ServiceGetServicesAndServiceDetails.class));
-            this.startService(new Intent(this, ServiceGetPerFactor.class));
-            this.startService(new Intent(this, ServiceGetServiceVisit.class));
-            this.startService(new Intent(this, ServiceGetStateAndCity.class));
-            this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
-        }
     }
 }

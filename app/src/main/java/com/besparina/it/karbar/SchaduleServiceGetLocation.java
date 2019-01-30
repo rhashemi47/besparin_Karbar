@@ -118,6 +118,7 @@ public class SchaduleServiceGetLocation extends JobService {
         return false;
     }
 
+
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
@@ -157,4 +158,5 @@ public class SchaduleServiceGetLocation extends JobService {
             return false;
         }
     }
+
 }
