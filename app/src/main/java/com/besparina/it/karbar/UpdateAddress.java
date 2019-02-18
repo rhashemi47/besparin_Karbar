@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -43,6 +47,7 @@ public class UpdateAddress extends AppCompatActivity {
     private String karbarCode;
     private String status;
 
+    private LinearLayout LinearMap;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private Button btnSaveLocation;
@@ -78,6 +83,7 @@ public class UpdateAddress extends AppCompatActivity {
         NameAddres=(EditText)findViewById(R.id.NameAddres);
         AddAddres=(EditText)findViewById(R.id.AddAddres);
         chbIsDefaultAddres=(CheckBox) findViewById(R.id.chbIsDefaultAddres);
+        LinearMap = (LinearLayout)findViewById(R.id.LinearMap);
         try {
             karbarCode = getIntent().getStringExtra("karbarCode").toString();
         }
@@ -158,7 +164,19 @@ public class UpdateAddress extends AppCompatActivity {
             }
         });
 
-
+//******************************************************************************
+        AddAddres.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (keyboardShown(AddAddres.getRootView())) {
+//                    Log.d("keyboard", "keyboard UP");
+                    LinearMap.setVisibility(View.GONE);
+                } else {
+//                    Log.d("keyboard", "keyboard Down");
+                    LinearMap.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         btnSaveLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -329,6 +347,14 @@ public class UpdateAddress extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(dataAdapter);
     }
+    private boolean keyboardShown(View rootView) {
 
+        final int softKeyboardHeight = 100;
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+        int heightDiff = rootView.getBottom() - r.bottom;
+        return heightDiff > softKeyboardHeight * dm.density;
+    }
 }
 

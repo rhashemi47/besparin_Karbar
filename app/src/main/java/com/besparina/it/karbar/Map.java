@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
@@ -19,19 +20,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -80,7 +86,9 @@ public class Map extends AppCompatActivity {
     private List<String> labels_State = new ArrayList<String>();
     private List<String> labels_City = new ArrayList<String>();
     public Handler mHandler;
-    public boolean continue_or_stop = true;
+    public boolean continue_GetAddress = true;
+    public boolean continue_GetPermitionGPS = true;
+    public boolean Switch = true;
     private GPSTracker gps;
     //*************************************
     private String MaleCount;
@@ -103,6 +111,9 @@ public class Map extends AppCompatActivity {
     private String TeacherGender;
     private String CarWashType;
     private String CarType;
+    private Runnable runnable;
+    private Thread thread;
+    private LinearLayout LinearMap;
     private AlertDialog.Builder alertDialog = null;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
@@ -122,26 +133,29 @@ public class Map extends AppCompatActivity {
         NameAddres = (EditText) findViewById(R.id.NameAddres);
         AddAddres = (EditText) findViewById(R.id.AddAddres);
         chbIsDefaultAddres = (CheckBox) findViewById(R.id.chbIsDefaultAddres);
+        LinearMap = (LinearLayout)findViewById(R.id.LinearMap);
+
+
         gps = new GPSTracker(Map.this);
 
         // check if GPS enabled
-        if (gps.canGetLocation()) {
-
-            //nothing
-        } else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            gps.showSettingsAlert();
-        }
+//        if (gps.canGetLocation()) {
+//
+//            //nothing
+//        } else {
+//            // can't get location
+//            // GPS or Network is not enabled
+//            // Ask user to enable GPS/network in settings
+//            gps.showSettingsAlert();
+//        }
         setMap();
         mHandler = new Handler();
-        continue_or_stop = true;
+        continue_GetAddress = true;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                while (continue_or_stop) {
+                while (continue_GetAddress) {
                     try {
                         Thread.sleep(5000); // every 5 seconds
                         mHandler.post(new Runnable() {
@@ -167,6 +181,19 @@ public class Map extends AppCompatActivity {
 
 //******************************************************************************
         Run_thered();
+//******************************************************************************
+        AddAddres.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (keyboardShown(AddAddres.getRootView())) {
+//                    Log.d("keyboard", "keyboard UP");
+                    LinearMap.setVisibility(View.GONE);
+                } else {
+//                    Log.d("keyboard", "keyboard Down");
+                    LinearMap.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 //******************************************************************************
         try {
             karbarCode = getIntent().getStringExtra("karbarCode").toString();
@@ -347,7 +374,6 @@ public class Map extends AppCompatActivity {
 
             }
         });
-        //*************************************************************************************************
 
         //******************************************************************************************************
         etArea.addTextChangedListener(new TextWatcher() {
@@ -455,10 +481,12 @@ public class Map extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             if (backToActivity.compareTo("Profile") == 0) {
-                continue_or_stop = false;
+                continue_GetAddress = false;
+                continue_GetPermitionGPS = false;
                 LoadActivity(Profile.class, "karbarCode", karbarCode);
             } else {
-                continue_or_stop = false;
+                continue_GetAddress = false;
+                continue_GetPermitionGPS = false;
                 LoadActivity2(Service_Request.class,
                         "karbarCode", karbarCode,
                         "DetailCode", DetailCode,
@@ -494,6 +522,7 @@ public class Map extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mHandler.removeCallbacks(runnable);
         this.startActivity(intent);
     }
 
@@ -543,6 +572,7 @@ public class Map extends AppCompatActivity {
         intent.putExtra(VariableName20, VariableValue20);
         intent.putExtra(VariableName21, VariableValue21);
         intent.putExtra(VariableName22, VariableValue22);
+        mHandler.removeCallbacks(runnable);
         this.startActivity(intent);
     }
 
@@ -715,7 +745,7 @@ public class Map extends AppCompatActivity {
                 try {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         // Permission Granted
-//                        continue_or_stop = true;
+//                        continue_GetPermitionGPS = true;
                     } else {
                         // Permission Denied
 //                        continue_or_stop = true;
@@ -731,12 +761,13 @@ public class Map extends AppCompatActivity {
         }
     }
     private void Run_thered() {
-        mHandler = new Handler();
-        new Thread(new Runnable() {
+        if(mHandler==null){
+            mHandler = new Handler();
+        }
+        runnable=new Runnable() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                while (continue_or_stop) {
+                while (continue_GetPermitionGPS) {
                     try {
                         mHandler.post(new Runnable() {
 
@@ -748,27 +779,40 @@ public class Map extends AppCompatActivity {
                                                 != PackageManager.PERMISSION_GRANTED) {
 //                                    continue_or_stop=false;
                                     ActivityCompat.requestPermissions(Map.this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE_ASK_PERMISSIONS);
-
-//            return;
+                                    return;
                                 }
                                 else {
-                                    Check_GPS();
+                                    if(Switch) {
+                                        Check_GPS();
+                                    }
                                 }
                             }
                         });
 
-                        Thread.sleep(1000); // every 5 seconds
+                        Thread.sleep(1000); // every 1 seconds
                     } catch (Exception e) {
                         // TODO: handle exception
                     }
                 }
             }
-        }).start();
+        };
+
+        thread=new Thread(runnable);
+        thread.start();
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // TODO Auto-generated method stub
+//
+//            }
+//        }).start();
     }
     private void Check_GPS() {
         gps = new GPSTracker(Map.this);
+        Switch=false;
         if (gps.canGetLocation()) {
-            continue_or_stop=false;
+            continue_GetPermitionGPS=false;
             setMap();
         } else {
             if (alertDialog == null) {
@@ -785,8 +829,9 @@ public class Map extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivity(intent);
-                        continue_or_stop = true;
-                        Run_thered();
+                        Switch=true;
+                        continue_GetPermitionGPS = false;
+                        //Run_thered();
                     }
                 });
 
@@ -794,8 +839,9 @@ public class Map extends AppCompatActivity {
                 alertDialog.setNegativeButton("انصراف", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        continue_or_stop = true;
-                        Run_thered();
+                        Switch=true;
+                        continue_GetPermitionGPS = true;
+                        //Run_thered();
                     }
                 });
 
@@ -803,6 +849,15 @@ public class Map extends AppCompatActivity {
                 alertDialog.show();
             }
         }
+    }
+    private boolean keyboardShown(View rootView) {
+
+        final int softKeyboardHeight = 100;
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+        int heightDiff = rootView.getBottom() - r.bottom;
+        return heightDiff > softKeyboardHeight * dm.density;
     }
 }
 

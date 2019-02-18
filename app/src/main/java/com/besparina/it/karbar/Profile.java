@@ -178,6 +178,7 @@ public class Profile extends Activity {
 			tvUserCode.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("Code"))));
 			tvUserName.setText(coursors.getString(coursors.getColumnIndex("Name")));
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
+			tvPhoneNumber.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
 			try {
 				if (coursors.getString(coursors.getColumnIndex("BthDate")).length() > 0) {
 					brithday.setText(PersianDigitConverter.PerisanNumber(coursors.getString(coursors.getColumnIndex("BthDate"))));

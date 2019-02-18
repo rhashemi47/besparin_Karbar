@@ -75,7 +75,7 @@ public class MainMenu extends AppCompatActivity {
     private SQLiteDatabase db;
     private Drawer drawer = null;
     private String countMessage;
-    //    private android.support.v7.widget.GridLayout gridlayout;
+    private CreateOrUpdateTable dbCOrU;
     private GridView GridViewServices;
     private boolean IsActive = true;
     private ArrayList<HashMap<String, String>> valuse;
@@ -142,13 +142,114 @@ public class MainMenu extends AppCompatActivity {
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
+protected  void onStop() {
 
+    super.onStop();
+    try {
+        String status = "0";
+        db = dbh.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            try {
+                if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                    status = cursor.getString(cursor.getColumnIndex("Status"));
+                    if (status.compareTo("0") == 0) {
+                        status = "غیرفعال";
+                    } else {
+                        status = "فعال";
+                    }
+                } else {
+                    status = "غیرفعال";
+                }
+
+            } catch (Exception ex) {
+                status = "غیرفعال";
+            }
+        }
+        karbarCode = getIntent().getStringExtra("karbarCode");
+        Check_Login(karbarCode);
+    } catch (Exception e) {
+        throw new Error("Error Opne Activity");
+    }
+}
+protected void onPause() {
+
+    super.onPause();
+    try {
+        String status = "0";
+        db = dbh.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            try {
+                if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                    status = cursor.getString(cursor.getColumnIndex("Status"));
+                    if (status.compareTo("0") == 0) {
+                        status = "غیرفعال";
+                    } else {
+                        status = "فعال";
+                    }
+                } else {
+                    status = "غیرفعال";
+                }
+
+            } catch (Exception ex) {
+                status = "غیرفعال";
+            }
+        }
+        karbarCode = getIntent().getStringExtra("karbarCode");
+        Check_Login(karbarCode);
+    } catch (Exception e) {
+        throw new Error("Error Opne Activity");
+    }
+}
+    protected void onDestroy() {
+
+        super.onDestroy();
+        try {
+            String status = "0";
+            db = dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                try {
+                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                        status = cursor.getString(cursor.getColumnIndex("Status"));
+                        if (status.compareTo("0") == 0) {
+                            status = "غیرفعال";
+                        } else {
+                            status = "فعال";
+                        }
+                    } else {
+                        status = "غیرفعال";
+                    }
+
+                } catch (Exception ex) {
+                    status = "غیرفعال";
+                }
+            }
+            karbarCode = getIntent().getStringExtra("karbarCode");
+            Check_Login(karbarCode);
+        } catch (Exception e) {
+            throw new Error("Error Opne Activity");
+        }
+    }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
+//        dbCOrU=new CreateOrUpdateTable(this);
+//        if(dbCOrU.isFieldExistTable("address1"))
+//        {
+//            Toast.makeText(this,"Exist",Toast.LENGTH_LONG).show();
+//        }
+//        else
+//        {
+//            Toast.makeText(this,"Not Exist",Toast.LENGTH_LONG).show();
+//        }
         PackageInfo pInfo = null;
         try {
             pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -477,17 +578,17 @@ public class MainMenu extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
 //
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    jobScheduler_SchaduleServiceGetLocation.cancelAll();
-                    jobScheduler_SchaduleServiceGetServiceSaved.cancelAll();
-                    jobScheduler_SchaduleServiceGetPerFactor.cancelAll();
-                    jobScheduler_SchaduleServiceGetServicesAndServiceDetails.cancelAll();
-                    jobScheduler_SchaduleServiceGetServiceVisit.cancelAll();
-                    jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
-                    jobScheduler_SchaduleServiceGetStateAndCity.cancelAll();
-                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
-                    jobScheduler_SchaduleServiceSyncMessage.cancelAll();
-                } else {
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                    jobScheduler_SchaduleServiceGetLocation.cancelAll();
+//                    jobScheduler_SchaduleServiceGetServiceSaved.cancelAll();
+//                    jobScheduler_SchaduleServiceGetPerFactor.cancelAll();
+//                    jobScheduler_SchaduleServiceGetServicesAndServiceDetails.cancelAll();
+//                    jobScheduler_SchaduleServiceGetServiceVisit.cancelAll();
+//                    jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
+//                    jobScheduler_SchaduleServiceGetStateAndCity.cancelAll();
+//                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
+//                    jobScheduler_SchaduleServiceSyncMessage.cancelAll();
+//                } else {
                     stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                     stopService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
                     stopService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));
@@ -497,7 +598,7 @@ public class MainMenu extends AppCompatActivity {
                     stopService(new Intent(getBaseContext(), ServiceGetServiceVisit.class));
                     stopService(new Intent(getBaseContext(), ServiceGetStateAndCity.class));
                     stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-                }
+//                }
                 try {
                     if (!db.isOpen()) {
                         db = dbh.getWritableDatabase();

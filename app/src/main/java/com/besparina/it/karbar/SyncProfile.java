@@ -219,7 +219,9 @@ public class SyncProfile {
 					"Status," +
 					"ReagentName," +
 					"BthDate," +
-					"Email )" +
+					"Email," +
+					"Mobile" +
+					")" +
 					"VALUES" +
 					"('"+value[0]+
 					"','"+value[1]+
@@ -229,6 +231,7 @@ public class SyncProfile {
 					"','"+" معرف "+value[5]+
 					"','"+value[6].replace("@@","")+
 					"','"+value[7].replace("@@","")+
+					"','"+value[8].replace("@@","")+
 					"')";
 			db.execSQL(query);
 		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
