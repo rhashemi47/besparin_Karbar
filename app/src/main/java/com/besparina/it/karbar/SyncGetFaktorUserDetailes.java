@@ -231,9 +231,9 @@ public class SyncGetFaktorUserDetailes {
 						c.close();
 					}
 				}
-				if(!db.isOpen()){
-					try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
-				}
+				try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+					cursor.close();	}}	catch (Exception ex){	}
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("INSERT INTO BsFaktorUserDetailes (" +
 						"Code," +
 						"FaktorUsersHeadCode," +
@@ -274,17 +274,14 @@ public class SyncGetFaktorUserDetailes {
 		if(cursor.getCount()>0)
 		{
 
-			if(db.isOpen()) {
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-			}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 		else
 		{
-
-			if(db.isOpen()) {
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-			}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 	}

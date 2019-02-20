@@ -96,6 +96,8 @@ public class MainMenu extends Activity {
                 hamyarcode=cursors.getString(cursors.getColumnIndex("hamyarcode"));
                 guid=cursors.getString(cursors.getColumnIndex("guid"));
             }
+            try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+                cursors.close();}}	catch (Exception ex){	}
         }
         try
         {

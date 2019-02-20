@@ -54,6 +54,8 @@
                     guid=coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
             String Query="UPDATE UpdateApp SET Status='1'";
             try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}

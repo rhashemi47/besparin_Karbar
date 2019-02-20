@@ -101,7 +101,15 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {
+			if (db.isOpen()) {
+				db.close();
+				if(!coursors.isClosed())
+				{
+					coursors.close();
+				}
+			}
+		}	catch (Exception ex){	}
 	}
 
 	ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -171,7 +179,15 @@ protected void onCreate(Bundle savedInstanceState) {
 				cursorPhone.moveToNext();
 				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {
+				if (db.isOpen()) {
+					db.close();
+					if(!cursorPhone.isClosed())
+					{
+						cursorPhone.close();
+					}
+				}
+			}	catch (Exception ex){	}
 		}
 	});
 	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {

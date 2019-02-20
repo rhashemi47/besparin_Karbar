@@ -78,7 +78,9 @@ public class Info_Person extends Activity {
 			else {
 				phonenumber="0";
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+
+			try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+				cursor.close();}}	catch (Exception ex){	}
 		}		
    		try
         {

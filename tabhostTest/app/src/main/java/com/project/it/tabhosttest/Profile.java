@@ -58,7 +58,8 @@ public class Profile extends Activity {
 				guid=coursors.getString(coursors.getColumnIndex("guid"));
 				hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+				coursors.close();}}	catch (Exception ex){	}
 		}
 
 		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
@@ -78,7 +79,8 @@ public class Profile extends Activity {
 					"وضعیت: "+coursors.getString(coursors.getColumnIndex("Status"));
 			Content.setText(textP);
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();}}	catch (Exception ex){	}
 	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {

@@ -61,6 +61,8 @@
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();	}}	catch (Exception ex){	}
         }
         try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
@@ -84,6 +86,8 @@
             AdapterVisit dataAdapter=new AdapterVisit(List_Visits.this,valuse,guid,hamyarcode);
             lvVisit.setAdapter(dataAdapter);
         }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();	}}	catch (Exception ex){	}
             String Query="UPDATE UpdateApp SET Status='1'";
             try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             db.execSQL(Query);

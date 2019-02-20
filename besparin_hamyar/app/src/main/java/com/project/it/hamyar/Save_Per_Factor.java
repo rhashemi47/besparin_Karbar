@@ -136,6 +136,8 @@ public class Save_Per_Factor extends Activity {
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();	}}	catch (Exception ex){	}
         }
         try
         {
@@ -260,6 +262,8 @@ public class Save_Per_Factor extends Activity {
                     tvUnitPrice.setText(coursors.getString(coursors.getColumnIndex("PricePerUnit")));
                     EtUnitValuePrice.setText("0");
                 }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -279,6 +283,8 @@ public class Save_Per_Factor extends Activity {
                         tvPriceTools.setText(coursors.getString(coursors.getColumnIndex("Price")));
                         EtToolValuePrice.setText("0");
                     }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -357,6 +363,8 @@ public class Save_Per_Factor extends Activity {
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             SpTitleStepJob.setAdapter(dataAdapter);
         }
+        try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+            coursors.close();	}}	catch (Exception ex){	}
     }
     public void FillSpinnerTools(){
 
@@ -373,6 +381,8 @@ public class Save_Per_Factor extends Activity {
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             SPTitleTools.setAdapter(dataAdapter);
         }
+        try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+            coursors.close();	}}	catch (Exception ex){	}
     }
     public void SendFarctor() {
         String[] DateSp= ChangeDate.getCurrentDate().split("/");
@@ -446,6 +456,8 @@ public class Save_Per_Factor extends Activity {
                         ListTools.setAdapter(adapterList);
                     }
                 }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
     }
 void removeItemFromList(final int position) {

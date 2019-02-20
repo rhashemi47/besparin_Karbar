@@ -140,7 +140,8 @@ public class UpdateAddress extends AppCompatActivity {
             str=cursors.getString(cursors.getColumnIndex("Name"));
             labels_State.add(str);
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+            cursors.close();	}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels_State);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(dataAdapter);
@@ -155,7 +156,8 @@ public class UpdateAddress extends AppCompatActivity {
                     String Code=coursors.getString(coursors.getColumnIndex("Code"));
                     FillSpinnerChild(Code);
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -228,9 +230,8 @@ public class UpdateAddress extends AppCompatActivity {
                         cursor.close();
                     }
                 }
-                if(db.isOpen()) {
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
         });
         //*************************************************************************************************
@@ -271,7 +272,8 @@ public class UpdateAddress extends AppCompatActivity {
                 lon=0;
             }
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+            coursors.close();	}}	catch (Exception ex){	}
         //*************************************************************************************************
 //*************************************************************************************************
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
@@ -342,7 +344,8 @@ public class UpdateAddress extends AppCompatActivity {
                 labels_City.add(coursors.getString(coursors.getColumnIndex("Name")));
             }
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+            coursors.close();	}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_City);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(dataAdapter);

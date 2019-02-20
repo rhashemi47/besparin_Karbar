@@ -74,7 +74,8 @@ public class SchaduleServiceGetUserServiceStartDate extends JobService {
                                                 SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode,dbh,db);
                                                 syncGetUserServiceStartDate.AsyncExecute();
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                                                coursors.close();}}	catch (Exception ex){	}
                                         }
                                     }
                                 });
@@ -114,20 +115,23 @@ public class SchaduleServiceGetUserServiceStartDate extends JobService {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                    cursor.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

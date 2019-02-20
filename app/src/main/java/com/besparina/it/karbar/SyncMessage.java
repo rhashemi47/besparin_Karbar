@@ -33,33 +33,37 @@ public class SyncMessage {
 	//private String acceptcode;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncMessage(Context activity, String karbarCode, String LastMessageCode) {
+	public SyncMessage(Context activity, String karbarCode, String LastMessageCode,
+					   DatabaseHelper dbh,
+					   SQLiteDatabase db) {
 		this.activity = activity;
 
 		this.LastMessageCode=LastMessageCode;
 		this.karbarCode=karbarCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
+		this.dbh = dbh;
+		this.db = db;
 		PublicVariable.theard_Message=false;
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_Message=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_Message=true;
-   			throw sqle;
-   		}   		
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_Message=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_Message=true;
+//   			throw sqle;
+//   		}
 	}
 	
 	public void AsyncExecute()
@@ -244,12 +248,14 @@ public class SyncMessage {
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 		else
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 	}

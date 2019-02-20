@@ -211,6 +211,8 @@ public class SyncServicesDetails {
 			else {
 				phonenumber="0";
 			}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			LoadActivity2(Info_Person.class, "phonenumber",phonenumber,"acceptcode",this.acceptcode);
 		}
 		else if (this.flag.compareTo("1")==0)

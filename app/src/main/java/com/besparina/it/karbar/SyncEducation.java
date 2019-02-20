@@ -157,7 +157,8 @@ public class SyncEducation {
 			cursors.moveToNext();
 			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();	}}	catch (Exception ex){	}
 	}
 	
 	public void CallWsMethod(String METHOD_NAME) {

@@ -198,7 +198,8 @@ public class SyncGetUserCredit {
 			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			String query = "UPDATE AmountCredit SET Amount='" + this.WsResponse + "'";
 			db.execSQL(query);
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 		}
 		else
 		{

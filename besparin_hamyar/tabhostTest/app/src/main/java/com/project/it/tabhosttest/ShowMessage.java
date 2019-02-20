@@ -76,6 +76,8 @@ public class ShowMessage extends Activity{
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
         }
         String query=null;
         String[] DateSp=null;
@@ -87,6 +89,8 @@ public class ShowMessage extends Activity{
             cursor.moveToNext();
             Isread=cursor.getString(cursor.getColumnIndex("IsReade"));
         }
+        try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+            cursor.close();}}	catch (Exception ex){	}
         if(Isread.compareTo("0")==0)
         {
             DateSp= ChangeDate.getCurrentDate().split("/");

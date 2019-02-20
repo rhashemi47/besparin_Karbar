@@ -122,7 +122,8 @@ public class Info_Person extends Activity {
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
-		
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();	}}	catch (Exception ex){	}
 		//get the listview expandible
          //expListView = (ExpandableListView)findViewById(R.id.evExpertise);
  
@@ -244,6 +245,8 @@ public void insertHamyar() {
 		} else {
 			Toast.makeText(getApplicationContext(), "لطفا تخصص خود را اعلام انتخاب فرمایید", Toast.LENGTH_SHORT).show();
 		}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	}
 	}
 	else
 	{
@@ -270,8 +273,13 @@ public void insertHamyar() {
 			for(int j=0;j<childs.getCount();j++){
 				childs.moveToNext();
 				//child=childs.getString(childs.getColumnIndex("name"));
-				childDetails.add(childs.getString(childs.getColumnIndex("name")));			}
+				childDetails.add(childs.getString(childs.getColumnIndex("name")));
+			}
 			listDataChild.put(listDataHeader.get(i), childDetails);
+			try {	if(!headers.isClosed())
+				headers.close();	}}	catch (Exception ex){	}
 		}
+		try {	if (db.isOpen()) {	db.close();if(!headers.isClosed())
+			headers.close();	}}	catch (Exception ex){	}
     }
 }

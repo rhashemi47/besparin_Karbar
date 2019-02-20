@@ -247,6 +247,7 @@ public class HmLogin {
 			db.execSQL(query);
 			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
+
         cursors = db.rawQuery("SELECT ifnull(MAX(code),0)as code FROM BsUserServices", null);
         if(cursors.getCount()>0)
         {
@@ -259,6 +260,8 @@ public class HmLogin {
             cursors.moveToNext();
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();	}}	catch (Exception ex){	}
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[2].toString(), res[1].toString(),LastMessageCode,LastHamyarUserServiceCode);
 		syncMessage.AsyncExecute();
 

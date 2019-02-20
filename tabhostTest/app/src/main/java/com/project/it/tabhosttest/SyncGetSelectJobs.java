@@ -136,17 +136,6 @@ public class SyncGetSelectJobs {
 
 	}
 
-	String LastNewsId;
-
-	public void LoadMaxNewId() {
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if (cursors.getCount() > 0) {
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-
 	public void CallWsMethod(String METHOD_NAME) {
 		//Create request
 		SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -261,7 +250,8 @@ public class SyncGetSelectJobs {
 			cursors.moveToNext();
 			LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();}}	catch (Exception ex){	}
 		SyncJobs jobs=new SyncJobs(this.activity, guid,hamyarcode,LastHamyarUserServiceCode);
 		jobs.AsyncExecute();
 	}

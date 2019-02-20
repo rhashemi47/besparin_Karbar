@@ -63,7 +63,8 @@
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
-            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
         }
         try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsDelete='0'",null);
@@ -86,7 +87,8 @@
             AdapterMessage dataAdapter=new AdapterMessage(List_Messages.this,valuse);
             lvMessage.setAdapter(dataAdapter);
         }
-
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
     }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {

@@ -92,7 +92,8 @@ public class Accept_code extends Activity {
 					SendAcceptCode sendCode=new SendAcceptCode(Accept_code.this,Mobile,0);
 					sendCode.AsyncExecute();
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+					coursors.close();}}	catch (Exception ex){	}
 			}
 		});
 	}

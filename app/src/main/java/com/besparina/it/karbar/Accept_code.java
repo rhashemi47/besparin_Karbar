@@ -152,6 +152,15 @@ public class Accept_code extends Activity {
 					SendAcceptCode2 sendCode=new SendAcceptCode2(Accept_code.this,Mobile);
 					sendCode.AsyncExecute();
 				}
+				try {
+					if (db.isOpen()) {
+						db.close();
+						if(!coursors.isClosed())
+						{
+							coursors.close();
+						}
+					}
+				}	catch (Exception ex){	}
 
 			}
 		});

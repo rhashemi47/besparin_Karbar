@@ -184,7 +184,8 @@ public class SyncGetUserServiceHamyar {
 				SyncGetUserServiceHamyarPic syncGetUserServiceHamyarPic=new SyncGetUserServiceHamyarPic(activity,value[0],value[1],value[2],value[3]);
 				syncGetUserServiceHamyarPic.AsyncExecute();
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			query = "INSERT INTO Hamyar (" +
 					"CodeHamyarInfo," +

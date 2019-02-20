@@ -172,19 +172,6 @@ public class SyncSelecteJob {
     }
 
 
-
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -288,7 +275,8 @@ public class SyncSelecteJob {
 					"','"+coursors.getString(coursors.getColumnIndex("InsertUser"))+
 					"','"+coursors.getString(coursors.getColumnIndex("InsertDate"))+
 					"','0','1')";//status 1 is select- 2 is pause - 3 is resume - 4 is cansel - 5 is visit - 6 is perfactor
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+				coursors.close();}}	catch (Exception ex){	}
 			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 
 			db.execSQL(query);

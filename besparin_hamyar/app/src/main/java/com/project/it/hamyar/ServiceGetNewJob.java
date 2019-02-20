@@ -79,6 +79,9 @@ public class ServiceGetNewJob extends Service {
                                         cursors.moveToNext();
                                         LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
                                     }
+                                    try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                                        coursors.close();if(!cursors.isClosed())
+                                        cursors.close();	}}	catch (Exception ex){	}
                                     SyncNewJob syncNewJob=new SyncNewJob(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode);
                                     syncNewJob.AsyncExecute();
                                 }
@@ -98,6 +101,6 @@ public class ServiceGetNewJob extends Service {
     public void onDestroy() {
         super.onDestroy();
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        continue_or_stop=false;
+      //  continue_or_stop=false;
     }
 }

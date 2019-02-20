@@ -203,9 +203,8 @@ public class SyncSetPicProfile {
 			db.execSQL("Update Profile SET Pic='"+cursor.getString(cursor.getColumnIndex("Pic"))+"'");
 		}
 		db.execSQL("DELETE FROM TempPic");
-		if(db.isOpen()) {
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-		}
+		try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+			cursor.close();	}}	catch (Exception ex){	}
 		if (!(cursor.isClosed()))
 			cursor.close();
     }

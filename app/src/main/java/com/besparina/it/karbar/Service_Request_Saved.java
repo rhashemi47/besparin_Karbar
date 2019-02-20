@@ -263,7 +263,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	}
 	}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -325,7 +326,8 @@ protected void onCreate(Bundle savedInstanceState) {
                 });
                 alertbox.show();
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	}
 	//**************************************************************************
 
 //		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
@@ -410,7 +412,8 @@ protected void onCreate(Bundle savedInstanceState) {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+					cursorPhone.close();	}}	catch (Exception ex){	}
 			}
 		});
 	//***************************************************************************************
@@ -487,7 +490,8 @@ protected void onCreate(Bundle savedInstanceState) {
 			else {
 				Toast.makeText(Service_Request_Saved.this,"در حال حاضر برای این سرویس فاکتوری اعلام نشده", Toast.LENGTH_SHORT).show();
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnRefreshOrder.setOnClickListener(new View.OnClickListener() {
@@ -512,7 +516,8 @@ protected void onCreate(Bundle savedInstanceState) {
 					syncDarkhasteMojadad.AsyncExecute();
 				}
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnEditOrder.setOnClickListener(new View.OnClickListener() {
@@ -539,7 +544,8 @@ protected void onCreate(Bundle savedInstanceState) {
 					Toast.makeText(Service_Request_Saved.this, "این سرویس توسط همیار انتخاب شده است.", Toast.LENGTH_LONG).show();
 				}
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnCallHamyar.setOnClickListener(new View.OnClickListener() {
@@ -569,7 +575,8 @@ protected void onCreate(Bundle savedInstanceState) {
 			{
 				Toast.makeText(Service_Request_Saved.this,"سرویس شما توسط هیچ همیاری انتخاب نشده است",Toast.LENGTH_LONG).show();
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+				cursorPhone.close();	}}	catch (Exception ex){	}
 		}
 	});
 	btnCallSupporter.setOnClickListener(new View.OnClickListener() {
@@ -593,7 +600,8 @@ protected void onCreate(Bundle savedInstanceState) {
 				cursorPhone.moveToNext();
 				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+				cursorPhone.close();	}}	catch (Exception ex){	}
 		}
 	});
 }
@@ -989,7 +997,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 					LinearAddres.setBackgroundColor(getStyleLinear());
 					txtAddres.setText(cursorAddress.getString(cursorAddress.getColumnIndex("AddressText")));
 				}
-
+				try {	if(!cursorAddress.isClosed())
+					cursorAddress.close();	}	catch (Exception ex){	}
 			}
 			catch (Exception ex)
 			{
@@ -1089,11 +1098,16 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 
 					valuse.add(map);
 				}
+				try {	if(!getHamyar.isClosed())
+					getHamyar.close();	}	catch (Exception ex){	}
+				try {	if(!cursorVisit.isClosed())
+					cursorVisit.close();	}	catch (Exception ex){	}
 			}
 			AdapterInfoHamyar dataAdapter=new AdapterInfoHamyar(Service_Request_Saved.this,valuse);
 			lvHamyar.setAdapter(dataAdapter);
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+			cursor.close();	}}	catch (Exception ex){	}
 		((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2)).getMapAsync(new OnMapReadyCallback() {
 			@Override
 
@@ -1125,7 +1139,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				else {
 					point = new LatLng(0, 0);
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+					coursors.close();	}}	catch (Exception ex){	}
 				map.addMarker(new MarkerOptions().position(point).title("آدرس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
 				map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12));
 				map.getUiSettings().setZoomControlsEnabled(true);
@@ -1156,7 +1171,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+						try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+							cursorPhone.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -1175,7 +1191,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		{
 			swStyle="1";
 
-			return getColor(R.color.gray);
+			return getResources().getColor(R.color.gray);
 		}
 		else
 		{

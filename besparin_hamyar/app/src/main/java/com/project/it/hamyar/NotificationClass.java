@@ -45,6 +45,8 @@ public class NotificationClass {
                     guid=coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+        try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+            coursors.close();	}}	catch (Exception ex){	}
             long[] v = {500,1000};
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);

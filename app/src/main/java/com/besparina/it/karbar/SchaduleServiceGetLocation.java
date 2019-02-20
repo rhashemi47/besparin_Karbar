@@ -88,12 +88,7 @@ public class SchaduleServiceGetLocation extends JobService {
                                                         db = dbh.getWritableDatabase();
                                                     }
                                                     db.execSQL(query);
-                                                    try {
-                                                        if (db.isOpen()) {
-                                                            db.close();
-                                                        }
-                                                    } catch (Exception ex) {
-                                                    }
+                                                    try {	if (db.isOpen()) {	db.close();}}	catch (Exception ex){	}
                                                 }
                                             }
                                             try {
@@ -147,7 +142,8 @@ public class SchaduleServiceGetLocation extends JobService {
             else
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();	if(!cursor.isClosed())
+                        cursor.close();}}	catch (Exception ex){	}
                 return true;
             }
         }

@@ -41,25 +41,25 @@ public class SyncGetFactorUsersHead {
 		this.dbh = dbh;
 		this.db = db;
 		PublicVariable.theard_GetPerFactor=false;
-		dbh = new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-		} catch (IOException ioe) {
-			PublicVariable.theard_GetPerFactor=true;
-			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			PublicVariable.theard_GetPerFactor=true;
-			throw sqle;
-		}
+//		dbh = new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//		} catch (IOException ioe) {
+//			PublicVariable.theard_GetPerFactor=true;
+//			throw new Error("Unable to create database");
+//
+//		}
+//
+//		try {
+//
+//			dbh.openDataBase();
+//
+//		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetPerFactor=true;
+//			throw sqle;
+//		}
 	}
 
 	public void AsyncExecute() {
@@ -271,12 +271,26 @@ public class SyncGetFactorUsersHead {
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {
+				if (db.isOpen())
+				{
+					db.close();
+				}}	catch (Exception ex){	}
+			try {
+				if (!cursor.isClosed())
+				{
+					cursor.close();
+				}
+			}
+			catch (Exception ex){
+				String error=ex.toString();
+			}
 			return true;
 		}
 		else
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 	}

@@ -202,7 +202,15 @@ public class AdapterUpdateAddress extends BaseAdapter {
                     SyncUpdateAddress syncUpdateAddress =new SyncUpdateAddress(activity,karbarCode,code,"0",name,codeState,CodeCity,StrAddAddres,DetailAddress,latStr,lonStr,"0","1");
                     syncUpdateAddress.AsyncExecute();
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {
+                    if (db.isOpen()) {
+                        db.close();
+                        if(!coursors.isClosed())
+                        {
+                            coursors.close();
+                        }
+                    }
+                }	catch (Exception ex){	}
                 arg0.dismiss();
 
             }

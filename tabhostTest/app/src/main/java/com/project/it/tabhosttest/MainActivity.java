@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         {
             countVisit=String.valueOf(coursors.getCount());
         }
+        try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         try
         {
             hamyarcode = getIntent().getStringExtra("hamyarcode");
@@ -132,9 +134,13 @@ public class MainActivity extends AppCompatActivity {
                         guid = cursors.getString(cursors.getColumnIndex("guid"));
                         update();
                     }
+                    try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+                        cursors.close();}}	catch (Exception ex){	}
                 }
                 else
                 {
+                    try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+                        cursors.close();}}	catch (Exception ex){	}
                     LoadActivity(Login.class,"hamyarcode","0","guid","0");
                 }
             }
@@ -232,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
                                 {
                                     coursors.moveToNext();
                                     String Status_check=coursors.getString(coursors.getColumnIndex("Status"));
+                                    try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                                        coursors.close();}}	catch (Exception ex){	}
                                     if(Status_check.compareTo("0")==0)
                                     {
                                         SyncProfile profile=new SyncProfile(MainActivity.this, guid, hamyarcode);
@@ -427,6 +435,8 @@ public class MainActivity extends AppCompatActivity {
                     guid=coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
                 CustomAdapter dataAdapter=new CustomAdapter(this.getActivity(),valuse,guid,hamyarcode,check_tap_number);
                 View rootView = inflater.inflate(R.layout.fragment_main, container, false);
                 ListView lvJob=(ListView) rootView.findViewById(R.id.lvJob);
@@ -463,7 +473,8 @@ public class MainActivity extends AppCompatActivity {
                 View rootView = inflater.inflate(R.layout.fragment_main, container, false);
                 ListView lvJob=(ListView) rootView.findViewById(R.id.lvJob);
                 lvJob.setAdapter(dataAdapter);
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
                 return rootView;
             }
         }
@@ -592,6 +603,8 @@ public class MainActivity extends AppCompatActivity {
             cursors.moveToNext();
             LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
+        try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+            cursors.close();}}	catch (Exception ex){	}
         SyncMessage syncMessage=new SyncMessage(MainActivity.this,guid, hamyarcode,LastMessageCode,LastHamyarSelectUserServiceCode);
         syncMessage.AsyncExecute();
 

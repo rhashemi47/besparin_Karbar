@@ -121,7 +121,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	}
 	}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -217,7 +218,8 @@ protected void onCreate(Bundle savedInstanceState) {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+					cursorPhone.close();	}}	catch (Exception ex){	}
 			}
 		});
 	//***************************************************************************************
@@ -342,13 +344,16 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				}
 				Total+=Double.parseDouble(cursor2.getString(cursor2.getColumnIndex("TotalPrice")));
 			}
+			try {	if (db.isOpen()) {	db.close();if(!cursor2.isClosed())
+				cursor2.close();	}}	catch (Exception ex){	}
 			AdapterFactor adapterFactor=new AdapterFactor(ShowFactor.this,valuse,karbarCode);
 			lstFactor.setAdapter(adapterFactor);
 
 			tvTotal.setText((PersianDigitConverter.PerisanNumber(df.format(Total))));
 			tvDescription.setText(cursor.getString(cursor.getColumnIndex("Description")));
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
+		try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+			cursor.close();	}}	catch (Exception ex){	}
 	}
 	public void dialContactPhone(String phoneNumber) {
 		//startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
@@ -373,7 +378,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+						try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+							cursorPhone.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

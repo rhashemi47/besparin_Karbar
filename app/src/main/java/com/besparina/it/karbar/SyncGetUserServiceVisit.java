@@ -259,12 +259,14 @@ public class SyncGetUserServiceVisit {
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 		else
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 	}

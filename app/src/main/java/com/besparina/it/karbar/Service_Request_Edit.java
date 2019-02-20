@@ -365,7 +365,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 
 				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
 		}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -465,7 +466,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+					cursorPhone.close();}}	catch (Exception ex){	}
 			}
 		});
 		//**************************************************************
@@ -484,7 +486,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 					etAddres.setTag(cursor.getString(cursor.getColumnIndex("Code")));
 
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+					cursor.close();	}}	catch (Exception ex){	}
 			}
 
 			@Override
@@ -506,7 +509,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 			typeForm="0";
 			Toast.makeText(getBaseContext(), "نوع فرم ثبت نشده", Toast.LENGTH_LONG).show();
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
 		switch (typeForm)
 		{
 			case "0":
@@ -1590,7 +1594,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 			str=cursors.getString(cursors.getColumnIndex(ColumnName));
 			labels.add(str);
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();	}}	catch (Exception ex){	}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels){
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View v = super.getView(position, convertView, parent);
@@ -1637,7 +1642,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+						try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+							cursorPhone.close();}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -1809,7 +1815,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 				}
 				spAddress.setSelection(positionString);
 			}
-
+            try {	if(!cursorAddress.isClosed())
+                cursorAddress.close();}	catch (Exception ex){	}
 			//*****************************************************************************
 			if(cursor.getString(cursor.getColumnIndex("CarWashType")).compareTo("1")==0) {
 				spTypeService.setSelection(1);
@@ -1835,7 +1842,8 @@ public class Service_Request_Edit extends AppCompatActivity {
 		{
 			Toast.makeText(Service_Request_Edit.this, "سرویس پیدا نشد! ", Toast.LENGTH_LONG).show();
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+			cursor.close();	}}	catch (Exception ex){	}
 	}
 	public void GetTime(final EditText editText)
 	{

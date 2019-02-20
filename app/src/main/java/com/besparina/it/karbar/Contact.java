@@ -88,6 +88,15 @@ public class Contact extends Activity {
 
 				karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 			}
+			try {
+				if (db.isOpen()) {
+					db.close();
+					if(!coursors.isClosed())
+					{
+						coursors.close();
+					}
+				}
+			}	catch (Exception ex){	}
 		}
 
 		ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -182,7 +191,7 @@ public class Contact extends Activity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();cursorPhone.close();	}}	catch (Exception ex){	}
 			}
 		});
 		btnCallSupporter.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +203,7 @@ public class Contact extends Activity {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();cursorPhone.close();	}}	catch (Exception ex){	}
 			}
 		});
 		btnSendMessage.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +217,7 @@ public class Contact extends Activity {
 					SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 //					SendMessage(MessageStr,"09155210697");
 				}
-				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+				try {	if (db.isOpen()) {	db.close();cursorPhone.close();	}}	catch (Exception ex){	}
 			}
 		});
 	}
@@ -262,7 +271,7 @@ public class Contact extends Activity {
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 						}
-						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+						try {	if (db.isOpen()) {	db.close();cursorPhone.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(Contact.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -279,7 +288,7 @@ public class Contact extends Activity {
 							String MessageStr = "کد کاربر: " + karbarCode + "\n" + etSendMessage.getText().toString();
 							SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("Mobile")));
 						}
-						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+						try {	if (db.isOpen()) {	db.close();cursorPhone.close();	}}	catch (Exception ex){	}
 					} else {
 						Toast.makeText(Contact.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
 								.show();

@@ -42,25 +42,25 @@ public class SyncServicesForService {
 		this.dbh = dbh;
 		this.db = db;
 		PublicVariable.theard_GetServicesAndServiceDetails=false;
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_GetServicesAndServiceDetails=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_GetServicesAndServiceDetails=true;
-   			throw sqle;
-   		}   		
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_GetServicesAndServiceDetails=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetServicesAndServiceDetails=true;
+//   			throw sqle;
+//   		}
 	}
 	
 	public void AsyncExecute()

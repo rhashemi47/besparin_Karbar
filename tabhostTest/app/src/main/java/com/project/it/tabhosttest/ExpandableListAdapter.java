@@ -93,7 +93,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+((RadioButton) v).getTag().toString()+"'", null);
 		coursors.moveToNext();
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();}}	catch (Exception ex){	}
 		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("INSERT INTO HmFactorService (code) VALUES('"+coursors.getString(coursors.getColumnIndex("code")) +"')");
 		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
@@ -104,7 +105,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors=db.rawQuery("SELECT * FROM exprtise WHERE name='"+((RadioButton) v).getTag().toString()+"'", null);
 		coursors.moveToNext();
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();}}	catch (Exception ex){	}
 		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM HmFactorService WHERE code='"+coursors.getString(coursors.getColumnIndex("code")) +"')");
 		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}

@@ -54,6 +54,8 @@
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();	}}	catch (Exception ex){	}
         }
             BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 

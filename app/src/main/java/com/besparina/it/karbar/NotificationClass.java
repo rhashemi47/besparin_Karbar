@@ -56,7 +56,8 @@ public class NotificationClass {
 
             karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotification(context, Cls);
         } else {

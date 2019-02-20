@@ -57,6 +57,8 @@ protected void onCreate(Bundle savedInstanceState) {
 			guid=coursors.getString(coursors.getColumnIndex("guid"));
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
+		try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	}
 	}
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 	tvcansel=(TextView)findViewById(R.id.tvTextCansel);

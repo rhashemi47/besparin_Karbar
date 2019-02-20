@@ -77,7 +77,8 @@ public class SchaduleServiceGetSliderPic extends JobService {
                                                 SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), karbarCode,dbh,db);
                                                 syncSliderPic.AsyncExecute();
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                                                coursors.close();}}	catch (Exception ex){	}
 
 
                                         }
@@ -86,12 +87,17 @@ public class SchaduleServiceGetSliderPic extends JobService {
                                     Cursor cursor = db.rawQuery("SELECT * FROM Slider", null);
 
                                     if (cursor.getCount() > 0) {
+                                        if(!cursor.isClosed())
+                                            cursor.close();
                                         Thread.sleep(43200000); // every 12 hour
                                     } else {
+                                        if(!cursor.isClosed())
+                                            cursor.close();
                                         Thread.sleep(6000); // every 6 Second
                                     }
 
-                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                    try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+                                        cursor.close();}}	catch (Exception ex){	}
                                 } catch (Exception e) {
                                     String error = "";
                                     error = e.getMessage().toString();
@@ -131,20 +137,23 @@ public class SchaduleServiceGetSliderPic extends JobService {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();	if(!cursor.isClosed())
+                    cursor.close();}}	catch (Exception ex){	}
             return false;
         }
     }

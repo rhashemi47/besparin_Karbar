@@ -95,6 +95,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		coursors.moveToNext();
 		db.execSQL("INSERT INTO HmFactorService (code) VALUES('"+coursors.getString(coursors.getColumnIndex("code")) +"')");
+		try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+			coursors.close();}}	catch (Exception ex){	}
+
 	}
 	else
 	{
@@ -104,6 +107,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		coursors.moveToNext();
 		db.execSQL("DELETE FROM HmFactorService WHERE code='"+coursors.getString(coursors.getColumnIndex("code")) +"')");
+		try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+			coursors.close();}}	catch (Exception ex){	}
 	}
 
   }

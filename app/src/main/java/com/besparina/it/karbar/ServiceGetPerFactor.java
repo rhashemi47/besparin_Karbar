@@ -64,20 +64,28 @@ public class ServiceGetPerFactor extends Service {
                                     @Override
                                     public void run() {
                                         if (PublicVariable.theard_GetPerFactor) {
-                                            db = dbh.getReadableDatabase();
+                                            try {
+                                                if (!db.isOpen()) {
+                                                    db = dbh.getReadableDatabase();
+                                                }
+                                            }catch (Exception ex)
+                                            {
+                                                db = dbh.getReadableDatabase();
+                                            }
                                             Cursor coursors = db.rawQuery("SELECT * FROM OrdersService WHERE  Status in (1,2,6,7,12,13)", null);
                                             for (int i = 0; i < coursors.getCount(); i++) {
                                                 coursors.moveToNext();
 
                                                 Code = coursors.getString(coursors.getColumnIndex("Code"));
+                                                SyncGetFactorUsersHead syncGetFactorUsersHead = new SyncGetFactorUsersHead(getApplicationContext(), Code,dbh,db);
+                                                syncGetFactorUsersHead.AsyncExecute();
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                                            SyncGetFactorUsersHead syncGetFactorUsersHead = new SyncGetFactorUsersHead(getApplicationContext(), Code,dbh,db);
-                                            syncGetFactorUsersHead.AsyncExecute();
+                                            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                                                coursors.close();	}}	catch (Exception ex){	}
                                         }
                                     }
                                 });
-                                Thread.sleep(6000); // every 60 seconds
+                                Thread.sleep(6000); // every 6 seconds
                             } catch (Exception e) {
                                 // TODO: handle exception
                             }
@@ -94,16 +102,17 @@ public class ServiceGetPerFactor extends Service {
     public void onDestroy() {
         super.onDestroy();
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        continue_or_stop=false;
+       // continue_or_stop=false;
     }
     public boolean Check_Login()
     {
         Cursor cursor;
-        if(db==null)
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        }catch (Exception ex)
         {
-            db = dbh.getReadableDatabase();
-        }
-        if(!db.isOpen()) {
             db = dbh.getReadableDatabase();
         }
         cursor = db.rawQuery("SELECT * FROM login", null);
@@ -112,8 +121,8 @@ public class ServiceGetPerFactor extends Service {
             String Result = cursor.getString(cursor.getColumnIndex("islogin"));
             if (Result.compareTo("0") == 0)
             {
-                if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                    cursor.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else

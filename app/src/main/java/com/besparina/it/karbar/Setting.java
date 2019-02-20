@@ -56,11 +56,13 @@
 
                     karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
                 }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();	}}	catch (Exception ex){	}
             }
             String Query="UPDATE UpdateApp SET Status='1'";
             try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             db.execSQL(Query);
-
+            try {	if (db.isOpen()) {	db.close();}}	catch (Exception ex){	}
             ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
             imgview.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -64,7 +64,7 @@ public class Update {
     }
     public void getMessage(String LastMessageCode,String LastHamyarUserServiceCode)
     {
-        SyncMessage syncMessage=new SyncMessage(this.activity,karbarCode,LastMessageCode);
+        SyncMessage syncMessage=new SyncMessage(this.activity,karbarCode,LastMessageCode,dbh,db);
         syncMessage.AsyncExecute();
     }
     public void getProfile()

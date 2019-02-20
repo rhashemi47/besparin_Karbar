@@ -348,12 +348,8 @@ public class Service_Request extends AppCompatActivity {
 
                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
             }
-            try {
-                if (db.isOpen()) {
-                    db.close();
-                }
-            } catch (Exception ex) {
-            }
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
         }
 //**************************************************************************
         try {
@@ -600,6 +596,7 @@ public class Service_Request extends AppCompatActivity {
                 } else {
                     PeriodicServices = "1";
                 }
+                Description = etDescription.getText().toString();
                 //***************************************************************
                 LoadActivity_Map(Map.class, "karbarCode", karbarCode,
                         "DetailCode", DetailCode,
@@ -622,7 +619,8 @@ public class Service_Request extends AppCompatActivity {
                         "ArtField", ArtField,
                         "CarWashType", CarWashType,
                         "CarType", CarType,
-                        "Language", Language);
+                        "Language", Language,
+                        "Description", Description);
 
             }
         });
@@ -674,12 +672,8 @@ public class Service_Request extends AppCompatActivity {
                     cursorPhone.moveToNext();
                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                 }
-                try {
-                    if (db.isOpen()) {
-                        db.close();
-                    }
-                } catch (Exception ex) {
-                }
+                try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+                    cursorPhone.close();}}	catch (Exception ex){	}
             }
         });
         //**************************************************************
@@ -707,6 +701,8 @@ public class Service_Request extends AppCompatActivity {
                 try {
                     if (db.isOpen()) {
                         db.close();
+                        if(!cursor.isClosed())
+                            cursor.close();
                     }
                 } catch (Exception ex) {
                 }
@@ -735,12 +731,8 @@ public class Service_Request extends AppCompatActivity {
             typeForm = "0";
             Toast.makeText(getBaseContext(), "نوع فرم ثبت نشده", Toast.LENGTH_LONG).show();
         }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
-        }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         switch (typeForm) {
             case "0":
                 form1();
@@ -1374,7 +1366,8 @@ public class Service_Request extends AppCompatActivity {
                                  String VariableName19, String VariableValue19,
                                  String VariableName20, String VariableValue20,
                                  String VariableName21, String VariableValue21,
-                                 String VariableName22, String VariableValue22) {
+                                 String VariableName22, String VariableValue22,
+                                 String VariableName23, String VariableValue23) {
         Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
@@ -1398,6 +1391,7 @@ public class Service_Request extends AppCompatActivity {
         intent.putExtra(VariableName20, VariableValue20);
         intent.putExtra(VariableName21, VariableValue21);
         intent.putExtra(VariableName22, VariableValue22);
+        intent.putExtra(VariableName23, VariableValue23);
         startActivity(intent);
     }
 
@@ -1675,7 +1669,7 @@ public class Service_Request extends AppCompatActivity {
         }
         String query = "SELECT * FROM " + tableName;
         if (tableName.compareTo("address") == 0) {
-            query = query + " WHERE Status='1'";
+            query = query + " WHERE Status='1' ORDER BY IsDefault DESC";
         }
         Cursor cursors = db.rawQuery(query, null);
         String str;
@@ -1684,12 +1678,8 @@ public class Service_Request extends AppCompatActivity {
             str = cursors.getString(cursors.getColumnIndex(ColumnName));
             labels.add(str);
         }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
-        }
+        try {	if (db.isOpen()) {	db.close();		if(!cursors.isClosed())
+            cursors.close();}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -1738,12 +1728,8 @@ public class Service_Request extends AppCompatActivity {
                             cursorPhone.moveToNext();
                             dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                         }
-                        try {
-                            if (db.isOpen()) {
-                                db.close();
-                            }
-                        } catch (Exception ex) {
-                        }
+                        try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+                            cursorPhone.close();}}	catch (Exception ex){	}
                     } else {
                         // Permission Denied
                         Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -1814,8 +1800,13 @@ public class Service_Request extends AppCompatActivity {
         Cursor coursors = db.rawQuery("SELECT * FROM Arts WHERE Title='" + ArtName + "'", null);
         if (coursors.getCount() > 0) {
             coursors.moveToNext();
-            return coursors.getString(coursors.getColumnIndex("Code"));
+            String Code=coursors.getString(coursors.getColumnIndex("Code"));
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
+            return Code;
         }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         return "0";
     }
 
@@ -1830,8 +1821,13 @@ public class Service_Request extends AppCompatActivity {
         Cursor coursors = db.rawQuery("SELECT * FROM FieldofEducation WHERE Title='" + FieldofEducationName + "'", null);
         if (coursors.getCount() > 0) {
             coursors.moveToNext();
-            return coursors.getString(coursors.getColumnIndex("Code"));
+            String Code=coursors.getString(coursors.getColumnIndex("Code"));
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
+            return Code;
         }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         return "0";
     }
 

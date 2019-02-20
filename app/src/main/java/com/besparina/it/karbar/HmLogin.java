@@ -232,6 +232,8 @@ public class HmLogin {
 		else {
 			phonenumber="0";
 		}
+		try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+			cursor.close();}}	catch (Exception ex){	}
 		LoadActivity2(Info_Person.class, "phonenumber",phonenumber,"acceptcode",this.acceptcode);
     }
 	public void setlogin() 
@@ -256,6 +258,8 @@ public class HmLogin {
 			db.execSQL(query);
 			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		}
+		try {	if (db.isOpen()) {	db.close();		if(!cursors.isClosed())
+			cursors.close();}}	catch (Exception ex){	}
 		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
         if(cursors.getCount()>0)
@@ -264,8 +268,9 @@ public class HmLogin {
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
 
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-		SyncMessage syncMessage=new SyncMessage(this.activity, res[0].toString(),LastMessageCode);
+		try {	if (db.isOpen()) {	db.close();		if(!cursors.isClosed())
+			cursors.close();}}	catch (Exception ex){	}
+		SyncMessage syncMessage=new SyncMessage(this.activity, res[0].toString(),LastMessageCode,dbh,db);
 		syncMessage.AsyncExecute();
 		SyncProfile syncProfile=new SyncProfile(this.activity, res[0].toString(),this.acceptcode);
 		syncProfile.AsyncExecute();

@@ -169,20 +169,8 @@ public class InsertHamyar {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
-	public void CallWsMethod(String METHOD_NAME) {
+
+    public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
 	    PropertyInfo phoneNuberPI = new PropertyInfo();

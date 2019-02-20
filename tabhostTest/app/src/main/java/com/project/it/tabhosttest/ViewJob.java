@@ -435,7 +435,8 @@ public class ViewJob extends Activity{
                     SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], TimeTB[0], TimeTB[1]);
                     syncVisitJob.AsyncExecute();
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!c.isClosed())
+                    c.close();}}	catch (Exception ex){	}
             }
         }, hour, minute, false);
         mTimePicker.setTitle("Select Time");

@@ -103,20 +103,23 @@ public class SchaduleServiceGetStateAndCity extends JobService {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                    cursor.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

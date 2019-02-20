@@ -64,14 +64,22 @@ public class ServiceGetServiceSaved extends Service {
                                     @Override
                                     public void run() {
                                         if (PublicVariable.theard_GetServiceSaved) {
-                                            db = dbh.getReadableDatabase();
+                                            try {
+                                                if (!db.isOpen()) {
+                                                    db = dbh.getReadableDatabase();
+                                                }
+                                            }catch (Exception ex)
+                                            {
+                                                db = dbh.getReadableDatabase();
+                                            }
                                             Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                                             for (int i = 0; i < coursors.getCount(); i++) {
                                                 coursors.moveToNext();
 
                                                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                                                coursors.close();	}}	catch (Exception ex){	}
                                             SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0",dbh,db);
                                             syncGetUserServices.AsyncExecute();
                                         }
@@ -96,16 +104,17 @@ public class ServiceGetServiceSaved extends Service {
     public void onDestroy() {
         super.onDestroy();
        // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        continue_or_stop=false;
+        //continue_or_stop=false;
     }
     public boolean Check_Login()
     {
             Cursor cursor;
-        if(db==null)
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        }catch (Exception ex)
         {
-            db = dbh.getReadableDatabase();
-        }
-        if(!db.isOpen()) {
             db = dbh.getReadableDatabase();
         }
             cursor = db.rawQuery("SELECT * FROM login", null);
@@ -114,21 +123,21 @@ public class ServiceGetServiceSaved extends Service {
                 String Result = cursor.getString(cursor.getColumnIndex("islogin"));
                 if (Result.compareTo("0") == 0)
                 {
-                    if(db.isOpen())
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                     return false;
                 }
                 else
                 {
-                    if(db.isOpen())
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                        cursor.close();	}}	catch (Exception ex){	}
                     return true;
                 }
             }
             else
             {
-                if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                    cursor.close();	}}	catch (Exception ex){	}
                 return false;
             }
     }

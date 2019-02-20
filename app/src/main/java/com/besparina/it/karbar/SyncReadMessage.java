@@ -177,18 +177,7 @@ public class SyncReadMessage {
         
     }
 	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -279,7 +268,8 @@ public class SyncReadMessage {
 					"WHERE Code='" + messagecode + "'";
 			db.execSQL(query);
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+			cursor.close();	}}	catch (Exception ex){	}
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{

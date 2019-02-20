@@ -134,6 +134,8 @@ public class MainMenu extends AppCompatActivity {
                     status = "غیرفعال";
                 }
             }
+            try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+                cursor.close();}}	catch (Exception ex){	}
             karbarCode = getIntent().getStringExtra("karbarCode");
             Check_Login(karbarCode);
         } catch (Exception e) {
@@ -167,6 +169,8 @@ protected  void onStop() {
                 status = "غیرفعال";
             }
         }
+        try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+            cursor.close();}}	catch (Exception ex){	}
         karbarCode = getIntent().getStringExtra("karbarCode");
         Check_Login(karbarCode);
     } catch (Exception e) {
@@ -198,6 +202,8 @@ protected void onPause() {
                 status = "غیرفعال";
             }
         }
+        try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+            cursor.close();}}	catch (Exception ex){	}
         karbarCode = getIntent().getStringExtra("karbarCode");
         Check_Login(karbarCode);
     } catch (Exception e) {
@@ -229,6 +235,8 @@ protected void onPause() {
                     status = "غیرفعال";
                 }
             }
+            try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+                cursor.close();}}	catch (Exception ex){	}
             karbarCode = getIntent().getStringExtra("karbarCode");
             Check_Login(karbarCode);
         } catch (Exception e) {
@@ -296,23 +304,12 @@ protected void onPause() {
         if (coursors.getCount() > 0) {
             countMessage = String.valueOf(coursors.getCount());
         }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
+        coursors = db.rawQuery("SELECT * FROM OrdersService WHERE Status ='1'", null);
+        if (coursors.getCount() > 0) {
+            countOrder = String.valueOf(coursors.getCount());
         }
-        db = dbh.getReadableDatabase();
-        final Cursor cursor = db.rawQuery("SELECT * FROM OrdersService WHERE Status ='1'", null);
-        if (cursor.getCount() > 0) {
-            countOrder = String.valueOf(cursor.getCount());
-        }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
-        }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         try {
             karbarCode = getIntent().getStringExtra("karbarCode");
             Check_Login(karbarCode);
@@ -336,15 +333,13 @@ protected void onPause() {
                 map.put("Code", cursor1.getString(cursor1.getColumnIndex("code")));
                 valuse.add(map);
             }
-            try {
-                if (db.isOpen()) {
-                    db.close();
-                }
-            } catch (Exception ex) {
-            }
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
             AdapterGridServices adapterGridServices = new AdapterGridServices(MainMenu.this, valuse, karbarCode);
             GridViewServices.setAdapter(adapterGridServices);
         }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         //*****************************************************************************************************
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -370,12 +365,8 @@ protected void onPause() {
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
                         valuse.add(map);
                     }
-                    try {
-                        if (db.isOpen()) {
-                            db.close();
-                        }
-                    } catch (Exception ex) {
-                    }
+                    try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+                        cursor.close();}}	catch (Exception ex){	}
                     AdapterGridServices adapterGridServices = new AdapterGridServices(MainMenu.this, valuse, karbarCode);
                     GridViewServices.setAdapter(adapterGridServices);
                 } else {
@@ -392,12 +383,8 @@ protected void onPause() {
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
                         valuse.add(map);
                     }
-                    try {
-                        if (db.isOpen()) {
-                            db.close();
-                        }
-                    } catch (Exception ex) {
-                    }
+                    try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+                        cursor.close();}}	catch (Exception ex){	}
                     AdapterServiceDetails adapterServiceDetails = new AdapterServiceDetails(MainMenu.this, valuse, karbarCode);
                     lstSearchDetailService.setAdapter(adapterServiceDetails);
                 }
@@ -517,12 +504,8 @@ protected void onPause() {
                     cursorPhone.moveToNext();
                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                 }
-                try {
-                    if (db.isOpen()) {
-                        db.close();
-                    }
-                } catch (Exception ex) {
-                }
+                try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+                    cursorPhone.close();}}	catch (Exception ex){	}
             }
         });
         //****************************************************************************************
@@ -697,12 +680,8 @@ protected void onPause() {
             name = "کاربر";
             family = "مهمان";
         }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
-        }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         int drawerGravity = Gravity.END;
         Configuration config = getResources().getConfiguration();
         if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
@@ -776,12 +755,8 @@ protected void onPause() {
                                         LoadActivity(Profile.class, "karbarCode", karbarCode);
                                     }
                                 }
-                                try {
-                                    if (db.isOpen()) {
-                                        db.close();
-                                    }
-                                } catch (Exception ex) {
-                                }
+                                try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                                    coursors.close();}}	catch (Exception ex){	}
                                 break;
                             case 2:
                                 db = dbh.getReadableDatabase();
@@ -790,19 +765,18 @@ protected void onPause() {
                                     c.moveToNext();
                                     Cursor creditCussor = db.rawQuery("SELECT * FROM credits", null);
                                     if (creditCussor.getCount() > 0) {
+                                        if(!creditCussor.isClosed())
+                                            creditCussor.close();
                                         LoadActivity(Credit.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                     } else {
+                                        if(!creditCussor.isClosed())
+                                            creditCussor.close();
                                         SyncGettUserCreditHistory syncGettUserCreditHistory = new SyncGettUserCreditHistory(MainMenu.this, c.getString(c.getColumnIndex("karbarCode")), "0");
                                         syncGettUserCreditHistory.AsyncExecute();
                                     }
 
                                 }
-                                try {
-                                    if (db.isOpen()) {
-                                        db.close();
-                                    }
-                                } catch (Exception ex) {
-                                }
+                                try {	if (db.isOpen()) {	db.close();}}	catch (Exception ex){	}
                                 break;
                             case 3:
                                 db = dbh.getReadableDatabase();
@@ -979,12 +953,8 @@ protected void onPause() {
                             cursorPhone.moveToNext();
                             dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                         }
-                        try {
-                            if (db.isOpen()) {
-                                db.close();
-                            }
-                        } catch (Exception ex) {
-                        }
+                        try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+                            cursorPhone.close();}}	catch (Exception ex){	}
                     } else {
                         // Permission Denied
                         Toast.makeText(MainMenu.this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
@@ -1045,11 +1015,15 @@ protected void onPause() {
                 cursor.moveToNext();
                 String Result = cursor.getString(cursor.getColumnIndex("islogin"));
                 if (Result.compareTo("0") == 0) {
+                    if(!cursor.isClosed())
+                        cursor.close();
                     LoadActivity(Login.class, "karbarCode", "0");
                 } else {
                     StartServiceApp();
                 }
             } else {
+                if(!cursor.isClosed())
+                            cursor.close();
                 LoadActivity(Login.class, "karbarCode", "0");
             }
         } else if (karbarCode.compareTo("0") == 0) {

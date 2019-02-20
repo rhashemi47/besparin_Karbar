@@ -341,12 +341,8 @@ public class Map extends AppCompatActivity {
             str = cursors.getString(cursors.getColumnIndex("Name"));
             labels_State.add(str);
         }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
-        }
+        try {	if (db.isOpen()) {	db.close();		if(!cursors.isClosed())
+            cursors.close();}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_State);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(dataAdapter);
@@ -361,12 +357,8 @@ public class Map extends AppCompatActivity {
                     String Code = coursors.getString(coursors.getColumnIndex("Code"));
                     FillSpinnerChild(Code);
                 }
-                try {
-                    if (db.isOpen()) {
-                        db.close();
-                    }
-                } catch (Exception ex) {
-                }
+                try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
             }
 
             @Override
@@ -441,17 +433,14 @@ public class Map extends AppCompatActivity {
                 if (StrError.length() == 0 || StrError.compareTo("") == 0) {
                     String latStr = Double.toString(lat);
                     String lonStr = Double.toString(lang);
-                    try {
-                        if (!db.isOpen()) {
-                            db = dbh.getReadableDatabase();
-                        }
-                    } catch (Exception ex) {
-                        db = dbh.getReadableDatabase();
-                    }
+                    try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                        coursors.close();}}	catch (Exception ex){	}
                     Cursor cursor = db.rawQuery("SELECT * FROM address WHERE Status='1' AND Name='" + StrnameAddress + "'", null);
                     if (cursor.getCount() > 0) {
                         Toast.makeText(Map.this, "نام تکراری است", Toast.LENGTH_LONG).show();
                     } else {
+                        if(!cursor.isClosed())
+                            cursor.close();
                         SyncAddress syncAddress = new SyncAddress(Map.this, karbarCode, IsDefault, StrnameAddress, CodeState, CodeCity, StrAddAddres, email, latStr, lonStr);//todo send Area
                         syncAddress.AsyncExecute();
                     }
@@ -461,14 +450,8 @@ public class Map extends AppCompatActivity {
                 } else {
                     Toast.makeText(Map.this, StrError, Toast.LENGTH_LONG).show();
                 }
-                if (db.isOpen()) {
-                    try {
-                        if (db.isOpen()) {
-                            db.close();
-                        }
-                    } catch (Exception ex) {
-                    }
-                }
+                try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
                 if (!cursors.isClosed()) {
                     cursors.close();
                 }
@@ -509,7 +492,8 @@ public class Map extends AppCompatActivity {
                         "ArtField", ArtField,
                         "CarWashType", CarWashType,
                         "CarType", CarType,
-                        "Language", Language
+                        "Language", Language,
+                        "Description", Description
                 );
             }
 
@@ -548,7 +532,8 @@ public class Map extends AppCompatActivity {
                               String VariableName19, String VariableValue19,
                               String VariableName20, String VariableValue20,
                               String VariableName21, String VariableValue21,
-                              String VariableName22, String VariableValue22) {
+                              String VariableName22, String VariableValue22,
+                              String VariableName23, String VariableValue23) {
         Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
@@ -572,6 +557,7 @@ public class Map extends AppCompatActivity {
         intent.putExtra(VariableName20, VariableValue20);
         intent.putExtra(VariableName21, VariableValue21);
         intent.putExtra(VariableName22, VariableValue22);
+        intent.putExtra(VariableName23, VariableValue23);
         mHandler.removeCallbacks(runnable);
         this.startActivity(intent);
     }
@@ -586,12 +572,8 @@ public class Map extends AppCompatActivity {
                 labels_City.add(coursors.getString(coursors.getColumnIndex("Name")));
             }
         }
-        try {
-            if (db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception ex) {
-        }
+        try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+            coursors.close();}}	catch (Exception ex){	}
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels_City);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(dataAdapter);
@@ -709,12 +691,8 @@ public class Map extends AppCompatActivity {
                         point = new LatLng(lat, lang);
                     }
                 }
-                try {
-                    if (db.isOpen()) {
-                        db.close();
-                    }
-                } catch (Exception ex) {
-                }
+                try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
                 map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 

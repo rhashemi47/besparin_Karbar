@@ -85,6 +85,8 @@
                     guid = coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
             }
             addItemFromList(true);
             try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
@@ -98,7 +100,8 @@
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpNameService.setAdapter(dataAdapter);
             }
-            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
             SpNameService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -108,6 +111,8 @@
                         coursors.moveToNext();
                         FillSpinnerChild(coursors.getString(coursors.getColumnIndex("code")));
                     }
+                    try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                        coursors.close();}}	catch (Exception ex){	}
                 }
 
                 @Override
@@ -175,6 +180,8 @@
                             lvStepJob.setAdapter(adapterList);
                         }
                     }
+                    try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                        coursors.close();}}	catch (Exception ex){	}
                 }
             } else {
                 try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
@@ -202,7 +209,8 @@
                         lvStepJob.setAdapter(adapterList);
                     }
                 }
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                    coursors.close();}}	catch (Exception ex){	}
             }
         }
 
@@ -258,6 +266,8 @@
                         syncUpdateStepDetailJobs.AsyncExecute();
 
                     }
+                    try {	if (db.isOpen()) {	db.close();if(!c.isClosed())
+                        c.close();}}	catch (Exception ex){	}
                     Toast.makeText(StepJobDetaile.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();
                     listItems.remove(deletePosition);
                     adapterList.notifyDataSetChanged();
@@ -283,6 +293,8 @@
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpDitalNameService.setAdapter(dataAdapter);
             }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
         }
         public void SendFarctor() {
             db = dbh.getReadableDatabase();
@@ -307,5 +319,7 @@
             {
                 Toast.makeText(StepJobDetaile.this, "لطفا آیتم جدیدی ایجاد کنید", Toast.LENGTH_LONG).show();
             }
+            try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
         }
     }

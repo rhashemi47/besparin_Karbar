@@ -122,10 +122,19 @@ public class AdapterServiceDetails extends BaseAdapter {
         {
             holder.imgValues.setImageResource(R.drawable.job);
         }
-        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+        try {
+            if (db.isOpen())
+        {
+            db.close();
+            if(!cursor.isClosed())
+            {
+                cursor.close();
+            }
+        }
+        }	catch (Exception ex){	}
         holder.txtValues.setOnClickListener(TextViewItemOnclick);
         holder.imgValues.setOnClickListener(ImageViewItemOnclick);
-
+        cursor.close();
         return convertView;
     }
 

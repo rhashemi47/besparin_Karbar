@@ -51,6 +51,8 @@ public class Contact extends Activity {
 				guid=coursors.getString(coursors.getColumnIndex("guid"));
 				hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 			}
+			try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+				coursors.close();}}	catch (Exception ex){	}
 		}
 	}
 	@Override

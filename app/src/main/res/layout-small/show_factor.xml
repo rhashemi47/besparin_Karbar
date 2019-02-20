@@ -60,7 +60,7 @@
                 android:textColor="#000000"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="16sp"
+                android:textSize="10sp"
                 android:text="@string/OrderCode"/>
             <TextView
                 android:id="@+id/tvOrderCode"
@@ -69,7 +69,8 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:lineSpacingExtra="4dp"
-                android:textSize="16sp"
+                android:textSize="10sp"
+                android:text="153"
                 android:textColor="#000000"/>
         </LinearLayout>
         <LinearLayout
@@ -85,7 +86,7 @@
                 android:textColor="#000000"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="16sp"
+                android:textSize="10sp"
                 android:text="@string/OrderDate"/>
             <TextView
                 android:id="@+id/tvOrderDate"
@@ -94,7 +95,8 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:lineSpacingExtra="4dp"
-                android:textSize="16sp"
+                android:textSize="10sp"
+                android:text="137/11/30"
                 android:textColor="#000000"/>
         </LinearLayout>
     </LinearLayout>
@@ -132,7 +134,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="4dp"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/Description"
             android:textColor="#000000"/>
         <TextView
@@ -142,7 +144,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="4dp"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:layout_weight="1"
             android:textColor="#000000"/>
     </LinearLayout>
@@ -159,7 +161,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="4dp"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/TotalAll"
             android:textColor="#000000"/>
         <TextView
@@ -169,7 +171,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="4dp"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:layout_weight="1"
             android:textColor="#000000"/>
     </LinearLayout>
@@ -185,7 +187,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="4dp"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/QuestionFactor"
             android:textColor="#000000"/>
     </LinearLayout>
@@ -201,27 +203,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnYesFactor"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/Yes"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnCatchNaghd"
             android:visibility="gone"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/CatchNaghd"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnCatchSharj"
             android:visibility="gone"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/CatchSharj"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnNoFactor"
-            android:textSize="16sp"
+            android:textSize="10sp"
             android:text="@string/No"/>
     </LinearLayout>
     <LinearLayout

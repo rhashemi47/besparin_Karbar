@@ -47,25 +47,25 @@ public class SyncGetUserServices {
 		this.dbh = dbh;
 		this.db = db;
 
-		dbh = new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-		} catch (IOException ioe) {
-			PublicVariable.theard_GetServiceSaved=true;
-			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			PublicVariable.theard_GetServiceSaved=true;
-			throw sqle;
-		}
+//		dbh = new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//		} catch (IOException ioe) {
+//			PublicVariable.theard_GetServiceSaved=true;
+//			throw new Error("Unable to create database");
+//
+//		}
+//
+//		try {
+//
+//			dbh.openDataBase();
+//
+//		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetServiceSaved=true;
+//			throw sqle;
+//		}
 	}
 
 	public void AsyncExecute() {
@@ -298,12 +298,14 @@ public class SyncGetUserServices {
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 		else
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 	}
@@ -315,10 +317,15 @@ public class SyncGetUserServices {
 		if (coursors.getCount() > 0)
 		{
 			coursors.moveToNext();
-			return coursors.getString(coursors.getColumnIndex("name"));
+			String Name=coursors.getString(coursors.getColumnIndex("name"));
+			try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+				coursors.close();	}}	catch (Exception ex){	}
+			return Name;
 		}
 		else
 		{
+			try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+				coursors.close();	}}	catch (Exception ex){	}
 			return "";
 		}
 	}
@@ -380,12 +387,14 @@ public class SyncGetUserServices {
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return false;
 		}
 		else
 		{
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+				cursor.close();	}}	catch (Exception ex){	}
 			return true;
 		}
 	}

@@ -78,7 +78,8 @@ public class SchaduleServiceSyncMessage extends JobService {
 
                                                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                                                coursors.close();}}	catch (Exception ex){	}
                                             db = dbh.getReadableDatabase();
                                             Cursor cursor = db.rawQuery("SELECT * FROM messages WHERE IsSend='0' AND IsReade='1'", null);
                                             for (int i = 0; i < cursor.getCount(); i++) {
@@ -99,15 +100,17 @@ public class SchaduleServiceSyncMessage extends JobService {
                                                 }
                                             }
                                             String LastMessageCode = "0";
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                                                coursors.close();}}	catch (Exception ex){	}
                                             db = dbh.getReadableDatabase();
                                             cursor = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
                                             if (cursor.getCount() > 0) {
                                                 cursor.moveToNext();
                                                 LastMessageCode = cursor.getString(cursor.getColumnIndex("code"));
                                             }
-                                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                                            SyncMessage syncMessage = new SyncMessage(getApplicationContext(), karbarCode, LastMessageCode);
+                                            try {	if (db.isOpen()) {	db.close();if(!cursor.isClosed())
+                                                cursor.close();	}}	catch (Exception ex){	}
+                                            SyncMessage syncMessage = new SyncMessage(getApplicationContext(), karbarCode, LastMessageCode,dbh,db);
                                             syncMessage.AsyncExecute();
                                         }
                                     }
@@ -146,8 +149,8 @@ public class SchaduleServiceSyncMessage extends JobService {
             String Result = cursor.getString(cursor.getColumnIndex("islogin"));
             if (Result.compareTo("0") == 0)
             {
-                if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+                    cursor.close();}}	catch (Exception ex){	}
                 return false;
             }
             else

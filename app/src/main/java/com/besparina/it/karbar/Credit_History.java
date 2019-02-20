@@ -83,6 +83,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	}
 
 	ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -127,8 +129,11 @@ protected void onCreate(Bundle savedInstanceState) {
 			lstHistoryCredit.setVisibility(View.VISIBLE);
 			txtContent.setVisibility(View.GONE);
 		}
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();if(!coursors.isClosed())
+			coursors.close();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	}
 	catch (Exception ex){
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception exex){	db = dbh.getReadableDatabase();	}
 		lstHistoryCredit.setVisibility(View.GONE);
 		txtContent.setVisibility(View.VISIBLE);
 	}
@@ -214,7 +219,8 @@ protected void onCreate(Bundle savedInstanceState) {
 				cursorPhone.moveToNext();
 				dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	if(!cursorPhone.isClosed())
+				cursorPhone.close();}}	catch (Exception ex){	}
 		}
 	});
 }
@@ -265,7 +271,8 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 							cursorPhone.moveToNext();
 							dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
 						}
-						try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+						try {	if (db.isOpen()) {	db.close();if(!cursorPhone.isClosed())
+							cursorPhone.close();	}}	catch (Exception ex){	}
 					} else {
 						// Permission Denied
 						Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

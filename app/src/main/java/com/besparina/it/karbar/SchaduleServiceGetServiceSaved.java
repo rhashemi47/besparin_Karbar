@@ -72,12 +72,8 @@ public class SchaduleServiceGetServiceSaved extends JobService {
 
                                                 karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
                                             }
-                                            try {
-                                                if (db.isOpen()) {
-                                                    db.close();
-                                                }
-                                            } catch (Exception ex) {
-                                            }
+                                            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                                                coursors.close();}}	catch (Exception ex){	}
                                             SyncGetUserServices syncGetUserServices = new SyncGetUserServices(getApplicationContext(), karbarCode, "0",dbh,db);
                                             syncGetUserServices.AsyncExecute();
                                         }
@@ -117,20 +113,23 @@ public class SchaduleServiceGetServiceSaved extends JobService {
                 if (Result.compareTo("0") == 0)
                 {
                     if(db.isOpen())
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                        try {	if (db.isOpen()) {	db.close();	if(!cursor.isClosed())
+                            cursor.close();}}	catch (Exception ex){	}
                     return false;
                 }
                 else
                 {
                     if(db.isOpen())
-                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                        try {	if (db.isOpen()) {	db.close();	if(!cursor.isClosed())
+                            cursor.close();}}	catch (Exception ex){	}
                     return true;
                 }
             }
             else
             {
                 if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();	if(!cursor.isClosed())
+                        cursor.close();}}	catch (Exception ex){	}
                 return false;
             }
     }

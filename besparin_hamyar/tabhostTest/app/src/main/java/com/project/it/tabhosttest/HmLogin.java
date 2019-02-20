@@ -161,19 +161,7 @@ public class HmLogin {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -239,7 +227,8 @@ public class HmLogin {
 				db.execSQL("UPDATE login SET islogin = '1'");
 				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			}
-			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+				cursors.close();}}	catch (Exception ex){	}
 		}
 		else
 		{
@@ -261,7 +250,8 @@ public class HmLogin {
             cursors.moveToNext();
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();}}	catch (Exception ex){	}
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[2].toString(), res[1].toString(),LastMessageCode,LastHamyarUserServiceCode);
 		syncMessage.AsyncExecute();
 

@@ -126,7 +126,8 @@ public class Info_Person extends Activity {
 			str=cursors.getString(cursors.getColumnIndex("title"));
 		    labels.add(str);
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+		try {	if (db.isOpen()) {	db.close();if(!cursors.isClosed())
+			cursors.close();}}	catch (Exception ex){	}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
@@ -206,11 +207,13 @@ public void insertHamyar() {
 				exExpertiseString+="##";
 			}
 		}
-	try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		String queryEducation="SELECT * FROM education WHERE title='"+((Spinner)spEducation).getSelectedItem().toString()+"'";
 		coursors = db.rawQuery(queryEducation,null);
 			coursors.moveToNext();
 			education=coursors.getString(coursors.getColumnIndex("key"));
+
+	try {	if (db.isOpen()) {	db.close();if(!coursors.isClosed())
+		coursors.close();}}	catch (Exception ex){	}
 	InsertHamyar insertHamyar=new InsertHamyar(Info_Person.this,phonenumber, Acceptcode,fname.getText().toString(),lname.getText().toString(),education,exExpertiseString,year,mon,day);
 	insertHamyar.AsyncExecute();
 	
@@ -235,10 +238,15 @@ public void insertHamyar() {
 			for(int j=0;j<childs.getCount();j++){
 				childs.moveToNext();
 				//child=childs.getString(childs.getColumnIndex("name"));
-				childDetails.add(childs.getString(childs.getColumnIndex("name")));			}
+				childDetails.add(childs.getString(childs.getColumnIndex("name")));
+			}
+			try {	if (db.isOpen()) {	db.close();if(!childs.isClosed())
+				childs.close();}}	catch (Exception ex){	}
 			listDataChild.put(listDataHeader.get(i), childDetails);
 		}
-		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+
+		try {	if (db.isOpen()) {	db.close();if(!headers.isClosed())
+			headers.close();}}	catch (Exception ex){	}
         // Adding child data
 //        listDataHeader.add("نظافت و خدمات منزل");
 // Adding child data

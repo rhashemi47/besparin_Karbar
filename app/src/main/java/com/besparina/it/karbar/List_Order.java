@@ -93,7 +93,8 @@
 
                 karbarCode=coursors.getString(coursors.getColumnIndex("karbarCode"));
             }
-            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
         }
 
             ImageView imgview = (ImageView)findViewById(R.id.BesparinaLogo);
@@ -194,8 +195,10 @@
                 {
                     Toast.makeText(List_Order.this,"خطا در بارگزاری اطلاعات",Toast.LENGTH_LONG).show();
                 }
+
             }
-            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
+                coursors.close();}}	catch (Exception ex){	}
 
             AdapterServices dataAdapter=new AdapterServices(List_Order.this,valuse,karbarCode);
             lvServices.setAdapter(dataAdapter);
@@ -284,7 +287,8 @@
                         cursorPhone.moveToNext();
                         dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                     }
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                    try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+                        cursorPhone.close();}}	catch (Exception ex){	}
                 }
             });
     }
@@ -337,7 +341,8 @@
                                     cursorPhone.moveToNext();
                                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("Tel")));
                                 }
-                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                try {	if (db.isOpen()) {	db.close();		if(!cursorPhone.isClosed())
+                                    cursorPhone.close();}}	catch (Exception ex){	}
                             } else {
                                 // Permission Denied
                                 Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)
