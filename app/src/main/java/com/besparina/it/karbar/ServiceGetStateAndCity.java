@@ -16,8 +16,10 @@ import java.io.IOException;
 
 public class ServiceGetStateAndCity extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private String karbarCode;
@@ -29,6 +31,22 @@ public class ServiceGetStateAndCity extends Service {
         return null;
     }
 
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_GetStateAndCity)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(PublicVariable.stopthread_GetStateAndCity)
+        {
+            thread.interrupt();
+        }
+    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
@@ -54,9 +72,9 @@ public class ServiceGetStateAndCity extends Service {
         }
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetStateAndCity) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable = new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -66,7 +84,7 @@ public class ServiceGetStateAndCity extends Service {
                                     @Override
                                     public void run() {
                                         if (PublicVariable.theard_GetStateAndCity) {
-                                            SyncStateForService syncStateForService = new SyncStateForService(getApplicationContext(),dbh,db);
+                                            SyncStateForService syncStateForService = new SyncStateForService(getApplicationContext(), dbh, db);
                                             syncStateForService.AsyncExecute();
                                         }
                                     }
@@ -77,18 +95,19 @@ public class ServiceGetStateAndCity extends Service {
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread = new Thread(runnable);
+                if (PublicVariable.stopthread_GetStateAndCity) {
+                    thread.interrupt();
+                } else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetStateAndCity = false;
             }
         }
         return START_STICKY;
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-       // continue_or_stop=false;
-    }
+
     public boolean Check_Login()
     {
         Cursor cursor;

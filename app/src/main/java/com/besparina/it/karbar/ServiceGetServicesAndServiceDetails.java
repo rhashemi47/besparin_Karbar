@@ -16,14 +16,34 @@ import java.io.IOException;
 
 public class ServiceGetServicesAndServiceDetails extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private String karbarCode;
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
+    }
+
+
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_GetServicesAndServiceDetails)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(PublicVariable.stopthread_GetServicesAndServiceDetails)
+        {
+            thread.interrupt();
+        }
     }
 
     @Override
@@ -51,9 +71,9 @@ public class ServiceGetServicesAndServiceDetails extends Service {
         }
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetServicesAndServiceDetails) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -71,25 +91,27 @@ public class ServiceGetServicesAndServiceDetails extends Service {
                                         }
                                     }
                                 });
-                                Thread.sleep(43200000); // every 12 hour
+                                Thread.sleep(6000); // every 1 Minute
                             } catch (Exception e) {
                                 // TODO: handle exception
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_GetServicesAndServiceDetails)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetServicesAndServiceDetails= false;
             }
         }
         return START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        //continue_or_stop=false;
-    }
     public boolean Check_Login()
     {
         Cursor cursor;

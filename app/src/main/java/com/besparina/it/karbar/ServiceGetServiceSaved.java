@@ -16,8 +16,10 @@ import java.io.IOException;
 
 public class ServiceGetServiceSaved extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private String karbarCode;
@@ -25,6 +27,23 @@ public class ServiceGetServiceSaved extends Service {
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_GetServiceSaved)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(PublicVariable.stopthread_GetServiceSaved)
+        {
+            thread.interrupt();
+        }
     }
 
     @Override
@@ -52,9 +71,9 @@ public class ServiceGetServiceSaved extends Service {
         }
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetServiceSaved) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -93,19 +112,21 @@ public class ServiceGetServiceSaved extends Service {
                         }
 
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_GetServiceSaved)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetServiceSaved= false;
             }
         }
         return START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        //continue_or_stop=false;
-    }
     public boolean Check_Login()
     {
             Cursor cursor;

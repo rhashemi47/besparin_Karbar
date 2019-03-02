@@ -80,6 +80,7 @@ public class AdapterServiceDetails extends BaseAdapter {
         }
         String name = map.get("name");
         String code = map.get("Code");
+        String Pic_Code = map.get("Pic_Code");
         holder.txtValues.setText(PersianDigitConverter.PerisanNumber(name));
         dbh=new DatabaseHelper(activity);
         try {
@@ -101,20 +102,20 @@ public class AdapterServiceDetails extends BaseAdapter {
             throw sqle;
         }
         try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        Cursor cursor = db.rawQuery("SELECT * FROM servicesdetails WHERE code='"+code+"'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM PicServices WHERE Code='"+Pic_Code+"'",null);
         if(cursor.getCount()>0)
         {
             cursor.moveToNext();
             if(cursor.getString(cursor.getColumnIndex("Pic")).length()>5){
                 holder.imgValues.setImageBitmap(convertToBitmap(cursor.getString(cursor.getColumnIndex("Pic"))));
-                holder.txtValues.setTag(cursor.getString(cursor.getColumnIndex("code")));
-                holder.imgValues.setTag(cursor.getString(cursor.getColumnIndex("code")));
+                holder.txtValues.setTag(code);
+                holder.imgValues.setTag(code);
             }
             else
             {
                 holder.imgValues.setImageResource(R.drawable.job);
-                holder.txtValues.setTag(cursor.getString(cursor.getColumnIndex("code")));
-                holder.imgValues.setTag(cursor.getString(cursor.getColumnIndex("code")));
+                holder.txtValues.setTag(code);
+                holder.imgValues.setTag(code);
             }
 
         }

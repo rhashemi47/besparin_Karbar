@@ -19,7 +19,6 @@
             android:noHistory="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -102,24 +101,15 @@
             android:name="com.besparina.it.karbar.Credit_History"
             android:noHistory="true"/>
 
-        <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceGetLocation"
-         />
-        <service android:name="com.besparina.it.karbar.ServiceGetSliderPic"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceGetPerFactor"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceSyncMessage"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceGetServicesAndServiceDetails"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceGetServiceVisit"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceGetStateAndCity"
-             />
-        <service android:name="com.besparina.it.karbar.ServiceGetUserServiceStartDate"
-             />
+        <service android:name="com.besparina.it.karbar.ServiceGetServiceSaved"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetLocation"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetSliderPic"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetPerFactor"/>
+        <service android:name="com.besparina.it.karbar.ServiceSyncMessage"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetServicesAndServiceDetails"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetServiceVisit"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetStateAndCity"/>
+        <service android:name="com.besparina.it.karbar.ServiceGetUserServiceStartDate"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />

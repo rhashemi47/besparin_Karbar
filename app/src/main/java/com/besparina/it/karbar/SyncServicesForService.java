@@ -128,7 +128,7 @@ public class SyncServicesForService {
         	}
         	else
         	{
-        		//akeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
+				PublicVariable.theard_GetServicesAndServiceDetails=true;
         	}
             try
             {
@@ -196,15 +196,61 @@ public class SyncServicesForService {
 		String[] res;
 		String[] value;
 		res=WsResponse.split(Pattern.quote("[Besparina@@]"));
+//		db.execSQL("DELETE FROM services");
 		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
-		db.execSQL("DELETE FROM services");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split(Pattern.quote("[Besparina##]"));
-			db.execSQL("INSERT INTO services (code,servicename,Pic) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"')");
+			if(!check_existService(value[0])) {
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+				db.execSQL("INSERT INTO services (code,servicename,Pic_Code) VALUES('" + value[0] + "','" + value[1] + "','" + value[2] + "')");
+			}
+			else
+			{
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+				db.execSQL("UPDATE services Set code='"+value[0]+"',servicename='"+value[1]+"',Pic_Code='"+value[2]+"' WHERE code='"+value[0]+"'");
+			}
+            if(!check_existPic(value[2])) {
+				SyncServicesPic syncServicesPic=new SyncServicesPic(this.activity,value[2]);
+				syncServicesPic.AsyncExecute();
+			}
 		}
 		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		SyncServicesDetailsForService syncServicesDetailsForService=new SyncServicesDetailsForService(this.activity);
 		syncServicesDetailsForService.AsyncExecute();
     }
+    private boolean check_existService(String Code)
+	{
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+		String Query="SELECT * FROM services WHERE code='"+Code+"'";
+		Cursor cursor=db.rawQuery(Query,null);
+		if(cursor.getCount()>0)
+		{
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return true;
+		}
+		else {
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return false;
+		}
+	}
+	private boolean check_existPic(String Pic_Code)
+	{
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+		String Query="SELECT * FROM PicServices WHERE Code='"+Pic_Code+"'";
+		Cursor cursor=db.rawQuery(Query,null);
+		if(cursor.getCount()>0)
+		{
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return true;
+		}
+		else {
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return false;
+		}
+	}
 	
 }

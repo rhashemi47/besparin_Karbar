@@ -93,15 +93,15 @@ public class MainMenu extends AppCompatActivity {
     private String countOrder;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private String AppVersion;
-    private JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetServiceSaved = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetPerFactor = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetServicesAndServiceDetails = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetServiceVisit = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetStateAndCity = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
-    private JobScheduler jobScheduler_SchaduleServiceSyncMessage = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetServiceSaved = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetPerFactor = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetServicesAndServiceDetails = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetServiceVisit = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetStateAndCity = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+//    private JobScheduler jobScheduler_SchaduleServiceSyncMessage = null;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -109,140 +109,140 @@ public class MainMenu extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    protected void onResume() {
-
-        super.onResume();
-        try {
-            String status = "0";
-            db = dbh.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
-            if (cursor.getCount() > 0) {
-                cursor.moveToNext();
-                try {
-                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
-                        status = cursor.getString(cursor.getColumnIndex("Status"));
-                        if (status.compareTo("0") == 0) {
-                            status = "غیرفعال";
-                        } else {
-                            status = "فعال";
-                        }
-                    } else {
-                        status = "غیرفعال";
-                    }
-
-                } catch (Exception ex) {
-                    status = "غیرفعال";
-                }
-            }
-            try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
-                cursor.close();}}	catch (Exception ex){	}
-            karbarCode = getIntent().getStringExtra("karbarCode");
-            Check_Login(karbarCode);
-        } catch (Exception e) {
-            throw new Error("Error Opne Activity");
-        }
-        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-
-    }
-protected  void onStop() {
-
-    super.onStop();
-    try {
-        String status = "0";
-        db = dbh.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
-        if (cursor.getCount() > 0) {
-            cursor.moveToNext();
-            try {
-                if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
-                    status = cursor.getString(cursor.getColumnIndex("Status"));
-                    if (status.compareTo("0") == 0) {
-                        status = "غیرفعال";
-                    } else {
-                        status = "فعال";
-                    }
-                } else {
-                    status = "غیرفعال";
-                }
-
-            } catch (Exception ex) {
-                status = "غیرفعال";
-            }
-        }
-        try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
-            cursor.close();}}	catch (Exception ex){	}
-        karbarCode = getIntent().getStringExtra("karbarCode");
-        Check_Login(karbarCode);
-    } catch (Exception e) {
-        throw new Error("Error Opne Activity");
-    }
-}
-protected void onPause() {
-
-    super.onPause();
-    try {
-        String status = "0";
-        db = dbh.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
-        if (cursor.getCount() > 0) {
-            cursor.moveToNext();
-            try {
-                if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
-                    status = cursor.getString(cursor.getColumnIndex("Status"));
-                    if (status.compareTo("0") == 0) {
-                        status = "غیرفعال";
-                    } else {
-                        status = "فعال";
-                    }
-                } else {
-                    status = "غیرفعال";
-                }
-
-            } catch (Exception ex) {
-                status = "غیرفعال";
-            }
-        }
-        try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
-            cursor.close();}}	catch (Exception ex){	}
-        karbarCode = getIntent().getStringExtra("karbarCode");
-        Check_Login(karbarCode);
-    } catch (Exception e) {
-        throw new Error("Error Opne Activity");
-    }
-}
-    protected void onDestroy() {
-
-        super.onDestroy();
-        try {
-            String status = "0";
-            db = dbh.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
-            if (cursor.getCount() > 0) {
-                cursor.moveToNext();
-                try {
-                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
-                        status = cursor.getString(cursor.getColumnIndex("Status"));
-                        if (status.compareTo("0") == 0) {
-                            status = "غیرفعال";
-                        } else {
-                            status = "فعال";
-                        }
-                    } else {
-                        status = "غیرفعال";
-                    }
-
-                } catch (Exception ex) {
-                    status = "غیرفعال";
-                }
-            }
-            try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
-                cursor.close();}}	catch (Exception ex){	}
-            karbarCode = getIntent().getStringExtra("karbarCode");
-            Check_Login(karbarCode);
-        } catch (Exception e) {
-            throw new Error("Error Opne Activity");
-        }
-    }
+//    protected void onResume() {
+//
+//        super.onResume();
+//        try {
+//            String status = "0";
+//            db = dbh.getReadableDatabase();
+//            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+//            if (cursor.getCount() > 0) {
+//                cursor.moveToNext();
+//                try {
+//                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+//                        status = cursor.getString(cursor.getColumnIndex("Status"));
+//                        if (status.compareTo("0") == 0) {
+//                            status = "غیرفعال";
+//                        } else {
+//                            status = "فعال";
+//                        }
+//                    } else {
+//                        status = "غیرفعال";
+//                    }
+//
+//                } catch (Exception ex) {
+//                    status = "غیرفعال";
+//                }
+//            }
+//            try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+//                cursor.close();}}	catch (Exception ex){	}
+//            karbarCode = getIntent().getStringExtra("karbarCode");
+//            Check_Login(karbarCode);
+//        } catch (Exception e) {
+//            throw new Error("Error Opne Activity");
+//        }
+//        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+//
+//    }
+//protected  void onStop() {
+//
+//    super.onStop();
+//    try {
+//        String status = "0";
+//        db = dbh.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+//        if (cursor.getCount() > 0) {
+//            cursor.moveToNext();
+//            try {
+//                if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+//                    status = cursor.getString(cursor.getColumnIndex("Status"));
+//                    if (status.compareTo("0") == 0) {
+//                        status = "غیرفعال";
+//                    } else {
+//                        status = "فعال";
+//                    }
+//                } else {
+//                    status = "غیرفعال";
+//                }
+//
+//            } catch (Exception ex) {
+//                status = "غیرفعال";
+//            }
+//        }
+//        try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+//            cursor.close();}}	catch (Exception ex){	}
+//        karbarCode = getIntent().getStringExtra("karbarCode");
+//        Check_Login(karbarCode);
+//    } catch (Exception e) {
+//        throw new Error("Error Opne Activity");
+//    }
+//}
+//protected void onPause() {
+//
+//    super.onPause();
+//    try {
+//        String status = "0";
+//        db = dbh.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+//        if (cursor.getCount() > 0) {
+//            cursor.moveToNext();
+//            try {
+//                if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+//                    status = cursor.getString(cursor.getColumnIndex("Status"));
+//                    if (status.compareTo("0") == 0) {
+//                        status = "غیرفعال";
+//                    } else {
+//                        status = "فعال";
+//                    }
+//                } else {
+//                    status = "غیرفعال";
+//                }
+//
+//            } catch (Exception ex) {
+//                status = "غیرفعال";
+//            }
+//        }
+//        try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+//            cursor.close();}}	catch (Exception ex){	}
+//        karbarCode = getIntent().getStringExtra("karbarCode");
+//        Check_Login(karbarCode);
+//    } catch (Exception e) {
+//        throw new Error("Error Opne Activity");
+//    }
+//}
+//    protected void onDestroy() {
+//
+//        super.onDestroy();
+//        try {
+//            String status = "0";
+//            db = dbh.getReadableDatabase();
+//            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+//            if (cursor.getCount() > 0) {
+//                cursor.moveToNext();
+//                try {
+//                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+//                        status = cursor.getString(cursor.getColumnIndex("Status"));
+//                        if (status.compareTo("0") == 0) {
+//                            status = "غیرفعال";
+//                        } else {
+//                            status = "فعال";
+//                        }
+//                    } else {
+//                        status = "غیرفعال";
+//                    }
+//
+//                } catch (Exception ex) {
+//                    status = "غیرفعال";
+//                }
+//            }
+//            try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
+//                cursor.close();}}	catch (Exception ex){	}
+//            karbarCode = getIntent().getStringExtra("karbarCode");
+//            Check_Login(karbarCode);
+//        } catch (Exception e) {
+//            throw new Error("Error Opne Activity");
+//        }
+//    }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,6 +331,7 @@ protected void onPause() {
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("name", cursor1.getString(cursor1.getColumnIndex("servicename")));
                 map.put("Code", cursor1.getString(cursor1.getColumnIndex("code")));
+                map.put("Pic_Code", cursor1.getString(cursor1.getColumnIndex("Pic_Code")));
                 valuse.add(map);
             }
             try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
@@ -363,6 +364,7 @@ protected void onPause() {
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("name", cursor.getString(cursor.getColumnIndex("servicename")));
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
+                        map.put("Pic_Code", cursor.getString(cursor.getColumnIndex("Pic_Code")));
                         valuse.add(map);
                     }
                     try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
@@ -381,6 +383,7 @@ protected void onPause() {
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("name", cursor.getString(cursor.getColumnIndex("name")));
                         map.put("Code", cursor.getString(cursor.getColumnIndex("code")));
+                        map.put("Pic_Code", cursor.getString(cursor.getColumnIndex("Pic_Code")));
                         valuse.add(map);
                     }
                     try {	if (db.isOpen()) {	db.close();		if(!cursor.isClosed())
@@ -572,6 +575,38 @@ protected void onPause() {
 //                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
 //                    jobScheduler_SchaduleServiceSyncMessage.cancelAll();
 //                } else {
+                PublicVariable.theard_GetLocation=false;
+                PublicVariable.theard_GetPerFactor=false;
+                PublicVariable.theard_GetServicesAndServiceDetails=false;
+                PublicVariable.theard_GetServiceSaved=false;
+                PublicVariable.theard_GetServiceVisit=false;
+                PublicVariable.theard_GetSliderPic=false;
+                PublicVariable.theard_GetStateAndCity=false;
+                PublicVariable.theard_GetUserServiceStartDate=false;
+                PublicVariable.theard_Message=false;
+                PublicVariable.theard_ReadMessage=false;
+                //********************************************************
+                PublicVariable.createtheard_GetLocation=false;
+                PublicVariable.createthread_GetPerFactor=false;
+                PublicVariable.createthread_GetServicesAndServiceDetails=false;
+                PublicVariable.createthread_GetServiceSaved=false;
+                PublicVariable.createthread_GetServiceVisit=false;
+                PublicVariable.createthread_GetSliderPic=false;
+                PublicVariable.createthread_GetStateAndCity=false;
+                PublicVariable.createthread_GetUserServiceStartDate=false;
+                PublicVariable.createthread_Message=false;
+                PublicVariable.createthread_ReadMessage=false;
+                //********************************************************
+                PublicVariable.stoptheard_GetLocation=true;
+                PublicVariable.stopthread_GetPerFactor=true;
+                PublicVariable.stopthread_GetServicesAndServiceDetails=true;
+                PublicVariable.stopthread_GetServiceSaved=true;
+                PublicVariable.stopthread_GetServiceVisit=true;
+                PublicVariable.stopthread_GetSliderPic=true;
+                PublicVariable.stopthread_GetStateAndCity=true;
+                PublicVariable.stopthread_GetUserServiceStartDate=true;
+                PublicVariable.stopthread_Message=true;
+                PublicVariable.stopthread_ReadMessage=true;
                     stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                     stopService(new Intent(getBaseContext(), ServiceGetServiceSaved.class));
                     stopService(new Intent(getBaseContext(), ServiceGetServicesAndServiceDetails.class));

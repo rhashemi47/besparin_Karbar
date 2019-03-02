@@ -16,8 +16,10 @@ import java.io.IOException;
 
 public class ServiceGetPerFactor extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private String Code;
@@ -26,7 +28,22 @@ public class ServiceGetPerFactor extends Service {
     public IBinder onBind(Intent arg0) {
         return null;
     }
-
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_GetPerFactor)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(PublicVariable.stopthread_GetPerFactor)
+        {
+            thread.interrupt();
+        }
+    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
@@ -51,9 +68,9 @@ public class ServiceGetPerFactor extends Service {
         }
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetPerFactor) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -91,19 +108,21 @@ public class ServiceGetPerFactor extends Service {
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_GetPerFactor)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetPerFactor= false;
             }
         }
         return START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-       // continue_or_stop=false;
-    }
     public boolean Check_Login()
     {
         Cursor cursor;

@@ -1,6 +1,5 @@
 package com.besparina.it.karbar;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
@@ -187,31 +185,60 @@ public class SyncServicesDetailsForService {
     {	
 		String[] res;
 		String[] value;
-		String phonenumber;
 		res=WsResponse.split(Pattern.quote("[Besparina@@]"));
+		//db.execSQL("DELETE FROM servicesdetails");
 		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
-		db.execSQL("DELETE FROM servicesdetails");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split(Pattern.quote("[Besparina##]"));
-			db.execSQL("INSERT INTO servicesdetails (code,servicename,type,name,Pic) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"','"+value[3]+"','"+value[4]+"')");
+			if(!check_existServiceDetail(value[0])) {
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+				db.execSQL("INSERT INTO servicesdetails (code,servicename,type,name,Pic_Code) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"','"+value[3]+"','"+value[4]+"')");
+			}
+			else
+			{
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+				db.execSQL("UPDATE servicesdetails Set code='"+value[0]+"',servicename='"+value[1]+"',type='"+value[2]+"',name='"+value[3]+"',Pic_Code='"+value[4]+"' WHERE code='"+value[0]+"'");
+			}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			if(!check_existPic(value[4])) {
+				SyncServicesPic syncServicesPic = new SyncServicesPic(this.activity,value[4]);
+                syncServicesPic.AsyncExecute();
+			}
 		}
 		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
-	
-
-	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+	private boolean check_existServiceDetail(String Code)
 	{
-		Intent intent = new Intent(activity,Cls);
-		intent.putExtra(VariableName, VariableValue);
-
-		activity.startActivity(intent);
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+		String Query="SELECT * FROM servicesdetails WHERE code='"+Code+"'";
+		Cursor cursor=db.rawQuery(Query,null);
+		if(cursor.getCount()>0)
+		{
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return true;
+		}
+		else {
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return false;
+		}
 	}
-	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	private boolean check_existPic(String Pic_Code)
 	{
-		Intent intent = new Intent(activity,Cls);
-		intent.putExtra(VariableName, VariableValue);
-		intent.putExtra(VariableName2, VariableValue2);
-		activity.startActivity(intent);
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+		String Query="SELECT * FROM PicServices WHERE Code='"+Pic_Code+"'";
+		Cursor cursor=db.rawQuery(Query,null);
+		if(cursor.getCount()>0)
+		{
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return true;
+		}
+		else {
+			try {	if (!cursor.isClosed()) {	cursor.close();	}}	catch (Exception ex){	}
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+			return false;
+		}
 	}
-	
 }

@@ -112,6 +112,7 @@
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("name",coursors.getString(coursors.getColumnIndex("name")));
                 map.put("Code",coursors.getString(coursors.getColumnIndex("code")));
+                map.put("Pic_Code",coursors.getString(coursors.getColumnIndex("Pic_Code")));
                 valuse.add(map);
             }
             try {	if (db.isOpen()) {	db.close();		if(!coursors.isClosed())
